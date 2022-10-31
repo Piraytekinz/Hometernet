@@ -1,0 +1,32 @@
+<SignInScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        AnchorLayout:
+            anchor_x: 'left'
+            anchor_y: 'top'
+            MDIconButton:
+                icon: 'arrow-left'
+                on_press: app.change_screen("Home")
+
+        MDTextField:
+            id: email
+            hint_text: 'email'
+            on_text: app.email(self.text)
+            mode: 'rectangle'
+        
+        MDTextField:
+            id: password
+            hint_text: 'password'
+            on_text: app.password(self.text)
+            mode: 'rectangle'
+
+        MDRaisedButton:
+            text: "sign-in"
+            on_press: app.sign_in()
+            on_release: app.change_screen("products")
+            
+
+        MDRectangleFlatButton:
+            text: "sign-up"
+            pos_hint: {'center_x': 0.8, 'center_y':0.9}
+            on_press: app.change_screen("sign-up")

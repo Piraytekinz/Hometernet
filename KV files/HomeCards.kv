@@ -1,0 +1,132 @@
+<HomeCards>:
+    elevation: 5
+    
+    size_hint_y: None
+    size_hint_x: None
+    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+    height: 350
+    width: 250
+    
+    radius: [5, ]
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: [10,]
+        spacing: "20dp"
+        MDCard:
+            size_hint_y: None
+            height: 180
+            elevation: 12
+            on_press: app.change_screen("detail", root.image, root.tot, root.price, root.location, root.email)
+            radius: [5,]
+            ripple_behavior: True
+            RelativeLayout:
+                FitImage:
+                    source: root.image
+                    radius: [5, ]
+
+                
+                # MDCard:
+                #     size_hint: None, .13
+                #     adaptive_width: True
+                #     md_bg_color: app.theme_cls.primary_color
+                #     pos_hint: {'center_x': 0.75, 'center_y':0.87}
+                    
+                #     elevation: 20
+                #     radius: [1,]
+                MDLabel:
+                    text: root.price
+                    halign: 'center'
+                    font_size: "13sp"
+                    
+                    font_color: "black"
+                    bold: True
+                    size_hint_x: None
+                    adaptive_width: True
+                    size_hint_y: .15
+                    md_bg_color: 1,1,1,1
+                    pos_hint: {'center_x': 0.75, 'center_y': 0.87}
+                        
+                        
+                        
+
+        
+            
+            
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: "6dp"
+            padding: [10, 0, 0, 0]
+            
+            MDLabel:
+                text: root.tot
+                bold: True
+            MDLabel:
+                text: root.location
+                color: "gray"
+                font_size: "15sp"
+
+        MDSeparator:
+
+        MDBoxLayout:
+            padding: [10, 5, 0, 17]
+            
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: "6dp"
+                MDLabel:
+                    text: root.bedrooms
+                    font_size: "13sp"
+                    bold: True
+                    halign: 'center'
+                    size_hint_y: None
+                    adaptive_height: True
+                MDLabel:
+                    text: "bedrooms"
+                    color: "black"
+                    font_size: "13sp"
+                    bold: True
+                    halign: 'center'
+                    size_hint_y: None
+                    adaptive_height: True
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: "6dp"
+                MDLabel:
+                    text: root.bathrooms
+                    font_size: "13sp"
+                    bold: True
+                    halign: 'center'
+                    size_hint_y: None
+                    adaptive_height: True
+                MDLabel:
+                    text: "bathrooms"
+                    color: "black"
+                    font_size: "13sp"
+                    bold: True
+                    halign: 'center'
+                    size_hint_y: None
+                    adaptive_height: True
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: "6dp"
+                MDLabel:
+                    text: root.landspace
+                    font_size: "13sp"
+                    bold: True
+                    halign: 'center'
+                    size_hint_y: None
+                    adaptive_height: True
+                MDLabel:
+                    text: "Land space"
+                    color: "black"
+                    font_size: "13sp"
+                    bold: True
+                    halign: 'center'
+                    size_hint_y: None
+                    adaptive_height: True
+               
+    
+        
+        
+        
+    

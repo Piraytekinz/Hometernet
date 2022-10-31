@@ -1,0 +1,183 @@
+<LoginScreen>:
+    MDFloatLayout:
+        BoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                orientation: 'vertical'
+                AnchorLayout:
+                    anchor_x: 'left'
+                    anchor_y: 'top'
+                    size_hint_y: .1
+                   
+                    MDIconButton:
+                        icon: 'arrow-left'
+                        on_press: app.change_screen("Home")
+
+                
+                
+                ScrollView:
+                    
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        spacing: "30dp"
+                        padding: [25, 10, 25, 30]
+                        size_hint_y: None
+                        adaptive_height: True
+                        MDLabel:
+                            halign: 'center'
+                            text: "Fill in house details"
+                            font_size: "20sp"
+                            size_hint_y: None
+                            adaptive_height: True
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "email"
+                                    valign: 'top'
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: email
+                                    hint_text: "email"
+                                    on_text: app.signin_mail(self.text)
+                                    
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "House type/Name"
+                                    font_size: "15sp"
+                                WordInput:
+                                    id: housetype
+                                    hint_text: "house type"
+                                    on_text: app.word(self.text)
+                                    padding: [20, ]
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "location/Street"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: location
+                                    hint_text: "location"
+                                    padding: [20, ]
+                                    on_text: app.locate(self.text)
+
+                        MDCard: 
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "Bedroom number"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: rooms
+                                    padding: [20, ]
+                                    on_text: app.rooms(self.text)
+
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "Bathroom number"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: bathrooms
+                                    padding: [20, ]
+                                    on_text: app.baths(self.text)
+
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "Land space"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: land_area
+                                    padding: [20, ]
+                                    on_text: app.land_space(self.text)
+
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "Price"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: price
+                                    padding: [20, ]
+                                    on_text: app.pricing(self.text)
+                        MDRaisedButton:
+                            text: "Submit"
+                            on_press: app.selected()
+                

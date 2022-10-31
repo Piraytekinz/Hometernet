@@ -1,0 +1,60 @@
+<SaleOrRent>:
+    MDFloatLayout:
+        MDBoxLayout:
+            
+            RelativeLayout:
+                FitImage:
+                    source: 'Apartment-Buildings.jpg'
+
+                AnchorLayout:
+                    anchor_x: 'left'
+                    anchor_y: 'top'
+                    MDIconButton:
+                        icon: 'arrow-left'
+                        on_press: app.change_screen("products", "right")
+                        custom_color: True
+                        font_color: 'white'
+                
+                MDLabel:
+                    text: "Are you selling or renting?"
+                    color: "white"
+                    bold: True
+                    font_size: "30dp"
+                    pos_hint: {'center_x': 0.5, 'center_y':0.6}
+                    
+                    size_hint_y: None
+                    adaptive_height: True
+                    halign: 'center'
+
+                MDBoxLayout:
+                    spacing: "20dp"
+                    size_hint_y: None
+                    adaptive_height: True
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+                    padding: [20, 0, 20, 0]
+                    MyCard:
+                        ripple_behavior: True
+                        elevation: 12
+                        size_hint_y: None
+                        height: 100
+                        radius: [15,]
+                        on_press: app.change_screen("Login")
+                        MDLabel:
+                            halign: 'center'
+                            bold: True
+                            text: "sell"
+                            font_size: "15dp"
+                    MyCard:
+                        ripple_behavior: True
+                        elevation: 12
+                        size_hint_y: None
+                        height: 100
+                        radius: [15,]
+                        on_press: app.change_screen("rent")
+                        MDLabel:
+                            halign: 'center'
+                            bold: True
+                            text: "rent"
+                            font_size: "15dp"
+
+<MyCard@MDCard+FakeRectangularElevationBehavior>

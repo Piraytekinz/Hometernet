@@ -1,0 +1,127 @@
+<MyProducts>:
+    MDFloatLayout:
+        RelativeLayout:
+            
+                        
+            
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: [20, 27, 20, 30]
+                spacing: "30dp"
+                MDLabel:
+                    text: "My Properties"
+                    halign: 'center'
+                    size_hint_y: None
+                    adaptive_height: True
+                    font_size: "20sp"
+                    bold: True
+                    color: app.theme_cls.primary_color
+
+                MDBoxLayout:
+                    size_hint_y: .1
+                    
+                    spacing: "20dp"
+                    MDCard:
+                        ripple_behavior: True
+                        elevation: 0
+                        on_press: app.sign_out()
+                        md_bg_color: app.theme_cls.primary_color
+                        radius: [20, ]
+                        MDLabel:
+                            text: "sign-out"
+                            halign: 'center'
+                            font_size: "12dp"
+                            bold: True
+                            color: 'white'
+
+                    MDCard:
+                        ripple_behavior: True
+                        on_press: app.sign_out()
+                        on_release: app.change_screen("sign-in")
+                        elevation: 0
+                        radius: [20, ]
+                        MDLabel:
+                            text: "switch account"
+                            halign: 'center'
+                            font_size: "12dp"
+                            bold: True
+
+                MDSeparator:
+                    
+
+                MDBoxLayout:
+                    ScrollView:
+                        PropertyCardsLayout:
+                            size_hint_y: None
+                            adaptive_height: True
+                            spacing: "30dp"
+
+        MDCard:
+            size_hint: None, None
+            height: 170
+            width: 80
+            pos_hint: {'center_x': 0, 'center_y': 0.48}
+            radius: [15,]
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: [42,10,0,20]
+                spacing: "20dp"
+                MDCard:
+                    size_hint: None, None
+                    height: 32
+                    width: 32
+                    pos_hint: {'center_x': 0.42, 'center_y': 0.85}
+                    radius: [20,]
+                    elevation: 0
+                    ripple_behavior: True
+                    md_bg_color: app.theme_cls.primary_color
+                    on_press: app.change_screen("Home")
+                    MDIcon:
+                        icon: "home"
+                        halign: 'center'
+                        color: 'white'
+
+                MDCard:
+                    size_hint: None, None
+                    height: 32
+                    width: 32
+                    pos_hint: {'center_x': 0.42, 'center_y': 0.1}
+                    radius: [20,]
+                    elevation: 0
+                    ripple_behavior: True
+                    md_bg_color: app.theme_cls.primary_color
+                    
+                    MDIcon:
+                        icon: "pencil"
+                        halign: 'center'
+                        color: 'white'
+
+                MDCard:
+                    size_hint: None, None
+                    height: 32
+                    width: 32
+                    pos_hint: {'center_x': 0.42, 'center_y': 0.1}
+                    radius: [20,]
+                    elevation: 0
+                    ripple_behavior: True
+                    md_bg_color: app.theme_cls.primary_color
+                    
+                    MDIcon:
+                        icon: "share"
+                        halign: 'center'
+                        color: 'white'
+
+               
+
+            
+            
+            
+                
+                
+            
+
+        MDFloatingActionButton:
+            icon: "plus"
+            pos_hint: {'center_x': 0.8, 'center_y':0.15}
+            on_press: app.change_screen("SaleOrRent")
