@@ -1,38 +1,67 @@
 <DetailsScreen>:
-    RelativeLayout:
-        MDBoxLayout:
-            orientation: 'vertical'
-            spacing: "25dp"
-            BoxLayout:
+    
+    MDBoxLayout:
+        orientation: 'vertical'
+        
+        ScrollView:
+            effect_cls: 'ScrollEffect'
+            MDBoxLayout:
                 orientation: 'vertical'
-                spacing: "35dp"
+                spacing: "25dp"
+                adaptive_height: True
+                size_hint_y: None
                 MDBoxLayout:
                     
-                    ScrollView:
-                        bar_width: 0
-                        MDBoxLayout:
-                            spacing: "25dp"
-                            size_hint_x: None
-                            adaptive_width: True
-                            padding: [25]
-                            MDCard:
-                                size_hint_x: None
-                                width: 250
-                                radius: [20]
-                                elevation: 12
-                                RelativeLayout:
-                                    FitImage:
-                                        source: root.image
-                                        radius: [20]
+                    size_hint_y: None
+                    height: 300
+                    
+                    MDBoxLayout:
+                        spacing: "25dp"
+                        padding: [0]
+                        MDCard:
+                            elevation: 12
+                            RelativeLayout:
+                                FitImage:
+                                    source: root.image
+                                AnchorLayout:
+                                    anchor_x: 'left'
+                                    anchor_y: 'top'
+                                    MDIconButton:
+                                        icon: "arrow-left"
+                                        theme_text_color: "Custom"
+                                        text_color: 'white'
+                                        on_press: app.change_screen('Home')
+                                        ripple_behavior: True
 
-                            
+                                AnchorLayout:
+                                    anchor_x: 'right'
+                                    anchor_y: 'bottom'
+                                    padding: [0,0,20,20]
+                                    MDLabel:
+                                        text: root.price
+                                        color: 'white'
+                                        font_size: '23dp'
+                                        size_hint: None, None
+                                        adaptive_size: True
+                                        bold: True
+                                    
+                # MDBoxLayout:
+                #     padding: [15,20,0,0]
+                #     size_hint_y: None
+                #     adaptive_height: True
+                #     MDLabel:
+                #         font_size: '23dp'
+                #         text: 'Details:'
+                #         adaptive_height: True
+                        
+                #         bold: True
                 
                 MDBoxLayout:
                     orientation: 'vertical'
-                    spacing: "10dp"
+                    spacing: "15dp"
                     size_hint_y: None
                     adaptive_height: True
-                    padding: [25,15,0,0]
+                    padding: [20,15,0,0]
                     
                     MDLabel:
                         text: root.type
@@ -40,15 +69,91 @@
                         adaptive_height: True
                         font_size: "20dp"
                         color: "black"
-                    MDLabel:
-                        text: "Somewhere above the rainbow"
-                        font_size: "15sp"
-                        color: "gray"
+                        bold: True
+                    MDBoxLayout:
                         size_hint_y: None
                         adaptive_height: True
+                        MDIcon:
+                            icon: 'google-maps'
+                            size_hint: None, None
+                            adaptive_size: True
+                            font_size: '18dp'
+                            
+                        MDLabel:
+                            text: root.country + " "
+                            font_size: "13dp"
+                            color: "gray"
+                            size_hint: None, None
+                            adaptive_size: True
+
+                        MDLabel:
+                            text: root.town + " "
+                            font_size: "13dp"
+                            color: "gray"
+                            size_hint: None, None
+                            adaptive_size: True
+
+                        MDLabel:
+                            text: root.street
+                            font_size: "13dp"
+                            color: 'gray'
+                            size_hint: None, None
+                            adaptive_size: True
+
+                    MDBoxLayout:
+                        size_hint_y: None
+                        adaptive_height: True
+                        MDCard:
+                            size_hint: None, None
+                            width: 100
+                            height: 30
+                            radius: [10,]
+                            on_press: app.open_maps(root.country + ',' + " " + root.town + ',' + " " + root.street)
+                            ripple_behavior: True
+                            MDIcon:
+                                icon: 'google-maps'
+                                size_hint_x: None
+                                width: 20
+                                font_size: '18dp'
+                                
+                            MDLabel:
+                                text: 'google maps'
+                                font_size: '12dp'
+                                
+                            
+                MDBoxLayout:
+                    size_hint_y: None
+                    adaptive_height: True
+                    spacing: "10dp"
+                    padding: [20,5,10,0]
+                    MDCard:
+                        size_hint_y: None
+                        height: 50
+                        radius: [10,]
+                        MDLabel:
+                            halign: 'center'
+                            text: root.bedrooms + " " + 'bedrooms'
+                            font_size: '12dp'
+                    MDCard:
+                        size_hint_y: None
+                        height: 50
+                        radius: [10,]
+                        MDLabel:
+                            halign: 'center'
+                            text: root.bathrooms + " " + 'bathrooms'
+                            font_size: '12dp'
+                    MDCard:
+                        size_hint_y: None
+                        height: 50
+                        radius: [10,]
+                        MDLabel:
+                            halign: 'center'
+                            text: root.landspace + " " + 'landspace'
+                            font_size: '12dp'
+                
                         
                 MDBoxLayout:
-                    padding: [25, 0, 0, 0]
+                    padding: [20, 10, 0, 0]
                     size_hint_y: None
                     adaptive_height: True
                     
@@ -57,42 +162,31 @@
                         adaptive_height: True
                         text: "QR. 750.000.000,-"
                         font_size: "25dp"
-            MDBoxLayout:
-                
-                size_hint_y: None
-                height: 70
-                MDCard:
-                    ripple_behavior: True
-                    MDLabel:
-                        text: "Price: " + root.price
-                        halign: "center"
-                        color: "black"
-                        font_size: "15sp"
-                        bold: True
-                        
-                MDCard:
-                    md_bg_color: app.theme_cls.primary_color
-                    radius: [5,0,0,0]
-                    ripple_behavior: True
-                    size_hint_x: .5
-                    on_release: app.send_email(root.email)
-                    MDLabel:
-                        text: "Buy"
-                        halign: "center"
-                        color: "white"
-                        font_size: "13sp"
-                        bold: True
-                        
-        MDFloatLayout:
-            ReturnButton:
-                radius: [50,]
-                pos_hint: {'center_x': 0.8, 'center_y': 0.45}
-                size_hint: None, None
-                height: 50
-                width: 50
-                elevation: 0
+        MDBoxLayout:
+            
+            size_hint_y: None
+            height: 70
+            MDCard:
                 ripple_behavior: True
-                on_press: app.change_screen("Home")
-                MDIcon:
-                    icon: "arrow-left"
+                MDLabel:
+                    text: "Price: " + root.price
                     halign: "center"
+                    color: "black"
+                    font_size: "15sp"
+                    bold: True
+                    
+            MDCard:
+                md_bg_color: app.theme_cls.primary_color
+                radius: [5,0,0,0]
+                ripple_behavior: True
+                size_hint_x: .5
+                on_release: app.send_email(root.email)
+                MDLabel:
+                    text: "Buy"
+                    halign: "center"
+                    color: "white"
+                    font_size: "13sp"
+                    bold: True
+                    
+    
+        

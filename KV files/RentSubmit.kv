@@ -86,13 +86,57 @@
                                 orientation: 'vertical'
                                 padding: [20,0,20,10]
                                 MDLabel:
-                                    text: "location/Street"
+                                    text: "country"
                                     font_size: "15sp"
                                 MDTextField:
                                     id: location
-                                    hint_text: "location"
+                                    hint_text: "country"
                                     padding: [20, ]
                                     on_text: app.locate(self.text)
+                        
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "town/city"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: location
+                                    hint_text: "town/city"
+                                    padding: [20, ]
+                                    on_text: app.towni(self.text)
+
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "street"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: location
+                                    hint_text: "street"
+                                    padding: [20, ]
+                                    on_text: app.streeti(self.text)
 
                         MDCard: 
                             opacity: 0.9
