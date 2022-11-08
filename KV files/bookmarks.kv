@@ -1,0 +1,32 @@
+<BookmarkScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: '10dp'
+        MDCard:
+            size_hint_y: None
+            height: 50
+            
+            MDIconButton:
+                icon: 'arrow-left'
+                user_font_size: "16dp"
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                on_press: app.change_screen("Home")
+
+            MDLabel:
+                text: "Bookmarks"
+                font_size: '15dp'
+                
+                halign: 'center'
+
+            MDIconButton:
+                icon: 'magnify'
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                user_font_size: "16dp"
+
+        ScrollView:
+            BookmarkLayout:
+                size_hint_y: None
+                adaptive_height: True
+                spacing: "20dp"
+                padding: [5, 0, 0, 0]
+        

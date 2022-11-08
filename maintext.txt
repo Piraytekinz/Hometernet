@@ -283,63 +283,60 @@ class PropertyCardsLayout(MDGridLayout):
                 #     self.card.rooms = i['bedrooms']
                 #     self.add_widget(self.card)
                     
-                try:
-                    people = db.child("People").child("Sale").get()
-                    if people.each():
-                        for person in people.each():
-                            something = person.key()
-                            # another = person.val()
-                            print(something)
-                            # print(another)
-                            next = db.child("People").child("Sale").child(user['localId']).get()
-                            for i in next.each():
-                                if "house" not in i.key():
-                                    pass
-                                else:
-                                    again = db.child("People").child("Sale").child(user['localId']).child("house").get()
-
-                                    for u in again.each():
-                                        self.card = PropertySaleCards()
-                                        self.card.image = u.val()['url']
-                                        self.card.tot = u.val()['housetype']
-                                        self.card.country = u.val()['country']
-                                        self.card.bedrooms = u.val()['bedrooms']
-                                        self.card.bathrooms = u.val()['bathrooms']
-                                        self.card.landspace = u.val()['landspace']
-                                        self.card.email = u.val()['email']
-                                        self.card.price = u.val()['price']
-                                        self.add_widget(self.card)
-                            
-
-
-                    people = db.child("People").child("Rent").get()
-                    if people.each():
-                        for person in people.each():
-                            something = person.key()
-                            # another = person.val()
-                            print(something)
-                            # print(another)
-                            next = db.child("People").child("Rent").child(user['localId']).get()
-                            for i in next.each():
-                                if "house" not in i.key():
-                                    pass
-                                else:
-                                    again = db.child("People").child("Rent").child(user['localId']).child("house").get()
-
-                                    for u in again.each():
-                                        self.cardi = PropertyRentCards()
-                                        self.cardi.image = u.val()['url']
-                                        self.cardi.tot = u.val()['housetype']
-                                        self.cardi.country = u.val()['country']
-                                        self.cardi.bedrooms = u.val()['bedrooms']
-                                        self.cardi.bathrooms = u.val()['bathrooms']
-                                        self.cardi.landspace = u.val()['landspace']
-                                        self.cardi.email = u.val()['email']
-                                        self.cardi.price = u.val()['price']
-                                        self.add_widget(self.cardi)
-                except:
-                    pass
                 
+                people = db.child("People").child("Sale").get()
+                if people.each():
+                    for person in people.each():
+                        something = person.key()
+                        # another = person.val()
+                        print(something)
+                        # print(another)
+                        next = db.child("People").child("Sale").child(user['localId']).get()
+                        for i in next.each():
+                            if "house" not in i.key():
+                                pass
+                            else:
+                                again = db.child("People").child("Sale").child(user['localId']).child("house").get()
+
+                                for u in again.each():
+                                    self.card = PropertySaleCards()
+                                    self.card.image = u.val()['url']
+                                    self.card.tot = u.val()['housetype']
+                                    self.card.country = u.val()['country']
+                                    self.card.bedrooms = u.val()['bedrooms']
+                                    self.card.bathrooms = u.val()['bathrooms']
+                                    self.card.landspace = u.val()['landspace']
+                                    self.card.email = u.val()['email']
+                                    self.card.price = u.val()['price']
+                                    self.add_widget(self.card)
+                        
+
+
+                people = db.child("People").child("Rent").get()
+                if people.each():
+                    for person in people.each():
+                        something = person.key()
+                        # another = person.val()
+                        print(something)
+                        # print(another)
+                        next = db.child("People").child("Rent").child(user['localId']).get()
+                        for i in next.each():
+                            if "house" not in i.key():
+                                pass
+                            else:
+                                again = db.child("People").child("Rent").child(user['localId']).child("house").get()
+
+                                for u in again.each():
+                                    self.cardi = PropertyRentCards()
+                                    self.cardi.image = u.val()['url']
+                                    self.cardi.tot = u.val()['housetype']
+                                    self.cardi.country = u.val()['country']
+                                    self.cardi.bedrooms = u.val()['bedrooms']
+                                    self.cardi.bathrooms = u.val()['bathrooms']
+                                    self.cardi.landspace = u.val()['landspace']
+                                    self.cardi.email = u.val()['email']
+                                    self.cardi.price = u.val()['price']
+                                    self.add_widget(self.cardi)
 
                 
 
@@ -635,7 +632,6 @@ class RentCardsLayout(MDBoxLayout):
                                 self.card.landspace = u.val()['landspace']
                                 self.card.email = u.val()['email']
                                 self.card.price = u.val()['price']
-                                self.card.key = u.key()
                                 self.add_widget(self.card)
         except:
             pass
@@ -648,37 +644,22 @@ class BookmarkScreen(Screen):
 class BookmarkLayout(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        people = db.child("People").child("Sale").get()
+        people = db.child("People").child("Rent").get()
         if people.each():
             for person in people.each():
                 something = person.key()
                 # another = person.val()
                 print(something)
                 # print(another)
-                next = db.child("People").child("Sale").child(something).get()
+                next = db.child("People").child("Rent").child(something).get()
                 for i in next.each():
                     if "house" not in i.key():
                         pass
                     else:
-                        again = db.child("People").child("Sale").child(something).child("house").get()
-                        for u in again.each():
-                            print(u.key())
-                            if u.key() in dati['bookmarks']:
-                                print(u.val()['country'] + "Ma NIIIIIIIIIGGGGGGGGGGGGGAAAAAAAAAHHHHHHHHH")
-                                for u in again.each():
-                                    self.card = HomeCards()
-                                    self.card.image = u.val()['url']
-                                    self.card.tot = u.val()['housetype']
-                                    self.card.country = u.val()['country']
-                                    self.card.town = u.val()['town']
-                                    self.card.street = u.val()['street']
-                                    self.card.bedrooms = u.val()['bedrooms']
-                                    self.card.bathrooms = u.val()['bathrooms']
-                                    self.card.landspace = u.val()['landspace']
-                                    self.card.email = u.val()['email']
-                                    self.card.price = u.val()['price']
-                                    self.card.key = u.key()
-                                    self.add_widget(self.card)
+                        again = db.child("People").child("Rent").child(something).child("house").get()
+                        for i in dati['bookmarks']:
+                            agai = db.child("People").child("Rent").child(something).child("house").child(i).get()
+                            print(agai + "OOOOHHHH YEEEEEAAAAAHHHHH!!!!")
             
 # princekofasiedu
 
@@ -900,18 +881,10 @@ class MainApp(MDApp):
         data['email'] = self.mail
         data['password'] = self.passwrd
         
-        try:
-            self.user = auth.sign_in_with_email_and_password(email, password)
-            data['idToken'] = self.user['idToken']
             
-        except:
-            text = "Invalid email or password"
-            close_button = MDFlatButton(text="close", on_press=self.close_dialog)
-            self.show_dialog(text, close_button)
+        self.user = auth.sign_in_with_email_and_password(email, password)
 
-        with open('user.json', 'w') as jsonfile:
-            json.dump(data, jsonfile)
-        self.change_screen("products")
+        data['idToken'] = self.user['idToken']
 
         
             # auth.send_email_verification(self.user['idToken'])
@@ -921,7 +894,8 @@ class MainApp(MDApp):
             #         data['house_images'].append(i.val()['local_image'])
             
             
-        
+        with open('user.json', 'w') as jsonfile:
+            json.dump(data, jsonfile)
                 
             # self.change_screen("products")
             
@@ -1003,16 +977,6 @@ class MainApp(MDApp):
             json.dump(data, jsonfile)
             
         self.change_screen("products")
-
-    def bookmark(self, lola):
-        print(lola + "HOOOOOOOOOLLLLLAAAAA GAAAAANNNNNGGGGG!!!!!!")
-        with open('user.json', 'r') as jsonfile:
-            data = json.load(jsonfile)
-
-        data['bookmarks'].append(lola)
-
-        with open('user.json', 'w') as jsonfile:
-            json.dump(data, jsonfile)
 
     def selected(self):
         close_button = MDFlatButton(text="close", on_release=self.close_dialog)

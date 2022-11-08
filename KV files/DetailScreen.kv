@@ -70,9 +70,11 @@
                         font_size: "20dp"
                         color: "black"
                         bold: True
+                        
                     MDBoxLayout:
                         size_hint_y: None
                         adaptive_height: True
+                        
                         MDIcon:
                             icon: 'google-maps'
                             size_hint: None, None
@@ -80,12 +82,13 @@
                             font_size: '18dp'
                             
                         MDLabel:
+                            id: count
                             text: root.country + " "
                             font_size: "13dp"
                             color: "gray"
                             size_hint: None, None
                             adaptive_size: True
-
+                            
                         MDLabel:
                             text: root.town + " "
                             font_size: "13dp"
@@ -99,6 +102,8 @@
                             color: 'gray'
                             size_hint: None, None
                             adaptive_size: True
+                            height: count.height
+                            
 
                     MDBoxLayout:
                         size_hint_y: None
