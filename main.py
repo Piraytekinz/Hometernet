@@ -1,6 +1,4 @@
 
-from tokenize import String
-from unittest import result
 import kivy
 import kivymd
 from kivymd.app import MDApp
@@ -77,10 +75,7 @@ signed_in = False
 
 with open('user.json', 'r') as jsonfile:
     data = json.load(jsonfile)
-    print(data['email'])
-        
-    print(data['email'])
-    print(data['password'])
+    
     if data['email'] == "":
         print("Fase")
         
@@ -107,7 +102,7 @@ Builder.load_file('KV files/bookmarks.kv')
 
 with open('user.json', 'r') as jsonfile:
     dati = json.load(jsonfile)
-    print(dati['email'])
+
 
 
 class WindowManager(ScreenManager):
@@ -124,7 +119,7 @@ class HomeScreen(Screen):
     with open('user.json', 'r') as jsonfile:
         data = json.load(jsonfile)
         text = data['email']
-        print(data['email'])
+
 
 class HomeCards(MDCard, FakeRectangularElevationBehavior):
     image = StringProperty()
@@ -148,15 +143,14 @@ class PropertyRentCards(MDCard, FakeRectangularElevationBehavior):
     landspace = StringProperty()
     email = StringProperty()
     price = StringProperty()
-
+    key = StringProperty()
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         
         print("Let's see")
         with open('user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
-            print(data['email'])
-        print(data['email'], data['password'])
+            
         self.user = auth.sign_in_with_email_and_password(data['email'], data['password'])
 
     def house_type(self, texta):
@@ -178,26 +172,18 @@ class PropertySaleCards(MDCard, FakeRectangularElevationBehavior):
     landspace = StringProperty()
     email = StringProperty()
     price = StringProperty()
+    key = StringProperty()
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         
-        print("Let's see")
+       
         with open('user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
-            print(data['email'])
-        print(data['email'], data['password'])
+           
         self.user = auth.sign_in_with_email_and_password(data['email'], data['password'])
         
 
-    def house_type(self, texta):
-        self.poop = texta
-        again = db.child("People").child("Sale").child(self.user['localId']).child("house").get()
-        self.new()
-        for u in again.each():
-            db.child("People").child("Sale").child(self.user['localId']).child("house").child(u.key()).update({'housetype': self.poop})
-
-    def new(self):
-        print(self.poop)
+    
 
     
 class DetailsScreen(Screen):
@@ -239,106 +225,79 @@ class PropertyCardsLayout(MDGridLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        with open('user.json', 'r') as jsonfile:
-            data = json.load(jsonfile)
-            print(data['email'])
+        # with open('user.json', 'r') as jsonfile:
+        #     data = json.load(jsonfile)
+        #     print(data['email'])
                 
-            print(data['email'])
-            print(data['password'])
-            if data['email'] == "":
-                print("Fase")
-            else:
-                try:
-                    user = auth.sign_in_with_email_and_password(data['email'], data['password'])
-                except:
-                    pass
-                self.cols = int(Window.size[0]*0.5/100)
-                
-                if self.cols > 1 and self.cols < 3:
-                    self.cols = 1
-                if self.cols > 3:
-                    self.ad = int(Window.size[0]*0.5/100)
-                    result = self.ad-3
-                    actual = self.cols-result
-                    self.cols = actual
+        #     print(data['email'])
+        #     print(data['password'])
+        #     if data['email'] == "":
+        #         print("Fase")
+        #     else:
+        #         try:
+        #             user = auth.sign_in_with_email_and_password(data['email'], data['password'])
+        #         except:
+        #             pass
+        self.cols = int(Window.size[0]*0.5/100)
+        
+        if self.cols > 1 and self.cols < 3:
+            self.cols = 1
+        if self.cols > 3:
+            self.ad = int(Window.size[0]*0.5/100)
+            result = self.ad-3
+            actual = self.cols-result
+            self.cols = actual
 
-                # mydb = mysql.connector.connect(
-                #     host = "localhost",
-                #     user = "root",
-                #     password = "GermaDouble6",
-                #     database = 'first_db'
-                # )
+        
 
-                # cursor = mydb.cursor()
-                # cursor.execute("SELECT id, name FROM Users")
-                # recs = cursor.fetchall()
-
-                
-                    
-                
-                # for i in house["Housing"]:
-                #     self.card = HomeCards()
-                #     self.card.house_type = i["House_type"]
-                #     self.card.image = i['Image']
-                #     self.card.rooms = i['bedrooms']
-                #     self.add_widget(self.card)
-                    
-                try:
-                    people = db.child("People").child("Sale").get()
-                    if people.each():
-                        for person in people.each():
-                            something = person.key()
-                            # another = person.val()
-                            print(something)
-                            # print(another)
-                            next = db.child("People").child("Sale").child(user['localId']).get()
-                            for i in next.each():
-                                if "house" not in i.key():
-                                    pass
-                                else:
-                                    again = db.child("People").child("Sale").child(user['localId']).child("house").get()
-
-                                    for u in again.each():
-                                        self.card = PropertySaleCards()
-                                        self.card.image = u.val()['url']
-                                        self.card.tot = u.val()['housetype']
-                                        self.card.country = u.val()['country']
-                                        self.card.bedrooms = u.val()['bedrooms']
-                                        self.card.bathrooms = u.val()['bathrooms']
-                                        self.card.landspace = u.val()['landspace']
-                                        self.card.email = u.val()['email']
-                                        self.card.price = u.val()['price']
-                                        self.add_widget(self.card)
-                            
+        
+            
+        
+        # for i in house["Housing"]:
+        #     self.card = HomeCards()
+        #     self.card.house_type = i["House_type"]
+        #     self.card.image = i['Image']
+        #     self.card.rooms = i['bedrooms']
+        #     self.add_widget(self.card)
+            
+        
+        try:
+            again = db.child("People").child("Sale").child(dati['localid']).child("house").get()
+            print(again.each(), "LEFMONBIENGoasjfniodvsvberhfieubcvihdsfv ougeSHFPw")
+            for u in again.each():
+                self.card = PropertySaleCards()
+                self.card.image = u.val()['url']
+                self.card.tot = u.val()['housetype']
+                print(u.val()['housetype'])
+                self.card.country = u.val()['country']
+                self.card.bedrooms = u.val()['bedrooms']
+                self.card.bathrooms = u.val()['bathrooms']
+                self.card.landspace = u.val()['landspace']
+                self.card.email = u.val()['email']
+                self.card.price = u.val()['price']
+                self.card.key = u.key()
+                self.add_widget(self.card)
+        except:
+            pass
 
 
-                    people = db.child("People").child("Rent").get()
-                    if people.each():
-                        for person in people.each():
-                            something = person.key()
-                            # another = person.val()
-                            print(something)
-                            # print(another)
-                            next = db.child("People").child("Rent").child(user['localId']).get()
-                            for i in next.each():
-                                if "house" not in i.key():
-                                    pass
-                                else:
-                                    again = db.child("People").child("Rent").child(user['localId']).child("house").get()
+        try:
+            again = db.child("People").child("Rent").child(dati['localid']).child("house").get()
 
-                                    for u in again.each():
-                                        self.cardi = PropertyRentCards()
-                                        self.cardi.image = u.val()['url']
-                                        self.cardi.tot = u.val()['housetype']
-                                        self.cardi.country = u.val()['country']
-                                        self.cardi.bedrooms = u.val()['bedrooms']
-                                        self.cardi.bathrooms = u.val()['bathrooms']
-                                        self.cardi.landspace = u.val()['landspace']
-                                        self.cardi.email = u.val()['email']
-                                        self.cardi.price = u.val()['price']
-                                        self.add_widget(self.cardi)
-                except:
-                    pass
+            for u in again.each():
+                self.cardi = PropertyRentCards()
+                self.cardi.image = u.val()['url']
+                self.cardi.tot = u.val()['housetype']
+                self.cardi.country = u.val()['country']
+                self.cardi.bedrooms = u.val()['bedrooms']
+                self.cardi.bathrooms = u.val()['bathrooms']
+                self.cardi.landspace = u.val()['landspace']
+                self.cardi.email = u.val()['email']
+                self.cardi.price = u.val()['price']
+                self.cardi.key = u.key()
+                self.add_widget(self.cardi)
+        except:
+            pass
                 
 
                 
@@ -361,41 +320,45 @@ class PropertyCardsLayout(MDGridLayout):
 
 #         return wrapped
 
-class Effect(DampedScrollEffect):
-    def on_overscroll(self, *args):
-        super().on_overscroll(*args)
-        self.overscroll = 0
-        if self.overscroll == 0:
-            self.homesser = HomeCardsLayout()
-            self.homesser.added()
-            self.do_something()
-        else:
-            pass
+# class Effect(DampedScrollEffect):
+#     def on_overscroll(self, *args):
+#         super().on_overscroll(*args)
+#         self.overscroll = 0
+#         if self.overscroll == 0:
+#             self.homesser = HomeCardsLayout()
+#             self.homesser.added()
+#             self.do_something()
+#         else:
+#             pass
 
-    # @call_control(max_call_interval=1)
-    def do_something(self):
-        self.homesser = HomeCardsLayout()
-        self.homesser.added()
-        self.homesser.something = True
-        print("It worked")
+#     # @call_control(max_call_interval=1)
+#     def do_something(self):
+#         self.homesser = HomeCardsLayout()
+#         self.homesser.added()
+#         self.homesser.something = True
+#         print("It worked")
 
 class Scroller(ScrollView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.do_scroll_x = False
         self.do_scroll_y = True
-        self.effect = Effect
+        # self.effect = Effect
         # self.effect_cls = Effect
         
+
+    
+
+    
         
 
 
 
-    def scrolled(self):
-        self.do_scroll_y = False
+    # def scrolled(self):
+    #     self.do_scroll_y = False
         
-    def unscrolled(self):
-        self.do_scroll_y = True
+    # def unscrolled(self):
+    #     self.do_scroll_y = True
         
 
 
@@ -499,7 +462,7 @@ class HomeCardsLayout(MDBoxLayout):
                 for person in people.each():
                     something = person.key()
                     # another = person.val()
-                    print(something)
+                    
                     # print(another)
                     next = db.child("People").child("Sale").child(something).get()
                     for i in next.each():
@@ -614,15 +577,15 @@ class RentCardsLayout(MDBoxLayout):
                 for person in people.each():
                     something = person.key()
                     # another = person.val()
-                    print(something)
-                    # print(another)
+                    
+                
                     next = db.child("People").child("Rent").child(something).get()
                     for i in next.each():
                         if "house" not in i.key():
                             pass
                         else:
                             again = db.child("People").child("Rent").child(something).child("house").get()
-                            print(again)
+                     
                             for u in again.each():
                                 self.card = HomeCards()
                                 self.card.image = u.val()['url']
@@ -653,8 +616,7 @@ class BookmarkLayout(MDBoxLayout):
             for person in people.each():
                 something = person.key()
                 # another = person.val()
-                print(something)
-                # print(another)
+                
                 next = db.child("People").child("Sale").child(something).get()
                 for i in next.each():
                     if "house" not in i.key():
@@ -662,23 +624,53 @@ class BookmarkLayout(MDBoxLayout):
                     else:
                         again = db.child("People").child("Sale").child(something).child("house").get()
                         for u in again.each():
-                            print(u.key())
+                            
                             if u.key() in dati['bookmarks']:
-                                print(u.val()['country'] + "Ma NIIIIIIIIIGGGGGGGGGGGGGAAAAAAAAAHHHHHHHHH")
-                                for u in again.each():
-                                    self.card = HomeCards()
-                                    self.card.image = u.val()['url']
-                                    self.card.tot = u.val()['housetype']
-                                    self.card.country = u.val()['country']
-                                    self.card.town = u.val()['town']
-                                    self.card.street = u.val()['street']
-                                    self.card.bedrooms = u.val()['bedrooms']
-                                    self.card.bathrooms = u.val()['bathrooms']
-                                    self.card.landspace = u.val()['landspace']
-                                    self.card.email = u.val()['email']
-                                    self.card.price = u.val()['price']
-                                    self.card.key = u.key()
-                                    self.add_widget(self.card)
+                               
+                                self.card = HomeCards()
+                                self.card.image = u.val()['url']
+                                self.card.tot = u.val()['housetype']
+                                self.card.country = u.val()['country']
+                                self.card.town = u.val()['town']
+                                self.card.street = u.val()['street']
+                                self.card.bedrooms = u.val()['bedrooms']
+                                self.card.bathrooms = u.val()['bathrooms']
+                                self.card.landspace = u.val()['landspace']
+                                self.card.email = u.val()['email']
+                                self.card.price = u.val()['price']
+                                self.card.key = u.key()
+                                self.add_widget(self.card)
+
+        people = db.child("People").child("Rent").get()
+        if people.each():
+            for person in people.each():
+                something = person.key()
+                # another = person.val()
+                
+                next = db.child("People").child("Rent").child(something).get()
+                for i in next.each():
+                    if "house" not in i.key():
+                        pass
+                    else:
+                        again = db.child("People").child("Rent").child(something).child("house").get()
+                        for u in again.each():
+                            
+                            if u.key() in dati['bookmarks']:
+                                print(u.key())
+                                
+                                self.card = HomeCards()
+                                self.card.image = u.val()['url']
+                                self.card.tot = u.val()['housetype']
+                                self.card.country = u.val()['country']
+                                self.card.town = u.val()['town']
+                                self.card.street = u.val()['street']
+                                self.card.bedrooms = u.val()['bedrooms']
+                                self.card.bathrooms = u.val()['bathrooms']
+                                self.card.landspace = u.val()['landspace']
+                                self.card.email = u.val()['email']
+                                self.card.price = u.val()['price']
+                                self.card.key = u.key()
+                                self.add_widget(self.card)
             
 # princekofasiedu
 
@@ -698,7 +690,6 @@ class MainApp(MDApp):
         self.theme_cls.primary_hue = "900"
         self.homes = HomeCardsLayout()
         self.haight = self.homes.height * 350
-        self.effect = Effect()
         
         for i in screens:
             self.wm.add_widget(i)
@@ -724,20 +715,18 @@ class MainApp(MDApp):
     def check_pull_refresh(self, view, grid):
         max_pixel = 200
         to_relative = max_pixel / (grid.height - view.height)
-        print(to_relative)
-        print(1.0 + to_relative)
-        print(view.scroll_y)
+        
         if view.scroll_y + 1.0 < 1.0 + to_relative:
             print("Okad")
 
 
     def email(self, texta):
         self.mail = texta
-        print(texta)
+        
 
     def password(self, texta):
         self.passwrd = texta
-        print(texta)
+       
 
     def signin_mail(self, texta):
         self.sign_in_mail = texta
@@ -747,7 +736,7 @@ class MainApp(MDApp):
 
     def word(self, texta):
         self.tot = texta
-        print(texta)
+        
 
     def locate(self, texta):
         self.country = texta
@@ -770,10 +759,7 @@ class MainApp(MDApp):
     def pricing(self, texta):
         self.price = texta
         
-    def on_start(self):
-        self.home = HomeCardsLayout()
-        self.home.column = 3
-        return super().on_start()
+    
 
     def show_dialog(self, notice, button, button1=None):
         self.dialog = MDDialog(text=notice, size_hint=(1, 1), buttons=[button, button1])
@@ -783,7 +769,7 @@ class MainApp(MDApp):
         self.dialog.dismiss()
 
     def snackbar(self, obj):
-        self.snack = Snackbar(text="No user signed in!")
+        self.snack = Snackbar(text=obj, snackbar_x="10dp", snackbar_y="10dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width)
         self.snack.open()
 
     def open_maps(self, location):
@@ -813,7 +799,7 @@ class MainApp(MDApp):
                 self.detail.bathrooms = bathrooms
                 self.detail.landspace = landspace
                 self.detail.email = email
-                print(image, House_type, email)
+
             elif screen == "Home":
                 self.wm.switch_to(self.home, direction='right')
             elif screen == "Login":
@@ -829,14 +815,7 @@ class MainApp(MDApp):
             
             elif screen == "sign-in":
                 
-                # with open('user.json', 'r') as jsonfile:
-                #     data = json.load(jsonfile)
-                #     print(data['email'])
-                    
-                # print(data['email'])
-                # print(data['password'])
-                # if data['email'] == "":
-                #     print("Fase")
+                
 
                 self.wm.switch_to(self.signin)
 
@@ -845,27 +824,20 @@ class MainApp(MDApp):
                 #     self.wm.switch_to(self.login)
                     # self.wm.switch_to(self.SaleOrRent)
 
-            try:
-                if screen == "SaleOrRent":
-                    with open('user.json', 'r') as jsonfile:
-                        data = json.load(jsonfile)
-                        print(data['email'])
-                        
-                    print(data['email'])
-                    print(data['password'])
-                    if data['email'] == "":
-                        print("Fase")
-                        self.wm.switch_to(self.signin)
-                    else:
-                        self.user = auth.sign_in_with_email_and_password(data['email'], data['password'])
-                        self.wm.switch_to(self.SaleOrRent)
-            except:
-                pass
+            
+            elif screen == "SaleOrRent":
+                if dati['email'] == "":
+                    
+                    self.wm.switch_to(self.signin)
+                else:
+                    self.user = auth.sign_in_with_email_and_password(data['email'], data['password'])
+                    self.wm.switch_to(self.SaleOrRent)
+            
         except:
             pass
             
     def send_email(self, email):
-        print(email + "is the mail")
+
         server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
         server.login("anangjosh8@gmail.com", "iidkyxnpbhywvcjw")
         server.sendmail("anangjosh8@gmail.com", "pirateyonko5@gmail.com", "An offer has been made to buy your house.")
@@ -884,7 +856,10 @@ class MainApp(MDApp):
             
 
         
-
+    def delete_property(self, name):
+        print(name + "Delete Delete Delete Delete Delete Delete Delete")
+        db.child("People").child("Sale").child(dati['localid']).child("house").child(name).remove()
+        db.child('People').child("Rent").child(dati['localid']).child("house").child(name).remove()
 
 # "MKHRXCSZPZWXKIIF"
 
@@ -900,9 +875,11 @@ class MainApp(MDApp):
         data['email'] = self.mail
         data['password'] = self.passwrd
         
+        
         try:
             self.user = auth.sign_in_with_email_and_password(email, password)
             data['idToken'] = self.user['idToken']
+            data['localid'] = self.user['localId']
             
         except:
             text = "Invalid email or password"
@@ -925,7 +902,7 @@ class MainApp(MDApp):
                 
             # self.change_screen("products")
             
-            # print("Success")
+
         
         
     
@@ -934,11 +911,13 @@ class MainApp(MDApp):
     def sign_out(self):
         with open('user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
-            print(data['email'])
+
         data['email'] = ''
         data['password'] = ''
         data['idToken'] = ''
         data['house_images'] = []
+        data['localid'] = ''
+        data['bookmarks'] = []
         with open('user.json', 'w') as jsonfile:
             json.dump(data, jsonfile)
 
@@ -950,7 +929,7 @@ class MainApp(MDApp):
             db.child("People").child(user['localId']).remove()
             with open('user.json', 'r') as jsonfile:
                 dati = json.load(jsonfile)
-                print(dati['email'])
+                
             for i in dati['house_images']:
                 storage.delete(i, user['idToken'])
                 
@@ -973,7 +952,7 @@ class MainApp(MDApp):
             print("successfully deleted account")
         except:
             print("No user signed in")
-            p = 'p'
+            p = 'No user signed in'
             self.snackbar(p)
             # text = "yes"
             # self.close_dialog(text)
@@ -1006,19 +985,29 @@ class MainApp(MDApp):
 
     def bookmark(self, lola):
         print(lola + "HOOOOOOOOOLLLLLAAAAA GAAAAANNNNNGGGGG!!!!!!")
-        with open('user.json', 'r') as jsonfile:
-            data = json.load(jsonfile)
+        try:
+            with open('user.json', 'r') as jsonfile:
+                data = json.load(jsonfile)
+            if lola not in data['bookmarks']:
+                data['bookmarks'].append(lola)
+                with open('user.json', 'w') as jsonfile:
+                    json.dump(data, jsonfile)
+                notice = 'Successfully added to bookmarks'
+                self.snackbar(notice)
+            else:
+                text = "Already added to bookmarks"
+                close_button = MDFlatButton(text="close", on_press=self.close_dialog)
+                self.show_dialog(text, close_button)
 
-        data['bookmarks'].append(lola)
-
-        with open('user.json', 'w') as jsonfile:
-            json.dump(data, jsonfile)
+            
+        except:
+            print("Unsuccessfully added to bookmarks")
 
     def selected(self):
         close_button = MDFlatButton(text="close", on_release=self.close_dialog)
         if len(self.tot) > 5:
             
-            if len(self.country) > 3:
+            if len(self.country) >= 3:
                 
                 filechooser.open_file(on_selection=self.house_sale, multiselect=True)
             
@@ -1031,51 +1020,50 @@ class MainApp(MDApp):
 
     def house_sale(self, selection):
         print(self.tot)
-
-
-        
-        print("Something")
-        if len(selection) > 0:
-            self.file = str(selection[0])
-            storage.child(str(self.file)).put(str(self.file))
-            url = storage.child(self.file).get_url(None)
-            print(self.file)
-            # with open('user.json', 'r') as jsonfile:
-            #     dato = json.load(jsonfile)
+        try:
+            if len(selection) > 0:
+                self.file = str(selection[0])
+                storage.child(dati['localid']).child(str(self.file)).put(str(self.file))
+                url = storage.child(dati['localid']).child(self.file).get_url(None)
+                print(self.file)
+                # with open('user.json', 'r') as jsonfile:
+                #     dato = json.load(jsonfile)
+                    
+                dati['house_images'].append(self.file)
+                with open('user.json', 'w') as jsonfile:
+                    json.dump(dati, jsonfile)
                 
-            dati['house_images'].append(self.file)
-            with open('user.json', 'w') as jsonfile:
-                json.dump(dati, jsonfile)
-            
-            data = {
-                "housetype": "",
-                "country": "",
-                "town": "",
-                "street": "",
-                "bedrooms": "",
-                "bathrooms": "",
-                "landspace": "",
-                "url": "",
-                "email": "",
-                "price": "",
-                "local_image": ""
-            }
+                data = {
+                    "housetype": "",
+                    "country": "",
+                    "town": "",
+                    "street": "",
+                    "bedrooms": "",
+                    "bathrooms": "",
+                    "landspace": "",
+                    "url": "",
+                    "email": "",
+                    "price": "",
+                    "local_image": ""
+                }
 
-            
-            data['housetype'] = self.tot
-            data['country'] = self.country
-            data['town'] = self.town
-            data['street'] = self.street
-            data['bedrooms'] = self.bedrooms
-            data['bathrooms'] = self.bathrooms
-            data['landspace'] = self.landspace
-            data['url'] = url
-            data['email'] = dati['email']
-            data['price'] = "$" + self.price
-            data['local_image'] = self.file
-            # db.child("People").child(key).child("house").push(data)
-            results = db.child("People").child("Sale").child(self.user['localId']).child("house").push(data)
-            print(results)
+                
+                data['housetype'] = self.tot
+                data['country'] = self.country
+                data['town'] = self.town
+                data['street'] = self.street
+                data['bedrooms'] = self.bedrooms
+                data['bathrooms'] = self.bathrooms
+                data['landspace'] = self.landspace
+                data['url'] = url
+                data['email'] = dati['email']
+                data['price'] = "$" + self.price
+                data['local_image'] = self.file
+                # db.child("People").child(key).child("house").push(data)
+                results = db.child("People").child("Sale").child(self.user['localId']).child("house").push(data)
+                print(results)
+        except:
+            pass
             # for person in people.each():
             #     if person.val()['email'] == self.sign_in_mail:
             #         print(person.key())
@@ -1121,8 +1109,8 @@ class MainApp(MDApp):
         print("Something")
         if len(selection) > 0:
             self.file = str(selection[0])
-            storage.child(str(self.file)).put(str(self.file))
-            url = storage.child(self.file).get_url(None)
+            storage.child(dati['localid']).child(str(self.file)).put(str(self.file))
+            url = storage.child(dati['localid']).child(self.file).get_url(None)
 
            
             dati['house_images'].append(self.file)
@@ -1158,14 +1146,6 @@ class MainApp(MDApp):
             # db.child("People").child(key).child("house").push(data)
             results = db.child("People").child("Rent").child(self.user['localId']).child("house").push(data)
             print(results)
-
-    def Scroll(self):
-        self.homeser = HomeCardsLayout()
-        self.homeser.add()
-        print("Scrolled")
-
-    
-
 
 MainApp().run()
 

@@ -4,7 +4,7 @@
     size_hint_y: None
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
     height: 400
-    
+    on_press: app.delete_property(root.key)
     radius: [5, ]
     MDBoxLayout:
         orientation: 'vertical'
@@ -59,7 +59,6 @@
                 text: root.tot
                 bold: True
                 multiline: False
-                on_text: root.house_type(self.text)
             TextInput:
                 text: root.country
                 color: "gray"
@@ -125,3 +124,4 @@
                     halign: 'center'
                     size_hint_y: None
                     adaptive_height: True
+

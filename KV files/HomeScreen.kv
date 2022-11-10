@@ -10,9 +10,10 @@
                 id: scroller
                 
                 MDBoxLayout:
+                    id: main_box
                     orientation: 'vertical'
                     size_hint_y: None
-                    adaptive_height: True                    
+                    adaptive_height: True           
                     MDBoxLayout:
                         orientation: 'vertical'                    
                         
@@ -166,6 +167,9 @@
                                 do_scroll_x: True
                                 do_scroll_y: False
                                 bar_width: 0
+                                id: inner_scroll
+                                size_hint_y: None
+                                height: 380
                                 HomeCardsLayout:
                                     id: grid
                                     size_hint_y: None
@@ -406,7 +410,7 @@
                             font_size: "15sp"
                             color: "black"
                             
-                            
+
 
 
 <MyTab@MDTabs+CommonElevationBehavior>:
