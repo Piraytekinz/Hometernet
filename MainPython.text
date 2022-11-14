@@ -1,5 +1,6 @@
 
-
+import kivy
+import kivymd
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
@@ -10,7 +11,7 @@ from kivy.properties import StringProperty
 from kivymd.uix.gridlayout import MDGridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty
-from kivymd.uix.list import MDList, OneLineListItem, ImageLeftWidget, OneLineIconListItem
+from kivymd.uix.list import MDList, OneLineListItem, ImageLeftWidget
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.behaviors import FakeRectangularElevationBehavior
 from kivymd.uix.snackbar import Snackbar
@@ -28,10 +29,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.effects.dampedscroll import DampedScrollEffect
 from time import sleep, time
 from kivy.clock import time
-from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.dropdownitem import MDDropDownItem
 import webbrowser
-
 
 
 
@@ -82,7 +80,7 @@ with open('user.json', 'r') as jsonfile:
         except:
             pass
         
-
+        
 
 Builder.load_file("HomeScreen.kv")
 Builder.load_file("HomeCards.kv")
@@ -201,14 +199,10 @@ class ReturnButton(MDCard):
     positiony = int(Window.size[0]*0.8)
 
 class LoginScreen(Screen):
-    bedrooms = StringProperty('0')
-    bathrooms = StringProperty('0')
-    
-
+    pass
 
 class RentSubmit(Screen):
-    bedrooms = StringProperty('0')
-    bathrooms = StringProperty('0')
+    pass
 
 class WordInput(MDTextField):
     pass
@@ -225,7 +219,43 @@ class SaleOrRent(Screen):
 class PropertyCardsLayout(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-    
+
+        # with open('user.json', 'r') as jsonfile:
+        #     data = json.load(jsonfile)
+        #     print(data['email'])
+                
+        #     print(data['email'])
+        #     print(data['password'])
+        #     if data['email'] == "":
+        #         print("Fase")
+        #     else:
+        #         try:
+        #             user = auth.sign_in_with_email_and_password(data['email'], data['password'])
+        #         except:
+        #             pass
+        # self.cols = int(Window.size[0]*0.5/100)
+        
+        # if self.cols > 1 and self.cols < 3:
+        #     self.cols = 1
+        # if self.cols > 3:
+        #     self.ad = int(Window.size[0]*0.5/100)
+        #     result = self.ad-3
+        #     actual = self.cols-result
+        #     self.cols = actual
+
+        
+
+        
+            
+        
+        # for i in house["Housing"]:
+        #     self.card = HomeCards()
+        #     self.card.house_type = i["House_type"]
+        #     self.card.image = i['Image']
+        #     self.card.rooms = i['bedrooms']
+        #     self.add_widget(self.card)
+            
+        
         try:
             again = db.child("People").child("Sale").child(dati['localid']).child("house").get()
             print(again.each(), "LEFMONBIENGoasjfniodvsvberhfieubcvihdsfv ougeSHFPw")
@@ -242,10 +272,11 @@ class PropertyCardsLayout(MDBoxLayout):
                 self.card.price = u.val()['price']
                 self.card.key = u.key()
                 self.add_widget(self.card)
-            
+        except:
+            pass
 
 
-            
+        try:
             again = db.child("People").child("Rent").child(dati['localid']).child("house").get()
 
             for u in again.each():
@@ -262,7 +293,7 @@ class PropertyCardsLayout(MDBoxLayout):
                 self.add_widget(self.cardi)
         except:
             pass
-        
+                
 
                 
 
@@ -311,6 +342,22 @@ class Scroller(ScrollView):
         # self.effect_cls = Effect
         
 
+    
+
+    
+        
+
+
+
+    # def scrolled(self):
+    #     self.do_scroll_y = False
+        
+    # def unscrolled(self):
+    #     self.do_scroll_y = True
+        
+
+
+
 
 class HomeCardsLayout(MDBoxLayout):
     
@@ -318,7 +365,9 @@ class HomeCardsLayout(MDBoxLayout):
         super().__init__(**kwargs)
     
         self.j = 0
+        
         self.added()
+       
 
     def added(self):
             
@@ -497,16 +546,12 @@ class BookmarkLayout(MDBoxLayout):
             
 # princekofasiedu
 
-class IconListItem(OneLineIconListItem):
-    icon = StringProperty()
+
 
                     
                     
-class DropItem(MDDropDownItem):
-    num = StringProperty()
+                    
 
-
-        
 
 class MainApp(MDApp):
     def build(self):
@@ -515,44 +560,15 @@ class MainApp(MDApp):
         self.wm = WindowManager()
         self.theme_cls.primary_palette = "Blue"
         self.theme_cls.primary_hue = "900"
+        self.homes = HomeCardsLayout()
+        self.haight = self.homes.height * 350
         
-        self.home = HomeScreen()
-        
-        self.login = LoginScreen()
-        self.signup = AccountLoginPage()
-        self.products = MyProducts()
-        self.signin = SignInScreen()
-        self.SaleOrRent = SaleOrRent()
-        self.rent = RentSubmit()
-        self.bk = BookmarkScreen()
-        self.drop = DropItem()
-
-        menu_items = [
-            {
-                "viewclass": "IconListItem",
-                "icon": "git",
-                "text": f"Item {i}",
-                "height": 56,
-                "on_release": lambda x=f"Item {i}":self.set_item(x)
-            } for i in range(5)
-        ]
-
-        self.menu = MDDropdownMenu(
-            caller=DropItem(),
-            items = menu_items,
-            width_mult=4,
-            ver_growth="up",
-            opening_time=0.1
-        )
-        
-
         for i in screens:
             self.wm.add_widget(i)
         
-        self.wm.current = "Home"
+        self.wm.current = "products"
         self.wm.transition = FadeTransition()
-        self.numberiy = 'item 0'
-        
+        self.home = HomeScreen()
         self.mail = ''
         self.passwrd = ''
         self.sign_in_mail = ''
@@ -569,89 +585,52 @@ class MainApp(MDApp):
         return self.wm
         return super().build()
 
-    def set_item(self, text_item):
-        self.numberiy = text_item
-    
+    def check_pull_refresh(self, view, grid):
+        max_pixel = 200
+        to_relative = max_pixel / (grid.height - view.height)
+        
+        if view.scroll_y + 1.0 < 1.0 + to_relative:
+            print("Okad")
 
-    def switch_home(self):
-        self.home = HomeScreen()
-        self.wm.switch_to(self.home)
 
-    def switch_details(self, image=None, House_type=None, pricing=None, locate=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None ):
-        self.detail = DetailsScreen()
-        self.wm.switch_to(self.detail)
-        self.detail.image = image
-        self.detail.type = House_type
-        self.detail.price = pricing
-        self.detail.country = locate
-        self.detail.town = town
-        self.detail.street = street
-        self.detail.bedrooms = bedrooms
-        self.detail.bathrooms = bathrooms
-        self.detail.landspace = landspace
-        self.detail.email = email
+    def email(self, texta):
+        self.mail = texta
         
 
-    def switch_login(self):
-        self.wm.switch_to(self.login)
-
-    def switch_rent(self):
-        self.wm.switch_to(self.rent)
-
-    def switch_signup(self):
-        self.wm.switch_to(self.signup)
-
-    def switch_products(self):
-        self.products = MyProducts()
-        self.wm.switch_to(self.products)
-
-    def switch_bookmarks(self):
-        self.bk = BookmarkScreen()
-        self.wm.switch_to(self.bk)
-    
-    def switch_signin(self):
-        self.wm.switch_to(self.signin)
-    
-    def switch_saleorrent(self):
-        if dati['email'] == "":
-                    
-            self.wm.switch_to(self.signin)
-        else:
-            self.user = auth.sign_in_with_email_and_password(data['email'], data['password'])
-            self.wm.switch_to(self.SaleOrRent)
-
-    # def email(self, texta):
-    #     self.mail = texta
-        
-
-    # def password(self, texta):
-    #     self.passwrd = texta
+    def password(self, texta):
+        self.passwrd = texta
        
 
-    # def signin_mail(self, texta):
-    #     self.sign_in_mail = texta
+    def signin_mail(self, texta):
+        self.sign_in_mail = texta
 
-    # def signin_pass(self, texta):
-    #     self.sign_in_pass = texta
+    def signin_pass(self, texta):
+        self.sign_in_pass = texta
 
-    # def word(self, texta):
-    #     self.tot = texta
+    def word(self, texta):
+        self.tot = texta
         
 
-    # def locate(self, texta):
-    #     self.country = texta
+    def locate(self, texta):
+        self.country = texta
 
-    # def towni(self, texta):
-    #     self.town = texta
+    def towni(self, texta):
+        self.town = texta
 
-    # def streeti(self, texta):
-    #     self.street = texta
+    def streeti(self, texta):
+        self.street = texta
+    
+    def rooms(self, texta):
+        self.bedrooms = texta
+    
+    def baths(self, texta):
+        self.bathrooms = texta
 
-    # def land_space(self, texta):
-    #     self.landspace = texta
+    def land_space(self, texta):
+        self.landspace = texta
 
-    # def pricing(self, texta):
-    #     self.price = texta
+    def pricing(self, texta):
+        self.price = texta
         
     
 
@@ -671,7 +650,15 @@ class MainApp(MDApp):
 
 
     def change_screen(self, screen, image=None, House_type=None, pricing=None, locate=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None):
+        self.home = HomeScreen()
         self.detail = DetailsScreen()
+        self.login = LoginScreen()
+        self.signup = AccountLoginPage()
+        self.products = MyProducts()
+        self.signin = SignInScreen()
+        self.SaleOrRent = SaleOrRent()
+        self.rent = RentSubmit()
+        self.bk = BookmarkScreen()
         try:
             if screen == "detail":
                 self.wm.switch_to(self.detail)
@@ -733,9 +720,7 @@ class MainApp(MDApp):
         email = self.mail
         password = self.passwrd
         try:
-            
             user = auth.create_user_with_email_and_password(email, password)
-            useri = auth.send_email_verification(user['idToken'])
             self.change_screen("products")
         except:
             text = "Invalid email or password"
@@ -756,32 +741,39 @@ class MainApp(MDApp):
         email = self.mail
         password = self.passwrd
         
+        with open('user.json', 'r') as jsonfile:
+            data = json.load(jsonfile)
+            print(data['email'])
+        
+        data['email'] = self.mail
+        data['password'] = self.passwrd
+        
         
         try:
             self.user = auth.sign_in_with_email_and_password(email, password)
-            
-            
-            with open('user.json', 'r') as jsonfile:
-                data = json.load(jsonfile)
-                print(data['email'])
-            
-            data['email'] = self.mail
-            data['password'] = self.passwrd
             data['idToken'] = self.user['idToken']
             data['localid'] = self.user['localId']
-
-            with open('user.json', 'w') as jsonfile:
-                json.dump(data, jsonfile)
-            self.change_screen("products")
             
         except:
             text = "Invalid email or password"
             close_button = MDFlatButton(text="close", on_press=self.close_dialog)
             self.show_dialog(text, close_button)
 
-        
+        with open('user.json', 'w') as jsonfile:
+            json.dump(data, jsonfile)
+        self.change_screen("products")
 
-    
+        
+            # auth.send_email_verification(self.user['idToken'])
+            # gain = db.child("People").child("Sale").child(self.user['localId']).child("house").get()
+            # if gain.each():
+            #     for i in gain.each():
+            #         data['house_images'].append(i.val()['local_image'])
+            
+            
+        
+                
+            # self.change_screen("products")
             
 
         
@@ -900,6 +892,7 @@ class MainApp(MDApp):
             self.show_dialog(text,close_button)
 
     def house_sale(self, selection):
+        print(self.tot)
         try:
             if len(selection) > 0:
                 self.file = str(selection[0])
@@ -943,9 +936,7 @@ class MainApp(MDApp):
                 results = db.child("People").child("Sale").child(self.user['localId']).child("house").push(data)
                 print(results)
         except:
-            print('Unsuccessful')
-        
-        
+            pass
             # for person in people.each():
             #     if person.val()['email'] == self.sign_in_mail:
             #         print(person.key())
@@ -984,50 +975,50 @@ class MainApp(MDApp):
             self.show_dialog(text,close_button)
 
     def house_rent(self, selection):
-        
+        print(self.tot)
 
-        try:
-            if len(selection) > 0:
-                self.file = str(selection[0])
-                storage.child(dati['localid']).child(str(self.file)).put(str(self.file))
-                url = storage.child(dati['localid']).child(self.file).get_url(None)
+
+        people = db.child("People").get()
+        print("Something")
+        if len(selection) > 0:
+            self.file = str(selection[0])
+            storage.child(dati['localid']).child(str(self.file)).put(str(self.file))
+            url = storage.child(dati['localid']).child(self.file).get_url(None)
+
+           
+            dati['house_images'].append(self.file)
+            with open('user.json', 'w') as jsonfile:
+                json.dump(dati, jsonfile)
+            
+            data = {
+                "housetype": "",
+                "country": "",
+                "town": "",
+                "street": "",
+                "bedrooms": "",
+                "bathrooms": "",
+                "landspace": "",
+                "url": "",
+                "email": "",
+                "price": "",
+                "local_image": ""
+            }
 
             
-                dati['house_images'].append(self.file)
-                with open('user.json', 'w') as jsonfile:
-                    json.dump(dati, jsonfile)
-                
-                data = {
-                    "housetype": "",
-                    "country": "",
-                    "town": "",
-                    "street": "",
-                    "bedrooms": "",
-                    "bathrooms": "",
-                    "landspace": "",
-                    "url": "",
-                    "email": "",
-                    "price": "",
-                    "local_image": ""
-                }
-
-                
-                data['housetype'] = self.tot
-                data['country'] = self.country
-                data['street'] = self.street
-                data['town'] = self.town
-                data['bedrooms'] = self.bedrooms
-                data['bathrooms'] = self.bathrooms
-                data['landspace'] = self.landspace
-                data['url'] = url
-                data['email'] = dati['email']
-                data['price'] = "$" + self.price + '/mth'
-                data['local_image'] = self.file
-                # db.child("People").child(key).child("house").push(data)
-                results = db.child("People").child("Rent").child(self.user['localId']).child("house").push(data)
-                print(results)
-        except:
-            pass
+            data['housetype'] = self.tot
+            data['country'] = self.country
+            data['street'] = self.street
+            data['town'] = self.town
+            data['bedrooms'] = self.bedrooms
+            data['bathrooms'] = self.bathrooms
+            data['landspace'] = self.landspace
+            data['url'] = url
+            data['email'] = dati['email']
+            data['price'] = "$" + self.price + '/mth'
+            data['local_image'] = self.file
+            # db.child("People").child(key).child("house").push(data)
+            results = db.child("People").child("Rent").child(self.user['localId']).child("house").push(data)
+            print(results)
 
 MainApp().run()
 

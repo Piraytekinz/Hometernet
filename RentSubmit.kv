@@ -1,0 +1,437 @@
+<RentSubmit>:
+    MDFloatLayout:
+        BoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                orientation: 'vertical'
+                AnchorLayout:
+                    anchor_x: 'left'
+                    anchor_y: 'top'
+                    size_hint_y: .1
+                   
+                    MDIconButton:
+                        icon: 'arrow-left'
+                        on_press: app.switch_home()
+
+                
+                
+                ScrollView:
+                    
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        spacing: "30dp"
+                        padding: [25, 10, 25, 30]
+                        size_hint_y: None
+                        adaptive_height: True
+                        MDLabel:
+                            halign: 'center'
+                            text: "Fill in house details"
+                            font_size: "20sp"
+                            size_hint_y: None
+                            adaptive_height: True
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "email"
+                                    valign: 'top'
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: email
+                                    hint_text: "email"
+                                    on_text: app.mail=self.text
+                                    
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "House type/Name"
+                                    font_size: "15sp"
+                                WordInput:
+                                    id: housetype
+                                    hint_text: "house type"
+                                    on_text: app.tot=self.text
+                                    padding: [20, ]
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "country"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: location
+                                    hint_text: "country"
+                                    padding: [20, ]
+                                    on_text: app.country=self.text
+                        
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "town/city"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: location
+                                    hint_text: "town/city"
+                                    padding: [20, ]
+                                    on_text: app.town=self.text
+
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "street"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: location
+                                    hint_text: "street"
+                                    padding: [20, ]
+                                    on_text: app.street=self.text
+
+                        MDCard: 
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                           
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "Bedroom number"
+                                    font_size: "15sp"
+                                MDLabel:
+                                    text: root.bedrooms
+                                ScrollView:
+                                    do_scroll_x: True
+                                    do_scroll_y: False
+                                    bar_width: 0
+                                    MDBoxLayout:
+                                        spacing: '10dp'
+                                        size_hint_x: None
+                                        adaptive_width: True
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bedrooms='1'
+                                            on_release: app.bedrooms='1'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                text: '1'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+                                        
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bedrooms='2'
+                                            on_release: app.bedrooms='2'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                text: '2'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bedrooms='3'
+                                            on_release: app.bedrooms='3'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                bold: True
+                                                text: '3'
+                                                halign: 'center'
+                                                color: 'white'
+
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bedrooms='4'
+                                            on_release: app.bedrooms='4'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                text: '4'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bedrooms='5'
+                                            on_release: app.bedrooms='5'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                text: '5'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+                                        
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bedrooms='6'
+                                            on_release: app.bedrooms='6'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                text: '6'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bedrooms='7'
+                                            on_release: app.bedrooms='7'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                text: '7'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bedrooms='7+'
+                                            on_release: app.bedrooms='7+'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                text: '7+'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "Bathroom number"
+                                    font_size: "15sp"
+                                MDLabel:
+                                    text: root.bathrooms
+                                ScrollView:
+                                    do_scroll_x: True
+                                    do_scroll_y: False
+                                    bar_width: 0
+                                    MDBoxLayout:
+                                        spacing: '10dp'
+                                        size_hint_x: None
+                                        adaptive_width: True
+                                
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bathrooms='1'
+                                            on_release: app.bathrooms='1'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                text: '1'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+                                        
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bathrooms='2'
+                                            on_release: app.bathrooms='2'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                text: '2'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bathrooms='3'
+                                            on_release: app.bathrooms='3'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                bold: True
+                                                text: '3'
+                                                halign: 'center'
+                                                color: 'white'
+
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bathrooms='4'
+                                            on_release: app.bathrooms='4'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                text: '4'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bathrooms='5'
+                                            on_release: app.bathrooms='5'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                text: '5'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+                                        
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bathrooms='5+'
+                                            on_release: app.bathrooms='5+'
+                                            size_hint_x: None
+                                            width: 30
+                                            MDLabel:
+                                                text: '5+'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "Land space"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: land_area
+                                    padding: [20, ]
+                                    on_text: app.landspace=self.text
+
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "Price/month"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: price
+                                    padding: [20, ]
+                                    on_text: app.price=self.text
+                        MDRaisedButton:
+                            text: "Submit"
+                            on_press: app.rent_property()
+                            
+                

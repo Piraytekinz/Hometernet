@@ -11,7 +11,7 @@
                     anchor_y: 'top'
                     MDIconButton:
                         icon: 'arrow-left'
-                        on_press: app.change_screen("products", "right")
+                        on_press: app.switch_products()
                         custom_color: True
                         font_color: 'white'
                 
@@ -38,7 +38,7 @@
                         size_hint_y: None
                         height: 100
                         radius: [15,]
-                        on_press: app.change_screen("Login")
+                        on_press: app.switch_login()
                         MDLabel:
                             halign: 'center'
                             bold: True
@@ -50,7 +50,7 @@
                         size_hint_y: None
                         height: 100
                         radius: [15,]
-                        on_press: app.change_screen("rent")
+                        on_press: app.switch_rent()
                         MDLabel:
                             halign: 'center'
                             bold: True

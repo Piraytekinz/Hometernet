@@ -6,7 +6,7 @@
             anchor_y: 'top'
             MDIconButton:
                 icon: 'arrow-left'
-                on_press: app.change_screen("Home")
+                on_press: app.switch_home()
 
         MDTextField:
             id: email
@@ -29,4 +29,4 @@
         MDRectangleFlatButton:
             text: "sign-up"
             pos_hint: {'center_x': 0.8, 'center_y':0.9}
-            on_press: app.change_screen("sign-up")
+            on_press: app.switch_signup()
