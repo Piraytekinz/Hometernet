@@ -1,5 +1,5 @@
 
-
+import phonenumbers
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
@@ -29,8 +29,10 @@ from kivy.effects.dampedscroll import DampedScrollEffect
 from time import sleep, time
 from kivy.clock import time
 from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.dropdownitem import MDDropDownItem
+from kivymd.uix.bottomsheet import MDListBottomSheet
+from kivymd.toast import toast
 import webbrowser
+import numpy as np
 
 
 
@@ -144,7 +146,7 @@ class PropertyRentCards(MDCard, FakeRectangularElevationBehavior):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         
-        print("Let's see")
+
         with open('user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
             
@@ -228,12 +230,11 @@ class PropertyCardsLayout(MDBoxLayout):
     
         try:
             again = db.child("People").child("Sale").child(dati['localid']).child("house").get()
-            print(again.each(), "LEFMONBIENGoasjfniodvsvberhfieubcvihdsfv ougeSHFPw")
+
             for u in again.each():
                 self.card = PropertySaleCards()
                 self.card.image = u.val()['url']
                 self.card.tot = u.val()['housetype']
-                print(u.val()['housetype'])
                 self.card.country = u.val()['country']
                 self.card.bedrooms = u.val()['bedrooms']
                 self.card.bathrooms = u.val()['bathrooms']
@@ -300,7 +301,7 @@ class PropertyCardsLayout(MDBoxLayout):
 #         self.homesser = HomeCardsLayout()
 #         self.homesser.added()
 #         self.homesser.something = True
-#         print("It worked")
+
 
 class Scroller(ScrollView):
     def __init__(self, **kwargs):
@@ -336,7 +337,6 @@ class HomeCardsLayout(MDBoxLayout):
                             again = db.child("People").child("Sale").child(something).child("house").get()
 
                             for u in again.each():
-                                print(u.key())
                                 self.card = HomeCards()
                                 self.card.image = u.val()['url']
                                 self.card.tot = u.val()['housetype']
@@ -477,7 +477,7 @@ class BookmarkLayout(MDBoxLayout):
                             for u in again.each():
                                 
                                 if u.key() in dati['bookmarks']:
-                                    print(u.key())
+                                    
                                     
                                     self.card = HomeCards()
                                     self.card.image = u.val()['url']
@@ -502,8 +502,7 @@ class IconListItem(OneLineIconListItem):
 
                     
                     
-class DropItem(MDDropDownItem):
-    num = StringProperty()
+
 
 
         
@@ -525,25 +524,9 @@ class MainApp(MDApp):
         self.SaleOrRent = SaleOrRent()
         self.rent = RentSubmit()
         self.bk = BookmarkScreen()
-        self.drop = DropItem()
+  
 
-        menu_items = [
-            {
-                "viewclass": "IconListItem",
-                "icon": "git",
-                "text": f"Item {i}",
-                "height": 56,
-                "on_release": lambda x=f"Item {i}":self.set_item(x)
-            } for i in range(5)
-        ]
-
-        self.menu = MDDropdownMenu(
-            caller=DropItem(),
-            items = menu_items,
-            width_mult=4,
-            ver_growth="up",
-            opening_time=0.1
-        )
+        
         
 
         for i in screens:
@@ -566,12 +549,23 @@ class MainApp(MDApp):
         self.bathrooms = ''
         self.landspace = ''
         self.price = ''
+        self.phonenumber = ''
         return self.wm
         return super().build()
 
     def set_item(self, text_item):
         self.numberiy = text_item
     
+    def callback_for_menu_items(self, *args):
+        toast(args[0])
+
+
+    def show_bottom(self):
+        bottom_sheet_menu = MDListBottomSheet()
+        arr = np.array([])
+        for i in sum(range(192)):
+            bottom_sheet_menu.add_item(f"item {i}", lambda x, y=i: self.callback_for_menu_items(f"Item{y}"))
+        bottom_sheet_menu.open()
 
     def switch_home(self):
         self.home = HomeScreen()
@@ -613,46 +607,60 @@ class MainApp(MDApp):
         self.wm.switch_to(self.signin)
     
     def switch_saleorrent(self):
-        if dati['email'] == "":
-                    
-            self.wm.switch_to(self.signin)
-        else:
-            self.user = auth.sign_in_with_email_and_password(data['email'], data['password'])
-            self.wm.switch_to(self.SaleOrRent)
+        try:
+            if dati['email'] == "":
+                        
+                self.wm.switch_to(self.signin)
+            else:
+                self.user = auth.sign_in_with_email_and_password(data['email'], data['password'])
+                self.wm.switch_to(self.SaleOrRent)
+        except:
+            pass
 
-    # def email(self, texta):
-    #     self.mail = texta
+    def email(self, texta):
+        self.mail = texta
         
 
-    # def password(self, texta):
-    #     self.passwrd = texta
+    def phone(self, texta):
+        self.phonenumber = texta
+
+
+    def password(self, texta):
+        self.passwrd = texta
        
 
-    # def signin_mail(self, texta):
-    #     self.sign_in_mail = texta
+    def signin_mail(self, texta):
+        self.sign_in_mail = texta
 
-    # def signin_pass(self, texta):
-    #     self.sign_in_pass = texta
+    def signin_pass(self, texta):
+        self.sign_in_pass = texta
 
-    # def word(self, texta):
-    #     self.tot = texta
+    def word(self, texta):
+        self.tot = texta
         
 
-    # def locate(self, texta):
-    #     self.country = texta
+    def locate(self, texta):
+        self.country = texta
 
-    # def towni(self, texta):
-    #     self.town = texta
+    def towni(self, texta):
+        self.town = texta
 
-    # def streeti(self, texta):
-    #     self.street = texta
+    def streeti(self, texta):
+        self.street = texta
 
-    # def land_space(self, texta):
-    #     self.landspace = texta
+    def land_space(self, texta):
+        self.landspace = texta
 
-    # def pricing(self, texta):
-    #     self.price = texta
-        
+    def pricing(self, texta):
+        self.price = texta
+
+    def rooms(self, texta):
+        self.bedrooms = texta
+
+    def baths(self, texta):
+        self.bathrooms = texta 
+
+    
     
 
     def show_dialog(self, notice, button, button1=None):
@@ -725,7 +733,7 @@ class MainApp(MDApp):
     def send_email(self, email):
 
         server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-        server.login("anangjosh8@gmail.com", "iidkyxnpbhywvcjw")
+        server.login("anangjosh8@gmail.com", "iujwzdutnqmbpkjm")
         server.sendmail("anangjosh8@gmail.com", "pirateyonko5@gmail.com", "An offer has been made to buy your house.")
         server.quit()
 
@@ -890,7 +898,22 @@ class MainApp(MDApp):
             
             if len(self.country) >= 3:
                 
-                filechooser.open_file(on_selection=self.house_sale, multiselect=True)
+                if self.mail == dati['email']:
+                    # phone = '+2332222222222'
+                    if self.phonenumber != '':
+                        phone_number  = phonenumbers.parse(self.phonenumber)
+                        valid = phonenumbers.is_valid_number(phone_number)
+                        if valid == True:
+                            filechooser.open_file(on_selection=self.house_sale, multiselect=True)
+                        else:
+                            info = "Invalid phonenumber"
+                            self.show_dialog(info,close_button)
+                    else:
+                        info = "Please Enter a phone number"
+                        self.show_dialog(info,close_button)
+                else:
+                    info = "Invalid email"
+                    self.show_dialog(info,close_button)
             
             else:
                 info = "location must be more than 6 characters"
@@ -908,7 +931,7 @@ class MainApp(MDApp):
                 print(self.file)
                 # with open('user.json', 'r') as jsonfile:
                 #     dato = json.load(jsonfile)
-                    
+                print(self.phonenumber)
                 dati['house_images'].append(self.file)
                 with open('user.json', 'w') as jsonfile:
                     json.dump(dati, jsonfile)
@@ -923,6 +946,7 @@ class MainApp(MDApp):
                     "landspace": "",
                     "url": "",
                     "email": "",
+                    "phonenumber": "",
                     "price": "",
                     "local_image": ""
                 }
@@ -937,13 +961,17 @@ class MainApp(MDApp):
                 data['landspace'] = self.landspace
                 data['url'] = url
                 data['email'] = dati['email']
+                data['phonenumber'] = self.phonenumber
                 data['price'] = "$" + self.price
                 data['local_image'] = self.file
                 # db.child("People").child(key).child("house").push(data)
                 results = db.child("People").child("Sale").child(self.user['localId']).child("house").push(data)
                 print(results)
         except:
-            print('Unsuccessful')
+            close_button = MDFlatButton(text="close", on_release=self.close_dialog)
+            info = 'Oops something went wrong'
+            self.show_dialog(info, close_button)
+        
         
         
             # for person in people.each():
