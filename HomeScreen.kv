@@ -1,4 +1,5 @@
 <HomeScreen>:
+    
     MDFloatLayout:
         MDBoxLayout:
             orientation: 'vertical'
@@ -22,7 +23,8 @@
                         RelativeLayout:
                             
                             FitImage:
-                                source: "Images/Apartment-Buildings.jpg"
+                                id: main_image
+                                source: "Images/3d-electric-car-building.jpg"
                             BoxLayout:
                                 
                                 padding: [15, 10, 15, 0]
@@ -58,63 +60,75 @@
                                     
                                     MDLabel:
                                         id: src
-                                        text: "Find your best \nProperty"
+                                        text: "Buy and Sell at Homify"
                                         color: "white"
                                         
                                         font_size: "40dp"
                                         
                                 MDBoxLayout:
                                     orientation: 'vertical'
-                                    MDBoxLayout:
-                                        size_hint_x: .5
-                                        size_hint_y: .7
-                                        MDCard:
-                                            elevation: 12
-                                            md_bg_color: app.theme_cls.primary_color
-                                            radius: [3,0,0,0]
-                                            MDLabel:
-                                                text: "sale"
-                                                color: "white"
-                                                halign: "center"
-                                                font_size: "15sp"
-                                                bold: True
-                                        MDCard:
-                                            elevation: 12
-                                            
-                                            radius: [0,3,0,0]
-                                            md_bg_color: 255/255, 255/255, 255/255, 0.1
-                                            MDLabel:
-                                                text: "rent"
-                                                color: "white"
-                                                halign: "center"
-                                                font_size: "15sp"
-                                                bold: True
-                                    MDCard:
-                                        elevation: 12
-                                        radius: [0,3,0,0]
+                                    id: mine
+                                    padding: [0,0,0,0]
+                                    
+                                    SearchButton:
+                                        icon: 'magnify'
+                                        # theme_text_color: "Custom"
+                                        # text_color: 'black'
+                                        md_bg_color: 1,1,1,1
+                                        pos_hint: {'center_x': 0.5}
                                         
-                                        TextInput:
-                                            hint_text: "Search by location or address"
-                                            size_hint: 1, None
-                                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                            height: self.minimum_height
-                                            multiline: False
-                                            foreground_color: 0/255, 0/255, 0/255, 1
-                                            background_color: 0,0,0,0
-                                            font_size: "15sp"
-                                            text_color: "black"
-                                            padding: [20, ]
-                                    MDCard:
-                                        elevation: 12
-                                        md_bg_color: app.theme_cls.primary_color
-                                        radius: [0,0,3,3]
-                                        ripple_behavior: True
-                                        MDLabel:
-                                            text: "search"
-                                            color: "white"
-                                            font_size: "15sp"
-                                            halign: "center"
-                                            bold: True
+                                        on_press: app.switch_search()
+                                        id: btn
+                                    # MDBoxLayout:
+                                    #     size_hint_x: .5
+                                    #     size_hint_y: .7
+                                    #     MDCard:
+                                    #         elevation: 12
+                                    #         md_bg_color: app.theme_cls.primary_color
+                                    #         radius: [3,0,0,0]
+                                    #         MDLabel:
+                                    #             text: "sale"
+                                    #             color: "white"
+                                    #             halign: "center"
+                                    #             font_size: "15sp"
+                                    #             bold: True
+                                    #     MDCard:
+                                    #         elevation: 12
+                                            
+                                    #         radius: [0,3,0,0]
+                                    #         md_bg_color: 255/255, 255/255, 255/255, 0.1
+                                    #         MDLabel:
+                                    #             text: "rent"
+                                    #             color: "white"
+                                    #             halign: "center"
+                                    #             font_size: "15sp"
+                                    #             bold: True
+                                    # MDCard:
+                                    #     elevation: 12
+                                    #     radius: [0,3,0,0]
+                                        
+                                    #     TextInput:
+                                    #         hint_text: "Search by location or address"
+                                    #         size_hint: 1, None
+                                    #         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                    #         height: self.minimum_height
+                                    #         multiline: False
+                                    #         foreground_color: 0/255, 0/255, 0/255, 1
+                                    #         background_color: 0,0,0,0
+                                    #         font_size: "15sp"
+                                    #         text_color: "black"
+                                    #         padding: [20, ]
+                                    # MDCard:
+                                    #     elevation: 12
+                                    #     md_bg_color: app.theme_cls.primary_color
+                                    #     radius: [0,0,3,3]
+                                    #     ripple_behavior: True
+                                    #     MDLabel:
+                                    #         text: "search"
+                                    #         color: "white"
+                                    #         font_size: "15sp"
+                                    #         halign: "center"
+                                    #         bold: True
                                 MDBoxLayout:
                                     spacing: "20dp"
                                     
@@ -170,15 +184,19 @@
                                 id: inner_scroll
                                 size_hint_y: None
                                 height: 380
-                                HomeCardsLayout:
-                                    id: grid
-                                    size_hint_y: None
-                                    size_hint_x: None
-                                    adaptive_width: True
-                                    
+                                MDBoxLayout:
+                                    size_hint: None, None
                                     adaptive_height: True
-                                    spacing: "20dp"
-                                    padding: [15, 20, 10, 50]
+                                    adaptive_width: True
+                                    HomeCardsLayout:
+                                        id: grid
+                                        size_hint_y: None
+                                        size_hint_x: None
+                                        adaptive_width: True
+                                        
+                                        adaptive_height: True
+                                        spacing: "20dp"
+                                        padding: [15, 20, 10, 50]
                                     MDBoxLayout:
                                         size_hint: None, None
                                         height: 350
@@ -188,7 +206,7 @@
                                             ripple_behavior: True
                                             
                                             
-                                            on_release: grid.added()
+                                            on_release: app.something=True
                                             MDIcon:
                                                 icon: "arrow-right"
                                                 halign: 'center'  
@@ -313,7 +331,8 @@
                 size_hint_y: .7
                 RelativeLayout:
                     FitImage:
-                        source: "Images/Apartment-Buildings.jpg"
+                        
+                        source: main_image.source
                     MDLabel:
                         text: root.text
                         color: "white"
@@ -338,12 +357,12 @@
                             icon: "bed"
                             size_hint_x: .4
                             halign: 'center'
-                            
+                            font_size: "14sp"
                             
                         MDLabel:
                             text: "Sell your property"
                             halign: 'left'
-                            font_size: "15sp"
+                            font_size: "14sp"
                             color: "black"
                     MDCard:
                         size_hint_y: None
@@ -355,12 +374,12 @@
                             icon: "bookmark"
                             size_hint_x: .4
                             halign: 'center'
-                            
+                            font_size: "14sp"
                             
                         MDLabel:
                             text: "Bookmarks"
                             halign: 'left'
-                            font_size: "15sp"
+                            font_size: "14sp"
                             color: "black"
                             
 
@@ -374,10 +393,11 @@
                             icon: "trash-can"
                             size_hint_x: .4
                             halign: 'center'
+                            font_size: "14sp"
                         MDLabel:
                             text: "Delete Account"
                             halign: 'left'
-                            font_size: "15sp"
+                            font_size: "14sp"
                             color: "black"
 
                     MDCard:
@@ -389,10 +409,11 @@
                             icon: "phone"
                             size_hint_x: .4
                             halign: 'center'
+                            font_size: "14sp"
                         MDLabel:
                             text: "Contact Us"
                             halign: 'left'
-                            font_size: "15sp"
+                            font_size: "14sp"
                             color: "black"
 
                     MDCard:
@@ -404,10 +425,11 @@
                             icon: "pirate"
                             size_hint_x: .4
                             halign: 'center'
+                            font_size: "14sp"
                         MDLabel:
                             text: "About Us"
                             halign: 'left'
-                            font_size: "15sp"
+                            font_size: "14sp"
                             color: "black"
                             
 

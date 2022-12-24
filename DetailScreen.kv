@@ -32,6 +32,16 @@
                                         text_color: 'white'
                                         on_press: app.switch_home()
                                         ripple_behavior: True
+                                
+                                AnchorLayout:
+                                    anchor_x: 'right'
+                                    anchor_y: 'top'
+                                    MDIconButton:
+                                        icon: "bookmark"
+                                        theme_text_color: "Custom"
+                                        text_color: 'white'
+                                        on_press: app.bookmark(root.key)
+                                        ripple_behavior: True
 
                                 AnchorLayout:
                                     anchor_x: 'right'
@@ -83,26 +93,26 @@
                             
                         MDLabel:
                             id: count
-                            text: root.country + " "
+                            text: root.country + " " + root.town + " " + root.street
                             font_size: "13dp"
                             color: "gray"
-                            size_hint: None, None
-                            adaptive_size: True
+                            size_hint_y: None
+                            adaptive_height: True
                             
-                        MDLabel:
-                            text: root.town + " "
-                            font_size: "13dp"
-                            color: "gray"
-                            size_hint: None, None
-                            adaptive_size: True
+                        # MDLabel:
+                        #     text: root.town + " "
+                        #     font_size: "13dp"
+                        #     color: "gray"
+                        #     size_hint: None, None
+                        #     adaptive_size: True
                             
-                        MDLabel:
-                            text: root.street
-                            font_size: "13dp"
-                            color: 'gray'
-                            size_hint: None, None
-                            adaptive_size: True
-                            height: count.height
+                        # MDLabel:
+                        #     text: root.street
+                        #     font_size: "13dp"
+                        #     color: 'gray'
+                        #     size_hint: None, None
+                        #     adaptive_size: True
+                        #     height: count.height
                             
 
                     MDBoxLayout:
@@ -155,43 +165,72 @@
                             halign: 'center'
                             text: root.landspace + " " + 'landspace'
                             font_size: '12dp'
-                
-                        
+
                 MDBoxLayout:
-                    padding: [20, 10, 0, 0]
                     size_hint_y: None
                     adaptive_height: True
-                    
+                    orientation: 'vertical'
+                    padding: [20,15,0,0]
+                    spacing: "20dp"
                     MDLabel:
+                        text: 'Description'
                         size_hint_y: None
                         adaptive_height: True
-                        text: "QR. 750.000.000,-"
-                        font_size: "25dp"
+                        font_size: "20dp"
+                        color: "black"
+                        bold: True
+                    MDLabel:
+                        text: root.description
+                        size_hint_y: None
+                        adaptive_height: True
+                        font_size: '13dp'
+                        color: 'gray'
+                
+                        
+                # MDCard:
+                #     md_bg_color: app.theme_cls.primary_color
+                #     radius: [5,0,0,0]
+                #     ripple_behavior: True
+                #     on_release: app.send_email(root.email)
+                #     MDLabel:
+                #         text: "Buy"
+                #         halign: "center"
+                #         color: "white"
+                #         font_size: "13sp"
+                #         bold: True
+
+                
         MDBoxLayout:
             
             size_hint_y: None
             height: 70
-            MDCard:
-                ripple_behavior: True
-                MDLabel:
-                    text: "Price: " + root.price
-                    halign: "center"
-                    color: "black"
-                    font_size: "15sp"
-                    bold: True
-                    
+            padding: [10,]
             MDCard:
                 md_bg_color: app.theme_cls.primary_color
-                radius: [5,0,0,0]
+                radius: [5,]
                 ripple_behavior: True
-                size_hint_x: .5
-                on_release: app.send_email(root.email)
+                
+                on_release: app.send_email(root.email, root.phonenumber)
+                
                 MDLabel:
                     text: "Buy"
                     halign: "center"
                     color: "white"
                     font_size: "13sp"
                     bold: True
+                    
+            # MDCard:
+            #     md_bg_color: app.theme_cls.primary_color
+            #     radius: [5,0,0,0]
+            #     ripple_behavior: True
+            #     size_hint_x: .5
+            #     on_release: app.send_email(root.email)
+            #     MDLabel:
+            #         text: "Buy"
+            #         halign: "center"
+            #         color: "white"
+            #         font_size: "13sp"
+            #         bold: True
                     
 
         

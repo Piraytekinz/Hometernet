@@ -50,6 +50,37 @@
                                     id: email
                                     hint_text: "email"
                                     on_text: app.email(self.text)
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "phonenumber"
+                                    valign: 'top'
+                                    font_size: "15sp"
+                                MDBoxLayout:
+                                    spacing: "30dp"
+                                    MDTextField:
+                                        id: code
+                                        text: '+1'
+                                        size_hint_x: .3
+                                        
+                                    MDTextField:
+                                        id: phonenumber
+                                        hint_text: 'phonenumber'
+                                        padding: [20, ]
+                                        on_text: app.phone(code.text + self.text)
+                                
                                     
                         MDCard:
                             opacity: 0.9
@@ -405,10 +436,14 @@
                                 MDLabel:
                                     text: "Land space"
                                     font_size: "15sp"
-                                MDTextField:
-                                    id: land_area
-                                    padding: [20, ]
+                                TextInput:
+                                    id: price
+                                    height: self.minimum_height
                                     on_text: app.land_space(self.text)
+                                    
+                                    input_type: 'number'
+                                    multiline: False
+                                    input_filter: 'float'
 
                         MDCard:
                             opacity: 0.9
@@ -424,12 +459,43 @@
                                 orientation: 'vertical'
                                 padding: [20,0,20,10]
                                 MDLabel:
-                                    text: "Price/month"
+                                    text: "Brief Description(max=255 words)"
                                     font_size: "15sp"
-                                MDTextField:
+                                MDCard:
+                                    radius: [9,]
+                                    TextInput:
+                                        id: price
+                                        padding: [20, ]
+                                        on_text: app.description(self.text)
+                                        multiline: True
+                                        foreground_color: 0/255, 0/255, 0/255, 1
+                                        background_color: 0,0,0,0    
+
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDBoxLayout:
+                                    MDLabel:
+                                        text: "Price/mth"
+                                        font_size: "15sp"
+                                TextInput:
                                     id: price
-                                    padding: [20, ]
+                                    height: self.minimum_height
                                     on_text: app.pricing(self.text)
+                                    
+                                    input_type: 'number'
+                                    multiline: False
+                                    input_filter: 'float'
                         MDRaisedButton:
                             text: "Submit"
                             on_press: app.rent_property()

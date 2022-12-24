@@ -7,7 +7,7 @@
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
     height: 350
     width: 270
-    
+    id: home_card
     radius: [5, ]
     RelativeLayout:
         MDBoxLayout:
@@ -18,7 +18,7 @@
                 size_hint_y: None
                 height: 180
                 elevation: 12
-                on_press: app.switch_details(root.image, root.tot, root.price, root.country, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email)
+                on_press: app.switch_details(root.image, root.tot, root.price, root.country, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.phonenumber, root.description, root.key)
                 radius: [5,]
                 ripple_behavior: True
                 
@@ -59,7 +59,7 @@
             MDBoxLayout:
                 orientation: 'vertical'
                 spacing: "6dp"
-                padding: [10, 0, 0, 0]
+                padding: [10, 0, 5, 0]
                 
                 MDLabel:
                     text: root.tot
@@ -72,25 +72,27 @@
                     height: 16
                     
                     MDLabel:
-                        text: root.country + ',' + ' '
+                        text: root.country + ',' + ' ' + root.town + ',' + ' ' + root.street
                         color: "gray"
                         font_size: "13sp"
-                        size_hint: None, None
-                        adaptive_size: True
+                        size_hint_y: None
+                        adaptive_height: True
                         
-                    MDLabel:
-                        text: root.town + ',' + ' '
-                        color: 'gray'
-                        font_size: "13sp"
-                        size_hint: None, None
-                        adaptive_size: True
+                        
+                        
+                    # MDLabel:
+                    #     text: root.town + ',' + ' '
+                    #     color: 'gray'
+                    #     font_size: "13sp"
+                    #     size_hint: None, None
+                    #     adaptive_size: True
 
-                    MDLabel:
-                        text: root.street
-                        color: 'gray'
-                        font_size: '13sp'
-                        size_hint: None, None
-                        adaptive_size: True
+                    # MDLabel:
+                    #     text: root.street
+                    #     color: 'gray'
+                    #     font_size: '13sp'
+                    #     size_hint: None, None
+                    #     adaptive_size: True
                         
 
             MDSeparator:

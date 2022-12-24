@@ -31,26 +31,47 @@
                 MDBoxLayout:
                     orientation: 'vertical'
                     spacing: "20dp"
-                    MDCard:
-                        oreintation: 'vertical'
-                        padding: [10,]
-                        MDTextField:
-                            id: email
-                            hint_text: 'email'
-                            on_text: app.email(self.text)
-                            pos_hint: {'center_x': .5, 'center_y': .5}
-                    
-                    MDCard:
-                        oreintation: 'vertical'
-                        padding: [10,]
-                        MDTextField:
-                            id: password
-                            hint_text: 'password'
-                            on_text: app.password(self.text)
-                            pos_hint: {'center_x': .5, 'center_y': .5}
-
-                    MDRaisedButton:
-                        text: "sign-up"
-                        on_press: app.account_submit()
+                    MDBoxLayout:
+                        orientation: 'vertical'
                         
-                        pos_hint: {'center_x': .5, 'center_y': .5}
+                        padding: [20,]
+                        spacing: "10dp"
+                        
+                        MDBoxLayout:
+                            padding: [0,0,0,10]
+                            orientation: 'vertical'
+                            spacing: "10dp"
+                            MDTextField:
+                                mode: 'rectangle'
+                                hint_text: 'email'
+                                padding: [20]
+                                on_text: app.email(self.text)
+                            MDTextField:
+                                mode: 'rectangle'
+                                hint_text: 'password'
+                                padding: [20]
+                                on_text: app.password(self.text)
+                                password: True
+                            MDTextField:
+                                mode: 'rectangle'
+                                hint_text: 'confirm password'
+                                padding: [20]
+                                id: confirm
+                                password: True
+
+                        MDCard:
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            size_hint_y: None
+                            height: 50
+                            radius: [7]
+                            ripple_behavior: True
+                            on_press: app.account_submit()
+                            md_bg_color: app.theme_cls.primary_color
+                            MDLabel:
+                                text: 'sign up'
+                                halign: 'center'
+                                color: 'white'
+
+# on_text: app.email(self.text)
+# on_text: app.password(self.text)
+#  on_press: app.account_submit()

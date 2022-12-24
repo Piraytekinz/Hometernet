@@ -73,27 +73,83 @@
     
 #     signup()
 
-# import phonenumbers
+import phonenumbers
 
-# phone = '+2332222222222'
-# phone_number  = phonenumbers.parse(phone)
-# print(phonenumbers.is_valid_number(phone_number))
-# import smtplib
+phone = '+233276098275'
+phone_number  = phonenumbers.parse(phone)
+print(phonenumbers.is_valid_number(phone_number))
+import smtplib
 
 # server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
 # server.login("anangjosh8@gmail.com", "iujwzdutnqmbpkjm")
 # server.sendmail("anangjosh8@gmail.com", "ahdwaoidnofnw@gmail.com", "An offer has been made to buy your house.")
 # server.quit()
 
-import requests
-email_address = 'pirateyonko5@gmail.com'
-response = requests.get('https://isitarealemail.com/api/email/validate', params= {'email':email_address})
+# import requests
+# email_address = 'pirateyonko5@gmail.com'
+# response = requests.get('https://isitarealemail.com/api/email/validate', params= {'email':email_address})
 
-status = response.json()['status']
+# status = response.json()['status']
 
-if status == "valid":
-    print('valid')
-elif status == 'invalid':
-    print('invalid')
-else:
-    print('Unknown')
+# if status == "valid":
+#     print('valid')
+# elif status == 'invalid':
+#     print('invalid')
+# else:
+#     print('Unknown')
+
+# from kivymd.app import MDApp
+# from kivy.lang import Builder
+# from kivymd.uix.boxlayout import MDBoxLayout
+# from kivymd.uix.label import MDLabel
+# import time
+# from threading import Thread
+# from kivy.clock import mainthread, Clock
+# from kivy.uix.screenmanager import ScreenManager, Screen
+# screens = """
+# <Screeni>:
+#     Ascreen:
+#         MyLayout:
+#             id: bis
+#             md_bg_color: app.theme_cls.primary_color
+#             MDLabel:
+#                 id: lol
+#                 text: 'Working'
+#                 halign: 'center'
+# """
+# Builder.load_string(screens)
+
+# class MyLayout(MDBoxLayout):
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
+        
+# class Screeni(ScreenManager):
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
+#         print(self.ids.bis)
+
+# class Ascreen(Screen):
+#     def __init__(self, **kw):
+#         super().__init__(**kw)
+#         daemon = Thread(target=self.on_enter, daemon=True, name='added')
+#         daemon.start()
+
+#     @mainthread
+#     def on_enter(self, *args):
+#         while MainApp.get_running_app():
+#             time.sleep(20)
+#             snack = MDLabel(text='My House', halign='center')
+#             print('rip right through your center')
+#             break
+#         return super().on_enter(*args)
+    
+        
+
+
+# class MainApp(MDApp):
+#     def build(self):
+#         self.screen = Screeni()
+#         return self.screen
+#         return super().build()
+
+# MainApp().run()

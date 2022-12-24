@@ -1,32 +1,100 @@
 <SignInScreen>:
-    MDBoxLayout:
-        orientation: 'vertical'
+    MDFloatLayout:
         AnchorLayout:
             anchor_x: 'left'
             anchor_y: 'top'
+            
             MDIconButton:
                 icon: 'arrow-left'
                 on_press: app.switch_home()
+                user_font_size: '13sp'
 
-        MDTextField:
-            id: email
-            hint_text: 'email'
-            on_text: app.email(self.text)
-            mode: 'rectangle'
-        
-        MDTextField:
-            id: password
-            hint_text: 'password'
-            on_text: app.password(self.text)
-            mode: 'rectangle'
+        MDCard:
+            orientation: 'vertical'
+            md_bg_color: 255/255, 255/255, 255/255, 0.5
+            padding: [20,]
+            radius: [20,]
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            size_hint: .9, .9
+            MDBoxLayout:
+                
+                MDLabel:
+                    halign: 'center'
+                    text: 'Sign in to Homify'
+                    bold: True
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    font_size: "20dp"
+                    
+                    size_hint_y: None
+                    adaptive_height: True
+                   
 
-        MDRaisedButton:
-            text: "sign-in"
-            on_press: app.sign_in()
-            
-            
+            MDBoxLayout:
+                orientation: 'vertical'
+                
+                padding: [20,]
+                spacing: "10dp"
+                
+                MDBoxLayout:
+                    padding: [0,0,0,10]
+                    orientation: 'vertical'
+                    spacing: "10dp"
+                    MDTextField:
+                        mode: 'rectangle'
+                        hint_text: 'email'
+                        padding: [20]
+                        on_text: app.email(self.text)
+                        id: mail
+                        input_type: 'mail'
+                        
+                    MDTextField:
+                        mode: 'rectangle'
+                        hint_text: 'password'
+                        padding: [20]
+                        on_text: app.password(self.text)
+                        
+                        
+                    MDTextButton:
+                        text: 'Forgot password?'
+                        font_size: "13dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                        color: app.theme_cls.primary_color
+                        on_press: app.password_reset(mail.text)
 
-        MDRectangleFlatButton:
-            text: "sign-up"
-            pos_hint: {'center_x': 0.8, 'center_y':0.9}
-            on_press: app.switch_signup()
+                MDCard:
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    size_hint_y: None
+                    height: 50
+                    radius: [7]
+                    ripple_behavior: True
+                    on_press: app.sign_in()
+                    md_bg_color: app.theme_cls.primary_color
+                    MDLabel:
+                        text: 'sign in'
+                        halign: 'center'
+                        color: 'white'
+
+                MDBoxLayout:
+                    size_hint_y: .5
+                    MDLabel:
+                        text: "Don't have an account?"
+                        font_size: "13dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                    MDTextButton:
+                        text: 'sign up'
+                        font_size: "13dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                        color: app.theme_cls.primary_color
+                        on_press: app.switch_signup()
+                    
+
+
+
+
+# on_press: app.switch_signup()
+# app.email(self.text)
+# app.password(self.text)
+# on_press: app.switch_home()

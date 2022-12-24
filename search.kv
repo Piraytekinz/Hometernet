@@ -1,0 +1,147 @@
+<SearchScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        
+        MDCard:
+            size_hint_y: None
+            height: 50
+            
+            MDIconButton:
+                icon: 'arrow-left'
+                user_font_size: "16dp"
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                on_press: app.switch_home()
+
+            MDLabel:
+                text: "Search"
+                font_size: '15dp'
+                
+                halign: 'center'
+
+            MDIconButton:
+                icon: 'magnify'
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                user_font_size: "16dp"
+        MDBoxLayout:
+            size_hint_y: None
+            height: 70
+            padding: [10]
+            ScrollView:
+                bar_width: 0
+                do_scroll_y: False
+                do_scroll_x: True
+                MDBoxLayout:
+                    padding: [8,]
+                    spacing: "10dp"
+                    size_hint_x: None
+                    adaptive_width: True
+                    MDLabel:
+                        text: "Search by:"
+                        size_hint: None, None
+                        height: 35
+                        width: 80
+                        font_size: "13sp"
+                        bold: True
+                    MDCard:
+                        radius: [10]
+                        size_hint: None, None
+                        height: 35
+                        width: 80
+                        TextInput:
+                            hint_text: 'country'
+                            size_hint: 1, None
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            height: self.minimum_height
+                            multiline: False
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: 0,0,0,0
+                            font_size: "15sp"
+                            text_color: "black"
+                            id: country
+                            
+                    MDCard:
+                        radius: [10]
+                        size_hint: None, None
+                        height: 35
+                        width: 80
+                        TextInput:
+                            hint_text: 'town'
+                            size_hint: 1, None
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            height: self.minimum_height
+                            multiline: False
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: 0,0,0,0
+                            font_size: "15sp"
+                            text_color: "black"
+                            id: town
+                    MDCard:
+                        radius: [10]
+                        size_hint: None, None
+                        height: 35
+                        width: 80
+                        TextInput:
+                            hint_text: 'street'
+                            size_hint: 1, None
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            height: self.minimum_height
+                            multiline: False
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: 0,0,0,0
+                            font_size: "15sp"
+                            text_color: "black"
+                            id: street
+                    MDCard:
+                        radius: [10]
+                        size_hint: None, None
+                        height: 35
+                        width: 120
+                        MDLabel:
+                            text: "For:"
+                            size_hint_x: None
+                            width: 30
+                            # halign: 'center'
+                            md_bg_color: 1,0,0,1
+                        MDDropDownItem:
+                            id: drop_item
+                            text: 'Sale'
+                            on_release: app.choice.open()
+                            pos_hint: {'center_x': 0.5}
+                    MDCard:
+                        radius: [10]
+                        size_hint: None, None
+                        height: 35
+                        width: 80
+        MDBoxLayout:
+            
+            ScrollView:
+                do_scroll_y: True
+                do_scroll_x: False
+                bar_width: 0
+                MDBoxLayout:
+                    size_hint_y: None
+                    adaptive_height: True
+                    spacing: "10dp"
+                    orientation: 'vertical'
+                    padding: [10]
+                    SearchLayout:
+                        size_hint_y: None
+                        adaptive_height: True
+                        id: search
+                        spacing: "10dp"
+                        orientation: 'vertical'
+                        
+                    MDCard:
+                        elevation: 0
+                        ripple_behavior: True
+                        size_hint: None, None
+                        height: 60
+                        width: 270
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        on_release: search.search(drop_item.text, country.text, town.text, street.text)
+                        MDIcon:
+                            icon: "arrow-right"
+                            halign: 'center'
+            
+
+                
