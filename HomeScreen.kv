@@ -38,20 +38,20 @@
                                     
                                     MyCard:
                                         size_hint: None, None
-                                        height: 50
-                                        width: 50
+                                        height: 60
+                                        width: 60
                                         ripple_behavior: True
                                         radius: [3, ]
                                         on_press: nav.set_state("open")
-                                        elevation: 1
+                                        elevation: 0
                                         MDIcon:
                                             icon: "menu"
                                             color: "black"
                                             md_bg_color: 1,0,0,1
-                                            size_hint_y: None
-                                            adaptive_height: True
+                                            text_size: self.size
                                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                             halign: 'center'
+                                            valign: 'center'
                                             
 
                                             
@@ -214,6 +214,9 @@
                                             icon: "arrow-right"
                                             halign: 'center'  
                                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                            text_size: self.size
+                                            
+                                            valign: 'center'
                         
                                 
                         MDBoxLayout:
@@ -259,6 +262,9 @@
                                         icon: "arrow-right"
                                         halign: 'center'
                                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}    
+                                        text_size: self.size
+                                        
+                                        valign: 'center'
                             # MDBoxLayout:
                             
                             #     size_hint_y: None
