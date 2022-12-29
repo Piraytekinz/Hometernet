@@ -1,0 +1,54 @@
+<CreatorScreen>:
+    
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: "10dp"
+        MDCard:
+            size_hint_y: None
+            height: 50
+            padding: [10,]
+            elevation: 0
+            MDLabel:
+                text: 'Homify'
+                theme_font_style: 'Overline'
+            MDIconButton:
+                user_font_size: '14dp'
+                icon: 'arrow-right'
+                on_press: app.switch_home()
+        MDBoxLayout:
+            ScrollView:
+                MDBoxLayout:
+                    size_hint_y: None
+                    adaptive_height: True
+                    spacing: "30dp"
+                    orientation: 'vertical'
+                    MDCard:
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        size_hint: None, None
+                        
+                        height: 200
+                        width: 200
+                        
+                        radius:[self.width/2]
+                        elevation: 0
+                        id: pic
+                        FitImage:
+                            source: 'Pirate King (2).jpg'
+                            radius: [pic.width/2]
+
+                    MDLabel:
+                        text: 'JOSHUA ANANG'
+                        size_hint_y: None
+                        adaptive_height: True
+                        halign: 'center'                       
+                        font_style: 'Overline'
+                        font_size: '20sp'
+                        bold: True
+                    MDLabel:
+                        text: 'CEO/FOUNDER/DEVELOPER of Homify'
+                        font_size: '20sp'
+                        font_style: 'Caption'
+                        halign: 'center'
+
+
+    
