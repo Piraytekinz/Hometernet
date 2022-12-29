@@ -44,14 +44,15 @@
                                         radius: [3, ]
                                         on_press: nav.set_state("open")
                                         elevation: 0
+                                        padding: [30]
                                         MDIcon:
                                             icon: "menu"
-                                            color: "black"
                                             
-                                            text_size: self.size
-                                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                            halign: 'center'
-                                            valign: 'center'
+                                            
+                                            
+                                            
+                                            
+                                            
                                             
 
                                             
@@ -208,15 +209,12 @@
                                         size_hint: None, None
                                         height: 400
                                         width: 60
-                                            
+                                        padding: [30,200,30,200]
+                                        radius: [0]
                                         # on_release: grid.added()
                                         MDIcon:
                                             icon: "arrow-right"
-                                            halign: 'center'  
-                                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                            text_size: self.size
                                             
-                                            valign: 'center'
                         
                                 
                         MDBoxLayout:
@@ -254,9 +252,10 @@
                                     elevation: 0
                                     ripple_behavior: True
                                     size_hint: None, None
-                                    height: 350
+                                    height: 400
                                     width: 60
-                                        
+                                    padding: [30,200,30,200]
+                                    radius: [0]
                                     # on_release: gridi.added()
                                     MDIcon:
                                         icon: "arrow-right"
