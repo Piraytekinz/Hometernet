@@ -7,12 +7,21 @@ from kivymd.uix.button import MDIconButton
 Builder.load_file('HomeScreen.kv')
 Builder.load_file('Creator.kv')
 
+# bookmark
+# \U000F00C0
+
+# bed
+# \U000F02E3
+
+
+
 class WindowManager(ScreenManager):
     pass
 
 class SearchButton(MDIconButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.user_font_size = str(Window.size[1]/3-60) + 'dp'
 
 class CreatorScreen(Screen):
     def __init__(self, **kw):
@@ -28,7 +37,7 @@ class HomeScreen(Screen):
 
     def on_pre_enter(self, *args):
         print(Window.size[1])
-        print(self.ids.btn.user_font_size)
+        self.ids.btn.user_font_size = str(Window.size[1]/3-60) + 'dp'
         return super().on_pre_enter(*args)
 
 class MainApp(MDApp):
