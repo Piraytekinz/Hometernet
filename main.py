@@ -5,14 +5,15 @@ from kivy.lang import Builder
 from kivymd.uix.button import MDIconButton
 
 Builder.load_file('HomeScreen.kv')
-Builder.load_file('Creator.kv')
+Builder.load_file('Creator.kv') 
+Window.size = (400, 550)
 
 # bookmark
 # \U000F00C0
 
 # bed
 # \U000F02E3
-
+print(Window.size[1]*2)
 
 
 class WindowManager(ScreenManager):
@@ -37,6 +38,12 @@ class HomeScreen(Screen):
 
     def on_pre_enter(self, *args):
         print(Window.size[1])
+        print(str(self.ids.second_box.height) + " " + 'secondary box height')
+        print(str(self.ids.hero_box.height) + " " + 'main box height')
+        print(str(self.ids.grid_card.height) + 'Grid Card height')
+        print(str(self.ids.gridi.height) + 'Gridi card height')
+        print(str(self.ids.gridi.height/2) + 'Gridi.height divide by 2')
+        print(str(self.ids.grid_card.height/2)+ "Grid card divided by two")
         # self.ids.btn.user_font_size = str(Window.size[1]/3-60) + 'dp'
         return super().on_pre_enter(*args)
 

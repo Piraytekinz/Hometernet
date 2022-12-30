@@ -18,7 +18,7 @@
                     adaptive_height: True           
                     MDBoxLayout:
                         orientation: 'vertical'                    
-                        
+                        id: hero_box
                         size_hint_y: None
                         height: Window.size[1]
                         RelativeLayout:
@@ -38,15 +38,17 @@
                                     
                                     MyCard:
                                         size_hint: None, None
-                                        height: 60
-                                        width: 60
+                                        height: menu.width + 45
+                                        width: menu.width + 45
                                         ripple_behavior: True
-                                        radius: [3, ]
+                                        radius: [3,]
                                         on_press: nav.set_state("open")
                                         elevation: 0
-                                        padding: [30]
+                                        padding: [self.width/2,self.height/2,self.width/2,self.height/2]
+                                        id: menu_card
                                         MDIcon:
                                             icon: "menu"
+                                            id: menu
                                             
                                             
                                             
@@ -80,7 +82,7 @@
                                         # text_color: 'black'
                                         md_bg_color: 1,1,1,1
                                         pos_hint: {'center_x': 0.5}
-                                        user_font_size: 300
+                                        
                                         # on_press: app.switch_search()
                                         id: btn
                                     # MDBoxLayout:
@@ -147,9 +149,11 @@
                     MDBoxLayout:
                         orientation: 'vertical'
                         size_hint_y: None
-                        adaptive_height: True
-                        padding: [15, 50, 15, 10]
-
+                        height: best.height + first.height + 80
+                        padding: [15, 20, 15, 30]
+                        spacing: "20dp"
+                        md_bg_color: 1,0,0,1
+                        id: ad_word
                         MDLabel:
                             text: "Best Property Deals."
                             color: "black"
@@ -158,19 +162,22 @@
                             font_style: "H6"
                             
                             adaptive_height: True
-
+                            id: best
                         
                         MDLabel:
                             text: "Be the first to browse exclusive listings before they hit the market."
                             size_hint_y: None
                             color: "gray"
+                            adaptive_height: True
+                            id: first
+                            font_size: "18dp"
 
                     MDBoxLayout:
                         orientation: 'vertical'
                         size_hint_y: None
-                        adaptive_height: True
-                        
-                        spacing: "50dp"
+                        height: Window.size[1] + 450
+                        id: second_box
+                        spacing: "10dp"
                         MDBoxLayout:
                             padding: [17,0,0,0]
                             MDLabel:
@@ -207,13 +214,16 @@
                                         elevation: 0
                                         ripple_behavior: True
                                         size_hint: None, None
-                                        height: 400
-                                        width: 60
-                                        padding: [30,200,30,200]
+                                        height: Window.size[1] - 90
+                                        width: more_sale.width + 60
+                                        padding: [self.width/2,self.height/2,self.width/2,self.height/2]
                                         radius: [0]
                                         # on_release: grid.added()
+                                        id: grid_card
                                         MDIcon:
                                             icon: "arrow-right"
+                                            pos_hint: {'center_y': 0.5}
+                                            id: more_sale
                                             
                         
                                 
@@ -252,18 +262,18 @@
                                     elevation: 0
                                     ripple_behavior: True
                                     size_hint: None, None
-                                    height: 400
-                                    width: 60
-                                    padding: [30,200,30,200]
+                                    height: Window.size[1] - 90
+                                    width: more_rent.width + 60
+                                    padding: [self.width/2,self.height/2,self.width/2,self.height/2]
                                     radius: [0]
+                                    id: gridi
                                     # on_release: gridi.added()
                                     MDIcon:
                                         icon: "arrow-right"
-                                        halign: 'center'
-                                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}    
-                                        text_size: self.size
-                                        
-                                        valign: 'center'
+                                        id: more_rent
+                                        pos_hint: {'center_y': 0.5}
+                                        md_bg_color: 1,0,0,1
+                                    
                             # MDBoxLayout:
                             
                             #     size_hint_y: None
@@ -342,7 +352,7 @@
                 elevation: 0
                 radius: [0]
                 size_hint_y: None
-                height: 350
+                height: Window.size[1]-300
                 padding: [0]
                 RelativeLayout:
                     FitImage:
@@ -361,53 +371,53 @@
             ScrollView:
                 MDList:                         
                     OneLineIconListItem:
-                        text: "[size=16]Sell your Property[/size]"
+                        text: "Sell your Property"
                         divider: None
                         
                         
                         IconLeftWidget:
                             icon: 'bed'         
                                             
-                            user_font_size: '16sp'
+                            font_size: '20dp'
                             pos_hint:{'center_y': 0.5}
                     OneLineIconListItem:
-                        text: "[size=16]Bookmarks[/size]"
+                        text: "Bookmarks"
                         divider: None
                         
                         
                         IconLeftWidget:
                             icon: 'bookmark'
                             
-                            user_font_size: '16sp'
+                            font_size: '20dp'
                             pos_hint:{'center_y': 0.5}
                     OneLineIconListItem:
-                        text: "[size=16]Delete Account[/size]"
+                        text: "Delete Account"
                         divider: None
                         
                         
                         IconLeftWidget:
                             icon: 'trash-can'
                             
-                            user_font_size: '16sp'
+                            font_size: '20dp'
                             pos_hint:{'center_y': 0.5}
                     OneLineIconListItem:
-                        text: "[size=16]Contact Us[/size]"
+                        text: "Contact Us"
                         divider: None
                         
                         
                         IconLeftWidget:
                             icon: 'phone'
-                            user_font_size: '16sp'
+                            font_size: '20dp'
                             pos_hint:{'center_y': 0.5}
 
                     OneLineIconListItem:
-                        text: "[size=16]Meet The Creator[/size]"
+                        text: "Meet The Creator"
                         divider: None
                         on_press: app.switch_creator()
                         
                         IconLeftWidget:
                             icon: 'pirate'
-                            user_font_size: '16sp'
+                            font_size: '20dp'
                             pos_hint:{'center_y': 0.5}
                 #     orientation: 'vertical'
                 #     size_hint_y: None

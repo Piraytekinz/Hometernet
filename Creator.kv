@@ -5,7 +5,7 @@
         spacing: "10dp"
         MiCard:
             size_hint_y: None
-            height: 70
+            height: Window.size[1] / 2 - 200
             padding: [10,]
             elevation: 0
             MDLabel:
@@ -15,6 +15,7 @@
                 user_font_size: '14dp'
                 icon: 'arrow-right'
                 on_press: app.switch_home()
+                pos_hint: {'center_y': 0.5}
         MDBoxLayout:
             ScrollView:
                 MDBoxLayout:
@@ -26,8 +27,8 @@
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         
-                        height: 200
-                        width: 200
+                        height: Window.size[1]/2
+                        width: Window.size[1]/2
                         
                         radius:[self.width/2]
                         elevation: 0
