@@ -44,6 +44,9 @@ class HomeScreen(Screen):
         print(str(self.ids.gridi.height) + 'Gridi card height')
         print(str(self.ids.gridi.height/2) + 'Gridi.height divide by 2')
         print(str(self.ids.grid_card.height/2)+ "Grid card divided by two")
+        print(str(self.ids.menu_card.height) + " " + 'menu_card height')
+        print(str(self.ids.menu.width) + " " + 'menu icon width')
+        print(str(self.ids.menu.height) + " " + 'menu icon height')
         # self.ids.btn.user_font_size = str(Window.size[1]/3-60) + 'dp'
         return super().on_pre_enter(*args)
 

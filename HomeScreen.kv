@@ -38,7 +38,7 @@
                                     
                                     MyCard:
                                         size_hint: None, None
-                                        height: menu.width + 45
+                                        height: menu.height + 45
                                         width: menu.width + 45
                                         ripple_behavior: True
                                         radius: [3,]
@@ -49,6 +49,9 @@
                                         MDIcon:
                                             icon: "menu"
                                             id: menu
+                                            font_size: '20dp'
+                                            
+                                            md_bg_color: 1,0,0,1
                                             
                                             
                                             
@@ -143,7 +146,7 @@
                                         pos_hint: {"center_x": 0.5, "center_y": .58}
                                         color: "white"
                                         bold: True
-                                        font_size: "17sp"
+                                        font_size: "17dp"
                                         halign: 'center'
                     
                     MDBoxLayout:
@@ -151,15 +154,15 @@
                         size_hint_y: None
                         height: best.height + first.height + 80
                         padding: [15, 20, 15, 30]
-                        spacing: "20dp"
+                        spacing: "15dp"
                         md_bg_color: 1,0,0,1
                         id: ad_word
                         MDLabel:
                             text: "Best Property Deals."
                             color: "black"
                             size_hint_y: None
-                            font_size: "30dp"
-                            font_style: "H6"
+                            font_size: "25dp"
+                            
                             
                             adaptive_height: True
                             id: best
@@ -175,78 +178,86 @@
                     MDBoxLayout:
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: Window.size[1] + 450
+                        adaptive_height: True
                         id: second_box
                         spacing: "10dp"
                         MDBoxLayout:
                             padding: [17,0,0,0]
+                            size_hint_y: None
+                            height: ad_word.height - 70
+                            
                             MDLabel:
                                 text: "For sale"
                                 font_size: '18dp'
                                 bold: True
-                        MDBoxLayout:
+                                valign: 'center'
+                                
+                        
+                        ScrollView:
+                            do_scroll_x: True
+                            do_scroll_y: False
+                            bar_width: 0
+                            id: inner_scroll
                             size_hint_y: None
-                            height: 380
-                            spacing: "30dp"
-                            ScrollView:
-                                do_scroll_x: True
-                                do_scroll_y: False
-                                bar_width: 0
-                                id: inner_scroll
-                                size_hint_y: None
-                                height: 380
+                            height: Window.size[1] - 200
+                            MDBoxLayout:
+                                size_hint: None, None
+                                adaptive_height: True
+                                adaptive_width: True
+                                md_bg_color: 1,0,0,1
                                 MDBoxLayout:
-                                    size_hint: None, None
-                                    adaptive_height: True
+                                    id: grid
+                                    size_hint_y: None
+                                    size_hint_x: None
                                     adaptive_width: True
-                                    MDBoxLayout:
-                                        id: grid
-                                        size_hint_y: None
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        
-                                        adaptive_height: True
-                                        spacing: "20dp"
-                                        padding: [15, 20, 10, 50]
                                     
-                                        
-                                    GridCard:
-                                        elevation: 0
-                                        ripple_behavior: True
-                                        size_hint: None, None
-                                        height: Window.size[1] - 90
-                                        width: more_sale.width + 60
-                                        padding: [self.width/2,self.height/2,self.width/2,self.height/2]
-                                        radius: [0]
-                                        # on_release: grid.added()
-                                        id: grid_card
-                                        MDIcon:
-                                            icon: "arrow-right"
-                                            pos_hint: {'center_y': 0.5}
-                                            id: more_sale
+                                    adaptive_height: True
+                                    spacing: "20dp"
+                                    padding: [15, 20, 10, 50]
+                                
+                                    
+                                GridCard:
+                                    elevation: 0
+                                    ripple_behavior: True
+                                    size_hint: None, None
+                                    height: Window.size[1] - 200
+                                    width: more_sale.width + 60
+                                    padding: [self.width/2,self.height/2,self.width/2,self.height/2]
+                                    radius: [0]
+                                    # on_release: grid.added()
+                                    id: grid_card
+                                    MDIcon:
+                                        icon: "arrow-right"
+                                        pos_hint: {'center_y': 0.5}
+                                        id: more_sale
+                                        font_size: '20dp'
                                             
                         
                                 
                         MDBoxLayout:
                             padding: [17,0,0,0]
+                            size_hint_y: None
+                            height: ad_word.height - 50
+                            md_bg_color: 0,1,0,1
                             MDLabel:
                                 text: "For rent"
                                 font_size: '18dp'
                                 bold: True
-                            
+                                valign: 'center'
 
                         
-                            
+                           
                         ScrollView:
                             do_scroll_x: True
                             do_scroll_y: False
                             bar_width: 0
                             size_hint_y: None
-                            height: 380
+                            height: Window.size[1] - 200
                             MDBoxLayout:
                                 size_hint: None, None
                                 adaptive_height: True
                                 adaptive_width: True
+                                md_bg_color: 1,0,0,1
                                 MDBoxLayout:
                                     id: gridi
                                     size_hint_y: None
@@ -262,7 +273,7 @@
                                     elevation: 0
                                     ripple_behavior: True
                                     size_hint: None, None
-                                    height: Window.size[1] - 90
+                                    height: Window.size[1] - 200
                                     width: more_rent.width + 60
                                     padding: [self.width/2,self.height/2,self.width/2,self.height/2]
                                     radius: [0]
@@ -272,7 +283,8 @@
                                         icon: "arrow-right"
                                         id: more_rent
                                         pos_hint: {'center_y': 0.5}
-                                        md_bg_color: 1,0,0,1
+                                        font_size: '20dp'
+                                            
                                     
                             # MDBoxLayout:
                             
@@ -352,7 +364,7 @@
                 elevation: 0
                 radius: [0]
                 size_hint_y: None
-                height: Window.size[1]-300
+                height: Window.size[1]/2 - 100
                 padding: [0]
                 RelativeLayout:
                     FitImage:
