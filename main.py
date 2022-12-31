@@ -6,7 +6,7 @@ from kivymd.uix.button import MDIconButton
 
 Builder.load_file('HomeScreen.kv')
 Builder.load_file('Creator.kv') 
-Window.size = (400, 550)
+
 
 # bookmark
 # \U000F00C0
