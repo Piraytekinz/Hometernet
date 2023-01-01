@@ -16,6 +16,7 @@ Builder.load_file('Creator.kv')
 print(Window.size[1]*2)
 
 
+
 class WindowManager(ScreenManager):
     pass
 
@@ -36,9 +37,9 @@ class HomeScreen(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
 
-    def on_pre_enter(self, *args):
+    def on_pre_enter(self, *args):          
         print(Window.size[1])
-        print(str(self.ids.second_box.height) + " " + 'secondary box height')
+        # print(str(self.ids.second_box.height) + " " + 'secondary box height')
         print(str(self.ids.hero_box.height) + " " + 'main box height')
         print(str(self.ids.grid_card.height) + 'Grid Card height')
         print(str(self.ids.gridi.height) + 'Gridi card height')

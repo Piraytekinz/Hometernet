@@ -38,8 +38,8 @@
                                     
                                     MyCard:
                                         size_hint: None, None
-                                        height: menu.height + 45
-                                        width: menu.width + 45
+                                        height: menu.height + 75
+                                        width: menu.width + 75
                                         ripple_behavior: True
                                         radius: [3,]
                                         on_press: nav.set_state("open")
@@ -199,7 +199,7 @@
                             bar_width: 0
                             id: inner_scroll
                             size_hint_y: None
-                            height: Window.size[1] - 200
+                            height: ad_word.height + 240
                             MDBoxLayout:
                                 size_hint: None, None
                                 adaptive_height: True
@@ -220,8 +220,9 @@
                                     elevation: 0
                                     ripple_behavior: True
                                     size_hint: None, None
-                                    height: Window.size[1] - 200
+                                    height: ad_word.height + 240
                                     width: more_sale.width + 60
+                                    size_hint_max_y: 100
                                     padding: [self.width/2,self.height/2,self.width/2,self.height/2]
                                     radius: [0]
                                     # on_release: grid.added()
@@ -252,7 +253,7 @@
                             do_scroll_y: False
                             bar_width: 0
                             size_hint_y: None
-                            height: Window.size[1] - 200
+                            height: ad_word.height + 240
                             MDBoxLayout:
                                 size_hint: None, None
                                 adaptive_height: True
@@ -273,8 +274,10 @@
                                     elevation: 0
                                     ripple_behavior: True
                                     size_hint: None, None
-                                    height: Window.size[1] - 200
+                                    height: ad_word.height + 240
                                     width: more_rent.width + 60
+                                    size_hint_max_x: 100
+
                                     padding: [self.width/2,self.height/2,self.width/2,self.height/2]
                                     radius: [0]
                                     id: gridi
@@ -381,6 +384,8 @@
                         pos_hint: {'center_x': 0.6, 'center_y': 0.1}
             
             ScrollView:
+                bar_width: 0
+                effect_cls: "ScrollEffect"
                 MDList:                         
                     OneLineIconListItem:
                         text: "Sell your Property"
