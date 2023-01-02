@@ -6,6 +6,7 @@ from kivymd.uix.button import MDIconButton
 
 Builder.load_file('HomeScreen.kv')
 Builder.load_file('Creator.kv') 
+Builder.load_file('MyProperties.kv')
 
 
 # bookmark
@@ -24,6 +25,9 @@ class SearchButton(MDIconButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # self.user_font_size = str(Window.size[1]/3-60) + 'dp'
+
+class MyProducts(Screen):
+    pass
 
 class CreatorScreen(Screen):
     def __init__(self, **kw):
@@ -48,6 +52,7 @@ class HomeScreen(Screen):
         print(str(self.ids.menu_card.height) + " " + 'menu_card height')
         print(str(self.ids.menu.width) + " " + 'menu icon width')
         print(str(self.ids.menu.height) + " " + 'menu icon height')
+        print(str(self.ids.home_card.height) + " " + 'HomeCard height')
         # self.ids.btn.user_font_size = str(Window.size[1]/3-60) + 'dp'
         return super().on_pre_enter(*args)
 
@@ -57,6 +62,7 @@ class MainApp(MDApp):
         screens = [HomeScreen(name='Home'), CreatorScreen(name="creator")]
         self.home = HomeScreen()
         self.creator = CreatorScreen()
+        self.products = MyProducts()
         self.wm.transition = SwapTransition()
         for i in screens:
             self.wm.add_widget(i)
@@ -67,5 +73,8 @@ class MainApp(MDApp):
 
     def switch_creator(self):
         self.wm.switch_to(self.creator)
+
+    def switch_products(self):
+        self.wm.switch_to(self.products)
 
 MainApp().run()
