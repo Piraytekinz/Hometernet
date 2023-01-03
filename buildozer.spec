@@ -1,7 +1,7 @@
 [app]
 
 # (str) Title of your application
-title = Test Run
+title = Test run
 
 # (str) Package name
 package.name = testrun
@@ -38,7 +38,6 @@ version = 0.1
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
 requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,kivymd,pillow
-
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -81,7 +80,7 @@ fullscreen = 0
 # red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray,
 # darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy,
 # olive, purple, silver, teal.
-#android.presplash_color = #FFFFFF
+android.presplash_color = #FFFFFF
 
 # (string) Presplash animation using Lottie format.
 # see https://lottiefiles.com/ for examples and https://airbnb.design/lottie/
