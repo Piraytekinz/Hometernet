@@ -3,7 +3,8 @@ from kivy.uix.screenmanager import ScreenManager, Screen, SwapTransition
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivymd.uix.button import MDIconButton
-from kivymd.uix.behaviors import RoundedRectangularElevationBehavior
+from kivymd.uix.behaviors import RoundedRectangularElevationBehavior, CircularElevationBehavior
+from kivymd.uix.card import MDCard
 
 Builder.load_file('HomeScreen.kv')
 Builder.load_file('Creator.kv') 
@@ -23,7 +24,7 @@ print(Window.size[1]*2)
 class WindowManager(ScreenManager):
     pass
 
-class SearchButton(MDIconButton):
+class SearchButton(MDCard, CircularElevationBehavior):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # self.user_font_size = str(Window.size[1]/3-60) + 'dp'
@@ -51,6 +52,7 @@ class HomeScreen(Screen):
         return super().on_pre_enter(*args)
 
     def on_enter(self, *args):
+        print(Window.size[0])
         print(str(self.ids.hero_box.height) + " " + 'main box height')
         print(str(self.ids.grid_card.height) + 'Grid Card height')
         print(str(self.ids.gridi.height) + 'Gridi card height')
@@ -59,6 +61,7 @@ class HomeScreen(Screen):
         print(str(self.ids.menu_card.height) + " " + 'menu_card height')
         print(str(self.ids.menu.width) + " " + 'menu icon width')
         print(str(self.ids.menu.height) + " " + 'menu icon height')
+        print(str(self.ids.home_card.width) + " " + 'HomeCard width')
         print(str(self.ids.home_card.height) + " " + 'HomeCard height')
         return super().on_enter(*args)
 

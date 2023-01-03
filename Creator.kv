@@ -5,7 +5,7 @@
         spacing: "10dp"
         MiCard:
             size_hint_y: None
-            height: Window.size[1] / 2 - 260
+            height: arrow_right.height + 55
             padding: [10,]
             elevation: 0
             MDLabel:
@@ -16,6 +16,7 @@
                 icon: 'arrow-right'
                 on_press: app.switch_home()
                 pos_hint: {'center_y': 0.5}
+                id: arrow_right
         MDBoxLayout:
             ScrollView:
                 MDBoxLayout:
