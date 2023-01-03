@@ -199,7 +199,7 @@
                             bar_width: 0
                             id: inner_scroll
                             size_hint_y: None
-                            height: ad_word.height + 450
+                            height: ad_word.height + 550
                             MDBoxLayout:
                                 size_hint: None, None
                                 adaptive_height: True
@@ -211,7 +211,7 @@
                                     size_hint_x: None
                                     adaptive_width: True
                                     
-                                    height: ad_word.height + 450
+                                    height: ad_word.height + 550
                                     spacing: "20dp"
                                     padding: [15, 15, 10, 15]
                                     HomeCards:
@@ -221,7 +221,7 @@
                                         padding: [0]
                                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                         size_hint_x: None
-                                        width: 500
+                                        width: 600
                                         
                                         id: home_card
                                         radius: [5, ]
@@ -232,7 +232,7 @@
                                                 spacing: "13dp"
                                                 Main:
                                                     size_hint_y: None
-                                                    height: 270
+                                                    height: 350
                                                     elevation: 2
                                                     # on_press: app.switch_details(root.image, root.tot, root.price, root.country, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.phonenumber, root.telegram, root.facebook, root.description, root.key, root.amenities)
                                                     radius: [5,]
@@ -252,9 +252,8 @@
                                                             md_bg_color: 1,1,1,1
                                                             font_color: "black"
                                                             bold: True
-                                                            size_hint_x: None
-                                                            adaptive_width: True
-                                                            size_hint_y: .15
+                                                            size_hint: None, None
+                                                            adaptive_size: True
                                                             pos_hint: {'center_x': 0.75, 'center_y': 0.87}
                                                                 
                                                         
@@ -355,7 +354,8 @@
                                                 theme_text_color: "Custom"
                                                 text_color: 'black'
                                                 # on_press: app.bookmark(root.key)
-                                                
+                                                font_size: '15dp'
+                                                user_font_size: '15dp'
                                                 pos_hint: {'center_x': 0.75, 'center_y': 1}
                                                 size_hint: None, None
 
@@ -372,7 +372,7 @@
                                     ripple_behavior: True
                                     size_hint: None, None
                                     height: ad_word.height + 450
-                                    width: more_sale.width + 60
+                                    width: more_sale.width + 100
                                     
                                     padding: [self.width/2,self.height/2,self.width/2,self.height/2]
                                     radius: [0]
@@ -404,7 +404,7 @@
                             do_scroll_y: False
                             bar_width: 0
                             size_hint_y: None
-                            height: ad_word.height + 450
+                            height: ad_word.height + 550
                             MDBoxLayout:
                                 size_hint: None, None
                                 adaptive_height: True
@@ -425,8 +425,8 @@
                                     elevation: 0
                                     ripple_behavior: True
                                     size_hint: None, None
-                                    height: ad_word.height + 450
-                                    width: more_rent.width + 60
+                                    height: ad_word.height + 550
+                                    width: more_rent.width + 100
                                     
 
                                     padding: [self.width/2,self.height/2,self.width/2,self.height/2]
