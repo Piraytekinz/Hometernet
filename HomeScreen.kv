@@ -155,7 +155,7 @@
                         height: best.height + first.height + 80
                         padding: [15, 20, 15, 30]
                         spacing: "15dp"
-                        md_bg_color: 1,0,0,1
+                        
                         id: ad_word
                         MDLabel:
                             text: "Best Property Deals."
@@ -199,19 +199,19 @@
                             bar_width: 0
                             id: inner_scroll
                             size_hint_y: None
-                            height: ad_word.height + 300
+                            height: ad_word.height + 380
                             MDBoxLayout:
                                 size_hint: None, None
                                 adaptive_height: True
                                 adaptive_width: True
-                                md_bg_color: 1,0,0,1
+                                
                                 MDBoxLayout:
                                     id: grid
                                     size_hint_y: None
                                     size_hint_x: None
                                     adaptive_width: True
                                     
-                                    height: ad_word.height + 300
+                                    height: ad_word.height + 380
                                     spacing: "20dp"
                                     padding: [15, 15, 10, 15]
                                     HomeCards:
@@ -221,7 +221,7 @@
                                         padding: [0]
                                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                         size_hint_x: None
-                                        width: 320
+                                        width: 400
                                         
                                         id: home_card
                                         radius: [5, ]
@@ -232,7 +232,7 @@
                                                 spacing: "20dp"
                                                 Main:
                                                     size_hint_y: None
-                                                    height: 180
+                                                    height: 200
                                                     elevation: 2
                                                     # on_press: app.switch_details(root.image, root.tot, root.price, root.country, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.phonenumber, root.telegram, root.facebook, root.description, root.key, root.amenities)
                                                     radius: [5,]
@@ -371,7 +371,7 @@
                                     elevation: 0
                                     ripple_behavior: True
                                     size_hint: None, None
-                                    height: ad_word.height + 300
+                                    height: ad_word.height + 380
                                     width: more_sale.width + 60
                                     
                                     padding: [self.width/2,self.height/2,self.width/2,self.height/2]
@@ -404,12 +404,12 @@
                             do_scroll_y: False
                             bar_width: 0
                             size_hint_y: None
-                            height: ad_word.height + 300
+                            height: ad_word.height + 380
                             MDBoxLayout:
                                 size_hint: None, None
                                 adaptive_height: True
                                 adaptive_width: True
-                                md_bg_color: 1,0,0,1
+                                
                                 MDBoxLayout:
                                     id: gridi
                                     size_hint_y: None
@@ -425,9 +425,9 @@
                                     elevation: 0
                                     ripple_behavior: True
                                     size_hint: None, None
-                                    height: ad_word.height + 300
+                                    height: ad_word.height + 380
                                     width: more_rent.width + 60
-                                    size_hint_max_x: 100
+                                    
 
                                     padding: [self.width/2,self.height/2,self.width/2,self.height/2]
                                     radius: [0]

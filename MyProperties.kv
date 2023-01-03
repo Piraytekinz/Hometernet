@@ -45,7 +45,7 @@
                                 md_bg_color: app.theme_cls.primary_color
                                 radius: [10, ]
                                 size_hint_y: None
-                                height: 70
+                                adaptive_height: True
                                 MDLabel:
                                     text: "sign-out"
                                     halign: 'center'
@@ -59,7 +59,7 @@
                                 elevation: 0
                                 radius: [10, ]
                                 size_hint_y: None
-                                height: 70
+                                adaptive_height: True
                                 MDLabel:
                                     text: "switch account"
                                     halign: 'center'
@@ -78,12 +78,12 @@
                             spacing: "20dp"
                             orientation: 'vertical'
                             SaleCard:
-                                elevation: 0
+                                elevation: 2
                                 padding: [0]
                                 size_hint: None, None
-                                width: 270
+                                width: 400
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                height: 500
+                                height: 480
                                 # 
                                 # on_press: app.editscreen(root.image, root.local_image, root.tot, root.price, root.country, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
                                 radius: [5, ]
@@ -94,7 +94,7 @@
                                     SalePic:
                                         size_hint_y: None
                                         height: 180
-                                        elevation: 12
+                                        elevation: 2
                                         
                                         radius: [5,]
                                         ripple_behavior: True

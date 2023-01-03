@@ -8,6 +8,7 @@ from kivymd.uix.behaviors import RoundedRectangularElevationBehavior
 Builder.load_file('HomeScreen.kv')
 Builder.load_file('Creator.kv') 
 Builder.load_file('MyProperties.kv')
+Window.size = (400, 1200)
 
 
 # bookmark
@@ -45,6 +46,11 @@ class HomeScreen(Screen):
     def on_pre_enter(self, *args):          
         print(Window.size[1])
         # print(str(self.ids.second_box.height) + " " + 'secondary box height')
+        
+        # self.ids.btn.user_font_size = str(Window.size[1]/3-60) + 'dp'
+        return super().on_pre_enter(*args)
+
+    def on_enter(self, *args):
         print(str(self.ids.hero_box.height) + " " + 'main box height')
         print(str(self.ids.grid_card.height) + 'Grid Card height')
         print(str(self.ids.gridi.height) + 'Gridi card height')
@@ -54,8 +60,7 @@ class HomeScreen(Screen):
         print(str(self.ids.menu.width) + " " + 'menu icon width')
         print(str(self.ids.menu.height) + " " + 'menu icon height')
         print(str(self.ids.home_card.height) + " " + 'HomeCard height')
-        # self.ids.btn.user_font_size = str(Window.size[1]/3-60) + 'dp'
-        return super().on_pre_enter(*args)
+        return super().on_enter(*args)
 
 class MainApp(MDApp):
     def build(self):
