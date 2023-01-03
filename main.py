@@ -8,7 +8,7 @@ from kivymd.uix.behaviors import RoundedRectangularElevationBehavior
 Builder.load_file('HomeScreen.kv')
 Builder.load_file('Creator.kv') 
 Builder.load_file('MyProperties.kv')
-Window.size = (400, 1200)
+
 
 
 # bookmark
