@@ -90,11 +90,13 @@
                                         radius: [self.width/2]
                                         # on_press: app.switch_search()
                                         id: btn
+                                        ripple_behavior: True
                                         padding: [self.height/2]
                                         MDIcon:
                                             icon: 'magnify'
                                             pos_hint: {'center_y': 0.5, 'center_x': 0.5}
                                             font_size: str(btn.height-30) + 'dp'
+                                            id: magnificent
                                     # MDBoxLayout:
                                     #     size_hint_x: .5
                                     #     size_hint_y: .7
@@ -704,8 +706,9 @@
                 #             color: "black"
                 #             bold: True
 
-<HomeCards@MDCard+RoundedRectangularElevationBehavior>
-<Main@MDCard+RoundedRectangularElevationBehavior>
+<SearchButton@MDCard+CommonElevationBehavior>
+<HomeCards@MDCard+CommonElevationBehavior>
+<Main@MDCard+CommonElevationBehavior>
 <MyCard@MDCard+CommonElevationBehavior>
 <GridCard@MDCard+CommonElevationBehavior>
 <GridiCard@MDCard+CommonElevationBehavior>

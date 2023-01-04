@@ -3,7 +3,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen, SwapTransition
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivymd.uix.button import MDIconButton
-from kivymd.uix.behaviors import RoundedRectangularElevationBehavior, CircularElevationBehavior
+from kivymd.uix.behaviors import CommonElevationBehavior
 from kivymd.uix.card import MDCard
 
 Builder.load_file('HomeScreen.kv')
@@ -24,9 +24,7 @@ print(Window.size[1]*2)
 class WindowManager(ScreenManager):
     pass
 
-class SearchButton(MDCard, CircularElevationBehavior):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+
         # self.user_font_size = str(Window.size[1]/3-60) + 'dp'
 
 class MyProducts(Screen):
@@ -63,6 +61,7 @@ class HomeScreen(Screen):
         print(str(self.ids.menu.height) + " " + 'menu icon height')
         print(str(self.ids.home_card.width) + " " + 'HomeCard width')
         print(str(self.ids.home_card.height) + " " + 'HomeCard height')
+        print(str(self.ids.magnificent.font_size) + " " + 'search button font_size')
         return super().on_enter(*args)
 
 class MainApp(MDApp):
