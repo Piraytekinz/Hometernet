@@ -52,7 +52,7 @@ class HomeScreen(Screen):
         return super().on_pre_enter(*args)
 
     def on_enter(self, *args):
-        print(Window.size[0] + " " + 'is the width')
+        print(str(Window.size[0]) + " " + 'is the width')
         print(str(self.ids.hero_box.height) + " " + 'main box height')
         print(str(self.ids.grid_card.height) + 'Grid Card height')
         print(str(self.ids.gridi.height) + 'Gridi card height')
