@@ -1,5 +1,5 @@
 from kivymd.app import MDApp
-from kivy.uix.screenmanager import ScreenManager, Screen, SwapTransition
+from kivy.uix.screenmanager import ScreenManager, Screen, SwapTransition, CardTransition
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivymd.uix.button import MDIconButton
@@ -71,18 +71,19 @@ class MainApp(MDApp):
         self.home = HomeScreen()
         self.creator = CreatorScreen()
         self.products = MyProducts()
-        self.wm.transition = SwapTransition()
+        self.wm.transition = CardTransition()
+        
         for i in screens:
             self.wm.add_widget(i)
         return self.wm
 
     def switch_home(self):
-        self.wm.switch_to(self.home)
+        self.wm.switch_to(self.home, direction='left')
 
     def switch_creator(self):
-        self.wm.switch_to(self.creator)
+        self.wm.switch_to(self.creator, direction='right')
 
     def switch_products(self):
-        self.wm.switch_to(self.products)
+        self.wm.switch_to(self.products, direction='right')
 
 MainApp().run()
