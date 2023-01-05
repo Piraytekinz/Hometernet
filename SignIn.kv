@@ -1,14 +1,21 @@
 <SignInScreen>:
-    RelativeLayout:
+    MDBoxLayout:
+        orientation: 'vertical'
         AnchorLayout:
             anchor_x: 'left'
             anchor_y: 'top'
+            size_hint_y: None
+            height: home.height
+            
             MDIconButton:
                 icon: 'arrow-left'
                 on_press: app.switch_home()
+                id: home
+                size_hint_y: None
+                adaptive_height: True
         MDBoxLayout:
             orientation: 'vertical'
-            padding: [25,50,25,35]
+            padding: [25,25,25,35]
             spacing: "25dp"
             
             MDBoxLayout:
@@ -97,6 +104,7 @@
                     text: "Don't have an account?"
                     size_hint_y: None
                     adaptive_height: True
+                    font_size: '16dp'
                 MDTextButton:
                     text: 'sign up'
                     size_hint_y: None
