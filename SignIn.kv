@@ -1,0 +1,101 @@
+<SignInScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        AnchorLayout:
+            anchor_x: 'left'
+            anchor_y: 'top'
+            
+            MDIconButton:
+                icon: 'arrow-left'
+                on_press: app.switch_home()
+                
+
+        
+        MDBoxLayout:
+            
+            MDIcon:
+                halign: 'center'
+                # text: 'Sign in to Homify'
+                bold: True
+                pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+                font_size: "50dp"
+                icon: 'pirate'
+                size_hint_y: None
+                adaptive_height: True
+                
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            
+            padding: [20,]
+            spacing: "10dp"
+            
+            MDBoxLayout:
+                
+                orientation: 'vertical'
+                spacing: "10dp"
+                
+                MDLabel:
+                    text: 'login to your account'
+                    font_size: '16dp'
+                MDTextField:
+                    mode: 'rectangle'
+                    hint_text: 'email'
+                    padding: [20]
+                    # on_text: app.email(self.text)
+                    id: mail
+                    input_type: 'mail'
+                    
+                MDTextField:
+                    mode: 'rectangle'
+                    hint_text: 'password'
+                    padding: [20]
+                    # on_text: app.password(self.text)
+                    password: True
+                    
+                    
+                    
+                MDTextButton:
+                    text: 'Forgot password?'
+                    font_size: "16dp"
+                    size_hint_y: None
+                    adaptive_height: True
+                    color: app.theme_cls.primary_color
+                    # on_press: app.password_reset(mail.text)
+
+            SignIn:
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_y: None
+                height: mail.height
+                radius: [7]
+                ripple_behavior: True
+                # on_press: app.sign_in()
+                md_bg_color: app.theme_cls.primary_color
+                MDLabel:
+                    text: 'sign in'
+                    halign: 'center'
+                    color: 'white'
+
+            MDBoxLayout:
+                size_hint_y: None
+                adaptive_height: True
+                MDLabel:
+                    text: "Don't have an account?"
+                    font_size: "16dp"
+                    size_hint_y: None
+                    adaptive_height: True
+                MDTextButton:
+                    text: 'sign up'
+                    font_size: "16dp"
+                    size_hint_y: None
+                    adaptive_height: True
+                    color: app.theme_cls.primary_color
+                    on_press: app.switch_signup()
+                    
+
+
+
+<SignIn@MDCard+CommonElevationBehavior>
+
+# app.email(self.text)
+# app.password(self.text)

@@ -1,0 +1,74 @@
+<SignUpScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        
+           
+        AnchorLayout:
+            anchor_x: 'left'
+            anchor_y: 'top'
+            
+            MDIconButton:
+                icon: 'arrow-left'
+                on_press: app.switch_signin()
+                font_size: '15dp'
+        
+        MDBoxLayout:
+            
+            
+            MDIcon:
+                halign: 'center'
+                # text: 'Sign in to Homify'
+                bold: True
+                pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+                font_size: "50dp"
+                icon: 'pirate'
+                
+            
+       
+            
+        
+            
+                
+        MDBoxLayout:
+            padding: [20]
+            orientation: 'vertical'
+            spacing: "10dp"
+            MDLabel:
+                text: "Create your account"
+                
+                bold: True
+                font_size: "16dp"
+                
+            MDTextField:
+                mode: 'rectangle'
+                hint_text: 'email'
+                padding: [20]
+                # on_text: app.email(self.text)
+                id: mail
+            MDTextField:
+                mode: 'rectangle'
+                hint_text: 'password'
+                padding: [20]
+                # on_text: app.password(self.text)
+                password: True
+            MDTextField:
+                mode: 'rectangle'
+                hint_text: 'confirm password'
+                padding: [20]
+                id: confirm
+                password: True
+
+        Submit:
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            size_hint_y: None
+            height: mail.height
+            radius: [7]
+            ripple_behavior: True
+            # on_press: app.account_submit()
+            md_bg_color: app.theme_cls.primary_color
+            MDLabel:
+                text: 'sign up'
+                halign: 'center'
+                color: 'white'
+
+<Submit@MDCard+CommonElevationBehavior>

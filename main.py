@@ -1,5 +1,5 @@
 from kivymd.app import MDApp
-from kivy.uix.screenmanager import ScreenManager, Screen, SwapTransition, CardTransition
+from kivy.uix.screenmanager import ScreenManager, Screen, SwapTransition, CardTransition, WipeTransition
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivymd.uix.button import MDIconButton
@@ -9,6 +9,8 @@ from kivymd.uix.card import MDCard
 Builder.load_file('HomeScreen.kv')
 Builder.load_file('Creator.kv') 
 Builder.load_file('MyProperties.kv')
+Builder.load_file('SignIn.kv')
+Builder.load_file('SignUp.kv')
 
 
 
@@ -28,6 +30,12 @@ class WindowManager(ScreenManager):
         # self.user_font_size = str(Window.size[1]/3-60) + 'dp'
 
 class MyProducts(Screen):
+    pass
+
+class SignInScreen(Screen):
+    pass
+
+class SignUpScreen(Screen):
     pass
 
 class CreatorScreen(Screen):
@@ -67,11 +75,15 @@ class HomeScreen(Screen):
 class MainApp(MDApp):
     def build(self):
         self.wm = WindowManager()
+        self.theme_cls.primary_palette = 'Blue'
+        self.theme_cls.primary_hue = '900'
         screens = [HomeScreen(name='Home'), CreatorScreen(name="creator")]
         self.home = HomeScreen()
         self.creator = CreatorScreen()
         self.products = MyProducts()
-        self.wm.transition = CardTransition()
+        self.signin = SignInScreen()
+        self.signup = SignUpScreen()
+        self.wm.transition = WipeTransition()
         
         for i in screens:
             self.wm.add_widget(i)
@@ -85,5 +97,11 @@ class MainApp(MDApp):
 
     def switch_products(self):
         self.wm.switch_to(self.products, direction='right')
+
+    def switch_signin(self):
+        self.wm.switch_to(self.signin, direction='right')
+
+    def switch_signup(self):
+        self.wm.switch_to(self.signup, direction='right')
 
 MainApp().run()
