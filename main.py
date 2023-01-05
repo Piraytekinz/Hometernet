@@ -11,7 +11,7 @@ Builder.load_file('Creator.kv')
 Builder.load_file('MyProperties.kv')
 Builder.load_file('SignIn.kv')
 Builder.load_file('SignUp.kv')
-Window.size = (300,450)
+
 
 
 # bookmark
