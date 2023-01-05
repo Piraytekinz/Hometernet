@@ -8,20 +8,21 @@
                 on_press: app.switch_home()
         MDBoxLayout:
             orientation: 'vertical'
-            padding: [25,35,25,35]
-            spacing: "20dp"
+            padding: [25,50,25,35]
+            spacing: "25dp"
+            
             MDBoxLayout:
                 size_hint: None, None
                 height: pirate.height + 50
                 width: pirate.width + 50
                 padding: [self.width/2,self.height/2,self.width/2,self.height/2]
-                md_bg_color: 1,0,0,1
-                pos_hint: {'center_x': 0.5}
+                
+                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                 MDIcon:
                     icon: 'pirate'
                     id: pirate
                     font_size: '50dp'
-
+            
             MDLabel:
                 font_size: "30dp"
                 text: 'Sign in to Homiz'
@@ -29,15 +30,18 @@
                 size_hint_y: None
                 adaptive_height: True
                 id: notice
-                md_bg_color: 1,0,0,1
+                
 
             MDBoxLayout:
                 orientation: 'vertical'
                 spacing: "20dp"
+                size_hint_y: None
+                adaptive_height: True
                 Email:
                     size_hint_y: None
                     height: notice.height + 20
                     radius: [10,]
+                    id: mail_box
                     TextInput:
                         hint_text: 'email'
                         multiline: False
