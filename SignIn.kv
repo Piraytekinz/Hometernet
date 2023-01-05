@@ -1,101 +1,112 @@
 <SignInScreen>:
-    MDBoxLayout:
-        orientation: 'vertical'
+    RelativeLayout:
         AnchorLayout:
             anchor_x: 'left'
             anchor_y: 'top'
-            
             MDIconButton:
                 icon: 'arrow-left'
                 on_press: app.switch_home()
-                
-
-        
-        MDBoxLayout:
-            
-            MDIcon:
-                halign: 'center'
-                # text: 'Sign in to Homify'
-                bold: True
-                pos_hint: {'center_x': 0.5, 'center_y': 0.7}
-                font_size: "50dp"
-                icon: 'pirate'
-                size_hint_y: None
-                adaptive_height: True
-                
-
         MDBoxLayout:
             orientation: 'vertical'
-            
-            padding: [20,]
-            spacing: "10dp"
-            
+            padding: [25,35,25,35]
+            spacing: "20dp"
             MDBoxLayout:
-                
-                orientation: 'vertical'
-                spacing: "10dp"
-                
-                MDLabel:
-                    text: 'login to your account'
-                    font_size: '16dp'
-                MDTextField:
-                    mode: 'rectangle'
-                    hint_text: 'email'
-                    padding: [20]
-                    # on_text: app.email(self.text)
-                    id: mail
-                    input_type: 'mail'
-                    
-                MDTextField:
-                    mode: 'rectangle'
-                    hint_text: 'password'
-                    padding: [20]
-                    # on_text: app.password(self.text)
-                    password: True
-                    
-                    
-                    
-                MDTextButton:
-                    text: 'Forgot password?'
-                    font_size: "16dp"
-                    size_hint_y: None
-                    adaptive_height: True
-                    color: app.theme_cls.primary_color
-                    # on_press: app.password_reset(mail.text)
+                size_hint: None, None
+                height: pirate.height + 50
+                width: pirate.width + 50
+                padding: [self.width/2,self.height/2,self.width/2,self.height/2]
+                md_bg_color: 1,0,0,1
+                pos_hint: {'center_x': 0.5}
+                MDIcon:
+                    icon: 'pirate'
+                    id: pirate
+                    font_size: '50dp'
 
-            SignIn:
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDLabel:
+                font_size: "30dp"
+                text: 'Sign in to Homiz'
+                halign: 'center'
                 size_hint_y: None
-                height: mail.height
-                radius: [7]
-                ripple_behavior: True
-                # on_press: app.sign_in()
-                md_bg_color: app.theme_cls.primary_color
-                MDLabel:
-                    text: 'sign in'
-                    halign: 'center'
-                    color: 'white'
+                adaptive_height: True
+                id: notice
+                md_bg_color: 1,0,0,1
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: "20dp"
+                Email:
+                    size_hint_y: None
+                    height: notice.height + 20
+                    radius: [10,]
+                    TextInput:
+                        hint_text: 'email'
+                        multiline: False
+                        foreground_color: 0/255, 0/255, 0/255, 1
+                        size_hint_y: None
+                        font_size: "15dp"
+                        text_color: "black"
+                        pos_hint: {'center_y': 0.5}
+                        height: self.minimum_height
+                        background_color: 0,0,0,0
+
+                Password:
+                    size_hint_y: None
+                    height: notice.height + 20
+                    radius: [10,]
+                    id: passwrd
+                    TextInput:
+                        hint_text: 'password'
+                        multiline: False
+                        foreground_color: 0/255, 0/255, 0/255, 1
+                        size_hint_y: None
+                        font_size: "15dp"
+                        text_color: "black"
+                        pos_hint: {'center_y': 0.5}
+                        height: self.minimum_height
+                        background_color: 0,0,0,0
 
             MDBoxLayout:
                 size_hint_y: None
                 adaptive_height: True
+                MDTextButton:
+                    text: 'Forgot password?'
+                    size_hint_y: None
+                    adaptive_height: True
+                    font_size: '16dp'
+                    color: app.theme_cls.primary_color
+                    
+
+            MDCard:
+                radius: [10]
+                md_bg_color: app.theme_cls.primary_color
+                ripple_behavior: True
+                size_hint_y: None
+                height: passwrd.height
+                MDLabel:
+                    text: 'Login'
+                    halign: 'center'
+                    font_size: '15dp'
+                    color: 'white'
+            MDBoxLayout:
+                
                 MDLabel:
                     text: "Don't have an account?"
-                    font_size: "16dp"
                     size_hint_y: None
                     adaptive_height: True
                 MDTextButton:
                     text: 'sign up'
-                    font_size: "16dp"
                     size_hint_y: None
                     adaptive_height: True
+                    font_size: '16dp'
                     color: app.theme_cls.primary_color
+                    size_hint_y: None
+                    adaptive_height: True
                     on_press: app.switch_signup()
-                    
+                    id: sign_up
 
 
+<Email@MDCard+CommonElevationBehavior>
+<Password@MDCard+CommonElevationBehavior>
+            
 
-<SignIn@MDCard+CommonElevationBehavior>
-
-# app.email(self.text)
-# app.password(self.text)
+        
