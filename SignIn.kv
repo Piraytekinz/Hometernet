@@ -16,7 +16,7 @@
         MDBoxLayout:
             orientation: 'vertical'
             padding: [25,50,25,35]
-            spacing: "25dp"
+            spacing: "17dp"
             
             MDBoxLayout:
                 size_hint: None, None
@@ -28,10 +28,10 @@
                 MDIcon:
                     icon: 'pirate'
                     id: pirate
-                    font_size: '50dp'
+                    font_size: '40dp'
             
             MDLabel:
-                font_size: "30dp"
+                font_size: "25dp"
                 text: 'Sign in to Homiz'
                 halign: 'center'
                 size_hint_y: None
@@ -75,6 +75,7 @@
                         pos_hint: {'center_y': 0.5}
                         height: self.minimum_height
                         background_color: 0,0,0,0
+                        password: True
 
             MDBoxLayout:
                 size_hint_y: None
@@ -98,8 +99,8 @@
                     halign: 'center'
                     font_size: '15dp'
                     color: 'white'
+
             MDBoxLayout:
-                
                 MDLabel:
                     text: "Don't have an account?"
                     size_hint_y: None

@@ -52,6 +52,7 @@
                                     font_size: "17dp"
                                     bold: True
                                     color: 'white'
+                                    id: sign_out
 
                             SwitchAccount:
                                 ripple_behavior: True
@@ -65,6 +66,7 @@
                                     halign: 'center'
                                     font_size: "17dp"
                                     bold: True
+                                    id: switch_account
 
                     
                         
@@ -81,9 +83,9 @@
                                 elevation: 1
                                 padding: [0]
                                 size_hint: None, None
-                                width: 680
+                                width: 695
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                height: 630
+                                height: 650
                                 id: main_card
                                 # on_press: app.editscreen(root.image, root.local_image, root.tot, root.price, root.country, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
                                 radius: [5, ]
@@ -128,7 +130,7 @@
                                     MDBoxLayout:
                                         orientation: 'vertical'
                                         spacing: "10dp"
-                                        padding: [10, 0, 0, 0]
+                                        padding: [10, 0, 5, 0]
                                         size_hint_y: None
                                         adaptive_height: True
                                         MDLabel:
