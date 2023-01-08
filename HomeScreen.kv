@@ -95,7 +95,7 @@
                                         MDIcon:
                                             icon: 'magnify'
                                             pos_hint: {'center_y': 0.5, 'center_x': 0.5}
-                                            font_size: str(int(btn.width-150)) + 'dp'
+                                            font_size: str(int(btn.width - 190)) + 'dp'
                                             id: magnificent
                                             halign: 'center'
                                             
@@ -233,7 +233,7 @@
                                         padding: [0]
                                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                         size_hint_x: None
-                                        width: 700
+                                        width: Window.size[0] - grid_card.width if Window.size[0] < Window.size[1] else Window.size[0] / 2 + 40
                                         
                                         id: home_card
                                         radius: [5, ]

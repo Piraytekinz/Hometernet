@@ -7,7 +7,7 @@
                     size_hint_y: None
                     height: arrow_right.height + 55
                     padding: [10]
-                    
+                    id: prop_title
 
                     MDLabel:
                         text: "My Properties"
@@ -45,7 +45,7 @@
                                 md_bg_color: app.theme_cls.primary_color
                                 radius: [10, ]
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: prop_title.height
                                 MDLabel:
                                     text: "sign-out"
                                     halign: 'center'
@@ -60,7 +60,7 @@
                                 elevation: 0
                                 radius: [10, ]
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: prop_title.height
                                 MDLabel:
                                     text: "switch account"
                                     halign: 'center'
@@ -79,13 +79,14 @@
                             adaptive_height: True
                             spacing: "20dp"
                             orientation: 'vertical'
+                            padding: [10]
                             SaleCard:
                                 elevation: 1
                                 padding: [0]
                                 size_hint: None, None
-                                width: 695
+                                width: Window.size[0] - 200 if Window.size[0] < Window.size[1] else Window.size[0] / 2 + 40
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                height: 650
+                                height: 700
                                 id: main_card
                                 # on_press: app.editscreen(root.image, root.local_image, root.tot, root.price, root.country, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
                                 radius: [5, ]
