@@ -1,18 +1,18 @@
 <PropertySaleCards>:
     elevation: 0
-    
+    padding: [0]
     size_hint: None, None
     width: 270
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
     height: 400
-    # on_press: app.delete_property(root.key)
-    on_press: app.editscreen(root.image, root.local_image, root.tot, root.price, root.country, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description)
+    # 
+    on_press: app.editscreen(root.image, root.local_image, root.tot, root.price, root.country, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
     radius: [5, ]
     MDBoxLayout:
         orientation: 'vertical'
         padding: [10,]
         spacing: "20dp"
-        MDCard:
+        SalePic:
             size_hint_y: None
             height: 180
             elevation: 12
@@ -25,14 +25,7 @@
                     radius: [5, ]
 
                 
-                # MDCard:
-                #     size_hint: None, .13
-                #     adaptive_width: True
-                #     md_bg_color: app.theme_cls.primary_color
-                #     pos_hint: {'center_x': 0.75, 'center_y':0.87}
-                    
-                #     elevation: 20
-                #     radius: [1,]
+                
                 MDLabel:
                     text: root.price
                     halign: 'center'
@@ -57,15 +50,22 @@
             spacing: "6dp"
             padding: [10, 0, 0, 0]
             
-            TextInput:
+            MDLabel:
                 text: root.tot
                 bold: True
-                multiline: False
-            TextInput:
-                text: root.country
-                color: "gray"
-                font_size: "15sp"
-                multiline: False
+                size_hint: None, None
+                adaptive_size: True
+            MDBoxLayout:
+                size_hint_y: None
+                height: 25
+                
+                MDLabel:
+                    text: root.country + ',' + ' ' + root.town + ',' + ' ' + root.street
+                    color: "gray"
+                    font_size: "13sp"
+                    size_hint_y: None
+                    adaptive_height: True
+            
 
         MDSeparator:
 
@@ -126,4 +126,7 @@
                     halign: 'center'
                     size_hint_y: None
                     adaptive_height: True
+
+
+<SalePic@MDCard+CommonElevationBehavior>
 

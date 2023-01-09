@@ -1,0 +1,110 @@
+<AppTutorial>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        HeaderCard:
+            size_hint_y: None
+            height: icon.height + 55
+            padding: [10,]
+            elevation: 0
+            MDLabel:
+                text: 'Tutorial'
+                theme_font_style: 'Overline'
+                size_hint_y: None
+                adaptive_height: True
+                valign: 'center'
+                pos_hint: {'center_y': 0.5}
+                
+            MDIconButton:
+                user_font_size: '14dp'
+                icon: 'arrow-right'
+                on_press: app.switch_home()
+                pos_hint: {'center_y': 0.5}
+                id: icon
+                
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                adaptive_height: True
+                padding: [10,]
+
+                SellCard:
+                    elevation: 7
+                    md_bg_color: app.theme_cls.primary_color
+                    padding: [5]
+                    radius: [0]
+                    
+                    size_hint_y: None
+                    
+                    height: man.height
+                    orientation: 'vertical'
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        adaptive_height: True
+                        id: man
+                        spacing: "20dp"
+                        padding: [10]
+                        MDLabel:
+                            color: 'white'
+                            halign: 'center'
+                            font_size: '25dp'
+                            text: 'How to Sell'
+                            size_hint_y: None
+                            adaptive_height: True
+                            bold: True
+                        
+                        MDLabel:
+                            text: "1. Click on the menu icon in the top right corner of the screen."
+                            color: 'white'
+                            size_hint_y: None
+                            adaptive_height: True
+                            bold: True
+                            font_size: '18dp'
+                        MDLabel:
+                            text: "2. Click on Sell Your Propery... you will be redirected to a My Properties page."
+                            color: 'white'
+                            size_hint_y: None
+                            adaptive_height: True
+                            bold: True
+                            font_size: '18dp'
+                        MDLabel:
+                            text: "3. Click on the floating button with a plus in the center."        
+                            color: 'white'
+                            size_hint_y: None
+                            adaptive_height: True
+                            bold: True
+                            font_size: '18dp'
+                        MDLabel:
+                            text: "4. You'll get redirected to another screen that tells you to choose between selling and renting, if you've not signed in you'll be redirected to the sign in page."
+                            color: 'white'    
+                            size_hint_y: None
+                            adaptive_height: True
+                            bold: True
+                            font_size: '18dp'
+                        MDLabel:
+                            text: "5. Fill in the necessary details for your property and contact info and click submit"    
+                            color: 'white'    
+                            size_hint_y: None
+                            adaptive_height: True
+                            bold: True
+                            font_size: '18dp'
+                        MDLabel:
+                            text: "6. You will be asked to choose an image from the files on your device."
+                            color: 'white'
+                            size_hint_y: None
+                            adaptive_height: True
+                            bold: True
+                            font_size: '18dp'
+                        MDLabel:
+                            text: "7. When that is done, your property will be submitted and uploaded onto the market."       
+                            color: 'white' 
+                            size_hint_y: None
+                            adaptive_height: True
+                            bold: True
+                            font_size: '18dp'
+                           
+
+
+<HeaderCard@MDCard+CommonElevationBehavior>
+<SellCard@MDCard+CommonElevationBehavior>

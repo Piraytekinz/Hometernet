@@ -11,7 +11,7 @@
         orientation: 'vertical'
         padding: [10,]
         spacing: "20dp"
-        MDCard:
+        RentPic:
             size_hint_y: None
             height: 180
             elevation: 12
@@ -24,14 +24,7 @@
                     radius: [5, ]
 
                 
-                # MDCard:
-                #     size_hint: None, .13
-                #     adaptive_width: True
-                #     md_bg_color: app.theme_cls.primary_color
-                #     pos_hint: {'center_x': 0.75, 'center_y':0.87}
-                    
-                #     elevation: 20
-                #     radius: [1,]
+               
                 MDLabel:
                     text: root.price
                     halign: 'center'
@@ -56,16 +49,21 @@
             spacing: "6dp"
             padding: [10, 0, 0, 0]
             
-            TextInput:
+            MDLabel:
                 text: root.tot
                 bold: True
-                multiline: False
+                size_hint: None, None
+                adaptive_size: True
+            MDBoxLayout:
+                size_hint_y: None
+                height: 25
                 
-            TextInput:
-                text: root.country
-                color: "gray"
-                font_size: "15sp"
-                multiline: False
+                MDLabel:
+                    text: root.country + ',' + ' ' + root.town + ',' + ' ' + root.street
+                    color: "gray"
+                    font_size: "13sp"
+                    size_hint_y: None
+                    adaptive_height: True
 
         MDSeparator:
 
@@ -126,3 +124,5 @@
                     halign: 'center'
                     size_hint_y: None
                     adaptive_height: True
+
+<RentPic@MDCard+CommonElevationBehavior>

@@ -1,4 +1,4 @@
-<SaleOrRent>:
+<Congrats>:
     MDFloatLayout:
         MDBoxLayout:
             
@@ -6,17 +6,10 @@
                 FitImage:
                     source: 'Images/Apartment-Buildings.jpg'
 
-                AnchorLayout:
-                    anchor_x: 'left'
-                    anchor_y: 'top'
-                    MDIconButton:
-                        icon: 'arrow-left'
-                        on_press: app.switch_products()
-                        custom_color: True
-                        font_color: 'white'
+                
                 
                 MDLabel:
-                    text: "Are you selling or renting?"
+                    text: "Congratulations!! \n Your Property is now on Homify"
                     color: "white"
                     bold: True
                     font_size: "30dp"
@@ -27,34 +20,38 @@
                     halign: 'center'
 
                 MDBoxLayout:
-                    spacing: "20dp"
-                    size_hint_y: None
-                    adaptive_height: True
+                    size_hint: None, None
+                    adaptive_size: True
                     pos_hint: {'center_x': 0.5, 'center_y': 0.4}
-                    padding: [20, 0, 20, 0]
-                    Sell:
+                    spacing: "20dp"
+                    Home:
                         ripple_behavior: True
                         elevation: 12
-                        size_hint_y: None
+                        size_hint: None, None
                         adaptive_height: True
+                        width: properties.width
                         radius: [15,]
-                        on_press: app.switch_sale()
+                        on_press: app.switch_home()
+                        pos_hint: {'center_x': 0.5}
                         MDLabel:
                             halign: 'center'
                             bold: True
-                            text: "sell"
+                            text: "Home"
                             font_size: "18dp"
-                    Rent:
+                    Properties:
                         ripple_behavior: True
                         elevation: 12
-                        size_hint_y: None
-                        adaptive_height: True
+                        size_hint: None, None
+                        adaptive_size: True
                         radius: [15,]
-                        on_press: app.switch_rent()
+                        on_press: app.switch_products()
+                        pos_hint: {'center_x': 0.5}
+                        id: properties
                         MDLabel:
                             halign: 'center'
                             bold: True
-                            text: "rent"
+                            text: "My Properties"
                             font_size: "18dp"
-<Sell@MDCard+CommonElevationBehavior>
-<Rent@MDCard+CommonElevationBehavior>
+                            id: prop
+<Home@MDCard+CommonElevationBehavior>
+<Properties@MDCard+CommonElevationBehavior>

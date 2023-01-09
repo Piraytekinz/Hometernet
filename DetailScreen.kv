@@ -13,47 +13,48 @@
                 MDBoxLayout:
                     
                     size_hint_y: None
-                    height: 300
+                    height: Window.size[1] / 2
+                    padding: [0]
                     
-                    MDBoxLayout:
-                        spacing: "25dp"
+                    ImageCard:
                         padding: [0]
-                        MDCard:
-                            elevation: 12
-                            RelativeLayout:
-                                FitImage:
-                                    source: root.image
-                                AnchorLayout:
-                                    anchor_x: 'left'
-                                    anchor_y: 'top'
-                                    MDIconButton:
-                                        icon: "arrow-left"
-                                        theme_text_color: "Custom"
-                                        text_color: 'white'
-                                        on_press: app.switch_home()
-                                        ripple_behavior: True
+                        on_press: house_image.allow_stretch=True
+                        RelativeLayout:
+                            FitImage:
+                                source: root.image
+                                id: house_image
                                 
-                                AnchorLayout:
-                                    anchor_x: 'right'
-                                    anchor_y: 'top'
-                                    MDIconButton:
-                                        icon: "bookmark"
-                                        theme_text_color: "Custom"
-                                        text_color: 'white'
-                                        on_press: app.bookmark(root.key)
-                                        ripple_behavior: True
+                            AnchorLayout:
+                                anchor_x: 'left'
+                                anchor_y: 'top'
+                                MDIconButton:
+                                    icon: "arrow-left"
+                                    theme_text_color: "Custom"
+                                    text_color: 'white'
+                                    on_press: app.switch_home()
+                                    ripple_behavior: True
+                            
+                            AnchorLayout:
+                                anchor_x: 'right'
+                                anchor_y: 'top'
+                                MDIconButton:
+                                    icon: "bookmark"
+                                    theme_text_color: "Custom"
+                                    text_color: 'white'
+                                    on_press: app.bookmark(root.key)
+                                    ripple_behavior: True
 
-                                AnchorLayout:
-                                    anchor_x: 'right'
-                                    anchor_y: 'bottom'
-                                    padding: [0,0,20,20]
-                                    MDLabel:
-                                        text: root.price
-                                        color: 'white'
-                                        font_size: '23dp'
-                                        size_hint: None, None
-                                        adaptive_size: True
-                                        bold: True
+                            AnchorLayout:
+                                anchor_x: 'right'
+                                anchor_y: 'bottom'
+                                padding: [0,0,20,20]
+                                MDLabel:
+                                    text: root.price
+                                    color: 'white'
+                                    font_size: '23dp'
+                                    size_hint: None, None
+                                    adaptive_size: True
+                                    bold: True
                                     
                 # MDBoxLayout:
                 #     padding: [15,20,0,0]
@@ -90,11 +91,12 @@
                             size_hint: None, None
                             adaptive_size: True
                             font_size: '18dp'
+                            pos_hint: {'center_y': 0.5}
                             
                         MDLabel:
                             id: count
                             text: root.country + " " + root.town + " " + root.street
-                            font_size: "13dp"
+                            font_size: "15dp"
                             color: "gray"
                             size_hint_y: None
                             adaptive_height: True
@@ -120,52 +122,82 @@
                         adaptive_height: True
                         MDCard:
                             size_hint: None, None
-                            width: 100
-                            height: 30
+                            adaptive_width: True
+                            height: bedrooms.height + 25
                             radius: [10,]
                             on_press: app.open_maps(root.country + ',' + " " + root.town + ',' + " " + root.street)
                             ripple_behavior: True
+                            
+                            
                             MDIcon:
                                 icon: 'google-maps'
-                                size_hint_x: None
-                                width: 20
+                                size_hint: None, None
+                                adaptive_size: True
                                 font_size: '18dp'
-                                
+                                id: gmaps_icon
+                                md_bg_color: 1,0,1,1
+                                    
                             MDLabel:
                                 text: 'google maps'
-                                font_size: '12dp'
-                                
+                                font_size: '17dp'
+                                size_hint_x: None
+                                adaptive_width: True
+                                id: gmaps_label
+                                md_bg_color: 1,0,0,1
                             
                 MDBoxLayout:
                     size_hint_y: None
                     adaptive_height: True
                     spacing: "10dp"
                     padding: [20,5,10,0]
-                    MDCard:
+                    BedroomsCard:
                         size_hint_y: None
-                        height: 50
+                        height: landspace.height + 25
                         radius: [10,]
+                        padding: [5,]
                         MDLabel:
                             halign: 'center'
                             text: root.bedrooms + " " + 'bedrooms'
-                            font_size: '12dp'
-                    MDCard:
+                            font_size: '15dp'
+                            id: bedrooms
+                            size_hint_y: None
+                            adaptive_height: True
+                            valign: 'center'
+                            halign: 'center'
+                            md_bg_color: 1,0,0,1
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    BathroomsCard:
                         size_hint_y: None
-                        height: 50
+                        height: landspace.height + 25
                         radius: [10,]
+                        padding: [5]
                         MDLabel:
                             halign: 'center'
                             text: root.bathrooms + " " + 'bathrooms'
-                            font_size: '12dp'
-                    MDCard:
+                            font_size: '15dp'
+                            id: bathrooms
+                            size_hint_y: None
+                            adaptive_height: True
+                            valign: 'center'
+                            halign: 'center'
+                            md_bg_color: 0,1,0,1
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    LandspaceCard:
                         size_hint_y: None
-                        height: 50
+                        height: landspace.height + 25
                         radius: [10,]
+                        padding: [5]
                         MDLabel:
                             halign: 'center'
                             text: root.landspace + " " + 'landspace'
-                            font_size: '12dp'
-
+                            font_size: '15dp'
+                            size_hint_y: None
+                            adaptive_height: True
+                            id: landspace
+                            valign: 'center'
+                            halign: 'center'
+                            md_bg_color: 0,0,1,1
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 MDBoxLayout:
                     size_hint_y: None
                     adaptive_height: True
@@ -185,6 +217,67 @@
                         adaptive_height: True
                         font_size: '13dp'
                         color: 'gray'
+                MDBoxLayout:
+                    padding: [20]
+                    size_hint_y: None
+                    height: 300
+                    MDCard:
+                        radius: [10]
+                        padding: [10,]
+                        elevation: 0
+                        orientation: 'vertical'
+                        MDLabel:
+                            text: 'Further Amenities'
+                            halign: 'center'
+                            font_size: '20dp'
+                            bold: True
+                            size_hint_y: .7
+                        MDBoxLayout:
+                            orientation: 'vertical'
+                            
+                            MDGridLayout:
+                                spacing: "20dp"
+                                cols: 2
+                                MDLabel:
+                                    text: 'Fans'
+                                    font_size: '14sp'
+                                MDLabel:
+                                    text: root.amenities[0]
+
+
+                                MDLabel:
+                                    text: 'Air Conditioner'
+                                    font_size: '14sp'
+                                MDLabel:
+                                    text: root.amenities[1]
+                                
+
+                                MDLabel:
+                                    text: 'Water Heater' 
+                                    font_size: '14sp'
+                                MDLabel:
+                                    text: root.amenities[2]
+
+                                MDLabel:
+                                    text: 'Swimming Pool'
+                                    font_size: '14sp'
+                                MDLabel:
+                                    text: root.amenities[3]
+
+
+                                MDLabel:
+                                    text: 'Wifi'
+                                    font_size: '14sp'
+                                MDLabel:
+                                    text: root.amenities[4]
+
+                                MDLabel:
+                                    text: 'garage'
+                                    font_size: '14sp'
+                                MDLabel:
+                                    text: root.amenities[5]
+
+
                 
                         
                 # MDCard:
@@ -210,7 +303,7 @@
                 radius: [5,]
                 ripple_behavior: True
                 
-                on_release: app.send_email(root.email, root.phonenumber)
+                on_release: app.send_email(root.email, root.phonenumber, root.telegram, root.facebook)
                 
                 MDLabel:
                     text: "Buy"
@@ -233,4 +326,8 @@
             #         bold: True
                     
 
-        
+<Further@MDCard+CommonElevationBehavior>
+<ImageCard@MDCard+CommonElevationBehavior>
+<BedroomsCard@MDCard+CommonElevationBehavior>
+<BathroomsCard@MDCard+CommonElevationBehavior>
+<LandspaceCard@MDCard+CommonElevationBehavior>

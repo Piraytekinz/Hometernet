@@ -3,26 +3,24 @@
         RelativeLayout:
             MDBoxLayout:
                 orientation: 'vertical'
-                MDCard:
+                PropTitle:
                     size_hint_y: None
-                    height: 50
+                    height: arrow_right.height + 55
                     
                     MDIconButton:
                         icon: 'arrow-left'
                         user_font_size: "16dp"
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         on_press: app.switch_home()
+                        id: arrow_right
 
                     MDLabel:
                         text: "My Properties"
-                        font_size: '15dp'
-                        
-                        halign: 'center'
+                        font_size: '17dp'
+                        bold: True
+                        halign: 'left'
 
-                    MDIconButton:
-                        icon: 'trash-can'
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        user_font_size: "16dp"
+                    
                 
                             
                 
@@ -40,10 +38,10 @@
                             size_hint_y: None
                             adaptive_height: True
                             spacing: "20dp"
-                            MDCard:
+                            SignOut:
                                 ripple_behavior: True
                                 elevation: 0
-                                on_press: app.sign_out()
+                                on_press: app.sign_out_auth()
                                 md_bg_color: app.theme_cls.primary_color
                                 radius: [10, ]
                                 size_hint_y: None
@@ -55,10 +53,9 @@
                                     bold: True
                                     color: 'white'
 
-                            MDCard:
+                            SwitchAccount:
                                 ripple_behavior: True
-                                on_press: app.sign_out()
-                                on_release: app.switch_signin()
+                                on_press: app.switch_account_auth()
                                 elevation: 0
                                 radius: [10, ]
                                 size_hint_y: None
@@ -87,7 +84,9 @@
                 on_press: app.switch_saleorrent()
                 pos_hint: {'center_x': 0.85, 'center_y': 0.1}
                             
-
+<PropTitle@MDCard+CommonElevationBehavior>
+<SignOut@MDCard+CommonElevationBehavior>
+<SwitchAccount@MDCard+CommonElevationBehavior>
         
 
                

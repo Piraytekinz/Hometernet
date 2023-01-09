@@ -11,17 +11,19 @@
                 user_font_size: "16dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 on_press: app.switch_home()
+                bold: True
 
             MDLabel:
                 text: "Search"
                 font_size: '15dp'
-                
+                bold: True
                 halign: 'center'
 
             MDIconButton:
                 icon: 'magnify'
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 user_font_size: "16dp"
+                bold: True
         MDBoxLayout:
             size_hint_y: None
             height: 70
@@ -100,8 +102,9 @@
                             text: "For:"
                             size_hint_x: None
                             width: 30
-                            # halign: 'center'
-                            md_bg_color: 1,0,0,1
+                            halign: 'center'
+                            color: 'gray'
+                            
                         MDDropDownItem:
                             id: drop_item
                             text: 'Sale'

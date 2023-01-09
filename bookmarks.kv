@@ -11,17 +11,19 @@
                 user_font_size: "16dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 on_press: app.switch_home()
+                bold: True
 
             MDLabel:
                 text: "Bookmarks"
                 font_size: '15dp'
-                
+                bold: True
                 halign: 'center'
 
             MDIconButton:
                 icon: 'magnify'
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 user_font_size: "16dp"
+                bold: True
 
         ScrollView:
             BookmarkLayout:

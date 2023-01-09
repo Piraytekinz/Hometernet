@@ -1,76 +1,78 @@
 <AccountLoginPage>:
-    MDFloatLayout:
+    MDBoxLayout:
+        orientation: 'vertical'
         
-        RelativeLayout:
-            FitImage:
-                source: ''
            
-            AnchorLayout:
-                anchor_x: 'left'
-                anchor_y: 'top'
+        AnchorLayout:
+            anchor_x: 'left'
+            anchor_y: 'top'
+            size_hint_y: None
+            height: 30
+            MDIconButton:
+                icon: 'arrow-left'
+                on_press: app.switch_signin()
+                font_size: '15dp'
                 
-                MDIconButton:
-                    icon: 'arrow-left'
-                    on_press: app.switch_home()
-                    
-                    
-
+        MDBoxLayout:
+            
+            
+            MDIcon:
+                halign: 'center'
+                # text: 'Sign in to Homify'
+                bold: True
+                pos_hint: {'center_x': 0.5, 'center_y': 0.75}
+                font_size: "50sp"
+                icon: 'pirate'
                 
-            MDCard:
+            
+       
+            
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: "10dp"
+            padding: [20,]
+            
+                
+            MDBoxLayout:
+                padding: [0,0,0,10]
                 orientation: 'vertical'
-                md_bg_color: 255/255, 255/255, 255/255, 0.5
-                padding: [20,]
-                radius: [20,]
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                size_hint: .9, .8
+                spacing: "10dp"
                 MDLabel:
-                    text: "Hello Newbie! \nContinue here to sign up."
-                    halign: 'center'
+                    text: "Create your account"
+                    
                     bold: True
-                    font_size: "20dp"
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    spacing: "20dp"
-                    MDBoxLayout:
-                        orientation: 'vertical'
-                        
-                        padding: [20,]
-                        spacing: "10dp"
-                        
-                        MDBoxLayout:
-                            padding: [0,0,0,10]
-                            orientation: 'vertical'
-                            spacing: "10dp"
-                            MDTextField:
-                                mode: 'rectangle'
-                                hint_text: 'email'
-                                padding: [20]
-                                on_text: app.email(self.text)
-                            MDTextField:
-                                mode: 'rectangle'
-                                hint_text: 'password'
-                                padding: [20]
-                                on_text: app.password(self.text)
-                                password: True
-                            MDTextField:
-                                mode: 'rectangle'
-                                hint_text: 'confirm password'
-                                padding: [20]
-                                id: confirm
-                                password: True
+                    font_size: "15dp"
+                    
+                MDTextField:
+                    mode: 'rectangle'
+                    hint_text: 'email'
+                    padding: [20]
+                    on_text: app.email(self.text)
+                MDTextField:
+                    mode: 'rectangle'
+                    hint_text: 'password'
+                    padding: [20]
+                    on_text: app.password(self.text)
+                    password: True
+                MDTextField:
+                    mode: 'rectangle'
+                    hint_text: 'confirm password'
+                    padding: [20]
+                    id: confirm
+                    password: True
 
-                        MDCard:
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                            size_hint_y: None
-                            height: 50
-                            radius: [7]
-                            ripple_behavior: True
-                            on_press: app.account_submit()
-                            md_bg_color: app.theme_cls.primary_color
-                            MDLabel:
-                                text: 'sign up'
-                                halign: 'center'
-                                color: 'white'
+            MDCard:
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint_y: None
+                height: 50
+                radius: [7]
+                ripple_behavior: True
+                on_press: app.account_submit()
+                md_bg_color: app.theme_cls.primary_color
+                MDLabel:
+                    text: 'sign up'
+                    halign: 'center'
+                    color: 'white'
 
 # on_text: app.email(self.text)
 # on_text: app.password(self.text)

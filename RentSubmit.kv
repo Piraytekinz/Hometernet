@@ -4,14 +4,28 @@
             orientation: 'vertical'
             MDBoxLayout:
                 orientation: 'vertical'
-                AnchorLayout:
-                    anchor_x: 'left'
-                    anchor_y: 'top'
-                    size_hint_y: .1
-                   
+                MDCard:
+                    size_hint_y: None
+                    height: arrow_left.height + 55
+            
                     MDIconButton:
                         icon: 'arrow-left'
-                        on_press: app.switch_home()
+                        user_font_size: "16dp"
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        on_press: app.switch_saleorrent()
+                        bold: True
+                        id: arrow_left
+
+                    MDLabel:
+                        text: "Fill in details"
+                        font_size: '15dp'
+                        bold: True
+                        halign: 'center'
+
+                    MDIconButton:
+                        icon: 'home'
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        user_font_size: "16dp"
 
                 
                 
@@ -23,12 +37,7 @@
                         padding: [25, 10, 25, 30]
                         size_hint_y: None
                         adaptive_height: True
-                        MDLabel:
-                            halign: 'center'
-                            text: "Fill in house details"
-                            font_size: "20sp"
-                            size_hint_y: None
-                            adaptive_height: True
+                        
                         MDCard:
                             opacity: 0.9
                             radius: [5]
@@ -70,17 +79,91 @@
                                     font_size: "15sp"
                                 MDBoxLayout:
                                     spacing: "30dp"
-                                    MDTextField:
-                                        id: code
-                                        text: '+1'
-                                        size_hint_x: .3
+                                    MDCard:
                                         
-                                    MDTextField:
-                                        id: phonenumber
-                                        hint_text: 'phonenumber'
-                                        padding: [20, ]
-                                        on_text: app.phone(code.text + self.text)
+                                        radius: [5,]
+                                        size_hint: None, None
+                                        width: 60
+                                        height: 30
+                                        MDLabel:
+                                            size_hint: None, None
+                                            adaptive_size: True
+                                            text: '+'
+                                            id: plus
+                                            md_bg_color: 1,0,0,1
+                                            valign: 'top'
+                                        TextInput:
+                                            id: code
+                                            hint_text: 'code'
+                                            size_hint_x: .3
+                                            input_type: 'number'
+                                            height: self.minimum_height
+                                            multiline: False
+                                            input_filter: 'float'
+                                            foreground_color: 0/255, 0/255, 0/255, 1
+                                            background_color: 0,0,0,0
+                                            font_size: "15sp"
+                                    MDCard:
+                                        radius: [5,]
+                                        size_hint_y: None
+                                        height: 30
+                                        
+                                        TextInput:
+                                            id: phonenumber
+                                            hint_text: 'phonenumber'
+                                            
+                                            height: self.minimum_height
+                                            on_text: app.phone(plus.text + code.text + self.text)
+                                            input_type: 'number'
+                                            multiline: False
+                                            input_filter: 'float'
+                                            foreground_color: 0/255, 0/255, 0/255, 1
+                                            background_color: 0,0,0,0
+                                            font_size: "15sp"
                                 
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "Telegram Handle(optional)"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: location
+                                    hint_text: "telegram"
+                                    padding: [20, ]
+                                    on_text: app.tg(self.text)
+
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "Facebook Handle(optional)"
+                                    font_size: "15sp"
+                                MDTextField:
+                                    id: location
+                                    hint_text: "facebook"
+                                    padding: [20, ]
+                                    on_text: app.fb(self.text)
                                     
                         MDCard:
                             opacity: 0.9
@@ -103,6 +186,10 @@
                                     hint_text: "house type"
                                     on_text: app.word(self.text)
                                     padding: [20, ]
+
+                        
+
+
                         MDCard:
                             opacity: 0.9
                             radius: [5]
@@ -433,11 +520,13 @@
                             MDBoxLayout:
                                 orientation: 'vertical'
                                 padding: [20,0,20,10]
-                                MDLabel:
-                                    text: "Land space"
-                                    font_size: "15sp"
+                                MDBoxLayout:
+                                    MDLabel:
+                                        text: "Land space"
+                                        font_size: "15sp"
+                                    
                                 TextInput:
-                                    id: price
+                                    id: land_space
                                     height: self.minimum_height
                                     on_text: app.land_space(self.text)
                                     
@@ -464,7 +553,7 @@
                                 MDCard:
                                     radius: [9,]
                                     TextInput:
-                                        id: price
+                                        id: description
                                         padding: [20, ]
                                         on_text: app.description(self.text)
                                         multiline: True
@@ -488,6 +577,13 @@
                                     MDLabel:
                                         text: "Price/mth"
                                         font_size: "15sp"
+                                        size_hint_x: None
+                                        adaptive_width: True
+                                    MDDropDownItem:
+                                        id: pay_item
+                                        text: '/mth'
+                                        on_release: root.poi.open()
+                                        pos_hint: {'center_x': 0.5}
                                 TextInput:
                                     id: price
                                     height: self.minimum_height
@@ -496,6 +592,80 @@
                                     input_type: 'number'
                                     multiline: False
                                     input_filter: 'float'
+
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 380
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "10dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            padding: [20,0,20,10]
+                            MDLabel:
+                                text: 'Extra Amenities'
+                                size_hint_y: .5
+                                
+                            MDBoxLayout:
+                                size_hint_y: None
+                                MDCheckbox:
+                                    disabled: True
+                                    disabled_color: 'lightgrey'
+                                    active: True
+                                MDLabel:
+                                    text: "Yes"
+
+                                MDCheckbox:
+                                    disabled: True
+                                    disabled_color: 'lightgrey'
+                                MDLabel: 
+                                    text: "No"
+
+                            MDGridLayout:
+                                cols: 2
+                                MDLabel:
+                                    text: 'Fans'
+                                    font_size: '14sp'
+                                MDCheckbox:
+                                    on_active: app.on_checkbox_active(*args, 0)
+                                    id: 0
+
+                                MDLabel:
+                                    text: 'Air Conditioner'
+                                    font_size: '14sp'
+                                MDCheckbox:
+                                    on_active: app.on_checkbox_active(*args, 1)
+                                    id: 1
+
+                                MDLabel:
+                                    text: 'Water Heater'
+                                    font_size: '14sp'
+                                MDCheckbox:
+                                    on_active: app.on_checkbox_active(*args, 2)
+                                    id: 2
+
+                                MDLabel:
+                                    text: 'Swimming Pool'
+                                    font_size: '14sp'
+                                MDCheckbox:
+                                    on_active: app.on_checkbox_active(*args, 3)
+                                    id: 3
+
+                                MDLabel:
+                                    text: 'Wifi'
+                                    font_size: '14sp'
+                                MDCheckbox:
+                                    on_active: app.on_checkbox_active(*args, 4)
+                                    id: 4
+
+                                MDLabel:
+                                    text: 'Garage'
+                                    font_size: '14sp'
+                                MDCheckbox:
+                                    on_active: app.on_checkbox_active(*args, 5)
+                                    id: 5
                         MDRaisedButton:
                             text: "Submit"
                             on_press: app.rent_property()

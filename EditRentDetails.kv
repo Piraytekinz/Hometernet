@@ -15,19 +15,20 @@
                         user_font_size: "16dp"
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         on_press: app.switch_products()
+                        bold: True
 
                     MDLabel:
                         text: "Edit Property"
                         font_size: '15dp'
-                        
+                        bold: True
                         halign: 'center'
 
                     MDIconButton:
                         icon: 'trash-can'
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         user_font_size: "16dp"
-
-                
+                        on_press: app.delete_property_auth(root.key, root.local_image, 'Rent')
+                        bold: True
                 
                 ScrollView:
                     
@@ -43,56 +44,56 @@
                         #     font_size: "20sp"
                         #     size_hint_y: None
                         #     adaptive_height: True
-                        MDCard:
-                            opacity: 0.9
-                            radius: [5]
-                            size_hint_y: None
-                            height: 150
+                        # MDCard:
+                        #     opacity: 0.9
+                        #     radius: [5]
+                        #     size_hint_y: None
+                        #     height: 150
                             
-                            elevation: 0
-                            orientation: 'vertical'
-                            spacing: "20dp"
-                            md_bg_color: 255/255, 255/255, 255/255, 0.8
-                            MDBoxLayout:
-                                orientation: 'vertical'
-                                padding: [20,0,20,10]
-                                MDLabel:
-                                    text: "email"
-                                    valign: 'top'
-                                    font_size: "15sp"
-                                MDTextField:
-                                    id: email
-                                    hint_text: "email"
+                        #     elevation: 0
+                        #     orientation: 'vertical'
+                        #     spacing: "20dp"
+                        #     md_bg_color: 255/255, 255/255, 255/255, 0.8
+                        #     MDBoxLayout:
+                        #         orientation: 'vertical'
+                        #         padding: [20,0,20,10]
+                        #         MDLabel:
+                        #             text: "email"
+                        #             valign: 'top'
+                        #             font_size: "15sp"
+                        #         MDTextField:
+                        #             id: email
+                        #             hint_text: "email"
                                     
 
-                        MDCard:
-                            opacity: 0.9
-                            radius: [5]
-                            size_hint_y: None
-                            height: 150
+                        # MDCard:
+                        #     opacity: 0.9
+                        #     radius: [5]
+                        #     size_hint_y: None
+                        #     height: 150
                             
-                            elevation: 0
-                            orientation: 'vertical'
-                            spacing: "20dp"
-                            md_bg_color: 255/255, 255/255, 255/255, 0.8
-                            MDBoxLayout:
-                                orientation: 'vertical'
-                                padding: [20,0,20,10]
-                                MDLabel:
-                                    text: "phone number"
-                                    valign: 'top'
-                                    font_size: "15sp"
-                                MDBoxLayout:
-                                    spacing: "30dp"
-                                    MDTextField:
-                                        id: code
-                                        text: '+1'
-                                        size_hint_x: .3
+                        #     elevation: 0
+                        #     orientation: 'vertical'
+                        #     spacing: "20dp"
+                        #     md_bg_color: 255/255, 255/255, 255/255, 0.8
+                        #     MDBoxLayout:
+                        #         orientation: 'vertical'
+                        #         padding: [20,0,20,10]
+                        #         MDLabel:
+                        #             text: "phone number"
+                        #             valign: 'top'
+                        #             font_size: "15sp"
+                        #         MDBoxLayout:
+                        #             spacing: "30dp"
+                        #             MDTextField:
+                        #                 id: code
+                        #                 text: '+1'
+                        #                 size_hint_x: .3
                                         
-                                    MDTextField:
-                                        id: phonenumber
-                                        hint_text: 'phonenumber'
-                                        padding: [20, ]
+                        #             MDTextField:
+                        #                 id: phonenumber
+                        #                 hint_text: 'phonenumber'
+                        #                 padding: [20, ]
                                         # on_text: app.phone(code.text + self.text)
                                 
                                     
@@ -537,9 +538,20 @@
                             MDBoxLayout:
                                 orientation: 'vertical'
                                 padding: [20,0,20,10]
-                                MDLabel:
-                                    text: "Price"
-                                    font_size: "15sp"
+                                MDBoxLayout:
+
+                                    MDLabel:
+                                        text: "Price"
+                                        font_size: "15sp"
+                                        size_hint: None, None
+                                        pos_hint: {'center_x': 0.5, 'center_y':0.5}
+                                        adaptive_size: True
+                                        halign: 'center'
+                                    MDDropDownItem:
+                                        id: pay_item
+                                        text: '/mth'
+                                        on_release: root.poi.open()
+                                        pos_hint: {'center_x': 0.5, 'center_y': 0.85}
                                 TextInput:
                                     id: price
                                     padding: [20, ]
@@ -549,6 +561,86 @@
                                     input_type: 'number'
                                     multiline: False
                                     input_filter: 'float'
+
+                        MDCard:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 380
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "10dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            padding: [20,0,20,10]
+                            MDLabel:
+                                text: 'Extra Amenities'
+                                size_hint_y: .5
+                                
+                            MDBoxLayout:
+                                size_hint_y: None
+                                MDCheckbox:
+                                    disabled: True
+                                    disabled_color: 'lightgrey'
+                                    active: True
+                                MDLabel:
+                                    text: "Yes"
+
+                                MDCheckbox:
+                                    disabled: True
+                                    disabled_color: 'lightgrey'
+                                MDLabel: 
+                                    text: "No"
+
+                            MDGridLayout:
+                                cols: 2
+                                MDLabel:
+                                    text: 'Fans'
+                                    font_size: '14sp'
+                                MDCheckbox:
+                                    on_active: app.on_checkbox_active(*args, 0)
+                                    id: 0
+                                    active: True if root.amenities[0] == 'Yes' else False
+
+                                MDLabel:
+                                    text: 'Air Conditioner'
+                                    font_size: '14sp'
+                                MDCheckbox:
+                                    on_active: app.on_checkbox_active(*args, 1)
+                                    id: 1
+                                    active: True if root.amenities[1] == 'Yes' else False
+
+                                MDLabel:
+                                    text: 'Water Heater'
+                                    font_size: '14sp'
+                                MDCheckbox:
+                                    on_active: app.on_checkbox_active(*args, 2)
+                                    id: 2
+                                    active: True if root.amenities[2] == 'Yes' else False
+
+                                MDLabel:
+                                    text: 'Swimming Pool'
+                                    font_size: '14sp'
+                                MDCheckbox:
+                                    on_active: app.on_checkbox_active(*args, 3)
+                                    id: 3
+                                    active: True if root.amenities[3] == 'Yes' else False
+
+                                MDLabel:
+                                    text: 'Wifi'
+                                    font_size: '14sp'
+                                MDCheckbox:
+                                    on_active: app.on_checkbox_active(*args, 4)
+                                    id: 4
+                                    active: True if root.amenities[4] == 'Yes' else False
+
+                                MDLabel:
+                                    text: 'Garage'
+                                    font_size: '14sp'
+                                MDCheckbox:
+                                    on_active: app.on_checkbox_active(*args, 5)
+                                    id: 5
+                                    active: True if root.amenities[5] == 'Yes' else False
                         MDRaisedButton:
                             text: "Submit"
                             # on_press: self.submit()
