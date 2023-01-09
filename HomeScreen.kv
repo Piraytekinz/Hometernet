@@ -211,7 +211,7 @@
                             bar_width: 0
                             id: inner_scroll
                             size_hint_y: None
-                            height: Window.size[1] / 1.8 + 30 if Window.size[1] > Window.size[0] else Window.size[1]
+                            height: Window.size[1] / 2 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 30
                             MDBoxLayout:
                                 size_hint: None, None
                                 adaptive_height: True
@@ -223,7 +223,7 @@
                                     size_hint_x: None
                                     adaptive_width: True
                                     
-                                    height: Window.size[1] / 1.8 + 30 if Window.size[1] > Window.size[0] else Window.size[1]
+                                    height: Window.size[1] / 2 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 30
                                     spacing: "20dp"
                                     padding: [15, 10, 10, 15]
                                     HomeCards:
@@ -233,7 +233,7 @@
                                         padding: [0]
                                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                         size_hint_x: None
-                                        width: Window.size[0] - grid_card.width if Window.size[0] < Window.size[1] else Window.size[0] / 2 + 40
+                                        width: Window.size[0] - grid_card.width if Window.size[0] < Window.size[1] else Window.size[0] / 2 
                                         
                                         id: home_card
                                         radius: [5, ]
@@ -396,7 +396,7 @@
                                     elevation: 0
                                     ripple_behavior: True
                                     size_hint: None, None
-                                    height: Window.size[1] / 2 + 40 if Window.size[1] > Window.size[0] else Window.size[1]
+                                    height: Window.size[1] / 2 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 30
                                     width: more_sale.width + 100
                                     
                                     padding: [self.width/2,self.height/2,self.width/2,self.height/2]
@@ -429,7 +429,7 @@
                             do_scroll_y: False
                             bar_width: 0
                             size_hint_y: None
-                            height: Window.size[1] / 1.8 + 30 if Window.size[1] > Window.size[0] else Window.size[1]
+                            height: Window.size[1] / 2 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 30
                             MDBoxLayout:
                                 size_hint: None, None
                                 adaptive_height: True
@@ -450,7 +450,7 @@
                                     elevation: 0
                                     ripple_behavior: True
                                     size_hint: None, None
-                                    height: Window.size[1] / 1.8 + 30 if Window.size[1] > Window.size[0] else Window.size[1]
+                                    height: Window.size[1] / 2 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 30
                                     width: more_rent.width + 100
                                     
 
