@@ -19,7 +19,7 @@ Builder.load_file('SignUp.kv')
 
 # bed
 # \U000F02E3
-print(Window.size[1]*2)
+
 
 
 

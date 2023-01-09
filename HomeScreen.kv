@@ -211,7 +211,7 @@
                             bar_width: 0
                             id: inner_scroll
                             size_hint_y: None
-                            height: ad_word.height + 570
+                            height: Window.size[1] / 1.8 + 30 if Window.size[1] > Window.size[0] else Window.size[1]
                             MDBoxLayout:
                                 size_hint: None, None
                                 adaptive_height: True
@@ -223,9 +223,9 @@
                                     size_hint_x: None
                                     adaptive_width: True
                                     
-                                    height: ad_word.height + 580
+                                    height: Window.size[1] / 1.8 + 30 if Window.size[1] > Window.size[0] else Window.size[1]
                                     spacing: "20dp"
-                                    padding: [15, 15, 10, 15]
+                                    padding: [15, 10, 10, 15]
                                     HomeCards:
                                         elevation: 2
                                         
@@ -396,7 +396,7 @@
                                     elevation: 0
                                     ripple_behavior: True
                                     size_hint: None, None
-                                    height: ad_word.height + 580
+                                    height: Window.size[1] / 2 + 40 if Window.size[1] > Window.size[0] else Window.size[1]
                                     width: more_sale.width + 100
                                     
                                     padding: [self.width/2,self.height/2,self.width/2,self.height/2]
@@ -429,7 +429,7 @@
                             do_scroll_y: False
                             bar_width: 0
                             size_hint_y: None
-                            height: ad_word.height + 580
+                            height: Window.size[1] / 1.8 + 30 if Window.size[1] > Window.size[0] else Window.size[1]
                             MDBoxLayout:
                                 size_hint: None, None
                                 adaptive_height: True
@@ -450,7 +450,7 @@
                                     elevation: 0
                                     ripple_behavior: True
                                     size_hint: None, None
-                                    height: ad_word.height + 580
+                                    height: Window.size[1] / 1.8 + 30 if Window.size[1] > Window.size[0] else Window.size[1]
                                     width: more_rent.width + 100
                                     
 

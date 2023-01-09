@@ -86,7 +86,7 @@
                                 size_hint: None, None
                                 width: Window.size[0] - 200 if Window.size[0] < Window.size[1] else Window.size[0] / 2 + 40
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                height: 700
+                                height: Window.size[1] / 1.8 + 30 if Window.size[1] > Window.size[0] else Window.size[1]
                                 id: main_card
                                 # on_press: app.editscreen(root.image, root.local_image, root.tot, root.price, root.country, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
                                 radius: [5, ]
