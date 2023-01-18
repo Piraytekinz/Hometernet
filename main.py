@@ -11,6 +11,7 @@ Builder.load_file('Creator.kv')
 Builder.load_file('MyProperties.kv')
 Builder.load_file('SignIn.kv')
 Builder.load_file('SignUp.kv')
+Builder.load_file('Details.kv')
 
 
 
@@ -38,6 +39,13 @@ class SignInScreen(Screen):
 class SignUpScreen(Screen):
     pass
 
+class DetailsScreen(Screen):
+    def __init__(self, **kw):
+        super().__init__(**kw)
+
+    def on_enter(self, *args):
+        print(self.ids.fan.height)
+        print(self.ids.grody.height)
 class CreatorScreen(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
@@ -83,6 +91,7 @@ class MainApp(MDApp):
         self.products = MyProducts()
         self.signin = SignInScreen()
         self.signup = SignUpScreen()
+        self.details = DetailsScreen()
         self.wm.transition = WipeTransition()
         
         for i in screens:
@@ -103,5 +112,8 @@ class MainApp(MDApp):
 
     def switch_signup(self):
         self.wm.switch_to(self.signup, direction='right')
+
+    def switch_details(self):
+        self.wm.switch_to(self.details, direction='right')
 
 MainApp().run()

@@ -1,0 +1,387 @@
+<DetailsScreen>:
+    
+    MDBoxLayout:
+        orientation: 'vertical'
+        
+        ScrollView:
+            effect_cls: 'ScrollEffect'
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: "25dp"
+                adaptive_height: True
+                size_hint_y: None
+                MDBoxLayout:
+                    
+                    size_hint_y: None
+                    height: Window.size[1] / 2
+                    padding: [0]
+                    
+                    ImageCard:
+                        padding: [0]
+                        md_bg_color: 0,0,0,1
+                        ripple_behavior: True
+                        RelativeLayout:
+                            Image:
+                                source: '3d-electric-car-building.jpg'
+                                id: house_image
+                                allow_stretch: True
+                                keep_ratio: False if Window.size[1] > Window.size[0] else True
+                            AnchorLayout:
+                                anchor_x: 'left'
+                                anchor_y: 'top'
+                                MDIconButton:
+                                    icon: "arrow-left"
+                                    theme_text_color: "Custom"
+                                    text_color: 'white'
+                                    # on_press: app.switch_home()
+                                    ripple_behavior: True
+                            
+                            AnchorLayout:
+                                anchor_x: 'right'
+                                anchor_y: 'top'
+                                MDIconButton:
+                                    icon: "bookmark"
+                                    theme_text_color: "Custom"
+                                    text_color: 'white'
+                                    # on_press: app.bookmark(root.key)
+                                    ripple_behavior: True
+
+                            AnchorLayout:
+                                anchor_x: 'right'
+                                anchor_y: 'bottom'
+                                padding: [0,0,20,20]
+                                MDLabel:
+                                    text: '$56000'
+                                    color: 'white'
+                                    font_size: '23dp'
+                                    size_hint: None, None
+                                    adaptive_size: True
+                                    bold: True
+                                    
+                # MDBoxLayout:
+                #     padding: [15,20,0,0]
+                #     size_hint_y: None
+                #     adaptive_height: True
+                #     MDLabel:
+                #         font_size: '23dp'
+                #         text: 'Details:'
+                #         adaptive_height: True
+                        
+                #         bold: True
+                
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    spacing: "15dp"
+                    size_hint_y: None
+                    adaptive_height: True
+                    padding: [20,15,0,0]
+                    
+                    MDLabel:
+                        text: 'Nice House'
+                        size_hint_y: None
+                        adaptive_height: True
+                        font_size: "20dp"
+                        color: "black"
+                        bold: True
+                        
+                    MDBoxLayout:
+                        size_hint_y: None
+                        adaptive_height: True
+                        
+                        MDIcon:
+                            icon: 'google-maps'
+                            size_hint: None, None
+                            adaptive_size: True
+                            font_size: '18dp'
+                            pos_hint: {'center_y': 0.5}
+                            
+                        MDLabel:
+                            id: count
+                            text: 'UK' + " " + 'Oxford' + " " + 'Oxford Street'
+                            font_size: "15dp"
+                            color: "gray"
+                            size_hint_y: None
+                            adaptive_height: True
+                            
+                        # MDLabel:
+                        #     text: root.town + " "
+                        #     font_size: "13dp"
+                        #     color: "gray"
+                        #     size_hint: None, None
+                        #     adaptive_size: True
+                            
+                        # MDLabel:
+                        #     text: root.street
+                        #     font_size: "13dp"
+                        #     color: 'gray'
+                        #     size_hint: None, None
+                        #     adaptive_size: True
+                        #     height: count.height
+                            
+
+                    MDBoxLayout:
+                        size_hint_y: None
+                        adaptive_height: True
+                        MapsCard:
+                            size_hint: None, None
+                            width: gmaps_icon.width + gmaps_label.width + 25
+                            height: bedrooms.height + 25
+                            radius: [10,]
+                            padding: [10]
+                            # on_press: app.open_maps(root.country + ',' + " " + root.town + ',' + " " + root.street)
+                            ripple_behavior: True
+                            
+                            
+                            MDIcon:
+                                icon: 'google-maps'
+                                size_hint: None, None
+                                adaptive_size: True
+                                font_size: '18dp'
+                                id: gmaps_icon
+                                
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                halign: 'center'
+                                    
+                            MDLabel:
+                                text: 'google maps'
+                                font_size: '17dp'
+                                size_hint: None, None
+                                adaptive_size: True
+                                id: gmaps_label
+                                
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                halign: 'center'
+                            
+                MDBoxLayout:
+                    size_hint_y: None
+                    adaptive_height: True
+                    spacing: "10dp"
+                    padding: [20,5,10,0]
+                    BedroomsCard:
+                        size_hint_y: None
+                        height: landspace.height + 25
+                        radius: [10,]
+                        padding: [5,]
+                        MDLabel:
+                            halign: 'center'
+                            text: '4' + " " + 'bedrooms'
+                            font_size: '15dp'
+                            id: bedrooms
+                            size_hint_y: None
+                            adaptive_height: True
+                            valign: 'center'
+                            halign: 'center'
+                            
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    BathroomsCard:
+                        size_hint_y: None
+                        height: landspace.height + 25
+                        radius: [10,]
+                        padding: [5]
+                        MDLabel:
+                            halign: 'center'
+                            text: '2' + " " + 'bathrooms'
+                            font_size: '15dp'
+                            id: bathrooms
+                            size_hint_y: None
+                            adaptive_height: True
+                            valign: 'center'
+                            halign: 'center'
+                            
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    LandspaceCard:
+                        size_hint_y: None
+                        height: landspace.height + 25
+                        radius: [10,]
+                        padding: [5]
+                        MDLabel:
+                            halign: 'center'
+                            text: '345sq.ft' + " " + 'landspace'
+                            font_size: '15dp'
+                            size_hint_y: None
+                            adaptive_height: True
+                            id: landspace
+                            valign: 'center'
+                            halign: 'center'
+                            
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                MDBoxLayout:
+                    size_hint_y: None
+                    adaptive_height: True
+                    orientation: 'vertical'
+                    padding: [20,15,0,0]
+                    spacing: "20dp"
+                    MDLabel:
+                        text: 'Description'
+                        size_hint_y: None
+                        adaptive_height: True
+                        font_size: "20dp"
+                        color: "black"
+                        bold: True
+                    MDLabel:
+                        text: 'Modern House with electric car charging stations and underground parking lot'
+                        size_hint_y: None
+                        adaptive_height: True
+                        font_size: '14dp'
+                        color: 'gray'
+                MDBoxLayout:
+                    padding: [20]
+                    size_hint_y: None
+                    adaptive_height: True
+                    Further:
+                        radius: [10]
+                        padding: [10,20,10,50]
+                        elevation: 0
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: grody.height + further_amenities.height + 85
+                        spacing: "20dp"
+                        MDLabel:
+                            text: 'Further Amenities'
+                            halign: 'center'
+                            font_size: '20dp'
+                            bold: True
+                            size_hint_y: None
+                            adaptive_height: True
+                            id: further_amenities
+                            pos_hint: {'center_y': 0.5}
+                        
+                        MDGridLayout:
+                            spacing: "20dp"
+                            cols: 2
+                            id: grody
+                            
+                            size_hint_y: None
+                            adaptive_height: True
+                            
+                            pos_hint: {'center_y': 0.5}
+                            MDLabel:
+                                text: 'Fans'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: fan
+                                
+
+                            MDLabel:
+                                text: 'Yes'
+                                size_hint_y: None
+                                adaptive_height: True
+
+
+                            MDLabel:
+                                text: 'Air Conditioner'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: ac
+                                
+                            MDLabel:
+                                text: 'Yes'
+                                size_hint_y: None
+                                adaptive_height: True
+
+                            MDLabel:
+                                text: 'Water Heater' 
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: wh
+                                
+                            MDLabel:
+                                text: 'Yes'
+                                size_hint_y: None
+                                adaptive_height: True
+                                
+
+                            MDLabel:
+                                text: 'Swimming Pool'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: swim
+                                
+                            MDLabel:
+                                text: 'Yes'
+                                size_hint_y: None
+                                adaptive_height: True
+
+
+                            MDLabel:
+                                text: 'Wifi'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: wifi
+                                
+                            MDLabel:
+                                text: 'Yes'
+                                size_hint_y: None
+                                adaptive_height: True
+
+                            MDLabel:
+                                text: 'garage'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: garage
+                                
+                            MDLabel:
+                                text: 'Yes'
+                                size_hint_y: None
+                                adaptive_height: True
+                                    
+
+
+                
+                        
+                
+                
+        MDBoxLayout:
+            
+            size_hint_y: None
+            height: biye.height + 55
+            padding: [10,]
+            Buy:
+                md_bg_color: app.theme_cls.primary_color
+                radius: [5,]
+                ripple_behavior: True
+                size_hint_y: None
+                height: buy_text.height + 55
+                id: biye
+                pos_hint: {'center_y': 0.5}
+                # on_release: app.send_email(root.email, root.phonenumber, root.telegram, root.facebook)
+                
+                MDLabel:
+                    text: "Buy"
+                    halign: "center"
+                    color: "white"
+                    font_size: "13dp"
+                    bold: True
+                    id: buy_text
+                    size_hint_y: None
+                    adaptive_height: True
+                    
+                    pos_hint: {'center_y': 0.5}
+                    
+            # MDCard:
+            #     md_bg_color: app.theme_cls.primary_color
+            #     radius: [5,0,0,0]
+            #     ripple_behavior: True
+            #     size_hint_x: .5
+            #     on_release: app.send_email(root.email)
+            #     MDLabel:
+            #         text: "Buy"
+            #         halign: "center"
+            #         color: "white"
+            #         font_size: "13sp"
+            #         bold: True
+                    
+
+<Further@MDCard+CommonElevationBehavior>
+<ImageCard@MDCard+CommonElevationBehavior>
+<BedroomsCard@MDCard+CommonElevationBehavior>
+<BathroomsCard@MDCard+CommonElevationBehavior>
+<LandspaceCard@MDCard+CommonElevationBehavior>
+<Buy@MDCard+CommonElevationBehavior>
+<MapsCard@MDCard+CommonElevationBehavior>
