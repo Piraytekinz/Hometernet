@@ -1,21 +1,21 @@
 <PropertySaleCards>:
-    elevation: 0
+    
+    elevation: 1
     padding: [0]
     size_hint: None, None
-    width: 270
+    width: Window.size[0] - 200 if Window.size[0] < Window.size[1] else Window.size[0] / 2 + 40
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-    height: 400
-    # 
-    on_press: app.editscreen(root.image, root.local_image, root.tot, root.price, root.country, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
+    height: Window.size[1] / 2 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 45
+    id: main_card
+    on_press: app.editscreen(root.image, root.local_image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
     radius: [5, ]
     MDBoxLayout:
         orientation: 'vertical'
         padding: [10,]
         spacing: "20dp"
         SalePic:
-            size_hint_y: None
-            height: 180
-            elevation: 12
+            
+            elevation: 1
             
             radius: [5,]
             ripple_behavior: True
@@ -25,19 +25,21 @@
                     radius: [5, ]
 
                 
-                
-                MDLabel:
-                    text: root.price
-                    halign: 'center'
-                    font_size: "13sp"
-                    
-                    font_color: "black"
-                    bold: True
-                    size_hint_x: None
-                    adaptive_width: True
-                    size_hint_y: .15
+                MDBoxLayout:
+                    size_hint: None, None
+                    adaptive_size: True
                     md_bg_color: 1,1,1,1
-                    pos_hint: {'center_x': 0.75, 'center_y': 0.87}
+                    padding: [10]
+                    pos_hint: {'center_x': 0.75, 'center_y': 0.89}
+                    MDLabel:
+                        text: root.price
+                        halign: 'center'
+                        font_size: "14dp"
+                        md_bg_color: 1,1,1,1
+                        font_color: "black"
+                        bold: True
+                        size_hint: None, None
+                        adaptive_size: True
                         
                         
                         
@@ -47,22 +49,24 @@
             
         MDBoxLayout:
             orientation: 'vertical'
-            spacing: "6dp"
-            padding: [10, 0, 0, 0]
-            
+            spacing: "10dp"
+            padding: [10, 0, 5, 0]
+            size_hint_y: None
+            adaptive_height: True
             MDLabel:
                 text: root.tot
                 bold: True
                 size_hint: None, None
                 adaptive_size: True
+                font_size: '15dp'
             MDBoxLayout:
                 size_hint_y: None
-                height: 25
+                adaptive_height: True
                 
                 MDLabel:
-                    text: root.country + ',' + ' ' + root.town + ',' + ' ' + root.street
+                    text: root.country + ',' + ' ' + root.province + ',' + ' ' + root.town + ',' + ' ' + root.street
                     color: "gray"
-                    font_size: "13sp"
+                    font_size: "13dp"
                     size_hint_y: None
                     adaptive_height: True
             
@@ -71,13 +75,16 @@
 
         MDBoxLayout:
             padding: [10, 5, 0, 17]
-            
+            size_hint_y: None
+            adaptive_height: True
             MDBoxLayout:
                 orientation: 'vertical'
                 spacing: "6dp"
+                size_hint_y: None
+                adaptive_height: True
                 MDLabel:
                     text: root.bedrooms
-                    font_size: "13sp"
+                    font_size: "13dp"
                     bold: True
                     halign: 'center'
                     size_hint_y: None
@@ -85,7 +92,7 @@
                 MDLabel:
                     text: "bedrooms"
                     color: "black"
-                    font_size: "13sp"
+                    font_size: "13dp"
                     bold: True
                     halign: 'center'
                     size_hint_y: None
@@ -93,9 +100,11 @@
             MDBoxLayout:
                 orientation: 'vertical'
                 spacing: "6dp"
+                size_hint_y: None
+                adaptive_height: True
                 MDLabel:
                     text: root.bathrooms
-                    font_size: "13sp"
+                    font_size: "13dp"
                     bold: True
                     halign: 'center'
                     size_hint_y: None
@@ -103,7 +112,7 @@
                 MDLabel:
                     text: "bathrooms"
                     color: "black"
-                    font_size: "13sp"
+                    font_size: "13dp"
                     bold: True
                     halign: 'center'
                     size_hint_y: None
@@ -111,9 +120,11 @@
             MDBoxLayout:
                 orientation: 'vertical'
                 spacing: "6dp"
+                size_hint_y: None
+                adaptive_height: True
                 MDLabel:
                     text: root.landspace
-                    font_size: "13sp"
+                    font_size: "13dp"
                     bold: True
                     halign: 'center'
                     size_hint_y: None
@@ -121,7 +132,7 @@
                 MDLabel:
                     text: "Land space"
                     color: "black"
-                    font_size: "13sp"
+                    font_size: "13dp"
                     bold: True
                     halign: 'center'
                     size_hint_y: None
@@ -130,3 +141,5 @@
 
 <SalePic@MDCard+CommonElevationBehavior>
 
+
+    # on_press: app.editscreen(root.image, root.local_image, root.tot, root.price, root.country, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)

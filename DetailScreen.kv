@@ -95,7 +95,7 @@
                             
                         MDLabel:
                             id: count
-                            text: root.country + " " + root.town + " " + root.street
+                            text: root.country + " " + root.province + " " + root.town + " " + root.street
                             font_size: "15dp"
                             color: "gray"
                             size_hint_y: None
@@ -125,7 +125,7 @@
                             adaptive_width: True
                             height: bedrooms.height + 25
                             radius: [10,]
-                            on_press: app.open_maps(root.country + ',' + " " + root.town + ',' + " " + root.street)
+                            on_press: app.open_maps(root.country + ',' + " " + root.province + ',' + " " + root.town + ',' + " " + root.street)
                             ripple_behavior: True
                             
                             

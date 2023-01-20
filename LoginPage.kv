@@ -1,79 +1,157 @@
 <AccountLoginPage>:
+    
     MDBoxLayout:
         orientation: 'vertical'
-        
-           
         AnchorLayout:
             anchor_x: 'left'
             anchor_y: 'top'
             size_hint_y: None
-            height: 30
+            height: home.height
+            
             MDIconButton:
                 icon: 'arrow-left'
                 on_press: app.switch_signin()
-                font_size: '15dp'
-                
-        MDBoxLayout:
-            
-            
-            MDIcon:
-                halign: 'center'
-                # text: 'Sign in to Homify'
-                bold: True
-                pos_hint: {'center_x': 0.5, 'center_y': 0.75}
-                font_size: "50sp"
-                icon: 'pirate'
-                
-            
-       
-            
+                id: home
+                size_hint_y: None
+                adaptive_height: True
         MDBoxLayout:
             orientation: 'vertical'
-            spacing: "10dp"
-            padding: [20,]
+            padding: [25,50,25,35]
+            spacing: "17dp"
             
-                
             MDBoxLayout:
-                padding: [0,0,0,10]
-                orientation: 'vertical'
-                spacing: "10dp"
-                MDLabel:
-                    text: "Create your account"
-                    
-                    bold: True
-                    font_size: "15dp"
-                    
-                MDTextField:
-                    mode: 'rectangle'
-                    hint_text: 'email'
-                    padding: [20]
-                    on_text: app.email(self.text)
-                MDTextField:
-                    mode: 'rectangle'
-                    hint_text: 'password'
-                    padding: [20]
-                    on_text: app.password(self.text)
-                    password: True
-                MDTextField:
-                    mode: 'rectangle'
-                    hint_text: 'confirm password'
-                    padding: [20]
-                    id: confirm
-                    password: True
-
-            MDCard:
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint: None, None
+                height: pirate.height + 50
+                width: pirate.width + 50
+                padding: [self.width/2,self.height/2,self.width/2,self.height/2]
+                
+                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                MDIcon:
+                    icon: 'pirate'
+                    id: pirate
+                    font_size: '40dp'
+            
+            MDLabel:
+                font_size: "25dp"
+                text: 'Sign in to Homiz'
+                halign: 'center'
                 size_hint_y: None
-                height: 50
-                radius: [7]
-                ripple_behavior: True
-                on_press: app.account_submit()
+                adaptive_height: True
+                id: notice
+                
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: "20dp"
+                size_hint_y: None
+                adaptive_height: True
+                EmailCreate:
+                    size_hint_y: None
+                    height: notice.height + 20
+                    radius: [10,]
+                    id: mail_box
+                    TextInput:
+                        hint_text: 'email'
+                        multiline: False
+                        foreground_color: 0/255, 0/255, 0/255, 1
+                        size_hint_y: None
+                        font_size: "15dp"
+                        text_color: "black"
+                        pos_hint: {'center_y': 0.5}
+                        height: self.minimum_height
+                        background_color: 0,0,0,0
+                        on_text: app.email(self.text)
+
+                PasswordCreate:
+                    size_hint_y: None
+                    height: notice.height + 20
+                    radius: [10,]
+                    id: passwrd
+                    TextInput:
+                        hint_text: 'password'
+                        multiline: False
+                        foreground_color: 0/255, 0/255, 0/255, 1
+                        size_hint_y: None
+                        font_size: "15dp"
+                        text_color: "black"
+                        pos_hint: {'center_y': 0.5}
+                        height: self.minimum_height
+                        background_color: 0,0,0,0
+                        password: True
+                        on_text: app.password(self.text)
+
+                ConfirmPassword:
+                    size_hint_y: None
+                    height: notice.height + 20
+                    radius: [10,]
+                    
+                    TextInput:
+                        hint_text: 'password'
+                        multiline: False
+                        foreground_color: 0/255, 0/255, 0/255, 1
+                        size_hint_y: None
+                        font_size: "15dp"
+                        text_color: "black"
+                        pos_hint: {'center_y': 0.5}
+                        height: self.minimum_height
+                        background_color: 0,0,0,0
+                        password: True
+                        id: confirm
+            
+                    
+
+            Final:
+                radius: [10]
                 md_bg_color: app.theme_cls.primary_color
+                ripple_behavior: True
+                size_hint_y: None
+                height: passwrd.height
+                on_press: app.account_submit()
                 MDLabel:
-                    text: 'sign up'
+                    text: 'Login'
                     halign: 'center'
+                    font_size: '15dp'
                     color: 'white'
+
+            MDBoxLayout:
+                
+                MDBoxLayout:
+                    size_hint: None, None
+                    adaptive_size: True
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    
+                    spacing: "20dp"
+                    MDTextButton:
+                        text: "Terms and conditions"
+                        size_hint: None, None
+                        adaptive_size: True
+                        font_size: '16dp'
+                        halign: 'center'
+                        color: app.theme_cls.primary_color
+                        
+                        
+                    MDTextButton:
+                        text: 'Privacy policy'
+                        size_hint: None, None
+                        adaptive_size: True
+                        font_size: '16dp'
+                        color: app.theme_cls.primary_color
+                        
+                        
+                        id: sign_up
+                        halign: 'center'
+
+<EmailCreate@MDCard+CommonElevationBehavior>
+<PasswordCreate@MDCard+CommonElevationBehavior>
+<ConfirmPassword@MDCard+CommonElevationBehavior>
+<Final@MDCard+CommonElevationBehavior>
+            
+
+        
 
 # on_text: app.email(self.text)
 # on_text: app.password(self.text)
 #  on_press: app.account_submit()
+# id: confirm
+# on_press: app.switch_signin()
+# on_press: app.account_submit()

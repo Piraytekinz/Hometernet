@@ -1,5 +1,9 @@
 <LoadingScreen>:
-    MDLabel:
-        halign: 'center'
-        text: "loading..."
-        bold: True
+    RelativeLayout:
+        MDIconButton:
+            icon: 'arrow-left'
+            on_press: app.switch_home()
+        MDLabel:
+            halign: 'center'
+            text: "loading..."
+            bold: True

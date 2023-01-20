@@ -6,7 +6,9 @@
                 PropTitle:
                     size_hint_y: None
                     height: arrow_right.height + 55
-                    
+                    padding: [10]
+                    id: prop_title
+
                     MDIconButton:
                         icon: 'arrow-left'
                         user_font_size: "16dp"
@@ -18,9 +20,15 @@
                         text: "My Properties"
                         font_size: '17dp'
                         bold: True
-                        halign: 'left'
+                        theme_font_style: 'Overline'
+                        halign: 'center'
 
-                    
+                    MDIconButton:
+                        icon: 'trash-can'
+                        user_font_size: "16dp"
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        on_press: app.delete_user_auth()
+                        id: arrow_right
                 
                             
                 
@@ -45,13 +53,14 @@
                                 md_bg_color: app.theme_cls.primary_color
                                 radius: [10, ]
                                 size_hint_y: None
-                                height: 50
+                                height: prop_title.height
                                 MDLabel:
                                     text: "sign-out"
                                     halign: 'center'
-                                    font_size: "12dp"
+                                    font_size: "17dp"
                                     bold: True
                                     color: 'white'
+                                    id: sign_out
 
                             SwitchAccount:
                                 ripple_behavior: True
@@ -59,12 +68,13 @@
                                 elevation: 0
                                 radius: [10, ]
                                 size_hint_y: None
-                                height: 50
+                                height: prop_title.height
                                 MDLabel:
                                     text: "switch account"
                                     halign: 'center'
-                                    font_size: "12dp"
+                                    font_size: "17dp"
                                     bold: True
+                                    id: switch_account
 
                     
                         

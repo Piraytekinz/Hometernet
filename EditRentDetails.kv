@@ -14,7 +14,7 @@
                         icon: 'arrow-left'
                         user_font_size: "16dp"
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        on_press: app.switch_products()
+                        on_press: app.discard_auth()
                         bold: True
 
                     MDLabel:
@@ -97,7 +97,7 @@
                                         # on_text: app.phone(code.text + self.text)
                                 
                                     
-                        MDCard:
+                        MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
                             size_hint_y: None
@@ -121,7 +121,7 @@
                                     text: root.type
                                     helper_text: 'Invalid Input'
                                     
-                        MDCard:
+                        MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
                             size_hint_y: None
@@ -136,15 +136,40 @@
                                 padding: [20,0,20,10]
                                 MDLabel:
                                     text: "country"
-                                    font_size: "15sp"
+                                    font_size: "15dp"
+                                MDBoxLayout:
+                                    md_bg_color: 255/255, 255/255, 255/255, 1
+                                    MDLabel:
+                                        text: 'country'
+                                        id: country_text
+                                    MDIconButton:
+                                        icon: 'arrow-right'
+                                        on_press: app.show_listings("EditRent")
+
+                        MDBoxLayout:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "State/Province"
+                                    font_size: "15dp"
                                 MDTextField:
-                                    id: location
-                                    hint_text: "country"
+                                    id: state
+                                    hint_text: "State/Province"
+                                    text: root.province
+                                    
                                     padding: [20, ]
-                                    # on_text: app.locate(self.text)
-                                    text: root.country
-                                    helper_text: 'Invalid Input'
-                        MDCard:
+
+                        MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
                             size_hint_y: None
@@ -168,7 +193,7 @@
                                     text: root.town
                                     helper_text: 'Invalid Input'
                         
-                        MDCard:
+                        MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
                             size_hint_y: None
@@ -192,7 +217,7 @@
                                     text: root.street
                                     helper_text: 'Invalid Input'
 
-                        MDCard: 
+                        MDBoxLayout: 
                             opacity: 0.9
                             radius: [5]
                             size_hint_y: None
@@ -644,5 +669,5 @@
                         MDRaisedButton:
                             text: "Submit"
                             # on_press: self.submit()
-                            on_press: app.update_rent_property(root.local_image, housetype.text, price.text, location.text, town.text, street.text, bedrooms.text, bathrooms.text, land_area.text, root.key, description.text)
+                            on_press: app.update_rent_property(root.local_image, housetype.text, price.text, country_text.text, state.text, town.text, street.text, bedrooms.text, bathrooms.text, land_area.text, root.key, description.text)
                 

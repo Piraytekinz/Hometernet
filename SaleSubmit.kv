@@ -12,7 +12,7 @@
                         icon: 'arrow-left'
                         user_font_size: "16dp"
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        on_press: app.switch_saleorrent()
+                        on_press: app.discard_auth()
                         bold: True
                         id: arrow_left
 
@@ -203,12 +203,45 @@
                                 padding: [20,0,20,10]
                                 MDLabel:
                                     text: "country"
-                                    font_size: "15sp"
+                                    font_size: "15dp"
+                                MDBoxLayout:
+                                    
+                                    md_bg_color: 255/255, 255/255, 255/255, 1
+                                    MDLabel:
+                                        text: 'country'
+                                        id: country_text
+                                    MDIconButton:
+                                        icon: 'arrow-right'
+                                        on_press: app.show_listings("Sale")
+                                        
+                                # MDTextField:
+                                #     id: location
+                                #     hint_text: "country"
+                                #     padding: [20, ]
+                                #     text: 'Images\Pirate King.jpg'
+                                #     on_text: app.locate(self.text)
+                        MDBoxLayout:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "State/Province"
+                                    font_size: "15dp"
                                 MDTextField:
-                                    id: location
-                                    hint_text: "country"
+                                    id: state
+                                    hint_text: "State/Province"
+                                    on_text: app.statify(self.text)
                                     padding: [20, ]
-                                    on_text: app.locate(self.text)
+
                         MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
@@ -227,7 +260,7 @@
                                     font_size: "15sp"
                                 MDTextField:
                                     id: location
-                                    hint_text: "town name"
+                                    hint_text: "town/city"
                                     padding: [20, ]
                                     on_text: app.towni(self.text)
                         

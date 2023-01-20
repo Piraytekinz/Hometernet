@@ -1,0 +1,23 @@
+<Countries>:
+    size_hint_y: None
+    height: Window.size[1]
+    orientation: 'vertical'
+    MDLabel:
+        text: 'Select Country'
+        halign: 'center'
+        size_hint_y: None
+        adaptive_height: True
+        font_size: '20dp'
+    Recycle:
+        viewclass: 'Listings'
+        RecycleBoxLayout:
+            default_size_hint: 1, None
+            size_hint_y: None
+            # size_hint_y: None
+            height: self.minimum_height
+            orientation: 'vertical'
+            # Listings:
+
+<Listings>
+<List_item>:
+    on_press: app.display(self.text)

@@ -13,12 +13,12 @@
                         icon: 'arrow-left'
                         user_font_size: "16dp"
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        on_press: app.switch_products()
+                        on_press: app.discard_auth()
                         bold: True
 
                     MDLabel:
                         text: "Edit Property"
-                        font_size: '15dp'
+                        font_size: '17dp'
                         bold: True
                         halign: 'center'
 
@@ -137,13 +137,40 @@
                                 MDLabel:
                                     text: "country"
                                     font_size: "15sp"
+                                MDBoxLayout:
+                                    
+                                    md_bg_color: 255/255, 255/255, 255/255, 1
+                                    MDLabel:
+                                        text: root.country
+                                        id: country_text
+                                    MDIconButton:
+                                        icon: 'arrow-right'
+                                        on_press: app.show_listings("EditSale")
+
+                        MDBoxLayout:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint_y: None
+                            height: 150
+                            
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                padding: [20,0,20,10]
+                                MDLabel:
+                                    text: "State/Province"
+                                    font_size: "15dp"
                                 MDTextField:
-                                    id: location
-                                    hint_text: "country"
+                                    id: state
+                                    hint_text: "State/Province"
+                                    text: root.province
+                                    on_text: app.statify(self.text)
                                     padding: [20, ]
-                                    on_text: app.locate(self.text)
-                                    text: root.country
-                                    helper_text: 'Invalid Input'
+
+
                         MDCard:
                             opacity: 0.9
                             radius: [5]
@@ -162,7 +189,7 @@
                                     font_size: "15sp"
                                 MDTextField:
                                     id: town
-                                    hint_text: "town name"
+                                    hint_text: "town/city"
                                     padding: [20, ]
                                     on_text: app.towni(self.text)
                                     text: root.town
@@ -639,5 +666,5 @@
                         MDRaisedButton:
                             text: "Submit"
                             # on_press: self.submit()
-                            on_press: app.update_property(root.local_image, housetype.text, price.text, location.text, town.text, street.text, bedrooms.text, bathrooms.text, land_area.text, root.key, description.text)
+                            on_press: app.update_property(root.local_image, housetype.text, price.text, country_text.text, state.text, town.text, street.text, bedrooms.text, bathrooms.text, land_area.text, root.key, description.text)
                 

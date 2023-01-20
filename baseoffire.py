@@ -73,12 +73,12 @@
     
 #     signup()
 
-import phonenumbers
+# import phonenumbers
 
-phone = '+233276098275'
-phone_number  = phonenumbers.parse(phone)
-print(phonenumbers.is_valid_number(phone_number))
-import smtplib
+# phone = '+233276098275'
+# phone_number  = phonenumbers.parse(phone)
+# print(phonenumbers.is_valid_number(phone_number))
+# import smtplib
 
 # server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
 # server.login("anangjosh8@gmail.com", "iujwzdutnqmbpkjm")
@@ -98,14 +98,16 @@ import smtplib
 # else:
 #     print('Unknown')
 
-# from kivymd.app import MDApp
-# from kivy.lang import Builder
-# from kivymd.uix.boxlayout import MDBoxLayout
-# from kivymd.uix.label import MDLabel
-# import time
-# from threading import Thread
-# from kivy.clock import mainthread, Clock
-# from kivy.uix.screenmanager import ScreenManager, Screen
+from kivymd.app import MDApp
+from kivy.lang import Builder
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.label import MDLabel
+from kivy.uix.label import Label
+from kivy.uix.image import Image
+import time
+from threading import Thread
+from kivy.clock import mainthread, Clock
+from kivy.uix.screenmanager import ScreenManager, Screen
 # screens = """
 # <Screeni>:
 #     Ascreen:
@@ -123,10 +125,7 @@ import smtplib
 #     def __init__(self, **kwargs):
 #         super().__init__(**kwargs)
         
-# class Screeni(ScreenManager):
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
-#         print(self.ids.bis)
+
 
 # class Ascreen(Screen):
 #     def __init__(self, **kw):
@@ -146,10 +145,52 @@ import smtplib
         
 
 
-# class MainApp(MDApp):
-#     def build(self):
-#         self.screen = Screeni()
-#         return self.screen
-#         return super().build()
 
-# MainApp().run()
+
+import pycountry
+import flag
+from emojiflags.lookup import lookup
+
+
+
+
+# flagser = pycountry.countries.get(name='United States')
+# real = flagser.alpha_2
+stringi = """
+<Screeni>:
+    Screen:
+        
+        Flagsisy:
+            # text: self.flagser
+            # halign: 'center'
+            source: self.flagser
+
+
+"""
+Builder.load_string(stringi)
+#How to transform flag**** into image in python
+
+print(lookup('IL') +  'is the cintry ')
+
+
+class Screeni(ScreenManager):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        
+
+class Flagsisy(Image):
+    flagser = flag.flag('IL')
+    
+
+class MainApp(MDApp):
+    def build(self):
+        screeni = Screeni()
+        self.screen = screeni
+        print(flag.flag('IL'))
+        
+        return self.screen
+        
+MainApp().run()
+
+
+
