@@ -33,7 +33,7 @@
             
             MDLabel:
                 font_size: "25dp"
-                text: 'Sign in to Homiz'
+                text: 'Welcome to Hometernet'
                 halign: 'center'
                 size_hint_y: None
                 adaptive_height: True
@@ -108,13 +108,19 @@
                 height: passwrd.height
                 on_press: app.account_submit()
                 MDLabel:
-                    text: 'Login'
+                    text: 'sign up'
                     halign: 'center'
                     font_size: '15dp'
                     color: 'white'
 
             MDBoxLayout:
-                
+                spacing: "20dp"
+                MDLabel:
+                    size_hint: None, None
+                    adaptive_size: True
+                    text: 'By clicking sign up you agree to the'
+                    font_size: '16dp'
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 MDBoxLayout:
                     size_hint: None, None
                     adaptive_size: True
@@ -128,7 +134,7 @@
                         font_size: '16dp'
                         halign: 'center'
                         color: app.theme_cls.primary_color
-                        
+                        on_press: app.show_terms()
                         
                     MDTextButton:
                         text: 'Privacy policy'

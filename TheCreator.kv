@@ -1,22 +1,22 @@
 <CreatorScreen>:
+    
     MDBoxLayout:
         orientation: 'vertical'
         spacing: "10dp"
-        MDCard:
+        MiCard:
             size_hint_y: None
-            height: icon.height
+            height: arrow_right.height + 55
             padding: [10,]
             elevation: 0
             MDLabel:
-                text: 'Homify'
+                text: 'Hometernet'
                 theme_font_style: 'Overline'
-                id: title
             MDIconButton:
                 user_font_size: '14dp'
                 icon: 'arrow-right'
                 on_press: app.switch_home()
-                id: icon
                 pos_hint: {'center_y': 0.5}
+                id: arrow_right
         MDBoxLayout:
             ScrollView:
                 MDBoxLayout:
@@ -24,12 +24,12 @@
                     adaptive_height: True
                     spacing: "30dp"
                     orientation: 'vertical'
-                    MDCard:
+                    ACardi:
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
                         
-                        height: 200
-                        width: 200
+                        height: Window.size[1]/2
+                        width: Window.size[1]/2
                         
                         radius:[self.width/2]
                         elevation: 0
@@ -47,10 +47,12 @@
                         font_size: '20sp'
                         bold: True
                     MDLabel:
-                        text: 'CEO/FOUNDER/DEVELOPER of Homify'
+                        text: 'CEO/FOUNDER/DEVELOPER of Hometernet'
                         font_size: '20sp'
                         font_style: 'Caption'
                         halign: 'center'
 
+<ACardi@MDCard+CommonElevationBehavior>
+<MiCard@MDCard+CommonElevationBehavior>
 
     

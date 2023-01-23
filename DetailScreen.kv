@@ -18,12 +18,14 @@
                     
                     ImageCard:
                         padding: [0]
-                        on_press: house_image.allow_stretch=True
+                        md_bg_color: 0,0,0,1
+                        radius: [0]
                         RelativeLayout:
                             FitImage:
                                 source: root.image
                                 id: house_image
-                                
+                                allow_stretch: False
+                                keep_ratio: False if Window.size[1] > Window.size[0] else True
                             AnchorLayout:
                                 anchor_x: 'left'
                                 anchor_y: 'top'
@@ -120,12 +122,13 @@
                     MDBoxLayout:
                         size_hint_y: None
                         adaptive_height: True
-                        MDCard:
+                        MapsCard:
                             size_hint: None, None
-                            adaptive_width: True
-                            height: bedrooms.height + 25
+                            width: gmaps_icon.width + gmaps_label.width + 25
+                            height: bedrooms.height + 45
                             radius: [10,]
-                            on_press: app.open_maps(root.country + ',' + " " + root.province + ',' + " " + root.town + ',' + " " + root.street)
+                            padding: [5,10,5,10]
+                            on_press: app.open_maps(root.country + ',' + " " + root.town + ',' + " " + root.street)
                             ripple_behavior: True
                             
                             
@@ -135,15 +138,19 @@
                                 adaptive_size: True
                                 font_size: '18dp'
                                 id: gmaps_icon
-                                md_bg_color: 1,0,1,1
+                                
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                halign: 'center'
                                     
                             MDLabel:
                                 text: 'google maps'
                                 font_size: '17dp'
-                                size_hint_x: None
-                                adaptive_width: True
+                                size_hint: None, None
+                                adaptive_size: True
                                 id: gmaps_label
-                                md_bg_color: 1,0,0,1
+                                
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                halign: 'center'
                             
                 MDBoxLayout:
                     size_hint_y: None
@@ -152,7 +159,7 @@
                     padding: [20,5,10,0]
                     BedroomsCard:
                         size_hint_y: None
-                        height: landspace.height + 25
+                        height: landspace.height + 55
                         radius: [10,]
                         padding: [5,]
                         MDLabel:
@@ -164,11 +171,11 @@
                             adaptive_height: True
                             valign: 'center'
                             halign: 'center'
-                            md_bg_color: 1,0,0,1
+                            
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     BathroomsCard:
                         size_hint_y: None
-                        height: landspace.height + 25
+                        height: landspace.height + 55
                         radius: [10,]
                         padding: [5]
                         MDLabel:
@@ -180,11 +187,11 @@
                             adaptive_height: True
                             valign: 'center'
                             halign: 'center'
-                            md_bg_color: 0,1,0,1
+                            
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     LandspaceCard:
                         size_hint_y: None
-                        height: landspace.height + 25
+                        height: landspace.height + 55
                         radius: [10,]
                         padding: [5]
                         MDLabel:
@@ -196,7 +203,7 @@
                             id: landspace
                             valign: 'center'
                             halign: 'center'
-                            md_bg_color: 0,0,1,1
+                            
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 MDBoxLayout:
                     size_hint_y: None
@@ -215,115 +222,149 @@
                         text: root.description
                         size_hint_y: None
                         adaptive_height: True
-                        font_size: '13dp'
+                        font_size: '14dp'
                         color: 'gray'
                 MDBoxLayout:
                     padding: [20]
                     size_hint_y: None
-                    height: 300
-                    MDCard:
+                    adaptive_height: True
+                    Further:
                         radius: [10]
-                        padding: [10,]
+                        padding: [10,20,10,50]
                         elevation: 0
                         orientation: 'vertical'
+                        size_hint_y: None
+                        height: grody.height + further_amenities.height + 85
+                        spacing: "20dp"
                         MDLabel:
                             text: 'Further Amenities'
                             halign: 'center'
                             font_size: '20dp'
                             bold: True
-                            size_hint_y: .7
-                        MDBoxLayout:
-                            orientation: 'vertical'
+                            size_hint_y: None
+                            adaptive_height: True
+                            id: further_amenities
+                            pos_hint: {'center_y': 0.5}
+                        
+                        MDGridLayout:
+                            spacing: "20dp"
+                            cols: 2
+                            id: grody
                             
-                            MDGridLayout:
-                                spacing: "20dp"
-                                cols: 2
-                                MDLabel:
-                                    text: 'Fans'
-                                    font_size: '14sp'
-                                MDLabel:
-                                    text: root.amenities[0]
-
-
-                                MDLabel:
-                                    text: 'Air Conditioner'
-                                    font_size: '14sp'
-                                MDLabel:
-                                    text: root.amenities[1]
+                            size_hint_y: None
+                            adaptive_height: True
+                            
+                            pos_hint: {'center_y': 0.5}
+                            MDLabel:
+                                text: 'Fans'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: fan
                                 
 
-                                MDLabel:
-                                    text: 'Water Heater' 
-                                    font_size: '14sp'
-                                MDLabel:
-                                    text: root.amenities[2]
-
-                                MDLabel:
-                                    text: 'Swimming Pool'
-                                    font_size: '14sp'
-                                MDLabel:
-                                    text: root.amenities[3]
+                            MDLabel:
+                                text: root.amenities[0]
+                                size_hint_y: None
+                                adaptive_height: True
 
 
-                                MDLabel:
-                                    text: 'Wifi'
-                                    font_size: '14sp'
-                                MDLabel:
-                                    text: root.amenities[4]
+                            MDLabel:
+                                text: 'Air Conditioner'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: ac
+                                
+                            MDLabel:
+                                text: root.amenities[1]
+                                size_hint_y: None
+                                adaptive_height: True
 
-                                MDLabel:
-                                    text: 'garage'
-                                    font_size: '14sp'
-                                MDLabel:
-                                    text: root.amenities[5]
+                            MDLabel:
+                                text: 'Water Heater' 
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: wh
+                                
+                            MDLabel:
+                                text: root.amenities[2]
+                                size_hint_y: None
+                                adaptive_height: True
+                                
+
+                            MDLabel:
+                                text: 'Swimming Pool'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: swim
+                                
+                            MDLabel:
+                                text: root.amenities[3]
+                                size_hint_y: None
+                                adaptive_height: True
+
+
+                            MDLabel:
+                                text: 'Wifi'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: wifi
+                                
+                            MDLabel:
+                                text: root.amenities[4]
+                                size_hint_y: None
+                                adaptive_height: True
+
+                            MDLabel:
+                                text: 'garage'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: garage
+                                
+                            MDLabel:
+                                text: root.amenities[5]
+                                size_hint_y: None
+                                adaptive_height: True
+                                    
 
 
                 
                         
-                # MDCard:
-                #     md_bg_color: app.theme_cls.primary_color
-                #     radius: [5,0,0,0]
-                #     ripple_behavior: True
-                #     on_release: app.send_email(root.email)
-                #     MDLabel:
-                #         text: "Buy"
-                #         halign: "center"
-                #         color: "white"
-                #         font_size: "13sp"
-                #         bold: True
-
+                
                 
         MDBoxLayout:
             
             size_hint_y: None
-            height: 70
+            height: biye.height + 55
             padding: [10,]
-            MDCard:
+            Buy:
                 md_bg_color: app.theme_cls.primary_color
                 radius: [5,]
                 ripple_behavior: True
-                
-                on_release: app.send_email(root.email, root.phonenumber, root.telegram, root.facebook)
+                size_hint_y: None
+                height: buy_text.height + 55
+                id: biye
+                pos_hint: {'center_y': 0.5}
+                on_release: app.send_email(root.email, root.phonenumber, root.twitter, root.facebook)
                 
                 MDLabel:
                     text: "Buy"
                     halign: "center"
                     color: "white"
-                    font_size: "13sp"
+                    font_size: "13dp"
                     bold: True
+                    id: buy_text
+                    size_hint_y: None
+                    adaptive_height: True
                     
-            # MDCard:
-            #     md_bg_color: app.theme_cls.primary_color
-            #     radius: [5,0,0,0]
-            #     ripple_behavior: True
-            #     size_hint_x: .5
-            #     on_release: app.send_email(root.email)
-            #     MDLabel:
-            #         text: "Buy"
-            #         halign: "center"
-            #         color: "white"
-            #         font_size: "13sp"
-            #         bold: True
+                    pos_hint: {'center_y': 0.5}
+                    
+            
                     
 
 <Further@MDCard+CommonElevationBehavior>
@@ -331,3 +372,8 @@
 <BedroomsCard@MDCard+CommonElevationBehavior>
 <BathroomsCard@MDCard+CommonElevationBehavior>
 <LandspaceCard@MDCard+CommonElevationBehavior>
+<Buy@MDCard+CommonElevationBehavior>
+<MapsCard@MDCard+CommonElevationBehavior>
+
+
+
