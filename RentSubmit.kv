@@ -6,8 +6,8 @@
                 orientation: 'vertical'
                 MDCard:
                     size_hint_y: None
-                    height: arrow_left.height + 55
-            
+                    height: arrow_left.height * 3
+                    
                     MDIconButton:
                         icon: 'arrow-left'
                         user_font_size: "16dp"
@@ -17,296 +17,360 @@
                         id: arrow_left
 
                     MDLabel:
-                        text: "Fill in details"
-                        font_size: '15dp'
+                        text: "Submit Property"
+                        font_size: '20dp'
                         bold: True
                         halign: 'center'
 
                     MDIconButton:
-                        icon: 'home'
+                        icon: 'trash-can'
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         user_font_size: "16dp"
 
                 
                 
                 ScrollView:
-                    
+                    do_scroll_x: False
                     MDBoxLayout:
                         orientation: 'vertical'
                         spacing: "30dp"
-                        padding: [25, 10, 25, 30]
+                        padding: [0, 10, 0, 30]
                         size_hint_y: None
                         adaptive_height: True
+                        
+                        pos_hint: {'center_x': 0.5}
                         
                         MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 10
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "20dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            padding: [0,self.height/2.5,0,self.height/3]
+                            id: email
                             MDBoxLayout:
                                 orientation: 'vertical'
-                                padding: [20,0,20,10]
+                                padding: [20,0,20,0]
+                                spacing: "20dp"
+                                pos_hint: {'center_y': 0.5}
+                                
+                                size_hint_y: None
+                                adaptive_height: True
                                 MDLabel:
                                     text: "email"
                                     valign: 'top'
-                                    font_size: "15sp"
+                                    font_size: "15dp"
+                                    size_hint_y: None
+                                    adaptive_height: True
                                 MDTextField:
                                     id: email
                                     hint_text: "email"
                                     on_text: app.email(self.text)
+                                    
+
                         MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 10
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "20dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
-
+                            padding: [0,self.height/2.5,0,self.height/3]
+                            id: number
                             MDBoxLayout:
                                 orientation: 'vertical'
-                                padding: [20,0,20,10]
+                                padding: [20,0,20,0]
+                                spacing: "20dp"
+                                pos_hint: {'center_y': 0.5}
+                                
+                                size_hint_y: None
+                                adaptive_height: True
                                 MDLabel:
-                                    text: "phonenumber"
+                                    text: "phone number/whatsapp contact"
                                     valign: 'top'
-                                    font_size: "15sp"
+                                    font_size: "15dp"
+                                    size_hint_y: None
+                                    adaptive_height: True
+
                                 MDBoxLayout:
-                                    spacing: "30dp"
-                                    MDCard:
+                                    spacing: "10dp"
+                                    size_hint_y: None
+                                    height: landspace_text.height * 2
+                                    Code_rent:
                                         
                                         radius: [5,]
-                                        size_hint: None, None
-                                        width: 60
-                                        height: 30
+                                        
+                                        
                                         MDLabel:
                                             size_hint: None, None
                                             adaptive_size: True
                                             text: '+'
                                             id: plus
-                                            md_bg_color: 1,0,0,1
+                                            
                                             valign: 'top'
-                                        TextInput:
-                                            id: code
-                                            hint_text: 'code'
-                                            size_hint_x: .3
-                                            input_type: 'number'
-                                            height: self.minimum_height
-                                            multiline: False
-                                            input_filter: 'float'
-                                            foreground_color: 0/255, 0/255, 0/255, 1
-                                            background_color: 0,0,0,0
-                                            font_size: "15sp"
-                                    MDCard:
-                                        radius: [5,]
-                                        size_hint_y: None
-                                        height: 30
+                                            pos_hint: {'center_y': 0.5}
+                                        
+                                    
+                                        
                                         
                                         TextInput:
                                             id: phonenumber
                                             hint_text: 'phonenumber'
-                                            
+                                            pos_hint: {'center_y': 0.5}
                                             height: self.minimum_height
-                                            on_text: app.phone(plus.text + code.text + self.text)
+                                            on_text: app.phone(plus.text + self.text)
                                             input_type: 'number'
                                             multiline: False
                                             input_filter: 'float'
                                             foreground_color: 0/255, 0/255, 0/255, 1
                                             background_color: 0,0,0,0
-                                            font_size: "15sp"
-                                
+                                            font_size: "15dp"
+                        
                         MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 10
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "20dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            padding: [0,self.height/2.5,0,self.height/3]
                             MDBoxLayout:
-                                orientation: 'vertical'
-                                padding: [20,0,20,10]
+                                orientation: "vertical"
+                                padding: [20,0,20,0]
+                                spacing: "20dp"
+                                pos_hint: {'center_y': 0.5}
                                 MDLabel:
                                     text: "Twitter Handle(optional)"
-                                    font_size: "15sp"
-                                MDTextField:
-                                    id: location
-                                    hint_text: "Twitter handle"
-                                    padding: [20, ]
+                                    font_size: "15dp"
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                WordInput:
+                                    id: housetype
+                                    hint_text: "Twitter Handle"
                                     on_text: app.tg(self.text)
+                                    padding: [20, ]
 
                         MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 10
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "20dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            padding: [0,self.height/2.5,0,self.height/3]
                             MDBoxLayout:
-                                orientation: 'vertical'
-                                padding: [20,0,20,10]
+                                orientation: "vertical"
+                                padding: [20,0,20,0]
+                                spacing: "20dp"
                                 MDLabel:
                                     text: "Facebook Handle(optional)"
-                                    font_size: "15sp"
-                                MDTextField:
-                                    id: location
-                                    hint_text: "facebook"
-                                    padding: [20, ]
+                                    font_size: "15dp"
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                WordInput:
+                                    id: housetype
+                                    hint_text: "Facebook-messenger Handle"
                                     on_text: app.fb(self.text)
+                                    padding: [20, ]
                                     
                         MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 10
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "20dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            padding: [0,self.height/2.5,0,self.height/3]
                             MDBoxLayout:
                                 orientation: "vertical"
-                                padding: [20,0,20,10]
+                                padding: [20,0,20,0]
+                                spacing: "20dp"
                                 MDLabel:
                                     text: "House type/Name"
-                                    font_size: "15sp"
+                                    font_size: "15dp"
+                                    size_hint_y: None
+                                    adaptive_height: True
                                 WordInput:
                                     id: housetype
                                     hint_text: "house type"
                                     on_text: app.word(self.text)
                                     padding: [20, ]
-
-                        
-
-
                         MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 10
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "20dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            padding: [0,self.height/2.5,0,self.height/3]
                             MDBoxLayout:
                                 orientation: 'vertical'
-                                padding: [20,0,20,10]
+                                padding: [20,0,20,0]
+                                spacing: "20dp"
                                 MDLabel:
                                     text: "country"
-                                    font_size: "15sp"
+                                    font_size: "15dp"
+                                    size_hint_y: None
+                                    adaptive_height: True
                                 MDBoxLayout:
-                                    
+                                    size_hint_y: None
+                                    adaptive_height: True
                                     md_bg_color: 255/255, 255/255, 255/255, 1
                                     MDLabel:
                                         text: 'country'
                                         id: country_text
+                                        size_hint_y: None
+                                        adaptive_height: True
+                                        pos_hint: {'center_y': 0.5}
                                     MDIconButton:
                                         icon: 'arrow-right'
-                                        on_press: app.show_listings("Rent")
-
+                                        size_hint_y: None
+                                        adaptive_height: True
+                                        on_press: app.show_pre_listings()
+                                        on_release: app.show_listings("Rent")
+                                        
+                                        
+                                # MDTextField:
+                                #     id: location
+                                #     hint_text: "country"
+                                #     padding: [20, ]
+                                #     text: 'Images\Pirate King.jpg'
+                                #     on_text: app.locate(self.text)
                         MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 10
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "20dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            padding: [0,self.height/2.5,0,self.height/3]
                             MDBoxLayout:
                                 orientation: "vertical"
-                                padding: [20,0,20,10]
+                                padding: [20,0,20,0]
+                                spacing: "20dp"
                                 MDLabel:
                                     text: "State/Province"
                                     font_size: "15dp"
+                                    size_hint_y: None
+                                    adaptive_height: True
                                 MDTextField:
                                     id: state
                                     hint_text: "State/Province"
                                     on_text: app.statify(self.text)
                                     padding: [20, ]
-                        
+
                         MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 10
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "20dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            padding: [0,self.height/2.5,0,self.height/3]
                             MDBoxLayout:
                                 orientation: 'vertical'
-                                padding: [20,0,20,10]
+                                padding: [20,0,20,0]
+                                spacing: "20dp"
                                 MDLabel:
                                     text: "town/city"
-                                    font_size: "15sp"
+                                    font_size: "15dp"
+                                    size_hint_y: None
+                                    adaptive_height: True
                                 MDTextField:
                                     id: location
                                     hint_text: "town/city"
                                     padding: [20, ]
                                     on_text: app.towni(self.text)
-
-                        MDCard:
+                        
+                        MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 10
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "20dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            padding: [0,self.height/2.5,0,self.height/3]
                             MDBoxLayout:
                                 orientation: 'vertical'
-                                padding: [20,0,20,10]
+                                padding: [20,0,20,0]
+                                spacing: "20dp"
                                 MDLabel:
-                                    text: "street"
-                                    font_size: "15sp"
+                                    text: "street/address"
+                                    font_size: "15dp"
+                                    size_hint_y: None
+                                    adaptive_height: True
                                 MDTextField:
                                     id: location
-                                    hint_text: "street"
-                                    padding: [20, ]
+                                    hint_text: "street/address"
+                                    
                                     on_text: app.streeti(self.text)
 
-                        MDCard: 
+
+                        MDBoxLayout: 
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 10
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "20dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
-                           
                             MDBoxLayout:
                                 orientation: 'vertical'
                                 padding: [20,0,20,10]
                                 MDLabel:
                                     text: "Bedroom number"
-                                    font_size: "15sp"
+                                    font_size: "15dp"
                                 MDLabel:
                                     text: root.bedrooms
+                                    font_size: "15dp"
+                                
                                 ScrollView:
-                                    do_scroll_x: True
                                     do_scroll_y: False
+                                    do_scroll_x: True
                                     bar_width: 0
                                     MDBoxLayout:
                                         spacing: '10dp'
+                                        
                                         size_hint_x: None
                                         adaptive_width: True
                                         MDCard:
@@ -316,12 +380,16 @@
                                             on_press: root.bedrooms='1'
                                             on_release: app.rooms('1')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '1'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                id: oner
+                                                size_hint_x: None
+                                                adaptive_width: True
                                         
                                         MDCard:
                                             radius: [3,]
@@ -330,12 +398,15 @@
                                             on_press: root.bedrooms='2'
                                             on_release: app.rooms('2')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '2'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
 
                                         MDCard:
                                             radius: [3,]
@@ -344,12 +415,15 @@
                                             on_press: root.bedrooms='3'
                                             on_release: app.rooms('3')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 bold: True
                                                 text: '3'
                                                 halign: 'center'
                                                 color: 'white'
+                                                size_hint_x: None
+                                                adaptive_width: True
 
                                         MDCard:
                                             radius: [3,]
@@ -358,12 +432,15 @@
                                             on_press: root.bedrooms='4'
                                             on_release: app.rooms('4')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '4'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
 
                                         MDCard:
                                             radius: [3,]
@@ -372,12 +449,15 @@
                                             on_press: root.bedrooms='5'
                                             on_release: app.rooms('5')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '5'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
                                         
                                         MDCard:
                                             radius: [3,]
@@ -386,13 +466,15 @@
                                             on_press: root.bedrooms='6'
                                             on_release: app.rooms('6')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '6'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
-
+                                                size_hint_x: None
+                                                adaptive_width: True
                                         MDCard:
                                             radius: [3,]
                                             ripple_behavior: True
@@ -400,55 +482,61 @@
                                             on_press: root.bedrooms='7'
                                             on_release: app.rooms('7')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '7'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
 
                                         MDCard:
                                             radius: [3,]
                                             ripple_behavior: True
                                             md_bg_color: app.theme_cls.primary_color
-                                            on_press: root.bedrooms='7+'
+                                            on_press: root.bedrooms='7'
                                             on_release: app.rooms('7+')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '7+'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
 
-                        MDCard:
+                        MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 10
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "20dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
-                            
                             MDBoxLayout:
                                 orientation: 'vertical'
                                 padding: [20,0,20,10]
                                 MDLabel:
                                     text: "Bathroom number"
-                                    font_size: "15sp"
+                                    font_size: "15dp"
                                 MDLabel:
                                     text: root.bathrooms
+                                    font_size: "15dp"
                                 ScrollView:
-                                    do_scroll_x: True
                                     do_scroll_y: False
+                                    do_scroll_x: True
                                     bar_width: 0
                                     MDBoxLayout:
                                         spacing: '10dp'
                                         size_hint_x: None
                                         adaptive_width: True
-                                
                                         MDCard:
                                             radius: [3,]
                                             ripple_behavior: True
@@ -456,12 +544,16 @@
                                             on_press: root.bathrooms='1'
                                             on_release: app.baths('1')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '1'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
+                                                id: one
                                         
                                         MDCard:
                                             radius: [3,]
@@ -470,12 +562,15 @@
                                             on_press: root.bathrooms='2'
                                             on_release: app.baths('2')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '2'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
 
                                         MDCard:
                                             radius: [3,]
@@ -484,12 +579,15 @@
                                             on_press: root.bathrooms='3'
                                             on_release: app.baths('3')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 bold: True
                                                 text: '3'
                                                 halign: 'center'
                                                 color: 'white'
+                                                size_hint_x: None
+                                                adaptive_width: True
 
                                         MDCard:
                                             radius: [3,]
@@ -498,12 +596,15 @@
                                             on_press: root.bathrooms='4'
                                             on_release: app.baths('4')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '4'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
 
                                         MDCard:
                                             radius: [3,]
@@ -512,127 +613,213 @@
                                             on_press: root.bathrooms='5'
                                             on_release: app.baths('5')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '5'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
+                                        
                                         
                                         MDCard:
                                             radius: [3,]
                                             ripple_behavior: True
                                             md_bg_color: app.theme_cls.primary_color
-                                            on_press: root.bathrooms='5+'
-                                            on_release: app.baths('5+')
+                                            on_press: root.bathrooms='6'
+                                            on_release: app.baths('6')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
-                                                text: '5+'
+                                                text: '6'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
 
-                        MDCard:
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bathrooms='7'
+                                            on_release: app.baths('7')
+                                            size_hint_x: None
+                                            width: one.width * 3
+                                            elevation: 0
+                                            MDLabel:
+                                                text: '7'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
+
+                                        MDCard:
+                                            radius: [3,]
+                                            ripple_behavior: True
+                                            md_bg_color: app.theme_cls.primary_color
+                                            on_press: root.bathrooms='7+'
+                                            on_release: app.baths('7+')
+                                            size_hint_x: None
+                                            width: one.width * 3
+                                            elevation: 0
+                                            MDLabel:
+                                                text: '7+'
+                                                halign: 'center'
+                                                color: 'white'
+                                                bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
+                        MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 10
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "20dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            padding: [0,self.height/2.5,0,self.height/3]
                             MDBoxLayout:
                                 orientation: 'vertical'
-                                padding: [20,0,20,10]
-                                MDBoxLayout:
-                                    MDLabel:
-                                        text: "Land space"
-                                        font_size: "15sp"
-                                    
-                                TextInput:
-                                    id: land_space
-                                    height: self.minimum_height
-                                    on_text: app.land_space(self.text)
-                                    
-                                    input_type: 'number'
-                                    multiline: False
-                                    input_filter: 'float'
-
-                        MDCard:
-                            opacity: 0.9
-                            radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
-                            elevation: 0
-                            orientation: 'vertical'
-                            spacing: "20dp"
-                            md_bg_color: 255/255, 255/255, 255/255, 0.8
-                            MDBoxLayout:
-                                orientation: 'vertical'
-                                padding: [20,0,20,10]
+                                padding: [20,0,20,0]
+                                size_hint_y: None
+                                adaptive_height: True
+                                spacing: "20dp"
                                 MDLabel:
-                                    text: "Brief Description(max=255 words)"
-                                    font_size: "15sp"
-                                MDCard:
-                                    radius: [9,]
+                                    text: "Land space (sq.ft)"
+                                    font_size: "15dp"
+                                    id: landspace_text
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                Landspace_rent:
+                                    size_hint_y: None
+                                    height: landspace_text.height * 2
+                                    id: land_card
+                                    radius: [5,]
                                     TextInput:
-                                        id: description
-                                        padding: [20, ]
-                                        on_text: app.description(self.text)
-                                        multiline: True
+                                        id: land_space
+                                        height: self.minimum_height
+                                        on_text: app.land_space(self.text)
+                                        hint_text: 'landspace' 
+                                        input_type: 'number'
+                                        multiline: False
+                                        input_filter: 'float'
+                                        height: self.minimum_height
                                         foreground_color: 0/255, 0/255, 0/255, 1
-                                        background_color: 0,0,0,0    
+                                        background_color: 0,0,0,0
+                                        font_size: "15dp"
 
-                        MDCard:
+
+                        
+                                        
+                                          
+
+
+
+                        MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 150
-                            
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 10
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "20dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
+                            padding: [0,self.height/3,0,self.height/3]
                             MDBoxLayout:
                                 orientation: 'vertical'
-                                padding: [20,0,20,10]
+                                padding: [20,0,20,0]
+                                spacing: "20dp"
                                 MDBoxLayout:
+                                    spacing: "20dp"
                                     MDLabel:
                                         text: "Price/mth"
-                                        font_size: "15sp"
-                                        size_hint_x: None
-                                        adaptive_width: True
+                                        font_size: "15dp"
+                                        size_hint: None, None
+                                        adaptive_size: True
+                                        pos_hint: {'center_y': 0.5}
                                     MDDropDownItem:
                                         id: pay_item
                                         text: '/mth'
                                         on_release: root.poi.open()
-                                        pos_hint: {'center_x': 0.5}
-                                TextInput:
-                                    id: price
-                                    height: self.minimum_height
-                                    on_text: app.pricing(self.text)
-                                    
-                                    input_type: 'number'
-                                    multiline: False
-                                    input_filter: 'float'
+                                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                        
+                                Price_rent:
+                                    size_hint_y: None
+                                    height: landspace_text.height * 2
+                                    id: price_card
+                                    radius: [5,]
+                                    TextInput:
+                                        id: price
+                                        height: self.minimum_height
+                                        on_text: app.pricing(self.text)
+                                        height: self.minimum_height
+                                        input_type: 'number'
+                                        multiline: False
+                                        input_filter: 'float'
+                                        foreground_color: 0/255, 0/255, 0/255, 1
+                                        background_color: 0,0,0,0 
 
-                        MDCard:
+                        MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
-                            size_hint_y: None
-                            height: 380
+                            size_hint: None, None
+                            height: price_card.height + landspace_text.height * 20
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                            pos_hint: {'center_x': 0.5}
+                            elevation: 0
+                            orientation: 'vertical'
+                            spacing: "20dp"
+                            md_bg_color: 255/255, 255/255, 255/255, 0.8
                             
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: [20,30,20,10]
+                                spacing: "20dp"
+                               
+                                MDLabel:
+                                    text: "Brief Description(max=255 words)"
+                                    font_size: "15dp"
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                Description_rent:
+                                    radius: [9,]
+                                    
+                                    
+                                    TextInput:
+                                        id: description
+                                        
+                                        on_text: app.description(self.text)
+                                        multiline: True
+                                        foreground_color: 0/255, 0/255, 0/255, 1
+                                        background_color: 0,0,0,0  
+
+                        MDBoxLayout:
+                            opacity: 0.9
+                            radius: [5]
+                            size_hint: None, None
+                            height: Window.size[1] / 1.5 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 50
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 1.5
+                            pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
                             spacing: "10dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
-                            padding: [20,0,20,10]
+                            padding: [20,10,20,10]
                             MDLabel:
-                                text: 'Extra Amenities'
-                                size_hint_y: .5
+                                text: 'Further Amenities'
+                                size_hint_y: None
+                                adaptive_height: True
+                                halign: 'center'
                                 
                             MDBoxLayout:
                                 size_hint_y: None
@@ -642,58 +829,65 @@
                                     active: True
                                 MDLabel:
                                     text: "Yes"
+                                    font_size: '15dp'
 
                                 MDCheckbox:
                                     disabled: True
                                     disabled_color: 'lightgrey'
                                 MDLabel: 
                                     text: "No"
+                                    font_size: '15dp'
 
                             MDGridLayout:
                                 cols: 2
                                 MDLabel:
                                     text: 'Fans'
-                                    font_size: '14sp'
+                                    font_size: '15dp'
                                 MDCheckbox:
                                     on_active: app.on_checkbox_active(*args, 0)
                                     id: 0
 
                                 MDLabel:
                                     text: 'Air Conditioner'
-                                    font_size: '14sp'
+                                    font_size: '15dp'
                                 MDCheckbox:
                                     on_active: app.on_checkbox_active(*args, 1)
                                     id: 1
 
                                 MDLabel:
                                     text: 'Water Heater'
-                                    font_size: '14sp'
+                                    font_size: '15dp'
                                 MDCheckbox:
                                     on_active: app.on_checkbox_active(*args, 2)
                                     id: 2
 
                                 MDLabel:
                                     text: 'Swimming Pool'
-                                    font_size: '14sp'
+                                    font_size: '15dp'
                                 MDCheckbox:
                                     on_active: app.on_checkbox_active(*args, 3)
                                     id: 3
 
                                 MDLabel:
                                     text: 'Wifi'
-                                    font_size: '14sp'
+                                    font_size: '15dp'
                                 MDCheckbox:
                                     on_active: app.on_checkbox_active(*args, 4)
                                     id: 4
 
                                 MDLabel:
                                     text: 'Garage'
-                                    font_size: '14sp'
+                                    font_size: '15dp'
                                 MDCheckbox:
                                     on_active: app.on_checkbox_active(*args, 5)
                                     id: 5
+                            
                         MDRaisedButton:
                             text: "Submit"
                             on_press: app.rent_property()
-                            
-                
+
+<Price_rent@MDCard+CommonElevationBehavior>
+<Landspace_rent@MDCard+CommonElevationBehavior>
+<Code_rent@MDCard+CommonElevationBehavior>
+
+<Description_rent@MDCard+CommonElevationBehavior>

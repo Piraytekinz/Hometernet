@@ -194,4 +194,26 @@
                     bold: True
                     
 
-        
+MDBoxLayout:
+
+    MDLabel:
+        text: "Price"
+        font_size: "15sp"
+        size_hint: None, None
+        pos_hint: {'center_x': 0.5, 'center_y':0.5}
+        adaptive_size: True
+        halign: 'center'
+    MDDropDownItem:
+        id: pay_item
+        text: '/mth'
+        on_release: root.poi.open()
+        pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+TextInput:
+    id: price
+    padding: [20, ]
+    # on_text: app.pricing(self.text)
+    text: root.price
+    height: self.minimum_height
+    input_type: 'number'
+    multiline: False
+    input_filter: 'float'

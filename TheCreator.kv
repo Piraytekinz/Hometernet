@@ -5,7 +5,7 @@
         spacing: "10dp"
         MiCard:
             size_hint_y: None
-            height: arrow_right.height + 55
+            height: arrow_right.height * 3
             padding: [10,]
             elevation: 0
             MDLabel:
@@ -24,6 +24,7 @@
                     adaptive_height: True
                     spacing: "30dp"
                     orientation: 'vertical'
+                    padding: [20]
                     ACardi:
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         size_hint: None, None
@@ -44,13 +45,19 @@
                         adaptive_height: True
                         halign: 'center'                       
                         font_style: 'Overline'
-                        font_size: '20sp'
+                        font_size: '20dp'
                         bold: True
                     MDLabel:
                         text: 'CEO/FOUNDER/DEVELOPER of Hometernet'
-                        font_size: '20sp'
+                        font_size: '20dp'
                         font_style: 'Caption'
                         halign: 'center'
+                    MDLabel:
+                        text: 'Contact me at: anangjosh8@gmail.com to address any personal issues about Hometernet.'
+                        halign: 'center'
+                        font_size: '20dp'
+                        size_hint_y: None
+                        adaptive_height: True
 
 <ACardi@MDCard+CommonElevationBehavior>
 <MiCard@MDCard+CommonElevationBehavior>

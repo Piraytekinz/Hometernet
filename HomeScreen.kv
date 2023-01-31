@@ -38,18 +38,21 @@
                                     
                                     MyCard:
                                         size_hint: None, None
-                                        height: menu.height + 85
-                                        width: menu.width + 85
+                                        height: menu.height * 3
+                                        width: menu.width * 3
                                         ripple_behavior: True
                                         radius: [3,]
                                         on_press: nav.set_state("open")
                                         elevation: 0
-                                        padding: [self.width/2,self.height/2,self.width/2,self.height/2]
+                                        padding: [self.width/3,self.height,self.width/3,self.height/3]
                                         id: menu_card
                                         MDIcon:
                                             icon: "menu"
                                             id: menu
                                             font_size: '20dp'
+                                            size_hint: None, None
+                                            adaptive_size: True
+                                            
                                             
                                             
                                             
@@ -224,7 +227,7 @@
                                     adaptive_width: True
                                     adaptive_height: True
                                     spacing: "20dp"
-                                    padding: [15, 10, 10, 15]
+                                    padding: [15, 0, 10, 0]
                                     
 
 
@@ -286,7 +289,7 @@
                                     
                                     adaptive_height: True
                                     spacing: "20dp"
-                                    padding: [15, 20, 10, 20]
+                                    padding: [15, 0, 10, 0]
                                 
                                     
                                 GridiCard:
@@ -452,7 +455,7 @@
                     OneLineIconListItem:
                         text: "About us"
                         divider: None
-                        
+                        on_press: app.switch_about()
                         
                         IconLeftWidget:
                             icon: 'ubisoft'

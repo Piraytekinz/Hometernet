@@ -1,0 +1,45 @@
+<AboutScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        AboutCard:
+            size_hint_y: None
+            height: icon.height * 3
+            padding: [10,]
+            elevation: 0
+            id: about
+            MDLabel:
+                text: 'About'
+                theme_font_style: 'Overline'
+                size_hint_y: None
+                adaptive_height: True
+                valign: 'center'
+                pos_hint: {'center_y': 0.5}
+                
+            MDIconButton:
+                user_font_size: '14dp'
+                icon: 'arrow-right'
+                on_press: app.switch_home()
+                pos_hint: {'center_y': 0.5}
+                id: icon
+        MDBoxLayout:
+            ScrollView:
+                MDBoxLayout:
+                    size_hint_y: None
+                    adaptive_height: True
+                    spacing: "20dp"
+                    padding: [20,]
+                    orientation: 'vertical'
+                    MDLabel:
+                        text: "About Hometernet"
+                        bold: True
+                        font_size: '30dp'
+                        size_hint_y: None
+                        height: about.height
+                        halign: 'center'
+                    MDLabel:
+                        text: "Hometernet is a global platform for real estate. \n With the motive of promoting global integration, Hometernet provides you with services to advertise your properties on a global scale strengthening the relationships between people in different countries across the globe. "
+                        
+                        font_size: '17dp'
+                        halign: 'center'
+
+<AboutCard@MDCard+CommonElevationBehavior>

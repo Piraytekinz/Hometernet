@@ -6,7 +6,7 @@
                 orientation: 'vertical'
                 MDCard:
                     size_hint_y: None
-                    height: arrow_left.height + 55
+                    height: arrow_left.height * 3
                     
                     MDIconButton:
                         icon: 'arrow-left'
@@ -45,7 +45,7 @@
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 10
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -78,7 +78,7 @@
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 10
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -106,8 +106,7 @@
                                     size_hint_y: None
                                     height: landspace_text.height * 2
                                     Code:
-                                        size_hint_x: None
-                                        adaptive_width: True
+                                        
                                         radius: [5,]
                                         
                                         
@@ -152,7 +151,7 @@
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 10
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -180,7 +179,7 @@
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 10
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -207,7 +206,7 @@
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 10
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -233,7 +232,7 @@
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 10
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -278,7 +277,7 @@
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 10
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -305,7 +304,7 @@
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 10
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -332,7 +331,7 @@
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 10
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -344,13 +343,13 @@
                                 padding: [20,0,20,0]
                                 spacing: "20dp"
                                 MDLabel:
-                                    text: "street"
+                                    text: "street/address"
                                     font_size: "15dp"
                                     size_hint_y: None
                                     adaptive_height: True
                                 MDTextField:
                                     id: location
-                                    hint_text: "street"
+                                    hint_text: "street/address"
                                     
                                     on_text: app.streeti(self.text)
 
@@ -359,7 +358,7 @@
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 10
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -391,12 +390,16 @@
                                             on_press: root.bedrooms='1'
                                             on_release: app.rooms('1')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '1'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                id: oner
+                                                size_hint_x: None
+                                                adaptive_width: True
                                         
                                         MDCard:
                                             radius: [3,]
@@ -405,12 +408,15 @@
                                             on_press: root.bedrooms='2'
                                             on_release: app.rooms('2')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '2'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
 
                                         MDCard:
                                             radius: [3,]
@@ -419,12 +425,15 @@
                                             on_press: root.bedrooms='3'
                                             on_release: app.rooms('3')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 bold: True
                                                 text: '3'
                                                 halign: 'center'
                                                 color: 'white'
+                                                size_hint_x: None
+                                                adaptive_width: True
 
                                         MDCard:
                                             radius: [3,]
@@ -433,12 +442,15 @@
                                             on_press: root.bedrooms='4'
                                             on_release: app.rooms('4')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '4'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
 
                                         MDCard:
                                             radius: [3,]
@@ -447,12 +459,15 @@
                                             on_press: root.bedrooms='5'
                                             on_release: app.rooms('5')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '5'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
                                         
                                         MDCard:
                                             radius: [3,]
@@ -461,12 +476,15 @@
                                             on_press: root.bedrooms='6'
                                             on_release: app.rooms('6')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '6'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
                                         MDCard:
                                             radius: [3,]
                                             ripple_behavior: True
@@ -474,12 +492,15 @@
                                             on_press: root.bedrooms='7'
                                             on_release: app.rooms('7')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '7'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
 
                                         MDCard:
                                             radius: [3,]
@@ -488,19 +509,22 @@
                                             on_press: root.bedrooms='7+'
                                             on_release: app.rooms('7+')
                                             size_hint_x: None
-                                            width: 30
+                                            width: oner.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '7+'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
 
                         MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 10
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -511,9 +535,10 @@
                                 padding: [20,0,20,10]
                                 MDLabel:
                                     text: "Bathroom number"
-                                    font_size: "15sp"
+                                    font_size: "15dp"
                                 MDLabel:
                                     text: root.bathrooms
+                                    font_size: "15dp"
                                 ScrollView:
                                     do_scroll_y: False
                                     do_scroll_x: True
@@ -529,12 +554,16 @@
                                             on_press: root.bathrooms='1'
                                             on_release: app.baths('1')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
                                                 text: '1'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
+                                                id: one
                                         
                                         MDCard:
                                             radius: [3,]
@@ -543,12 +572,16 @@
                                             on_press: root.bathrooms='2'
                                             on_release: app.baths('2')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
-                                                text: '2'
+                                                text: '1'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
+                                                id: one
 
                                         MDCard:
                                             radius: [3,]
@@ -557,12 +590,16 @@
                                             on_press: root.bathrooms='3'
                                             on_release: app.baths('3')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
-                                                bold: True
-                                                text: '3'
+                                                text: '1'
                                                 halign: 'center'
                                                 color: 'white'
+                                                bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
+                                                id: one
 
                                         MDCard:
                                             radius: [3,]
@@ -571,12 +608,16 @@
                                             on_press: root.bathrooms='4'
                                             on_release: app.baths('4')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
-                                                text: '4'
+                                                text: '1'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
+                                                id: one
 
                                         MDCard:
                                             radius: [3,]
@@ -585,12 +626,16 @@
                                             on_press: root.bathrooms='5'
                                             on_release: app.baths('5')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
-                                                text: '5'
+                                                text: '1'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
+                                                id: one
                                         
                                         
                                         MDCard:
@@ -600,12 +645,16 @@
                                             on_press: root.bathrooms='6'
                                             on_release: app.baths('6')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
-                                                text: '6'
+                                                text: '1'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
+                                                id: one
 
                                         MDCard:
                                             radius: [3,]
@@ -614,12 +663,16 @@
                                             on_press: root.bathrooms='7'
                                             on_release: app.baths('7')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
-                                                text: '7'
+                                                text: '1'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
+                                                id: one
 
                                         MDCard:
                                             radius: [3,]
@@ -628,18 +681,22 @@
                                             on_press: root.bathrooms='7+'
                                             on_release: app.baths('7+')
                                             size_hint_x: None
-                                            width: 30
+                                            width: one.width * 3
+                                            elevation: 0
                                             MDLabel:
-                                                text: '7+'
+                                                text: '1'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
+                                                size_hint_x: None
+                                                adaptive_width: True
+                                                id: one
                         MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 10
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -653,7 +710,7 @@
                                 adaptive_height: True
                                 spacing: "20dp"
                                 MDLabel:
-                                    text: "Land space"
+                                    text: "Land space (sq.ft)"
                                     font_size: "15dp"
                                     id: landspace_text
                                     size_hint_y: None
@@ -665,7 +722,7 @@
                                     radius: [5,]
                                     TextInput:
                                         id: land_space
-                                        height: self.minimum_height
+                                        
                                         on_text: app.land_space(self.text)
                                         hint_text: 'price' 
                                         input_type: 'number'
@@ -688,7 +745,7 @@
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 10
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -709,7 +766,7 @@
                                     radius: [5,]
                                     TextInput:
                                         id: price
-                                        height: self.minimum_height
+                                        
                                         on_text: app.pricing(self.text)
                                         height: self.minimum_height
                                         input_type: 'number'
@@ -723,7 +780,7 @@
                             radius: [5]
                             size_hint: None, None
                             height: price_card.height + landspace_text.height * 20
-                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 3
+                            width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
                             pos_hint: {'center_x': 0.5}
                             elevation: 0
                             orientation: 'vertical'
@@ -763,10 +820,12 @@
                             orientation: 'vertical'
                             spacing: "10dp"
                             md_bg_color: 255/255, 255/255, 255/255, 0.8
-                            padding: [20,0,20,10]
+                            padding: [20,10,20,10]
                             MDLabel:
-                                text: 'Extra Amenities'
-                                size_hint_y: .5
+                                text: 'Further Amenities'
+                                size_hint_y: None
+                                adaptive_height: True
+                                halign: 'center'
                                 
                             MDBoxLayout:
                                 size_hint_y: None

@@ -47,9 +47,9 @@
                                     ripple_behavior: True
 
                             AnchorLayout:
-                                anchor_x: 'right'
+                                anchor_x: 'left'
                                 anchor_y: 'bottom'
-                                padding: [0,0,20,20]
+                                padding: [20,0,0,20]
                                 MDLabel:
                                     text: root.price
                                     color: 'white'
@@ -71,10 +71,10 @@
                 
                 MDBoxLayout:
                     orientation: 'vertical'
-                    spacing: "15dp"
+                    spacing: "20dp"
                     size_hint_y: None
                     adaptive_height: True
-                    padding: [20,15,0,0]
+                    padding: [25,15,0,0]
                     
                     MDLabel:
                         text: root.type
@@ -125,7 +125,7 @@
                         MapsCard:
                             size_hint: None, None
                             width: gmaps_icon.width + gmaps_label.width + 25
-                            height: bedrooms.height + 45
+                            height: bedrooms.height * 2.5
                             radius: [10,]
                             padding: [5,10,5,10]
                             on_press: app.open_maps(root.country + ',' + " " + root.town + ',' + " " + root.street)
@@ -156,10 +156,10 @@
                     size_hint_y: None
                     adaptive_height: True
                     spacing: "10dp"
-                    padding: [20,5,10,0]
+                    padding: [25,5,10,0]
                     BedroomsCard:
                         size_hint_y: None
-                        height: landspace.height + 55
+                        height: landspace.height * 2
                         radius: [10,]
                         padding: [5,]
                         MDLabel:
@@ -175,7 +175,7 @@
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     BathroomsCard:
                         size_hint_y: None
-                        height: landspace.height + 55
+                        height: landspace.height * 2
                         radius: [10,]
                         padding: [5]
                         MDLabel:
@@ -191,7 +191,7 @@
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     LandspaceCard:
                         size_hint_y: None
-                        height: landspace.height + 55
+                        height: landspace.height * 2
                         radius: [10,]
                         padding: [5]
                         MDLabel:
@@ -209,7 +209,7 @@
                     size_hint_y: None
                     adaptive_height: True
                     orientation: 'vertical'
-                    padding: [20,15,0,0]
+                    padding: [25,15,0,0]
                     spacing: "20dp"
                     MDLabel:
                         text: 'Description'
@@ -234,7 +234,7 @@
                         elevation: 0
                         orientation: 'vertical'
                         size_hint_y: None
-                        height: grody.height + further_amenities.height + 85
+                        height: (grody.height + further_amenities.height) * 1.5
                         spacing: "20dp"
                         MDLabel:
                             text: 'Further Amenities'
@@ -340,14 +340,14 @@
         MDBoxLayout:
             
             size_hint_y: None
-            height: biye.height + 55
+            height: biye.height * 2
             padding: [10,]
             Buy:
                 md_bg_color: app.theme_cls.primary_color
                 radius: [5,]
                 ripple_behavior: True
                 size_hint_y: None
-                height: buy_text.height + 55
+                height: buy_text.height * 3
                 id: biye
                 pos_hint: {'center_y': 0.5}
                 on_release: app.send_email(root.email, root.phonenumber, root.twitter, root.facebook)

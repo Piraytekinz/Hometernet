@@ -7,14 +7,14 @@
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
     height: Window.size[1] / 2 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 45
     id: main_card
-    on_press: app.editscreen(root.image, root.local_image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
     radius: [5, ]
     MDBoxLayout:
         orientation: 'vertical'
         padding: [10,]
         spacing: "20dp"
         SalePic:
-            
+            on_press: app.editscreen(root.image, root.local_image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
+
             elevation: 1
             
             radius: [5,]
@@ -40,19 +40,24 @@
                         bold: True
                         size_hint: None, None
                         adaptive_size: True
-
+                MDBoxLayout:
+                    size_hint: None, None
+                    adaptive_size: True
+                    md_bg_color: 1,1,1,1
+                    padding: [10]
+                    pos_hint: {'center_x': 0.25, 'center_y': 0.89}
                     MDLabel:
-                        text: root.views + " " + "views"
+                        text: str(root.views) + " " + "views"
                         halign: 'center'
-                        font_size: "13dp"
+                        font_size: "14dp"
                         
                         font_color: "black"
                         bold: True
                         size_hint_x: None
-                        adaptive_width: True
-                        size_hint_y: .15
+                        size_hint: None, None
+                        adaptive_size: True
                         md_bg_color: 1,1,1,1
-                        pos_hint: {'center_x': 0.25, 'center_y': 0.87}
+                        
                         
                         
                         
