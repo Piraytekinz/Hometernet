@@ -171,6 +171,7 @@ Builder.load_file('ForgotPasswordEntry.kv')
 Builder.load_file('Warning.kv')
 Builder.load_file('Countries.kv')
 Builder.load_file('About.kv')
+Builder.load_file('Contact.kv')
 
 
 
@@ -194,6 +195,67 @@ class CreatorScreen(Screen):
 
 class AboutScreen(Screen):
     pass
+
+class ContactScreen(Screen):
+    def __init__(self, **kw):
+        super().__init__(**kw)
+
+    def initialize_contact_message(self):
+        try:
+            func_timeout(30, self.work_thistime)
+        except FunctionTimedOut:
+            print("No internet connection")
+            snack = "No internet conection"
+            snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y = 0.1)
+            snacky.open()
+
+    def work_thistime(self):
+        self.send_contact_message()
+
+    
+    def send_contact_message(self):
+        
+        firstname = self.ids.firstname.text
+        lastname = self.ids.lastname.text
+        email = self.ids.mail.text
+        messagi = self.ids.message.text
+        if len(firstname) >= 2 and len(lastname) < 16:
+            if len(lastname) >= 2 and len(lastname) < 16:
+                if email == "anangjosh8@gmail.com":
+                    if len(messagi) > 20 and len(messagi) < 225:
+                        message = MIMEText(messagi)
+                        message['Subject'] = "Contact Us Hometernet Notice"
+                        message["From"] = email
+                        message["To"] = "anangjosh8@gmail.com"
+                        server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+                        server.login("anangjosh8@gmail.com", "iujwzdutnqmbpkjm")
+                        server.sendmail(email, "anangjosh8@gmail.com", message.as_string())
+                        server.quit()
+                        # self.doa.dismiss()
+                        print("server exited")
+                    else:
+                        text = "Message must be between 20 and 225 characters"
+                        self.show_dialog(text)
+                        
+                else:
+                    text = "Email mismatch"
+                    self.show_dialog(text)
+                    
+            else:
+                text = "Lastname must be between 2 and 16 characters"
+                self.show_dialog(text)
+                
+        else:
+            text = "Firstname must be between 2 and 16 characters"
+            self.show_dialog(text)
+            
+    @mainthread
+    def show_dialog(self, notice, button1=None):
+        self.dialog = MDDialog(text=notice, size_hint=(1, 1), buttons=[MDFlatButton(text="close", on_release=self.close_dialog), button1])
+        self.dialog.open()
+    
+    def close_dialog(self, obj):
+        self.dialog.dismiss()
 
 class HomeScreen(Screen):
     text = StringProperty()
@@ -644,7 +706,7 @@ class PropertyCardsLayout(MDBoxLayout):
         #     self.card.bedrooms = i['bedrooms']
             
         #     self.add_widget(self.card)
-    @mainthread
+    
     def added(self):
         print('mmhmm')
         
@@ -660,20 +722,24 @@ class PropertyCardsLayout(MDBoxLayout):
             curr = json.load(jsonfile)
         print('OOh ma gaa')
         
-        testichiro = db.child("People").child(curr['localid']).child("Sale").get(curr['idToken'])
-        testiroro = db.child("People").child(curr['localid']).child("Rent").get(curr['idToken'])
+        self.testichiro = db.child("People").child(curr['localid']).child("Sale").get(curr['idToken'])
+        self.testiroro = db.child("People").child(curr['localid']).child("Rent").get(curr['idToken'])
 
-        people = db.child("Sale").get()
-        peopler = db.child("Rent").get()
-        if testichiro.each():
-            for q in testichiro.each():
+        self.people = db.child("Sale").get()
+        self.peopler = db.child("Rent").get()
+        self.next_after()
+
+    @mainthread
+    def next_after(self):
+        if self.testichiro.each():
+            for q in self.testichiro.each():
                 
                 dude = q.val()['prop_keys']
             
             
             
-                if people.each():
-                    for u in people.each():
+                if self.people.each():
+                    for u in self.people.each():
                         something = u.key()
                         print(u.key())
                         # another = person.val()
@@ -713,9 +779,9 @@ class PropertyCardsLayout(MDBoxLayout):
                                 print(loader)
                         else:
                             print('Nope')
-            for d in testiroro.each():    
-                if peopler.each():
-                    for u in peopler.each():
+            for d in self.testiroro.each():    
+                if self.peopler.each():
+                    for u in self.peopler.each():
                         something = u.key()
                         print(u.key())
                         # another = person.val()
@@ -1072,7 +1138,7 @@ class HomeCardsLayout(MDBoxLayout):
             print(self.curr['localid'])
 
         if self.something == '':
-            self.people = db.child("Sale").get(token=self.curr['idToken'])
+            self.people = db.child("Sale").get()
             self.otheri()
 
         else:
@@ -1529,6 +1595,7 @@ class MainApp(MDApp):
         self.bk = BookmarkScreen(name='bookmarks')
         self.products = MyProducts(name="products")
         self.about = AboutScreen(name="about")
+        self.contact = ContactScreen(name="contact")
         
         
         
@@ -1621,8 +1688,8 @@ class MainApp(MDApp):
         
         self.wm.transition = SwapTransition()
         # self.wm.switch_to(self.loading)
-        self.edit_rent = EditRentDetailsScreen()
-        self.wm.switch_to(self.edit_rent)
+        
+        self.wm.switch_to(self.home)
         self.numberiy = 'item 0'
 
         self.sale_or_rent = ''
@@ -1686,6 +1753,8 @@ class MainApp(MDApp):
             elif self.wm.current == "tutor":
                 self.switch_home()
             elif self.wm.current == "about":
+                self.switch_home()
+            elif self.wm.current == "contact":
                 self.switch_home()
             
             
@@ -1820,6 +1889,12 @@ class MainApp(MDApp):
     def switch_creator(self):
         self.wm.switch_to(self.creator_screen)
 
+    def switch_contact(self):
+        with open('user.json', 'r') as jsonfile:
+            self.contact_info = json.load(jsonfile)
+            
+        self.wm.switch_to(self.contact)
+
     def switch_tutorial(self):
         self.wm.switch_to(self.tutorial)
 
@@ -1835,21 +1910,18 @@ class MainApp(MDApp):
         
 
     def boooiiii(self, figaro):
-        try:
-            if figaro in self.curr['viewed']:
-                pass
-            else:
-                them14 = db.child("Sale").child(figaro).child("views").get()
-                new_val = them14.val()
-                new_val += 1
-                print(new_val)
-                db.child("Sale").child(figaro).update({'views': new_val}, self.curr['idToken'])
-                self.curr["viewed"].append(figaro)
-                with open('user.json', 'w') as jsonfile:
-                    json.dump(self.curr, jsonfile)
+        
+            
+        them14 = db.child("Sale").child(figaro).child("views").get()
+        new_val = them14.val()
+        new_val += 1
+        print(new_val)
+        db.child("Sale").child(figaro).update({'views': new_val}, self.curr['idToken'])
+        self.curr["viewed"].append(figaro)
+        with open('user.json', 'w') as jsonfile:
+            json.dump(self.curr, jsonfile)
                 
-        except:
-            pass
+        
 
     def switch_details(self, image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, phonenumber=None, twitter=None, facebook=None, description=None, key=None, amenities=None):
         self.wm.switch_to(self.loading)
@@ -2165,11 +2237,13 @@ class MainApp(MDApp):
                 server.quit()
                 
                 self.show_bottom(email, phonenumber, twitter, facebook)
+
+    
                 
     def show_pre_listings(self):
         print("Did it work")
         self.doa = MDDialog(
-            title='Loading Countries',
+            title='Loading',
             text="Please wait..."
             
         )
@@ -2993,9 +3067,13 @@ class MainApp(MDApp):
     def real_sale(self, selection):
         close_button = MDFlatButton(text="close", on_release=self.close_dialog)
         selected_image = selection
+        
+        print(selected_image)
         if len(selected_image) > 0:
-            print(selected_image)
-            func_timeout(0.1, self.house_sale, args=(selected_image))
+            try:
+                func_timeout(40, self.house_sale, args=(selected_image,))
+            except:
+                print("No internet connection")
         else:
             info = "You need to select an image to continue"
             self.show_dialog(info, close_button)
@@ -3172,7 +3250,10 @@ class MainApp(MDApp):
         selected_image = selection
         if len(selected_image) > 0:
             print(selected_image)
-            func_timeout(40, self.house_rent, args=(selected_image))
+            try:
+                func_timeout(40, self.house_rent, args=(selected_image))
+            except:
+                print("No internet connection")
         else:
             info = "You need to select an image to continue"
             self.show_dialog(info, close_button)

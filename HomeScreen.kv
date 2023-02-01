@@ -15,7 +15,8 @@
                     id: main_box
                     orientation: 'vertical'
                     size_hint_y: None
-                    adaptive_height: True           
+                    adaptive_height: True   
+                    spacing: "15dp"        
                     MDBoxLayout:
                         orientation: 'vertical'                    
                         id: hero_box
@@ -459,6 +460,16 @@
                         
                         IconLeftWidget:
                             icon: 'ubisoft'
+                            font_size: '20dp'
+                            pos_hint:{'center_y': 0.5}
+                    
+                    OneLineIconListItem:
+                        text: "Contact us"
+                        divider: None
+                        on_press: app.switch_contact()
+                        
+                        IconLeftWidget:
+                            icon: 'phone'
                             font_size: '20dp'
                             pos_hint:{'center_y': 0.5}
 

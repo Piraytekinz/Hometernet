@@ -7,7 +7,7 @@
                 MDCard:
                     size_hint_y: None
                     height: arrow_left.height * 3
-                    
+                    radius: [0]
                     MDIconButton:
                         icon: 'arrow-left'
                         user_font_size: "16dp"
@@ -251,7 +251,7 @@
                                         icon: 'arrow-right'
                                         size_hint_y: None
                                         adaptive_height: True
-                                        on_press: app.show_pre_listings()
+                                        
                                         on_release: app.show_listings("Rent")
                                         
                                         

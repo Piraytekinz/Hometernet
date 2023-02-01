@@ -1,0 +1,188 @@
+<ContactScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: "20dp"
+        MDCard:
+            size_hint_y: None
+            height: icon.height * 3
+            padding: [10,]
+            elevation: 0
+            id: about
+            radius: [0]
+            MDLabel:
+                text: 'Contact Us'
+                theme_font_style: 'Overline'
+                size_hint_y: None
+                adaptive_height: True
+                valign: 'center'
+                pos_hint: {'center_y': 0.5}
+                
+            MDIconButton:
+                user_font_size: '14dp'
+                icon: 'arrow-right'
+                on_press: app.switch_home()
+                pos_hint: {'center_y': 0.5}
+                id: icon
+        MDBoxLayout:
+            ScrollView:
+                MDBoxLayout:
+                    padding: [25,0,10,18]
+                    spacing: "30dp"
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    adaptive_height: True
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        adaptive_height: True
+                        spacing: "15dp"
+                        MDLabel:
+                            text: 'Contact Us'
+                            bold: True
+                            font_size: '25dp'
+                            id: notice
+                            size_hint_y: None
+                            adaptive_height: True
+                        MDLabel:
+                            text: 'Tell us you story from your experience.'
+                            font_size: '15dp'
+                            color: 'gray'
+                            size_hint_y: None
+                            adaptive_height: True
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        adaptive_height: True
+                        spacing: "20dp"
+                        MDBoxLayout:
+                            spacing: "23dp"
+                            size_hint_y: None
+                            adaptive_height: True
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                spacing: "10dp"
+                                size_hint_y: None
+                                adaptive_height: True
+                                MDLabel:
+                                    text: "First name"
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                Firstname:
+                                    size_hint_y: None
+                                    height: notice.height + 20
+                                    radius: [10,]
+                                    id: name_box
+                                    TextInput:
+                                        hint_text: 'First name'
+                                        multiline: False
+                                        foreground_color: 0/255, 0/255, 0/255, 1
+                                        size_hint_y: None
+                                        font_size: "15dp"
+                                        text_color: "black"
+                                        pos_hint: {'center_y': 0.5}
+                                        height: self.minimum_height
+                                        background_color: 0,0,0,0
+                                        id: firstname
+
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                spacing: "10dp"
+                                size_hint_y: None
+                                adaptive_height: True
+                                MDLabel:
+                                    text: "Last name"
+                                    font_size: '14dp'
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                Lastname:
+                                    size_hint_y: None
+                                    height: notice.height + 20
+                                    radius: [10,]
+                                    id: last_name_box
+                                    TextInput:
+                                        hint_text: 'Last name'
+                                        multiline: False
+                                        foreground_color: 0/255, 0/255, 0/255, 1
+                                        size_hint_y: None
+                                        font_size: "15dp"
+                                        text_color: "black"
+                                        pos_hint: {'center_y': 0.5}
+                                        height: self.minimum_height
+                                        background_color: 0,0,0,0
+                                        id: lastname
+                        MDBoxLayout:
+                            orientation: 'vertical'
+                            spacing: "10dp"
+                            size_hint_y: None
+                            adaptive_height: True
+                            MDLabel:
+                                text: "Email"
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                            MailCard:
+                                size_hint_y: None
+                                height: notice.height + 20
+                                radius: [10,]
+                                id: mail_box
+                                TextInput:
+                                    hint_text: 'Email'
+                                    multiline: False
+                                    foreground_color: 0/255, 0/255, 0/255, 1
+                                    size_hint_y: None
+                                    font_size: "15dp"
+                                    text_color: "black"
+                                    pos_hint: {'center_y': 0.5}
+                                    height: self.minimum_height
+                                    background_color: 0,0,0,0
+                                    id: mail
+                        MDBoxLayout:
+                            orientation: 'vertical'
+                            spacing: "10dp"
+                            size_hint_y: None
+                            adaptive_height: True
+                            MDLabel:
+                                text: "Message"
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                            MessageCard:
+                                size_hint_y: None
+                                height: notice.height * 5
+                                radius: [10,]
+                                id: story_box
+                                TextInput:
+                                    hint_text: 'Input Message'
+                                    multiline: True
+                                    foreground_color: 0/255, 0/255, 0/255, 1
+                                    size_hint_y: None
+                                    font_size: "15dp"
+                                    text_color: "black"
+                                    pos_hint: {'center_y': 0.5}
+                                    
+                                    background_color: 0,0,0,0
+                                    id: message
+                    SendCard:
+                        size_hint_y: None
+                        height: send.height * 3
+                        radius: [10]
+                        ripple_behavior: True
+                        md_bg_color: app.theme_cls.primary_color
+                        
+                        on_press: root.initialize_contact_message()
+                        MDLabel:
+                            text: "Send"
+                            font_size: '13dp'
+                            color: 'white'
+                            halign: 'center'
+                            id: send
+                            size_hint_y: None
+                            adaptive_height: True
+                            bold: True
+                            pos_hint: {'center_y': 0.5}
+
+<Firstname@MDCard+CommonElevationBehavior>
+<Lastname@MDCard+CommonElevationBehavior>
+<MailCard@MDCard+CommonElevationBehavior>
+<MessageCard@MDCard+CommonElevationBehavior>
+<SendCard@MDCard+CommonElevationBehavior>
