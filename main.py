@@ -208,6 +208,10 @@ class ContactScreen(Screen):
             snack = "No internet conection"
             snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y = 0.1)
             snacky.open()
+        except Exception as e:
+            snack = "No internet conection"
+            snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y = 0.1)
+            snacky.open()
 
     def work_thistime(self):
         self.send_contact_message()
@@ -489,6 +493,20 @@ class SearchLayout(MDBoxLayout):
         self.last = ''
         self.something = ''
         self.old_country = ''
+
+    def search(self, choice, country, town, street):
+        try:
+            func_timeout(30, self.search_now, args=(choice, country, town, street))
+        except FunctionTimedOut:
+            print("No internet connection")
+            snack = "No internet conection"
+            snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y = 0.1)
+            snacky.open()
+        except Exception as e:
+            snack = "No internet conection"
+            snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y = 0.1)
+            snacky.open()
+
     def search(self, choice, country, town, street):
         
         print(choice)
@@ -511,44 +529,44 @@ class SearchLayout(MDBoxLayout):
         # for person in people.each():
         #     something = person.key()
         #     print(something)
-        try:
-            begin = db.child(choice).get()
-            for u in begin.each():
-                if u.key() == self.something:
-                    continue
-                if u.val()['country'] == country or u.val()['town'] == town or u.val()['street'] == street:
-                    self.card = HomeCards()
-                    self.card.image = u.val()['url']
-                    self.card.tot = u.val()['housetype']
-                    self.card.country = u.val()['country']
-                    self.card.province = u.val()['state']
-                    self.card.town = u.val()['town']
-                    self.card.street = u.val()['street']
-                    self.card.bedrooms = u.val()['bedrooms']
-                    self.card.bathrooms = u.val()['bathrooms']
-                    self.card.landspace = u.val()['landspace']
-                    self.card.email = u.val()['email']
-                    self.card.price = u.val()['price']
-                    self.card.key = u.key()
-                    self.card.phonenumber = u.val()['phonenumber']
-                    self.card.twitter = u.val()['twitter']
-                    self.card.facebook = u.val()['facebook']
-                    self.card.description = u.val()['description']
-                    self.card.amenities = u.val()['amenities']
-                    self.add_widget(self.card)
-                    self.last = u.key()
-                    self.something = u.key()
-                    self.j += 1 
-                    if self.j == 1:
-                        break
-                else:
-                    snack = "Not found"
-                    snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y = 0.1)
-                    snacky.open()
-        except:
-            snack = "No internet conection"
-            snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y = 0.1)
-            snacky.open()
+        self.begin = db.child(choice).get()
+        self.added(country, town, street)
+
+    @mainthread
+    def added(self, country, town, street):
+        for u in self.begin.each():
+            if u.key() == self.something:
+                continue
+            if u.val()['country'] == country or u.val()['town'] == town or u.val()['street'] == street:
+                self.card = HomeCards()
+                self.card.image = u.val()['url']
+                self.card.tot = u.val()['housetype']
+                self.card.country = u.val()['country']
+                self.card.province = u.val()['state']
+                self.card.town = u.val()['town']
+                self.card.street = u.val()['street']
+                self.card.bedrooms = u.val()['bedrooms']
+                self.card.bathrooms = u.val()['bathrooms']
+                self.card.landspace = u.val()['landspace']
+                self.card.email = u.val()['email']
+                self.card.price = u.val()['price']
+                self.card.key = u.key()
+                self.card.phonenumber = u.val()['phonenumber']
+                self.card.twitter = u.val()['twitter']
+                self.card.facebook = u.val()['facebook']
+                self.card.description = u.val()['description']
+                self.card.amenities = u.val()['amenities']
+                self.add_widget(self.card)
+                self.last = u.key()
+                self.something = u.key()
+                self.j += 1 
+                if self.j == 1:
+                    break
+            if u.val()['country'] != country or u.val()['town'] != town or u.val()['street'] != street:
+                snack = "Not found"
+                snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y = 0.1)
+                snacky.open()
+        
 
     def next(self, choice, country, town, street):
         try:
