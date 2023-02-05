@@ -88,7 +88,8 @@
                     adaptive_height: True
                     font_size: '16dp'
                     color: app.theme_cls.primary_color
-                    on_press: app.password_reset()
+                    on_release: app.password_reset()
+                    on_press: app.play()
                     
 
             MDCard:
@@ -97,7 +98,8 @@
                 ripple_behavior: True
                 size_hint_y: None
                 height: passwrd.height
-                on_press: app.sign_in()
+                on_release: app.sign_in()
+                on_press: app.play()
                 MDLabel:
                     text: 'Login'
                     halign: 'center'

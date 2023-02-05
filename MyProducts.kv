@@ -51,7 +51,8 @@
                         SignOut:
                             ripple_behavior: True
                             elevation: 0
-                            on_press: app.sign_out_auth()
+                            on_press: app.play()
+                            on_release: app.sign_out_auth()
                             md_bg_color: app.theme_cls.primary_color
                             radius: [10, ]
                             size_hint_y: None
@@ -66,7 +67,8 @@
 
                         SwitchAccount:
                             ripple_behavior: True
-                            on_press: app.switch_account_auth()
+                            on_press: app.play()
+                            on_release: app.switch_account_auth()
                             elevation: 0
                             radius: [10, ]
                             size_hint_y: None
@@ -94,7 +96,8 @@
         
         MDFloatingActionButton:
             icon: 'plus'
-            on_press: app.switch_saleorrent()
+            on_press: app.play()
+            on_release: app.switch_saleorrent()
             pos_hint: {'center_x': 0.85, 'center_y': 0.1}
                         
 <PropTitle@MDCard+CommonElevationBehavior>

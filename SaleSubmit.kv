@@ -26,6 +26,7 @@
                         icon: 'trash-can'
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         user_font_size: "16dp"
+                        on_press: app.switch_products()
 
                 
                 
@@ -118,27 +119,15 @@
                                             
                                             valign: 'top'
                                             pos_hint: {'center_y': 0.5}
-                                        TextInput:
-                                            id: code
-                                            hint_text: 'code'
-                                            size_hint_x: .3
-                                            input_type: 'number'
-                                            height: self.minimum_height
-                                            multiline: False
-                                            input_filter: 'float'
-                                            foreground_color: 0/255, 0/255, 0/255, 1
-                                            background_color: 0,0,0,0
-                                            font_size: "15dp"
-                                    MDCard:
-                                        radius: [5,]
+                                        
                                         
                                         
                                         TextInput:
                                             id: phonenumber
                                             hint_text: 'phonenumber'
-                                            
+                                            pos_hint: {'center_y': 0.5}
                                             height: self.minimum_height
-                                            on_text: app.phone(plus.text + code.text + self.text)
+                                            on_text: app.phone(plus.text + self.text)
                                             input_type: 'number'
                                             multiline: False
                                             input_filter: 'float'
@@ -575,7 +564,7 @@
                                             width: one.width * 3
                                             elevation: 0
                                             MDLabel:
-                                                text: '1'
+                                                text: '2'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
@@ -593,7 +582,7 @@
                                             width: one.width * 3
                                             elevation: 0
                                             MDLabel:
-                                                text: '1'
+                                                text: '3'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
@@ -611,7 +600,7 @@
                                             width: one.width * 3
                                             elevation: 0
                                             MDLabel:
-                                                text: '1'
+                                                text: '4'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
@@ -629,7 +618,7 @@
                                             width: one.width * 3
                                             elevation: 0
                                             MDLabel:
-                                                text: '1'
+                                                text: '5'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
@@ -648,7 +637,7 @@
                                             width: one.width * 3
                                             elevation: 0
                                             MDLabel:
-                                                text: '1'
+                                                text: '6'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
@@ -666,7 +655,7 @@
                                             width: one.width * 3
                                             elevation: 0
                                             MDLabel:
-                                                text: '1'
+                                                text: '7'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
@@ -684,7 +673,7 @@
                                             width: one.width * 3
                                             elevation: 0
                                             MDLabel:
-                                                text: '1'
+                                                text: '7+'
                                                 halign: 'center'
                                                 color: 'white'
                                                 bold: True
@@ -722,7 +711,7 @@
                                     radius: [5,]
                                     TextInput:
                                         id: land_space
-                                        
+                                        pos_hint: {'center_y': 0.5}
                                         on_text: app.land_space(self.text)
                                         hint_text: 'price' 
                                         input_type: 'number'
@@ -766,7 +755,7 @@
                                     radius: [5,]
                                     TextInput:
                                         id: price
-                                        
+                                        pos_hint: {'center_y': 0.5}
                                         on_text: app.pricing(self.text)
                                         height: self.minimum_height
                                         input_type: 'number'
@@ -889,6 +878,7 @@
                         MDRaisedButton:
                             text: "Submit"
                             on_press: app.selected()
+                            pos_hint: {'center_x': 0.5}
 
 <Price@MDCard+CommonElevationBehavior>
 <Landspace@MDCard+CommonElevationBehavior>

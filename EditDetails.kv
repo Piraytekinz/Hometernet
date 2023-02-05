@@ -774,6 +774,7 @@
                         MDRaisedButton:
                             text: "Submit"
                             # on_press: self.submit()
+                            pos_hint: {'center_x': 0.5}
                             on_press: app.update_property(root.local_image, housetype.text, price.text, country_text.text, state.text, town.text, street.text, bedrooms.text, bathrooms.text, land_area.text, root.key, description.text)
                 
 <EditPrice@MDCard+CommonElevationBehavior>

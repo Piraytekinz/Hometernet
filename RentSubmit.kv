@@ -26,6 +26,7 @@
                         icon: 'trash-can'
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         user_font_size: "16dp"
+                        on_press: app.switch_products()
 
                 
                 
@@ -715,6 +716,7 @@
                                         foreground_color: 0/255, 0/255, 0/255, 1
                                         background_color: 0,0,0,0
                                         font_size: "15dp"
+                                        pos_hint: {'center_y': 0.5}
 
 
                         
@@ -768,6 +770,7 @@
                                         input_filter: 'float'
                                         foreground_color: 0/255, 0/255, 0/255, 1
                                         background_color: 0,0,0,0 
+                                        pos_hint: {'center_y': 0.5}
 
                         MDBoxLayout:
                             opacity: 0.9
@@ -885,6 +888,7 @@
                         MDRaisedButton:
                             text: "Submit"
                             on_press: app.rent_property()
+                            pos_hint: {'center_x': 0.5}
 
 <Price_rent@MDCard+CommonElevationBehavior>
 <Landspace_rent@MDCard+CommonElevationBehavior>

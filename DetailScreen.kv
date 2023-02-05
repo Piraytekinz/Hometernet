@@ -351,7 +351,7 @@
                 id: biye
                 pos_hint: {'center_y': 0.5}
                 on_release: app.send_email(root.email, root.phonenumber, root.twitter, root.facebook)
-                
+                on_press: app.play()
                 MDLabel:
                     text: "Buy"
                     halign: "center"

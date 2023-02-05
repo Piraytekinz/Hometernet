@@ -43,7 +43,8 @@
                                         width: menu.width * 3
                                         ripple_behavior: True
                                         radius: [3,]
-                                        on_press: nav.set_state("open")
+                                        on_press: app.play()
+                                        on_release: nav.set_state("open")
                                         elevation: 0
                                         padding: [self.width/3,self.height,self.width/3,self.height/3]
                                         id: menu_card
@@ -228,7 +229,7 @@
                                     adaptive_width: True
                                     adaptive_height: True
                                     spacing: "20dp"
-                                    padding: [15, 0, 10, 0]
+                                    padding: [15, 0, 10, 10]
                                     
 
 
@@ -248,7 +249,8 @@
                                     
                                     padding: [self.width/2,self.height/2,self.width/2,self.height/2]
                                     radius: [0]
-                                    on_press: grid.other()
+                                    on_press: app.play()
+                                    on_release: grid.other()
                                     id: grid_card
                                     MDIcon:
                                         icon: "arrow-right"
@@ -290,7 +292,7 @@
                                     
                                     adaptive_height: True
                                     spacing: "20dp"
-                                    padding: [15, 0, 10, 0]
+                                    padding: [15, 0, 10, 10]
                                 
                                     
                                 GridiCard:
@@ -300,11 +302,11 @@
                                     height: Window.size[1] / 2 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 30
                                     width: more_rent.width + 100
                                     
-
+                                    on_press: app.play()
                                     padding: [self.width/2,self.height/2,self.width/2,self.height/2]
                                     radius: [0]
                                     id: gridi
-                                    on_press: gride.other()
+                                    on_release: gride.other()
                                     MDIcon:
                                         icon: "arrow-right"
                                         id: more_rent
@@ -414,7 +416,8 @@
                             theme_text_color: "Custom"
                             line_color: 'white'
                             text_color: 'white'
-                            on_press: app.switch_signin()
+                            on_release: app.switch_signin()
+                            
                             
             
             ScrollView:
