@@ -93,7 +93,8 @@
                                         size_hint_x: None
                                         width: self.height
                                         radius: [self.width/2]
-                                        on_press: app.switch_search()
+                                        on_press: app.play()
+                                        on_release: app.switch_search()
                                         id: btn
                                         ripple_behavior: True
                                         
@@ -219,7 +220,8 @@
                             height: Window.size[1] / 2 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 30
                             MDBoxLayout:
                                 size_hint: None, None
-                                adaptive_height: True
+                                height: Window.size[1] / 2 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 30
+
                                 adaptive_width: True
                                 
                                 HomeCardsLayout:
@@ -244,11 +246,11 @@
                                     elevation: 0
                                     ripple_behavior: True
                                     size_hint: None, None
-                                    height: Window.size[1] / 2 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 30
-                                    width: more_sale.width + 100
-                                    
-                                    padding: [self.width/2,self.height/2,self.width/2,self.height/2]
-                                    radius: [0]
+                                    height: more_sale.height * 3
+                                    width: self.height
+                                    pos_hint: {'center_y': 0.5}
+                                    padding: [self.width/3,self.height/3,self.width/3,self.height/3]
+                                    radius: [self.width/2]
                                     on_press: app.play()
                                     on_release: grid.other()
                                     id: grid_card
@@ -257,6 +259,8 @@
                                         pos_hint: {'center_y': 0.5}
                                         id: more_sale
                                         font_size: '20dp'
+                                        size_hint: None, None
+                                        adaptive_size: True
                                             
                         
                                 
@@ -416,6 +420,7 @@
                             theme_text_color: "Custom"
                             line_color: 'white'
                             text_color: 'white'
+                            on_press: app.play()
                             on_release: app.switch_signin()
                             
                             
@@ -427,7 +432,7 @@
                     OneLineIconListItem:
                         text: "Sell your Property"
                         divider: None
-                        on_press: app.switch_loading()
+                        on_press: app.play()
                         on_release: app.switch_products()
                         IconLeftWidget:
                             icon: 'bed'         
@@ -437,7 +442,7 @@
                     OneLineIconListItem:
                         text: "Bookmarks"
                         divider: None
-                        on_press: app.switch_loading()
+                        on_press: app.play()
                         on_release: app.switch_bookmarks()
                         
                         IconLeftWidget:
@@ -449,7 +454,8 @@
                     OneLineIconListItem:
                         text: "App Tutorial"
                         divider: None
-                        on_press: app.switch_tutorial()
+                        on_press: app.play()
+                        on_release: app.switch_tutorial()
                         
                         IconLeftWidget:
                             icon: 'book'
@@ -459,7 +465,8 @@
                     OneLineIconListItem:
                         text: "About us"
                         divider: None
-                        on_press: app.switch_about()
+                        on_press: app.play()
+                        on_release: app.switch_about()
                         
                         IconLeftWidget:
                             icon: 'ubisoft'
@@ -469,7 +476,8 @@
                     OneLineIconListItem:
                         text: "Contact us"
                         divider: None
-                        on_press: app.switch_contact()
+                        on_press: app.play()
+                        on_release: app.switch_contact()
                         
                         IconLeftWidget:
                             icon: 'phone'
@@ -479,7 +487,8 @@
                     OneLineIconListItem:
                         text: "Meet The Creator"
                         divider: None
-                        on_press: app.switch_creator()
+                        on_press: app.play()
+                        on_release: app.switch_creator()
                         
                         IconLeftWidget:
                             icon: 'pirate'

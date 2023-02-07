@@ -33,7 +33,8 @@
                                     icon: "arrow-left"
                                     theme_text_color: "Custom"
                                     text_color: 'white'
-                                    on_press: app.switch_home()
+                                    on_press: app.play()
+                                    on_release: app.switch_home()
                                     ripple_behavior: True
                             
                             AnchorLayout:
@@ -43,7 +44,8 @@
                                     icon: "bookmark"
                                     theme_text_color: "Custom"
                                     text_color: 'white'
-                                    on_press: app.bookmark(root.key)
+                                    on_press: app.play()
+                                    on_release: app.bookmark(root.key)
                                     ripple_behavior: True
 
                             AnchorLayout:

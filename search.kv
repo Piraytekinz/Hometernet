@@ -10,7 +10,8 @@
                 icon: 'arrow-left'
                 user_font_size: "16dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                on_press: app.switch_home()
+                on_press: app.play()
+                on_release: app.switch_home()
                 bold: True
 
             MDLabel:
@@ -25,7 +26,8 @@
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 user_font_size: "16dp"
                 bold: True
-                on_press: search.search(drop_item.text, country.text, town.text, street.text)
+                on_press: app.play()
+                on_release: search.search(drop_item.text, country.text, state.text, town.text, bed_item.text)
                 id: searchido
 
         MDBoxLayout:
@@ -44,14 +46,38 @@
                     MDLabel:
                         text: "Search by:"
                         size_hint: None, None
-                        height: 35
-                        width: 80
-                        font_size: "13sp"
+                        adaptive_size: True
+                        font_size: "13dp"
                         bold: True
+                        pos_hint: {'center_y': 0.5}
+
+                    ChooseCard:
+                        radius: [10]
+                        size_hint_x: None
+                        width: "120dp"
+                        spacing: "10dp"
+                        padding: [10,0,0,0]
+                        MDLabel:
+                            text: "For: "
+                            size_hint: None, None
+                            adaptive_size: True
+                            halign: 'center'
+                            color: 'gray'
+                            font_size: '15dp'
+                            id: for_text
+                            pos_hint: {'center_y': 0.5}
+                            
+                        MDDropDownItem:
+                            id: drop_item
+                            text: 'Sale'
+                            size_hint_x: None
+                            on_press: app.play()
+                            on_release: app.choice.open()
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     CountryCard:
                         radius: [10]
                         size_hint_x: None
-                        width: 80
+                        width: "170dp"
                         TextInput:
                             hint_text: 'country'
                             size_hint: 1, None
@@ -67,9 +93,24 @@
                     TownCard:
                         radius: [10]
                         size_hint_x: None
-                        width: 80
+                        width: "170dp"
                         TextInput:
-                            hint_text: 'town'
+                            hint_text: 'State/Province'
+                            size_hint: 1, None
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            height: self.minimum_height
+                            multiline: False
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: 0,0,0,0
+                            font_size: "15dp"
+                            text_color: "black"
+                            id: state
+                    StreetCard:
+                        radius: [10]
+                        size_hint_x: None
+                        width: "170dp"
+                        TextInput:
+                            hint_text: 'town/city'
                             size_hint: 1, None
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                             height: self.minimum_height
@@ -79,37 +120,29 @@
                             font_size: "15dp"
                             text_color: "black"
                             id: town
-                    StreetCard:
+                    
+                    BedCard:
                         radius: [10]
                         size_hint_x: None
-                        width: 80
-                        TextInput:
-                            hint_text: 'street'
-                            size_hint: 1, None
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                            height: self.minimum_height
-                            multiline: False
-                            foreground_color: 0/255, 0/255, 0/255, 1
-                            background_color: 0,0,0,0
-                            font_size: "15dp"
-                            text_color: "black"
-                            id: street
-                    ChooseCard:
-                        radius: [10]
-                        size_hint_x: None
-                        width: 120
+                        width: "170dp"
+                        spacing: "10dp"
+                        padding: [10,0,0,0]
                         MDLabel:
-                            text: "For:"
-                            size_hint_x: None
-                            width: 30
+                            text: "bedrooms: "
+                            size_hint: None, None
+                            adaptive_size: True
                             halign: 'center'
                             color: 'gray'
                             font_size: '15dp'
                             
+                            pos_hint: {'center_y': 0.5}
                         MDDropDownItem:
-                            id: drop_item
-                            text: 'Sale'
-                            on_release: app.choice.open()
+                            id: bed_item
+                            text: '1'
+                            size_hint_x: None
+                            adaptive_width: True
+                            on_press: app.play()
+                            on_release: app.bedrooms_choice()
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     
         MDBoxLayout:
@@ -138,7 +171,7 @@
                         height: 100
                         width: 270
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        on_release: search.next(drop_item.text, country.text, town.text, street.text)
+                        on_release: search.next(drop_item.text, country.text, state.text, town.text, bed_item.text)
                         MDIcon:
                             icon: "arrow-down"
                             halign: 'center'
@@ -151,3 +184,4 @@
 <StreetCard@MDCard+CommonElevationBehavior>
 <TownCard@MDCard+CommonElevationBehavior>
 <CountryCard@MDCard+CommonElevationBehavior>
+<BedCard@MDCard+CommonElevationBehavior>

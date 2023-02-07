@@ -11,7 +11,8 @@
                     anchor_y: 'top'
                     MDIconButton:
                         icon: 'arrow-left'
-                        on_press: app.switch_products()
+                        on_press: app.play()
+                        on_release: app.switch_products()
                         custom_color: True
                         font_color: 'white'
                 
@@ -38,7 +39,8 @@
                         size_hint_y: None
                         adaptive_height: True
                         radius: [15,]
-                        on_press: app.switch_sale()
+                        on_press: app.play()
+                        on_release: app.switch_sale()
                         MDLabel:
                             halign: 'center'
                             bold: True
@@ -51,7 +53,8 @@
                         size_hint_y: None
                         adaptive_height: True
                         radius: [15,]
-                        on_press: app.switch_rent()
+                        on_press: app.play()
+                        on_release: app.switch_rent()
                         MDLabel:
                             halign: 'center'
                             bold: True

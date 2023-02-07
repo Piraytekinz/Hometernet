@@ -13,9 +13,9 @@
         padding: [10,]
         spacing: "20dp"
         RentPic:
-            
+            on_press: app.play()
             elevation: 12
-            on_press: app.editrentscreen(root.image, root.local_image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
+            on_release: app.editrentscreen(root.image, root.local_image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
             radius: [5,]
             ripple_behavior: True
             RelativeLayout:

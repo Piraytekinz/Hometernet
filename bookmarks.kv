@@ -13,7 +13,8 @@
                 icon: 'arrow-left'
                 user_font_size: "16dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                on_press: app.switch_home()
+                on_press: app.play()
+                on_release: app.switch_home()
                 id: arrow_right
 
             MDLabel:
@@ -27,7 +28,8 @@
                 icon: 'trash-can'
                 user_font_size: "16dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                on_press: app.delete_user_auth()
+                on_press: app.play()
+                on_release: app.delete_user_auth()
                 id: arrow_right
 
         ScrollView:
