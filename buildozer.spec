@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = My Application
+title = Hometernet test
 
 # (str) Package name
-package.name = myapp
+package.name = hometernetest
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,kivymd,pillow,pycountry,phonenumbers,pyrebase,re,firebase_admin,plyer,smtplib,func_timeout
+requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,kivymd,pillow,phonenumbers,pyrebase,plyer,smtplib,func_timeout
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
