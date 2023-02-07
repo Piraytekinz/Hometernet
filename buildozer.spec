@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = Hometernet test
+title = My Application
 
 # (str) Package name
-package.name = hometernettest
+package.name = myapp
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,kivymd,pillow,pyrebase,firebase-admin,phonenumbers,pycountry,re,plyer,smtplib,func_timeout,jnius
+requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,kivymd,pillow,pycountry,phonenumbers,pyrebase,re,firebase_admin,plyer,smtplib,func_timeout
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -81,7 +81,7 @@ fullscreen = 0
 # red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray,
 # darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy,
 # olive, purple, silver, teal.
-android.presplash_color = white
+android.presplash_color = #FFFFFF
 
 # (string) Presplash animation using Lottie format.
 # see https://lottiefiles.com/ for examples and https://airbnb.design/lottie/
@@ -94,22 +94,23 @@ android.presplash_color = white
 #icon.adaptive_background.filename = %(source.dir)s/data/icon_bg.png
 
 # (list) Permissions
+# (See https://python-for-android.readthedocs.io/en/latest/buildoptions/#build-options-1 for all the supported syntaxes and properties)
 android.permissions = INTERNET, ACCESS_NETWORK_STATE
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
 
 # (int) Target Android API, should be as high as possible.
-android.api = 31
+#android.api = 31
 
 # (int) Minimum API your APK / AAB will support.
-android.minapi = 21
+#android.minapi = 21
 
 # (int) Android SDK version to use
-android.sdk = 20
+#android.sdk = 20
 
 # (str) Android NDK version to use
-android.ndk = 23b
+#android.ndk = 23b
 
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
 #android.ndk_api = 21
@@ -172,7 +173,7 @@ android.ndk = 23b
 # their classes. Don't add jars that you do not need, since extra jars can slow
 # down the build process. Allows wildcards matching, for example:
 # OUYA-ODK/libs/*.jar
-android.add_jars = foo.jar,bar.jar,path/to/more/*.jar
+#android.add_jars = foo.jar,bar.jar,path/to/more/*.jar
 
 # (list) List of Java files to add to the android project (can be java or a
 # directory containing the files)
@@ -200,7 +201,7 @@ android.add_jars = foo.jar,bar.jar,path/to/more/*.jar
 #android.add_resources =
 
 # (list) Gradle dependencies to add
-#android.gradle_dependencies = 
+#android.gradle_dependencies =
 
 # (bool) Enable AndroidX support. Enable when 'android.gradle_dependencies'
 # contains an 'androidx' package, or any package from Kotlin source.
@@ -320,7 +321,7 @@ android.allow_backup = True
 #p4a.fork = kivy
 
 # (str) python-for-android branch to use, defaults to master
-p4a.branch = master
+#p4a.branch = master
 
 # (str) python-for-android specific commit to use, defaults to HEAD, must be within p4a.branch
 #p4a.commit = HEAD

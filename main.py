@@ -54,7 +54,7 @@ from kivymd.toast import toast
 from kivymd.uix.button import MDIconButton
 import webbrowser
 
-import threading
+
 import requests
 from kivy.clock import Clock, mainthread
 from func_timeout import func_timeout, FunctionTimedOut
@@ -104,6 +104,7 @@ firebaseconfig = {
 # lala = firebase_admin.get_app()
 # print(lala)
 # lola = _get_iid_service(lala)
+
 
 sound = SoundLoader.load('Sound/touch.wav')
 
@@ -2010,7 +2011,7 @@ class MainApp(MDApp):
 
     def boooiiii(self, figaro):
         
-            
+        
         them14 = db.child("Sale").child(figaro).child("views").get()
         new_val = them14.val()
         new_val += 1
