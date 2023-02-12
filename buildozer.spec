@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = Hometernet test
+title = Hometernet Test
 
 # (str) Package name
-package.name = hometernetest
+package.name = hometernettest
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,kivymd,pillow,phonenumbers,pyrebase,plyer,smtplib,func_timeout
+requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,kivymd,pillow,phonenumbers,pyrebase,plyer,func_timeout,pycountry,requests,urllib3,chardet,charset_normalizer,idna,oauth2client,cachetools,httplib2,pyparsing,uritemplate,protobuf,pyasn1,rsa,proto-plus,msgpack,cachecontrol,pyasn1-modules,gcloud,requests_toolbelt,python_jwt
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

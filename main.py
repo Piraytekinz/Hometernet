@@ -106,7 +106,7 @@ firebaseconfig = {
 # lola = _get_iid_service(lala)
 
 
-sound = SoundLoader.load('Sound/touch.wav')
+sound = SoundLoader.load('touch.wav')
 
 
 api = 'BBIDtbVGhPcTldT3YOq5_aW9Dm0QvUKHZCGbzb1NkMSoV8VRD9881TYICUeilDBpsdD9WBPWaN72lwY7VM0nUOM'
@@ -1663,24 +1663,28 @@ class MainApp(MDApp):
             self.curr = json.load(jsonfile)
             print(self.curr['localid'])
             
-        if self.curr['email'] == "":
-            print("Fase")
-            
-        else:
-            try:
-                print("bruuhhh")
-                user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
-                usero = authi.refresh(user['refreshToken'])
-                print(user)
-                ino = authi.get_account_info(user['idToken'])
+        if self.curr['first_time'] == "false":
+            self.wm.switch_to(self.home)
+            if self.curr['email'] == "":
+                print("Fase")
                 
-                print(ino)
-                self.curr['idToken'] = user['idToken']
+            else:
+                try:
+                    print("bruuhhh")
+                    user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
+                    usero = authi.refresh(user['refreshToken'])
+                    print(user)
+                    ino = authi.get_account_info(user['idToken'])
+                    
+                    print(ino)
+                    self.curr['idToken'] = user['idToken']
 
-                with open('user.json', 'w') as jsonfile:
-                    json.dump(self.curr, jsonfile)
-            except:
-                print("Pass")
+                    with open('user.json', 'w') as jsonfile:
+                        json.dump(self.curr, jsonfile)
+                except:
+                    print("Pass")
+        else:
+            self.switch_signin()
             
         
         
@@ -1712,7 +1716,7 @@ class MainApp(MDApp):
         self.wm.transition = SwapTransition()
         # self.wm.switch_to(self.loading)
         
-        self.wm.switch_to(self.home)
+        
         self.numberiy = 'item 0'
 
         self.sale_or_rent = ''
@@ -1768,11 +1772,16 @@ class MainApp(MDApp):
                 print("oh dude")
                 self.discard_auth()
             elif self.wm.current == "sign_in":
-                self.discard_mail()
-                self.switch_products()
+                if self.info['first_time'] == "false":
+                    self.switch_home()
+                    self.discard_mail()
+                
+                    
             elif self.wm.current == "sign-up":
                 self.discard_mail()
                 self.switch_signin()
+                
+                
             elif self.wm.current == "search":
                 print('What is wrong withn oyu')
                 self.switch_home()
@@ -2011,15 +2020,21 @@ class MainApp(MDApp):
 
     def boooiiii(self, figaro):
         
-        
-        them14 = db.child("Sale").child(figaro).child("views").get()
-        new_val = them14.val()
-        new_val += 1
-        print(new_val)
-        db.child("Sale").child(figaro).update({'views': new_val}, self.curr['idToken'])
-        self.curr["viewed"].append(figaro)
-        with open('user.json', 'w') as jsonfile:
-            json.dump(self.curr, jsonfile)
+        try:
+            if figaro in self.curr["viewed"]:
+                print("Viewed")
+            else:
+                them14 = db.child("Sale").child(figaro).child("views").get()
+                new_val = them14.val()
+                new_val += 1
+                print(new_val)
+                db.child("Sale").child(figaro).update({'views': new_val}, self.curr['idToken'])
+                self.curr["viewed"].append(figaro)
+                with open('user.json', 'w') as jsonfile:
+                    json.dump(self.curr, jsonfile)
+                
+        except:
+            print("Update Views failed")
                 
         
 
@@ -2102,6 +2117,7 @@ class MainApp(MDApp):
             p="You're already signed in"
             self.snackbar(p)
         else:
+            
             self.signin = SignInScreen(name="sign_in")
             self.wm.switch_to(self.signin)
 
@@ -2444,9 +2460,13 @@ class MainApp(MDApp):
         text = "An email verification link has been sent to your mail"
         close_button = MDFlatButton(text="close", on_press=self.close_dialog)
         self.show_dialog(text, close_button)
-        self.switch_products()
+        self.switch_signin()
         self.mail = ''
         self.passwrd = ''
+        if self.curr['first_time'] == "true":
+            self.curr['first_time'] = "false"
+            with open('user.json', 'w') as jsonfile:
+                json.dump(self.curr, jsonfile)
         
     def delete_property_auth(self, key, local_image, sale_or_rent):
         print(key,local_image,sale_or_rent)
@@ -2604,7 +2624,9 @@ class MainApp(MDApp):
         self.curr['idToken'] = self.user['idToken']
         self.curr['localid'] = self.user['localId']
         print(self.user['localId'] + " " + "aaaaaaaaaaaaahahahahaaaaaaaahahahahaa")
-        
+        if self.curr['first_time'] == "true":
+            self.curr['first_time'] = "false"
+                    
         
         print(self.curr['localid'])
         print(self.curr['idToken'])
@@ -2631,7 +2653,7 @@ class MainApp(MDApp):
 
         with open('user.json', 'w') as jsonfile:
             json.dump(self.curr, jsonfile)
-        self.switch_products()
+        self.switch_home()
 
         p = 'Successfully signed in'
         self.snackbar(p)
