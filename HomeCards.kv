@@ -1,13 +1,13 @@
 <HomeCards>:
     
-    elevation: 2
+    
     
     
     padding: [0]
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
     size_hint_x: None
     size_hint_y: None
-    height: Window.size[1] / 2 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 50
+    height: Window.size[1] / 2 if Window.size[1] > Window.size[0] else Window.size[1] - 50
     width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2 
     
     id: home_card
@@ -18,17 +18,19 @@
             padding: [10,]
             spacing: "20dp"
             Pico:
+                id: pico
                 
                 
-                elevation: 2
                 on_press: app.switch_details(root.image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.phonenumber, root.twitter, root.facebook, root.description, root.key, root.amenities)
                 radius: [5,]
                 ripple_behavior: True
                 on_release: app.call_guy(root.key)
                 RelativeLayout:
-                    FitImage:
-                        source: root.image
-                        radius: [5, ]
+                    AsyncImage:
+                        source: str(root.image)
+                        radius: [10, ]
+                        keep_ratio: False
+                        allow_stretch: True
 
                     
                     MDBoxLayout:

@@ -194,6 +194,10 @@
 
 
 
-import webbrowser
+# import webbrowser
 
-webbrowser.open('https://t.co/tylergposey')
+# webbrowser.open('https://t.co/tylergposey')
+
+text = '<This is a very long text ya know.>'
+
+print(text)

@@ -715,7 +715,7 @@
                                         id: land_space
                                         pos_hint: {'center_y': 0.5}
                                         on_text: app.land_space(self.text)
-                                        hint_text: 'price' 
+                                        hint_text: 'landspace' 
                                         input_type: 'number'
                                         multiline: False
                                         input_filter: 'float'
@@ -765,6 +765,7 @@
                                         input_filter: 'float'
                                         foreground_color: 0/255, 0/255, 0/255, 1
                                         background_color: 0,0,0,0 
+                                        hint_text: 'price'
 
                         MDBoxLayout:
                             opacity: 0.9
@@ -794,7 +795,7 @@
                                     
                                     TextInput:
                                         id: description
-                                        
+                                        hint_text: 'description'
                                         on_text: app.description(self.text)
                                         multiline: True
                                         foreground_color: 0/255, 0/255, 0/255, 1

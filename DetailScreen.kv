@@ -21,11 +21,11 @@
                         md_bg_color: 0,0,0,1
                         radius: [0]
                         RelativeLayout:
-                            FitImage:
-                                source: root.image
+                            AsyncImage:
+                                source: str(root.image)
                                 id: house_image
-                                allow_stretch: False
                                 keep_ratio: False if Window.size[1] > Window.size[0] else True
+                                allow_stretch: True
                             AnchorLayout:
                                 anchor_x: 'left'
                                 anchor_y: 'top'

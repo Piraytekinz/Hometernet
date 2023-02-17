@@ -32,7 +32,7 @@
 
         MDBoxLayout:
             size_hint_y: None
-            height: toppy.height
+            height: "100dp"
             padding: [10]
             ScrollView:
                 bar_width: 0
@@ -168,14 +168,18 @@
                         elevation: 0
                         ripple_behavior: True
                         size_hint: None, None
-                        height: 100
-                        width: 270
+                        height: '100dp'
+                        width: '270dp'
+                        padding: [128,0,0,0]
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         on_release: search.next(drop_item.text, country.text, state.text, town.text, bed_item.text)
                         MDIcon:
                             icon: "arrow-down"
                             halign: 'center'
                             id: another
+                            pos_hint: {'center_y': 0.5}
+                            size_hint: None, None
+                            adaptive_size: True
             
 
 <TopTitle@MDCard+CommonElevationBehavior>

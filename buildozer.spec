@@ -13,7 +13,7 @@ package.domain = org.test
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas
+source.include_exts = py,png,jpg,kv,atlas,json,wav
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,kivymd,pillow,phonenumbers,pyrebase,plyer,func_timeout,pycountry,requests,urllib3,chardet,charset_normalizer,idna,oauth2client,cachetools,httplib2,pyparsing,uritemplate,protobuf,pyasn1,rsa,proto-plus,msgpack,cachecontrol,pyasn1-modules,gcloud,requests_toolbelt,python_jwt
+requirements = hostpython3==3.7.0,python3==3.7.0,kivy,kivymd,pillow,phonenumbers,pyrebase,plyer,func_timeout,pycountry,requests,urllib3,certifi,chardet,openssl,charset_normalizer,idna,oauth2client,cachetools,httplib2,pyparsing,uritemplate,protobuf,pyasn1,rsa,proto-plus,msgpack,cachecontrol,pyasn1-modules,gcloud,requests_toolbelt,python_jwt,jwcrypto,cryptography,deprecated,wrapt,Crypto,pycryptodome
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -51,7 +51,7 @@ requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,kivymd,pillow,phone
 
 # (list) Supported orientations
 # Valid options are: landscape, portrait, portrait-reverse or landscape-reverse
-orientation = portrait
+orientation = portrait, landscape
 
 # (list) List of service to declare
 #services = NAME:ENTRYPOINT_TO_PY,NAME2:ENTRYPOINT2_TO_PY
@@ -95,25 +95,25 @@ android.presplash_color = #FFFFFF
 
 # (list) Permissions
 # (See https://python-for-android.readthedocs.io/en/latest/buildoptions/#build-options-1 for all the supported syntaxes and properties)
-android.permissions = INTERNET, ACCESS_NETWORK_STATE
+android.permissions = INTERNET, ACCESS_NETWORK_STATE, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
 
 # (int) Target Android API, should be as high as possible.
-#android.api = 31
+android.api = 31
 
 # (int) Minimum API your APK / AAB will support.
-#android.minapi = 21
+android.minapi = 21
 
 # (int) Android SDK version to use
-#android.sdk = 20
+android.sdk = 20
 
 # (str) Android NDK version to use
-#android.ndk = 23b
+android.ndk = 23b
 
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
-#android.ndk_api = 21
+android.ndk_api = 21
 
 # (bool) Use --private data storage (True) or --dir public storage (False)
 #android.private_storage = True
