@@ -20,16 +20,16 @@
                     halign: 'center'
 
                 MDBoxLayout:
-                    size_hint: None, None
-                    adaptive_size: True
+                    size_hint_y: None
+                    adaptive_height: True
                     pos_hint: {'center_x': 0.5, 'center_y': 0.4}
                     spacing: "20dp"
+                    padding: [20, 0, 20, 0]
                     Home:
                         ripple_behavior: True
-                        elevation: 12
-                        size_hint: None, None
+                        elevation: 1
+                        size_hint_y: None
                         adaptive_height: True
-                        width: properties.width
                         radius: [15,]
                         on_press: app.play()
                         on_release: app.switch_home()
@@ -41,9 +41,9 @@
                             font_size: "18dp"
                     Properties:
                         ripple_behavior: True
-                        elevation: 12
-                        size_hint: None, None
-                        adaptive_size: True
+                        elevation: 1
+                        size_hint_y: None
+                        adaptive_height: True
                         radius: [15,]
                         on_press: app.switch_products()
                         pos_hint: {'center_x': 0.5}

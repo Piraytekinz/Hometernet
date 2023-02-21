@@ -201,3 +201,10 @@
 text = '<This is a very long text ya know.>'
 
 print(text)
+
+ssl._create_default_https_context = ssl._create_unverified_context
+os.environ['SSL_CERT_FILE'] = certifi.where()
+Config.set('kivy', 'exit_on_escape', 0)
+
+pat = ssl.get_default_verify_paths()
+print(pat)

@@ -63,6 +63,9 @@ from func_timeout import func_timeout, FunctionTimedOut
 import certifi
 import os
 import ssl
+# import firebase_admin
+# from firebase_admin import credentials
+# from firebase_admin import db as bd
 
 
 
@@ -70,7 +73,12 @@ import ssl
 button = MDIconButton
 
 
-# os.environ['SSL_CERT_FILE'] = certifi.where()
+ssl._create_default_https_context = ssl._create_unverified_context
+os.environ['SSL_CERT_FILE'] = certifi.where()
+Config.set('kivy', 'exit_on_escape', 0)
+
+pat = ssl.get_default_verify_paths()
+print(pat)
 Config.set('kivy', 'exit_on_escape', 0)
 
 pat = ssl.get_default_verify_paths()
@@ -109,7 +117,7 @@ firebaseconfig = {
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-xni47%40new-db-c52f3.iam.gserviceaccount.com"
 }
 # cred = credentials.Certificate("first-db-77609-firebase-adminsdk-ykjt8-c7599cc9be.json")
-# admin = firebase_admin.initialize_app(cred, {'storageBucket': 'first-db-77609.appspot.com'})
+# admin = firebase_admin.initialize_app(cred, {'storageBucket': 'first-db-77609.appspot.com', 'databaseURL': 'https://first-db-77609-default-rtdb.firebaseio.com'})
 # lala = firebase_admin.get_app()
 # print(lala)
 # lola = _get_iid_service(lala)
@@ -118,7 +126,7 @@ firebaseconfig = {
 sound = SoundLoader.load('touch.wav')
 
 
-api = 'BBIDtbVGhPcTldT3YOq5_aW9Dm0QvUKHZCGbzb1NkMSoV8VRD9881TYICUeilDBpsdD9WBPWaN72lwY7VM0nUOM'
+
 
 
 
@@ -131,7 +139,7 @@ storage = firebasei.storage()
 
 
 print('Firebase initialized')
-signed_in = False
+
 
 
 
@@ -144,7 +152,8 @@ signed_in = False
 
 
 
-
+# ref = bd.reference('Sale')
+# print(ref.order_by_key().start_at("-NOe4vmvTXsUOa6-g0_d").get())
 
         
 
@@ -567,7 +576,7 @@ class SearchLayout(MDBoxLayout):
                     self.j += 1 
                     if self.j == 1:
                         break
-            if u.val()['country'] != country or u.val()['state'] != state or u.val()['town'] != city:
+            else:
                 snack = "Not found"
                 snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y = 0.1)
                 snacky.open()
@@ -585,7 +594,7 @@ class SearchLayout(MDBoxLayout):
             if u.val()['country'] == country or u.val()['state'] == state or u.val()['town'] == city:
                 if u.val()['bedrooms'] == bedrooms:
                     self.card = HomeCards()
-                    self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
+                    self.card.image = u.val()['url']
                     self.card.tot = u.val()['housetype']
                     self.card.country = u.val()['country']
                     self.card.province = u.val()['state']
@@ -689,6 +698,57 @@ class PropertyCardsLayout(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         
+    def remove_all(self):
+        print('Cleared')
+        self.clear_widgets()
+        print("DOne and done")
+    
+    def show_dialog(self, notice, button, button1=None):
+        self.dialog = MDDialog(text=notice, size_hint=(1, 1), buttons=[button, button1])
+        self.dialog.open()
+
+    def close_dialog(self, obj):
+        self.dialog.dismiss()
+
+    def snackbar(self, snack):
+        snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="60dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y = 0.1)
+        snacky.open()
+
+    def sign_out_auth(self):
+        text = 'Are you sure you want to sign out?'
+        close_button = MDRaisedButton(text="No", on_release=self.close_dialog)
+        agree_button = MDFlatButton(text='Yes', on_release=self.sign_out)
+        self.show_dialog(text,close_button, agree_button)
+
+    def sign_out(self,obj=None):
+        
+        
+        with open('user.json', 'r') as jsonfile:
+            data = json.load(jsonfile)
+
+        data['email'] = ''
+        data['password'] = ''
+        data['idToken'] = ''
+        data['house_images'] = []
+        data['localid'] = ''
+        
+        
+        with open('user.json', 'w') as jsonfile:
+            json.dump(data, jsonfile)
+        self.clear_widgets()
+        p = 'Successfully signed out'
+        self.snackbar(p)
+
+    def switch_account_auth(self):
+        agree_button = MDFlatButton(text="Yes", on_release=self.close_dialog, on_press=self.switch_account)
+        close_button = MDFlatButton(text="No", on_release=self.close_dialog)
+        info = "Are you sure you want to switch accounts? This will mean signing out."
+        self.show_dialog(info,close_button, agree_button)
+
+
+    def switch_account(self, obj):
+        self.sign_out()
+        
 
     def starter(self):
         try:
@@ -753,105 +813,106 @@ class PropertyCardsLayout(MDBoxLayout):
         self.testichiro = db.child("People").child(curr['localid']).child("Sale").get(curr['idToken'])
         self.testiroro = db.child("People").child(curr['localid']).child("Rent").get(curr['idToken'])
 
-        self.people = db.child("Sale").get()
-        self.peopler = db.child("Rent").get()
+        
+                
+                
         self.next_after()
+        
+        # self.peopler = db.child("Rent").get()
+    def say(self):
+        print("Say hey")
 
     @mainthread
     def next_after(self):
+        print("Hey")
         if self.testichiro.each():
             for q in self.testichiro.each():
-                
                 dude = q.val()['prop_keys']
-            
-            
-            
-                if self.people.each():
-                    for u in self.people.each():
-                        something = u.key()
-                        print(u.key())
-                        # another = person.val()
+                if dude not in loader:
+                    self.yours = db.child("Sale").order_by_key().equal_to(dude).get()
+                    for u in self.yours:
+                                # another = person.val()
+                                
+                    
+                    
+                    
                         
-                        if u.key() == q.val()['prop_keys']:
-                            print(u.val()['url'])
-                            if u.key() not in loader:
-                                if something not in loader:
-                                    print('Okay maybe it wokred')
-                                    self.card = PropertySaleCards()
-                                    self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
-                                    self.card.amenities = u.val()['amenities']
-                                    self.card.tot = u.val()['housetype']
-                                    self.card.country = u.val()['country']
-                                    self.card.province = u.val()['state']
-                                    self.card.town = u.val()['town']
-                                    self.card.street = u.val()['street']
-                                    self.card.bedrooms = u.val()['bedrooms']
-                                    self.card.bathrooms = u.val()['bathrooms']
-                                    self.card.landspace = u.val()['landspace']
-                                    self.card.email = u.val()['email']
-                                    self.card.price = u.val()['price']
-                                    self.card.key = u.key()
-                                    self.card.phonenumber = u.val()['phonenumber']
-                                    self.card.twitter = u.val()['twitter']
-                                    self.card.facebook = u.val()['facebook']
-                                    self.card.description = u.val()['description']
-                                    self.card.views = u.val()['views']
-                                    self.card.local_image = u.val()['local_image']
-                                    self.add_widget(self.card)
-                                    loader.append(u.key())
-                                    print("added")
-                                    print(loader)
-                                else:
-                                    print("Something else")
-                            else:
-                                print("Already loaded booom")
-                                print(loader)
-                        else:
-                            print('Nope')
+                        print('Okay maybe it wokred')
+                        self.card = PropertySaleCards()
+                        self.card.image = u.val()['url']
+                        self.card.amenities = u.val()['amenities']
+                        self.card.tot = u.val()['housetype']
+                        self.card.country = u.val()['country']
+                        self.card.province = u.val()['state']
+                        self.card.town = u.val()['town']
+                        self.card.street = u.val()['street']
+                        self.card.bedrooms = u.val()['bedrooms']
+                        self.card.bathrooms = u.val()['bathrooms']
+                        self.card.landspace = u.val()['landspace']
+                        self.card.email = u.val()['email']
+                        self.card.price = u.val()['price']
+                        self.card.key = u.key()
+                        self.card.phonenumber = u.val()['phonenumber']
+                        self.card.twitter = u.val()['twitter']
+                        self.card.facebook = u.val()['facebook']
+                        self.card.description = u.val()['description']
+                        self.card.views = u.val()['views']
+                        self.card.local_image = u.val()['local_image']
+                        self.add_widget(self.card)
+                        loader.append(dude)
+                        print("added")
+                        print(loader)
+                        
+                else:
+                    print("Already loaded booom")
+                    print(loader)
+            
+
         if self.testiroro.each():
             for d in self.testiroro.each():    
-                if self.peopler.each():
-                    for u in self.peopler.each():
-                        something = u.key()
+                bruv = d.val()['prop_keys']
+                if bruv not in loader:
+                    self.ours = db.child("Rent").order_by_key().equal_to(bruv).get()
+                    for u in self.ours:
+                        
                         print(u.key())
+                        
                         # another = person.val()
                         
-                        if u.key() == d.val()['prop_keys']:
-                            print(u.val()['url'])
-                            if u.key() not in loader:
-                                if something not in loader:
-                                    print('Okay maybe it wokred')
-                                    self.card = PropertyRentCards()
-                                    self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
-                                    self.card.amenities = u.val()['amenities']
-                                    self.card.tot = u.val()['housetype']
-                                    self.card.country = u.val()['country']
-                                    self.card.province = u.val()['state']
-                                    self.card.town = u.val()['town']
-                                    self.card.street = u.val()['street']
-                                    self.card.bedrooms = u.val()['bedrooms']
-                                    self.card.bathrooms = u.val()['bathrooms']
-                                    self.card.landspace = u.val()['landspace']
-                                    self.card.email = u.val()['email']
-                                    self.card.price = u.val()['price']
-                                    self.card.key = u.key()
-                                    self.card.phonenumber = u.val()['phonenumber']
-                                    self.card.twitter = u.val()['twitter']
-                                    self.card.facebook = u.val()['facebook']
-                                    self.card.description = u.val()['description']
-                                    self.card.views = u.val()['views']
-                                    self.card.local_image = u.val()['local_image']
-                                    self.add_widget(self.card)
-                                    loader.append(u.key())
-                                    print("added")
-                                    print(loader)
-                                else:
-                                    print("Something else")
-                            else:
-                                print("Already loaded booom")
-                                print(loader)
-                        else:
-                            print('Nope')
+                        
+                        print(u.val()['url'])
+                        
+                            
+                        print('Okay maybe it wokred')
+                        self.card = PropertyRentCards()
+                        self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
+                        self.card.amenities = u.val()['amenities']
+                        self.card.tot = u.val()['housetype']
+                        self.card.country = u.val()['country']
+                        self.card.province = u.val()['state']
+                        self.card.town = u.val()['town']
+                        self.card.street = u.val()['street']
+                        self.card.bedrooms = u.val()['bedrooms']
+                        self.card.bathrooms = u.val()['bathrooms']
+                        self.card.landspace = u.val()['landspace']
+                        self.card.email = u.val()['email']
+                        self.card.price = u.val()['price']
+                        self.card.key = u.key()
+                        self.card.phonenumber = u.val()['phonenumber']
+                        self.card.twitter = u.val()['twitter']
+                        self.card.facebook = u.val()['facebook']
+                        self.card.description = u.val()['description']
+                        self.card.views = u.val()['views']
+                        self.card.local_image = u.val()['local_image']
+                        self.add_widget(self.card)
+                        loader.append(bruv)
+                        print("added")
+                        print(loader)
+                            
+                else:
+                    print("Already loaded booom")
+                    print(loader)
+                    
 
         
         
@@ -1117,9 +1178,9 @@ class HomeCardsLayout(MDBoxLayout):
             for u in self.people.each():
                 self.something = u.key()
                 self.card = HomeCards()
-                os.environ['SSL_CERT_FILE'] = certifi.where()
+                
                  
-                self.card.image = "https://firebasestorage.googleapis.com/v0/b/first-db-77609.appspot.com/o/Y83gLrRksVdgbvrE6ck0Hc8wxOy1%2FC%3A%5CUsers%5CYvonne%5CPictures%5CModern-Complex.jpg?alt=media"
+                self.card.image = u.val()['url']
                 
                 self.card.tot = u.val()['housetype']
                 self.card.country = u.val()['country']
@@ -1192,7 +1253,7 @@ class HomeCardsLayout(MDBoxLayout):
         for u in self.people.each():
             self.something = u.key()
             self.card = HomeCards()
-            self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
+            self.card.image = u.val()['url']
             self.card.tot = u.val()['housetype']
             self.card.country = u.val()['country']
             self.card.province = u.val()['state']
@@ -1235,7 +1296,7 @@ class HomeCardsLayout(MDBoxLayout):
                 continue
             
             self.card = HomeCards()
-            self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
+            self.card.image = u.val()['url']
             self.card.tot = u.val()['housetype']
             self.card.country = u.val()['country']
             self.card.province = u.val()['state']
@@ -1326,7 +1387,7 @@ class RentCardsLayout(MDBoxLayout):
             for u in self.people.each():
                 self.something = u.key()
                 self.card = HomeCards()
-                self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
+                self.card.image = u.val()['url']
                 self.card.tot = u.val()['housetype']
                 self.card.country = u.val()['country']
                 self.card.town = u.val()['town']
@@ -1394,7 +1455,7 @@ class RentCardsLayout(MDBoxLayout):
             for u in self.peopli.each():
                 self.something = u.key()
                 self.card = HomeCards()
-                self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
+                self.card.image = u.val()['url']
                 self.card.tot = u.val()['housetype']
                 self.card.country = u.val()['country']
                 self.card.province = u.val()['state']
@@ -1436,7 +1497,7 @@ class RentCardsLayout(MDBoxLayout):
                 continue
             
             self.card = HomeCards()
-            self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
+            self.card.image = u.val()['url']
             self.card.tot = u.val()['housetype']
             self.card.country = u.val()['country']
             self.card.province = u.val()['state']
@@ -1487,84 +1548,84 @@ class BookmarkLayout(MDBoxLayout):
     def starti(self):
         
             
-            
-        if len(self.curr['bookmarks']) > 0:
+        if self.curr['email'] != '':
+            if len(self.curr['bookmarks'][self.curr['email']]) > 0:
 
-            print(self.curr['bookmarks'][0])
-            for u in self.people.each():
-                something = u.key()
-                print(u.key())
-                # another = person.val()
-                
-                if u.key() in self.curr['bookmarks']:
-                    print(u.val()['url'])
-                    if u.key() not in loaded:
-                        if something not in loaded:
-                            print('Okay maybe it wokred')
-                            self.card = HomeCards()
-                            self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
-                            self.card.amenities = u.val()['amenities']
-                            self.card.tot = u.val()['housetype']
-                            self.card.country = u.val()['country']
-                            self.card.province = u.val()['state']
-                            self.card.town = u.val()['town']
-                            self.card.street = u.val()['street']
-                            self.card.bedrooms = u.val()['bedrooms']
-                            self.card.bathrooms = u.val()['bathrooms']
-                            self.card.landspace = u.val()['landspace']
-                            self.card.email = u.val()['email']
-                            self.card.price = u.val()['price']
-                            self.card.key = u.key()
-                            self.card.phonenumber = u.val()['phonenumber']
-                            self.card.twitter = u.val()['twitter']
-                            self.card.facebook = u.val()['facebook']
-                            self.card.description = u.val()['description']
-                            self.add_widget(self.card)
-                            loaded.append(u.key())
-                            print("added")
-                            print(loaded)
+                print(self.curr['bookmarks'][self.curr['email']][0])
+                for u in self.people.each():
+                    something = u.key()
+                    print(u.key())
+                    # another = person.val()
+                    
+                    if u.key() in self.curr['bookmarks'][self.curr['email']]:
+                        print(u.val()['url'])
+                        if u.key() not in loaded:
+                            if something not in loaded:
+                                print('Okay maybe it wokred')
+                                self.card = HomeCards()
+                                self.card.image = u.val()['url']
+                                self.card.amenities = u.val()['amenities']
+                                self.card.tot = u.val()['housetype']
+                                self.card.country = u.val()['country']
+                                self.card.province = u.val()['state']
+                                self.card.town = u.val()['town']
+                                self.card.street = u.val()['street']
+                                self.card.bedrooms = u.val()['bedrooms']
+                                self.card.bathrooms = u.val()['bathrooms']
+                                self.card.landspace = u.val()['landspace']
+                                self.card.email = u.val()['email']
+                                self.card.price = u.val()['price']
+                                self.card.key = u.key()
+                                self.card.phonenumber = u.val()['phonenumber']
+                                self.card.twitter = u.val()['twitter']
+                                self.card.facebook = u.val()['facebook']
+                                self.card.description = u.val()['description']
+                                self.add_widget(self.card)
+                                loaded.append(u.key())
+                                print("added")
+                                print(loaded)
+                            else:
+                                print("Something else")
                         else:
-                            print("Something else")
+                            print("Already loaded booom")
+                            print(loaded)
                     else:
-                        print("Already loaded booom")
-                        print(loaded)
-                else:
-                    print('Nope')
-        
-        
+                        print('Nope')
             
-        
-            print(self.curr['bookmarks'][0])
-            for u in self.peopler.each():
-                something = u.key()
-                print(u.key())
-                # another = person.val()
+            
                 
-                if u.key() in self.curr['bookmarks']:
-                    print(u.val()['url'])
-                    if u.key() not in loaded:
-                        if something not in loaded:
-                # another = person.val()
-                
-                            self.card = HomeCards()
-                            self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
-                            self.card.amenities = u.val()['amenities']
-                            self.card.tot = u.val()['housetype']
-                            self.card.country = u.val()['country']
-                            self.card.province = u.val()['state']
-                            self.card.town = u.val()['town']
-                            self.card.street = u.val()['street']
-                            self.card.bedrooms = u.val()['bedrooms']
-                            self.card.bathrooms = u.val()['bathrooms']
-                            self.card.landspace = u.val()['landspace']
-                            self.card.email = u.val()['email']
-                            self.card.price = u.val()['price']
-                            self.card.key = u.key()
-                            self.card.phonenumber = u.val()['phonenumber']
-                            self.card.twitter = u.val()['twitter']
-                            self.card.facebook = u.val()['facebook']
-                            self.card.description = u.val()['description']
-                            self.add_widget(self.card)
+            
+                print(self.curr['bookmarks'][self.curr['email']][0])
+                for u in self.peopler.each():
+                    something = u.key()
+                    print(u.key())
+                    # another = person.val()
+                    
+                    if u.key() in self.curr['bookmarks'][self.curr['email']]:
+                        print(u.val()['url'])
+                        if u.key() not in loaded:
+                            if something not in loaded:
+                    # another = person.val()
+                    
+                                self.card = HomeCards()
+                                self.card.image = u.val()['url']
+                                self.card.amenities = u.val()['amenities']
+                                self.card.tot = u.val()['housetype']
+                                self.card.country = u.val()['country']
+                                self.card.province = u.val()['state']
+                                self.card.town = u.val()['town']
+                                self.card.street = u.val()['street']
+                                self.card.bedrooms = u.val()['bedrooms']
+                                self.card.bathrooms = u.val()['bathrooms']
+                                self.card.landspace = u.val()['landspace']
+                                self.card.email = u.val()['email']
+                                self.card.price = u.val()['price']
+                                self.card.key = u.key()
+                                self.card.phonenumber = u.val()['phonenumber']
+                                self.card.twitter = u.val()['twitter']
+                                self.card.facebook = u.val()['facebook']
+                                self.card.description = u.val()['description']
+                                self.add_widget(self.card)
         
         
         
@@ -1629,7 +1690,7 @@ class MainApp(MDApp):
         
         
         self.signup = AccountLoginPage(name="sign-up")
-        
+        self.signin = SignInScreen(name="sign_in")
         
         self.SaleOrRent = SaleOrRent(name="SaleOrRent")
         
@@ -1685,6 +1746,7 @@ class MainApp(MDApp):
             print(self.curr['localid'])
             
         if self.curr['first_time'] == "false":
+            self.wm.switch_to(self.loading)
             self.wm.switch_to(self.home)
             if self.curr['email'] == "":
                 print("Fase")
@@ -1692,13 +1754,13 @@ class MainApp(MDApp):
             else:
                 try:
                     print("bruuhhh")
-                    user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
-                    usero = authi.refresh(user['refreshToken'])
-                    print(user)
-                    ino = authi.get_account_info(user['idToken'])
+                    self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
+                    usero = authi.refresh(self.user['refreshToken'])
+                    print(self.user)
+                    ino = authi.get_account_info(self.user['idToken'])
                     
                     print(ino)
-                    self.curr['idToken'] = user['idToken']
+                    self.curr['idToken'] = self.user['idToken']
 
                     with open('user.json', 'w') as jsonfile:
                         json.dump(self.curr, jsonfile)
@@ -2034,6 +2096,8 @@ class MainApp(MDApp):
 
     def call_guy(self, lockwood):
         print(lockwood)
+        with open('user.json', 'r') as jsonfile:
+            self.curr = json.load(jsonfile)
         func_timeout(30, self.boooiiii, args=(lockwood,))
         
 
@@ -2044,7 +2108,7 @@ class MainApp(MDApp):
     def boooiiii(self, figaro):
         
         try:
-            if figaro in self.curr["viewed"]:
+            if figaro in self.curr["viewed"][self.curr["email"]]:
                 print("Viewed")
             else:
                 them14 = db.child("Sale").child(figaro).child("views").get()
@@ -2052,7 +2116,7 @@ class MainApp(MDApp):
                 new_val += 1
                 print(new_val)
                 db.child("Sale").child(figaro).update({'views': new_val}, self.curr['idToken'])
-                self.curr["viewed"].append(figaro)
+                self.curr["viewed"][self.curr["email"]].append(figaro)
                 with open('user.json', 'w') as jsonfile:
                     json.dump(self.curr, jsonfile)
                 
@@ -2114,11 +2178,6 @@ class MainApp(MDApp):
         self.wm.switch_to(self.signup)
 
     def switch_products(self):
-        
-        
-        
-        
-        
         self.wm.switch_to(self.products)
 
         
@@ -2649,8 +2708,11 @@ class MainApp(MDApp):
         self.curr['password'] = self.passwrd
         self.curr['idToken'] = self.user['idToken']
         self.curr['localid'] = self.user['localId']
+        
         print(self.user['localId'] + " " + "aaaaaaaaaaaaahahahahaaaaaaaahahahahaa")
         if self.curr['first_time'] == "true":
+            self.curr['bookmarks'][self.mail] = []
+            self.curr['viewed'][self.mail] = []
             self.curr['first_time'] = "false"
                     
         
@@ -2741,9 +2803,7 @@ class MainApp(MDApp):
         self.edit.description = description
         self.edit.amenities = amenities
         print(key, town, street, local_image)
-        with open('user.json', 'r') as jsonfile:
-            self.info = json.load(jsonfile)
-            print(self.info['localid'])
+        
 
     def editrentscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None):
         self.edit_rent = EditRentDetailsScreen()
@@ -2766,7 +2826,10 @@ class MainApp(MDApp):
         print(key)
         with open('user.json', 'r') as jsonfile:
             self.info = json.load(jsonfile)
-            print(self.info['localid'])
+        refreshed = authi.refresh(self.user['refreshToken'])
+        self.info['idToken'] = self.user['idToken']
+        with open('user.json', 'w') as jsonfile:
+            json.dump(self.info, jsonfile)
 
     
     
@@ -2798,6 +2861,12 @@ class MainApp(MDApp):
             self.datp = json.load(jsonfile)
         # pp = int(pricing)
         # print(pp)
+        
+        refreshed = authi.refresh(self.user['refreshToken'])
+        print(refreshed)
+        self.datp['idToken'] = refreshed
+        with open('user.json', 'w') as jsonfile:
+            json.dump(self.datp, jsonfile)
         
 
         if len(House_type) > 5 and len(House_type) < 21:
@@ -2862,6 +2931,13 @@ class MainApp(MDApp):
         close_button = MDFlatButton(text="close", on_release=self.close_dialog)
         with open('user.json', 'r') as jsonfile:
             self.datp = json.load(jsonfile)
+
+        
+        refreshed = authi.refresh(self.user['refreshToken'])
+        print(refreshed)
+        self.datp['idToken'] = refreshed
+        with open('user.json', 'w') as jsonfile:
+            json.dump(self.datp, jsonfile)
         
         amenities = self.amenities
 
@@ -3002,8 +3078,8 @@ class MainApp(MDApp):
         data['idToken'] = ''
         data['house_images'] = []
         data['localid'] = ''
-        data['bookmarks'] = []
-        data["viewed"] = []
+        
+        
         with open('user.json', 'w') as jsonfile:
             json.dump(data, jsonfile)
         p = 'Successfully signed out'
@@ -3083,11 +3159,12 @@ class MainApp(MDApp):
                 server.sendmail("anangjosh8@gmail.com", "anangjosh8@gmail.com", message.as_string())
                 server.quit()
                 
+                del dati['bookmarks'][dati['email']]
                 dati['email'] = ''
                 dati['password'] = ''
                 dati['idToken'] = ''
                 dati['house_images'] = []
-                dati['bookmarks'] = []
+                
                 dati['localid'] = ''
                 with open('user.json', 'w') as jsonfile:
                     json.dump(dati, jsonfile)
@@ -3138,9 +3215,10 @@ class MainApp(MDApp):
         
         with open('user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
-        if lola not in data['bookmarks']:
-            if len(data['bookmarks']) != 24:
-                data['bookmarks'].append(lola)
+            mail = data['email']
+        if lola not in data['bookmarks'][mail]:
+            if len(data['bookmarks'][mail]) != 24:
+                data['bookmarks'][mail].append(lola)
                 with open('user.json', 'w') as jsonfile:
                     json.dump(data, jsonfile)
                 notice = 'Successfully added to bookmarks'
@@ -3150,7 +3228,7 @@ class MainApp(MDApp):
                 info = "Bookmarks full. You can only add up to 24 bookmarks"
                 self.show_dialog(info,close_button)
         else:
-            data['bookmarks'].remove(lola)
+            data['bookmarks'][mail].remove(lola)
             with open('user.json', 'w') as jsonfile:
                 json.dump(data, jsonfile)
             notice = 'Successfully removed from bookmarks'
@@ -3255,10 +3333,11 @@ class MainApp(MDApp):
         if x or y:
             print('yes there is a match')
             if self.file[0] == "/":
-                storage.child(self.signing['localId'] + self.file).put(str(self.file))
+                storage.child(self.signing['localId'] + '/' + self.file.replace('/', ',,')).put(str(self.file))
+                url = storage.child(self.signing['localId'] + '/' + self.file.replace('/', ',,')).get_url(None)
             else:
                 storage.child(self.signing['localId'] + '/' + self.file).put(str(self.file))
-            url = storage.child(self.signing['localId']).child(self.file).get_url(None)
+                url = storage.child(self.signing['localId'] + '/' + self.file).get_url(None)
             print(self.file)
             # with open('user.json', 'r') as jsonfile:
             #     dato = json.load(jsonfile)
@@ -3289,11 +3368,12 @@ class MainApp(MDApp):
             }
 
             
-            data['housetype'] = self.tot
+            
+            data['housetype'] = self.tot.capitalize()
             data['country'] = self.country
-            data['state'] = self.state
-            data['town'] = self.town
-            data['street'] = self.street
+            data['state'] = self.state.title()
+            data['town'] = self.town.title()
+            data['street'] = self.street.title()
             data['bedrooms'] = self.bedrooms
             data['bathrooms'] = self.bathrooms
             data['landspace'] = self.landspace + 'sq.ft'
@@ -3302,7 +3382,7 @@ class MainApp(MDApp):
             data['phonenumber'] = self.phonenumber
             data['price'] = "$" + self.price
             data['local_image'] = self.file
-            data['description'] = self.desc
+            data['description'] = self.desc.capitalize()
             data['amenities'] = self.amenities
             data['twitter'] = self.twitter
             data['facebook'] = self.facebook
@@ -3408,7 +3488,7 @@ class MainApp(MDApp):
         if len(selected_image) > 0:
             print(selected_image)
             # try:
-            func_timeout(40, self.house_rent, args=(selected_image))
+            func_timeout(40, self.house_rent, args=(selected_image,))
             # except:
             #     p = "No internet connection"
             #     self.snackbar(p)
@@ -3431,10 +3511,12 @@ class MainApp(MDApp):
         y = re.search(r".png$", self.file)
         if x or y:
             if self.file[0] == "/":
-                storage.child(self.signing['localId'] + self.file).put(str(self.file))
+                storage.child(self.signing['localId'] + '/' + self.file.replace('/', ',,')).put(str(self.file))
+                url = storage.child(self.info['localid'] + '/' + self.file.replace('/', ',,')).get_url(None)
             else:
                 storage.child(self.signing['localId'] + '/' + self.file).put(str(self.file))
-            url = storage.child(self.info['localid']).child(self.file).get_url(None)
+                url = storage.child(self.signing['localId'] + '/' + self.file).get_url(None)
+            
 
         
             self.info['house_images'].append(self.file)
@@ -3463,11 +3545,11 @@ class MainApp(MDApp):
             }
 
             
-            data['housetype'] = self.tot
+            data['housetype'] = self.tot.capitalize()
             data['country'] = self.country
-            data['state'] = self.state
-            data['street'] = self.street
-            data['town'] = self.town
+            data['state'] = self.state.title()
+            data['street'] = self.street.title()
+            data['town'] = self.town.title()
             data['bedrooms'] = self.bedrooms
             data['bathrooms'] = self.bathrooms
             data['landspace'] = self.landspace + 'sq.ft'
@@ -3478,7 +3560,7 @@ class MainApp(MDApp):
             data['phonenumber'] = self.phonenumber
             data['twitter'] = self.twitter
             data['facebook'] = self.facebook
-            data['description'] = self.desc
+            data['description'] = self.desc.capitalize()
             data['amenities'] = self.amenities
             # db.child("People").child(key).child("house").push(data)
             # results = db.child("People").child("Rent").child(self.user['localId']).child("house").push(data)
@@ -3523,4 +3605,3 @@ class MainApp(MDApp):
         self.show_dialog(info, close_button)
 
 MainApp().run()
-
