@@ -140,7 +140,10 @@ storage = firebasei.storage()
 
 print('Firebase initialized')
 
-
+get = db.child("Sale").order_by_child('country').start_at('Belgium').limit_to_first(2).get()
+new = db.child("Sale").order_by_child('country').start_at('Belgium').order_by_key().start_at('-NOqqy1RRtrEF3NN3gMg').get()
+for i in new.each():
+    print(i.val())
 
 
 
@@ -508,9 +511,9 @@ class SearchLayout(MDBoxLayout):
         self.something = ''
         self.old_country = ''
 
-    def search(self, choice, country, town, street):
+    def search(self, choice, country, town, street, bedrooms):
         try:
-            func_timeout(30, self.search_now, args=(choice, country, town, street))
+            func_timeout(30, self.search_now, args=(choice, country, town, street, bedrooms,))
         except FunctionTimedOut:
             print("No internet connection")
             snack = "No internet conection"
@@ -518,7 +521,7 @@ class SearchLayout(MDBoxLayout):
             snacky.open()
         
 
-    def search(self, choice, country, state, city, bedrooms):
+    def search_now(self, choice, country, state, city, bedrooms):
         
         print(choice)
         self.old_country = country
@@ -528,7 +531,7 @@ class SearchLayout(MDBoxLayout):
             self.new_choice = choice
             self.new_bedrooms = bedrooms
             self.old_country = self.new_country
-            self.clear_widgets()
+            self.clear_all()
         else:
             print('is equal')
 
@@ -541,79 +544,87 @@ class SearchLayout(MDBoxLayout):
         # for person in people.each():
         #     something = person.key()
             # print(something)
-        self.begin = db.child(choice).get()
+        self.begin = db.child(choice).order_by_child('country').start_at(country).get()
         self.added(country, state, city, bedrooms)
+
+    @mainthread
+    def clear_all(self):
+        self.clear_widgets()
 
     @mainthread
     def added(self, country, state, city, bedrooms):
         for u in self.begin.each():
             if u.key() == self.something:
                 continue
-            if u.val()['country'] == country or u.val()['state'] == state or u.val()['town'] == city:
-                if u.val()['bedrooms'] == bedrooms:
-                    self.card = HomeCards()
-                    self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
+            
+            elif u.val()['bedrooms'] == bedrooms:
+                self.card = HomeCards()
+                self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
+            
+                self.card.tot = u.val()['housetype']
+                self.card.country = u.val()['country']
+                self.card.province = u.val()['state']
+                self.card.town = u.val()['town']
+                self.card.street = u.val()['street']
+                self.card.bedrooms = u.val()['bedrooms']
+                self.card.bathrooms = u.val()['bathrooms']
+                self.card.landspace = u.val()['landspace']
+                self.card.email = u.val()['email']
+                self.card.price = u.val()['price']
+                self.card.key = u.key()
+                self.card.phonenumber = u.val()['phonenumber']
+                self.card.twitter = u.val()['twitter']
+                self.card.facebook = u.val()['facebook']
+                self.card.description = u.val()['description']
+                self.card.amenities = u.val()['amenities']
+                self.add_widget(self.card)
+                self.last = u.key()
+                self.something = u.key()
+                self.j += 1 
                 
-                    self.card.tot = u.val()['housetype']
-                    self.card.country = u.val()['country']
-                    self.card.province = u.val()['state']
-                    self.card.town = u.val()['town']
-                    self.card.street = u.val()['street']
-                    self.card.bedrooms = u.val()['bedrooms']
-                    self.card.bathrooms = u.val()['bathrooms']
-                    self.card.landspace = u.val()['landspace']
-                    self.card.email = u.val()['email']
-                    self.card.price = u.val()['price']
-                    self.card.key = u.key()
-                    self.card.phonenumber = u.val()['phonenumber']
-                    self.card.twitter = u.val()['twitter']
-                    self.card.facebook = u.val()['facebook']
-                    self.card.description = u.val()['description']
-                    self.card.amenities = u.val()['amenities']
-                    self.add_widget(self.card)
-                    self.last = u.key()
-                    self.something = u.key()
-                    self.j += 1 
-                    if self.j == 1:
-                        break
+                break
             else:
                 snack = "Not found"
                 snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y = 0.1)
                 snacky.open()
         
-
     def next(self, choice, country, state, city, bedrooms):
+        self.again = db.child(choice).order_by_child('country').start_at(country).order_by_key().start_at(self.something).limit_to_first(2).get()
+        self.real_next(choice, country, state, city, bedrooms)
+
+    @mainthread
+    def real_next(self, choice, country, state, city, bedrooms):
         
-        again = db.child(choice).order_by_key().start_at(self.something).limit_to_first(2).get()
-        print(again.val())
-        for u in again.each():
+        
+        print(self.again.val())
+        for u in self.again.each():
             
             if u.key() == self.something:
                 continue
             
-            if u.val()['country'] == country or u.val()['state'] == state or u.val()['town'] == city:
-                if u.val()['bedrooms'] == bedrooms:
-                    self.card = HomeCards()
-                    self.card.image = u.val()['url']
-                    self.card.tot = u.val()['housetype']
-                    self.card.country = u.val()['country']
-                    self.card.province = u.val()['state']
-                    self.card.town = u.val()['town']
-                    self.card.street = u.val()['street']
-                    self.card.bedrooms = u.val()['bedrooms']
-                    self.card.bathrooms = u.val()['bathrooms']
-                    self.card.landspace = u.val()['landspace']
-                    self.card.email = u.val()['email']
-                    self.card.price = u.val()['price']
-                    self.card.key = u.key()
-                    self.card.phonenumber = u.val()['phonenumber']
-                    self.card.twitter = u.val()['twitter']
-                    self.card.facebook = u.val()['facebook']
-                    self.card.description = u.val()['description']
-                    self.card.amenities = u.val()['amenities']
-                    self.add_widget(self.card)
-                    self.last = u.key()
-                    self.something = u.key()
+            
+            if u.val()['bedrooms'] == bedrooms:
+                self.card = HomeCards()
+                self.card.image = u.val()['url']
+                self.card.tot = u.val()['housetype']
+                self.card.country = u.val()['country']
+                self.card.province = u.val()['state']
+                self.card.town = u.val()['town']
+                self.card.street = u.val()['street']
+                self.card.bedrooms = u.val()['bedrooms']
+                self.card.bathrooms = u.val()['bathrooms']
+                self.card.landspace = u.val()['landspace']
+                self.card.email = u.val()['email']
+                self.card.price = u.val()['price']
+                self.card.key = u.key()
+                self.card.phonenumber = u.val()['phonenumber']
+                self.card.twitter = u.val()['twitter']
+                self.card.facebook = u.val()['facebook']
+                self.card.description = u.val()['description']
+                self.card.amenities = u.val()['amenities']
+                self.add_widget(self.card)
+                self.last = u.key()
+                self.something = u.key()
         
         
             # print(u.val())
@@ -1540,8 +1551,7 @@ class BookmarkLayout(MDBoxLayout):
         with open('user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
         print('OOh ma gaa')
-        self.people = db.child("Sale").get()
-        self.peopler = db.child("Rent").get()
+        
         self.starti()
         
     @mainthread
@@ -1551,81 +1561,86 @@ class BookmarkLayout(MDBoxLayout):
         if self.curr['email'] != '':
             if len(self.curr['bookmarks'][self.curr['email']]) > 0:
 
-                print(self.curr['bookmarks'][self.curr['email']][0])
-                for u in self.people.each():
-                    something = u.key()
-                    print(u.key())
-                    # another = person.val()
-                    
-                    if u.key() in self.curr['bookmarks'][self.curr['email']]:
-                        print(u.val()['url'])
-                        if u.key() not in loaded:
-                            if something not in loaded:
-                                print('Okay maybe it wokred')
-                                self.card = HomeCards()
-                                self.card.image = u.val()['url']
-                                self.card.amenities = u.val()['amenities']
-                                self.card.tot = u.val()['housetype']
-                                self.card.country = u.val()['country']
-                                self.card.province = u.val()['state']
-                                self.card.town = u.val()['town']
-                                self.card.street = u.val()['street']
-                                self.card.bedrooms = u.val()['bedrooms']
-                                self.card.bathrooms = u.val()['bathrooms']
-                                self.card.landspace = u.val()['landspace']
-                                self.card.email = u.val()['email']
-                                self.card.price = u.val()['price']
-                                self.card.key = u.key()
-                                self.card.phonenumber = u.val()['phonenumber']
-                                self.card.twitter = u.val()['twitter']
-                                self.card.facebook = u.val()['facebook']
-                                self.card.description = u.val()['description']
-                                self.add_widget(self.card)
-                                loaded.append(u.key())
-                                print("added")
-                                print(loaded)
-                            else:
-                                print("Something else")
-                        else:
-                            print("Already loaded booom")
+                print(self.curr['bookmarks'][self.curr['email']])
+                for i in self.curr['bookmarks'][self.curr['email']]:
+                    if i not in loaded:
+                        self.yours = db.child("Sale").order_by_key().equal_to(i).get()
+                        for u in self.yours:
+                            something = u.key()
+                            print(u.key())
+                            # another = person.val()
+                            
+                        
+                            # if u.key() not in loaded:
+                            #     if something not in loaded:
+                            print('Okay maybe it wokred')
+                            self.card = HomeCards()
+                            self.card.image = u.val()['url']
+                            self.card.amenities = u.val()['amenities']
+                            self.card.tot = u.val()['housetype']
+                            self.card.country = u.val()['country']
+                            self.card.province = u.val()['state']
+                            self.card.town = u.val()['town']
+                            self.card.street = u.val()['street']
+                            self.card.bedrooms = u.val()['bedrooms']
+                            self.card.bathrooms = u.val()['bathrooms']
+                            self.card.landspace = u.val()['landspace']
+                            self.card.email = u.val()['email']
+                            self.card.price = u.val()['price']
+                            self.card.key = u.key()
+                            self.card.phonenumber = u.val()['phonenumber']
+                            self.card.twitter = u.val()['twitter']
+                            self.card.facebook = u.val()['facebook']
+                            self.card.description = u.val()['description']
+                            self.add_widget(self.card)
+                            loaded.append(u.key())
+                            print("added")
                             print(loaded)
-                    else:
-                        print('Nope')
+                            
+                    
             
             
                 
             
-                print(self.curr['bookmarks'][self.curr['email']][0])
-                for u in self.peopler.each():
-                    something = u.key()
-                    print(u.key())
-                    # another = person.val()
-                    
-                    if u.key() in self.curr['bookmarks'][self.curr['email']]:
-                        print(u.val()['url'])
-                        if u.key() not in loaded:
-                            if something not in loaded:
-                    # another = person.val()
-                    
-                                self.card = HomeCards()
-                                self.card.image = u.val()['url']
-                                self.card.amenities = u.val()['amenities']
-                                self.card.tot = u.val()['housetype']
-                                self.card.country = u.val()['country']
-                                self.card.province = u.val()['state']
-                                self.card.town = u.val()['town']
-                                self.card.street = u.val()['street']
-                                self.card.bedrooms = u.val()['bedrooms']
-                                self.card.bathrooms = u.val()['bathrooms']
-                                self.card.landspace = u.val()['landspace']
-                                self.card.email = u.val()['email']
-                                self.card.price = u.val()['price']
-                                self.card.key = u.key()
-                                self.card.phonenumber = u.val()['phonenumber']
-                                self.card.twitter = u.val()['twitter']
-                                self.card.facebook = u.val()['facebook']
-                                self.card.description = u.val()['description']
-                                self.add_widget(self.card)
+                
+                        self.mine = db.child("Rent").order_by_key().equal_to(i).get()
+                        for u in self.mine:
+                            something = u.key()
+                            print(u.key())
+                            # another = person.val()
+                            
+                        
+                            # if u.key() not in loaded:
+                            #     if something not in loaded:
+                            print('Okay maybe it wokred')
+                            self.card = HomeCards()
+                            self.card.image = u.val()['url']
+                            self.card.amenities = u.val()['amenities']
+                            self.card.tot = u.val()['housetype']
+                            self.card.country = u.val()['country']
+                            self.card.province = u.val()['state']
+                            self.card.town = u.val()['town']
+                            self.card.street = u.val()['street']
+                            self.card.bedrooms = u.val()['bedrooms']
+                            self.card.bathrooms = u.val()['bathrooms']
+                            self.card.landspace = u.val()['landspace']
+                            self.card.email = u.val()['email']
+                            self.card.price = u.val()['price']
+                            self.card.key = u.key()
+                            self.card.phonenumber = u.val()['phonenumber']
+                            self.card.twitter = u.val()['twitter']
+                            self.card.facebook = u.val()['facebook']
+                            self.card.description = u.val()['description']
+                            self.add_widget(self.card)
+                            loaded.append(u.key())
+                            print("added")
+                            print(loaded)
+                            
+                    else:
+                        print("Already loaded booom")
+                        print(loaded)
+            else:
+                print('Nope, Empty!!')
         
         
         
@@ -2841,6 +2856,12 @@ class MainApp(MDApp):
         print(key)
         print(House_type)
         print(len(House_type))
+
+        house_type = House_type.capitalize()
+        new_state = state.title()
+        new_town = town.title()
+        new_street = street.title()
+        new_desc = description.capitalize()
         
         if pricing[0] == '$':
             self.amt = pricing
@@ -2862,33 +2883,34 @@ class MainApp(MDApp):
         # pp = int(pricing)
         # print(pp)
         
-        refreshed = authi.refresh(self.user['refreshToken'])
-        print(refreshed)
-        self.datp['idToken'] = refreshed
+        
+        self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
+        usero = authi.refresh(self.user['refreshToken'])
+        self.datp['idToken'] = self.user['idToken']
         with open('user.json', 'w') as jsonfile:
             json.dump(self.datp, jsonfile)
         
 
-        if len(House_type) > 5 and len(House_type) < 21:
+        if len(house_type) > 5 and len(house_type) < 21:
             
             
-            if len(state) >= 3 and len(state) < 20:
-                if len(town) >= 3 and len(town) < 16:
+            if len(new_state) >= 3 and len(new_state) < 20:
+                if len(new_town) >= 3 and len(new_town) < 16:
 
-                    if len(street) >= 3 and len(street) < 25:
+                    if len(new_street) >= 3 and len(new_street) < 25:
                         if len(pricing) > 1:
-                            if len(description) > 20 and len(description) < 255:
-                                db.child("Sale").child(key).update({'housetype': House_type}, self.info['idToken'])
-                                db.child("Sale").child(key).update({'country': locate}, self.info['idToken'])
-                                db.child("Sale").child(key).update({'state': state}, self.info['idToken'])
-                                db.child("Sale").child(key).update({'town': town}, self.info['idToken'])
-                                db.child("Sale").child(key).update({'street': street}, self.info['idToken'])
-                                db.child("Sale").child(key).update({'bedrooms': bedrooms}, self.info['idToken'])
-                                db.child("Sale").child(key).update({'bathrooms': bathrooms}, self.info['idToken'])
-                                db.child("Sale").child(key).update({'landspace': self.landspace}, self.info['idToken'])
-                                db.child("Sale").child(key).update({'price': self.amt}, self.info['idToken'])
-                                db.child("Sale").child(key).update({'description': description}, self.info['idToken'])
-                                db.child("Sale").child(key).update({'amenities': amenities}, self.info['idToken'])
+                            if len(new_desc) > 20 and len(new_desc) < 255:
+                                db.child("Sale").child(key).update({'housetype': house_type}, self.datp['idToken'])
+                                db.child("Sale").child(key).update({'country': locate}, self.datp['idToken'])
+                                db.child("Sale").child(key).update({'state': new_state}, self.datp['idToken'])
+                                db.child("Sale").child(key).update({'town': new_town}, self.datp['idToken'])
+                                db.child("Sale").child(key).update({'street': new_street}, self.datp['idToken'])
+                                db.child("Sale").child(key).update({'bedrooms': bedrooms}, self.datp['idToken'])
+                                db.child("Sale").child(key).update({'bathrooms': bathrooms}, self.datp['idToken'])
+                                db.child("Sale").child(key).update({'landspace': self.landspace}, self.datp['idToken'])
+                                db.child("Sale").child(key).update({'price': self.amt}, self.datp['idToken'])
+                                db.child("Sale").child(key).update({'description': new_desc}, self.datp['idToken'])
+                                db.child("Sale").child(key).update({'amenities': amenities}, self.datp['idToken'])
                                 self.sale_or_rent = "Sale"
                                 self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
                                 agree_button = MDRaisedButton(text="yes", on_release=self.close_dialog, on_press=self.separate_function)
@@ -2933,9 +2955,10 @@ class MainApp(MDApp):
             self.datp = json.load(jsonfile)
 
         
-        refreshed = authi.refresh(self.user['refreshToken'])
-        print(refreshed)
-        self.datp['idToken'] = refreshed
+        
+        self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
+        usero = authi.refresh(self.user['refreshToken'])
+        self.datp['idToken'] = self.user['idToken']
         with open('user.json', 'w') as jsonfile:
             json.dump(self.datp, jsonfile)
         
@@ -2955,6 +2978,7 @@ class MainApp(MDApp):
         # pp = int(pricing)
         # print(pp)
         
+        
 
         if len(House_type) > 5 and len(House_type) < 21:
             
@@ -2967,17 +2991,17 @@ class MainApp(MDApp):
                     if len(street) >= 3 and len(street) < 25:
                         if len(pricing) > 1:
                             if len(description) > 20 and len(description) < 255:
-                                db.child("Rent").child(key).update({'housetype': House_type}, self.info['idToken'])
-                                db.child("Rent").child(key).update({'country': locate}, self.info['idToken'])
-                                db.child("Rent").child(key).update({'state': state}, self.info['idToken'])
-                                db.child("Rent").child(key).update({'town': town}, self.info['idToken'])
-                                db.child("Rent").child(key).update({'street': street}, self.info['idToken'])
-                                db.child("Rent").child(key).update({'bedrooms': bedrooms}, self.info['idToken'])
-                                db.child("Rent").child(key).update({'bathrooms': bathrooms}, self.info['idToken'])
-                                db.child("Rent").child(key).update({'landspace': self.landspace}, self.info['idToken'])
-                                db.child("Rent").child(key).update({'price': self.amt}, self.info['idToken'])
-                                db.child("Rent").child(key).update({'description': description}, self.info['idToken'])
-                                db.child("Rent").child(key).update({'amenities': amenities}, self.info['idToken'])
+                                db.child("Rent").child(key).update({'housetype': House_type.capitalize()}, self.datp['idToken'])
+                                db.child("Rent").child(key).update({'country': locate}, self.datp['idToken'])
+                                db.child("Rent").child(key).update({'state': state.title()}, self.datp['idToken'])
+                                db.child("Rent").child(key).update({'town': town.title()}, self.datp['idToken'])
+                                db.child("Rent").child(key).update({'street': street.title()}, self.datp['idToken'])
+                                db.child("Rent").child(key).update({'bedrooms': bedrooms}, self.datp['idToken'])
+                                db.child("Rent").child(key).update({'bathrooms': bathrooms}, self.datp['idToken'])
+                                db.child("Rent").child(key).update({'landspace': self.landspace}, self.datp['idToken'])
+                                db.child("Rent").child(key).update({'price': self.amt}, self.datp['idToken'])
+                                db.child("Rent").child(key).update({'description': description.capitalize()}, self.datp['idToken'])
+                                db.child("Rent").child(key).update({'amenities': amenities}, self.datp['idToken'])
                                 self.sale_or_rent = "Rent"
                                 self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
                                 agree_button = MDFlatButton(text="yes", on_release=self.close_dialog, on_press=self.separate_function)
@@ -3381,7 +3405,7 @@ class MainApp(MDApp):
             data['email'] = self.mail
             data['phonenumber'] = self.phonenumber
             data['price'] = "$" + self.price
-            data['local_image'] = self.file
+            data['local_image'] = self.file.replace('/', ',,')
             data['description'] = self.desc.capitalize()
             data['amenities'] = self.amenities
             data['twitter'] = self.twitter
@@ -3556,7 +3580,7 @@ class MainApp(MDApp):
             data['url'] = url
             data['email'] = self.info['email']
             data['price'] = "$" + self.price + self.rent.ids.pay_item.text
-            data['local_image'] = self.file
+            data['local_image'] = self.file.replace('/', ',,')
             data['phonenumber'] = self.phonenumber
             data['twitter'] = self.twitter
             data['facebook'] = self.facebook
