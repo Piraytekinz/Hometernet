@@ -21,7 +21,7 @@
                         md_bg_color: 0,0,0,1
                         radius: [0]
                         RelativeLayout:
-                            FitImage:
+                            AsyncImage:
                                 source: str(root.image)
                                 id: house_image
                                 keep_ratio: False if Window.size[1] > Window.size[0] else True
@@ -36,6 +36,7 @@
                                     on_press: app.play()
                                     on_release: app.switch_home()
                                     ripple_behavior: True
+                                    font_size: '16dp'
                             
                             AnchorLayout:
                                 anchor_x: 'right'
@@ -47,6 +48,7 @@
                                     on_press: app.play()
                                     on_release: app.bookmark(root.key)
                                     ripple_behavior: True
+                                    font_size: '16dp'
 
                             AnchorLayout:
                                 anchor_x: 'left'
@@ -56,8 +58,8 @@
                                     text: root.price
                                     color: 'white'
                                     font_size: '23dp'
-                                    size_hint: None, None
-                                    adaptive_size: True
+                                    size_hint_y: None
+                                    adaptive_height: True
                                     bold: True
                                     
                 # MDBoxLayout:
@@ -269,6 +271,7 @@
                                 text: root.amenities[0]
                                 size_hint_y: None
                                 adaptive_height: True
+                                font_size: '14dp'
 
 
                             MDLabel:
@@ -282,6 +285,7 @@
                                 text: root.amenities[1]
                                 size_hint_y: None
                                 adaptive_height: True
+                                font_size: '14dp'
 
                             MDLabel:
                                 text: 'Water Heater' 
@@ -294,6 +298,7 @@
                                 text: root.amenities[2]
                                 size_hint_y: None
                                 adaptive_height: True
+                                font_size: '14dp'
                                 
 
                             MDLabel:
@@ -307,6 +312,7 @@
                                 text: root.amenities[3]
                                 size_hint_y: None
                                 adaptive_height: True
+                                font_size: '14dp'
 
 
                             MDLabel:
@@ -320,6 +326,7 @@
                                 text: root.amenities[4]
                                 size_hint_y: None
                                 adaptive_height: True
+                                font_size: '14dp'
 
                             MDLabel:
                                 text: 'garage'
@@ -332,6 +339,7 @@
                                 text: root.amenities[5]
                                 size_hint_y: None
                                 adaptive_height: True
+                                font_size: '14dp'
                                     
 
 
@@ -342,7 +350,7 @@
         MDBoxLayout:
             
             size_hint_y: None
-            height: biye.height * 2
+            height: '70dp'
             padding: [10,]
             Buy:
                 md_bg_color: app.theme_cls.primary_color

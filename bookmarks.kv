@@ -5,32 +5,36 @@
         
         BooksTitle:
             size_hint_y: None
-            height: arrow_right.height + 55
+            height: arrow_right.height * 2.2
             padding: [10]
             id: book_title
 
             MDIconButton:
-                icon: 'arrow-left'
-                user_font_size: "16dp"
+                icon: 'trash-can'
+                font_size: "15dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 on_press: app.play()
-                on_release: app.switch_home()
+                on_release: bk.clear_bookmarks_auth()
                 id: arrow_right
+
+            
 
             MDLabel:
                 text: "Bookmarks"
-                font_size: '17dp'
+                font_size: '16dp'
                 bold: True
                 theme_font_style: 'Overline'
                 halign: 'center'
 
             MDIconButton:
-                icon: 'trash-can'
-                user_font_size: "16dp"
+                icon: 'arrow-right'
+                font_size: "15dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 on_press: app.play()
-                on_release: app.delete_user_auth()
+                on_release: app.switch_home()
                 id: arrow_right
+
+            
 
         ScrollView:
             BookmarkLayout:

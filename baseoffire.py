@@ -194,17 +194,26 @@
 
 
 
-# import webbrowser
+import webbrowser
 
-# webbrowser.open('https://t.co/tylergposey')
+webbrowser.open('https://mail.google.com/mail/?view=cm&fs=1&to=anangjosh8@gmail.com&su=SUBJECT&body=BODY')
 
-text = '<This is a very long text ya know.>'
+# text = '<This is a very long text ya know.>'
 
-print(text)
+# print(text)
+# input = [19,2,31,45,30,11]
+# for i in range(1,len(input)):
+#     j = i-1
 
-ssl._create_default_https_context = ssl._create_unverified_context
-os.environ['SSL_CERT_FILE'] = certifi.where()
-Config.set('kivy', 'exit_on_escape', 0)
+# ssl._create_default_https_context = ssl._create_unverified_context
+# os.environ['SSL_CERT_FILE'] = certifi.where()
+# Config.set('kivy', 'exit_on_escape', 0)
 
-pat = ssl.get_default_verify_paths()
-print(pat)
+# pat = ssl.get_default_verify_paths()
+# print(pat)
+
+from datetime import datetime
+
+dt = datetime.now()
+print(dt.time() == dt.time())
+# time = 12:17:45.133003

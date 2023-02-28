@@ -7,7 +7,7 @@
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
     size_hint_x: None
     size_hint_y: None
-    height: Window.size[1] / 2 if Window.size[1] > Window.size[0] else Window.size[1] - 50
+    height: Window.size[1] / 2.1 if Window.size[1] > Window.size[0] else Window.size[1] - 50
     width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2 
     
     id: home_card
@@ -24,7 +24,7 @@
                 on_press: app.switch_details(root.image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.phonenumber, root.twitter, root.facebook, root.description, root.key, root.amenities)
                 radius: [5,]
                 ripple_behavior: True
-                on_release: app.call_guy(root.key)
+                on_press: app.call_guy(root.key, root.price)
                 RelativeLayout:
                     FitImage:
                         source: str(root.image)
@@ -80,6 +80,9 @@
                         font_size: "14dp"
                         size_hint_y: None
                         adaptive_height: True
+                        markup: True
+                        shorten: True
+                        ellipsis_options: {'color':(0,0,0,0.5), 'underline':False}
                         
                         
                     

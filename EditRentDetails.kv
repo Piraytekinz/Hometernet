@@ -7,27 +7,27 @@
                 orientation: 'vertical'
                 MDCard:
                     size_hint_y: None
-                    height: arrow.height * 3
+                    height: arrow.height * 2.2
                     radius: [0]
                     MDIconButton:
                         icon: 'arrow-left'
-                        font_size: "16dp"
+                        font_size: "15dp"
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         on_press: app.play()
-                        on_release: app.discard_auth()
+                        on_release: app.switch_products()
                         bold: True
                         id: arrow
 
                     MDLabel:
                         text: "Edit Property"
-                        font_size: '20dp'
+                        font_size: '16dp'
                         bold: True
                         halign: 'center'
 
                     MDIconButton:
                         icon: 'trash-can'
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        font_size: "16dp"
+                        font_size: "15dp"
                         on_press: app.play()
                         on_release: app.delete_property_auth(root.key, root.local_image, 'Sale')
                         bold: True
@@ -119,13 +119,14 @@
                                 MDLabel:
                                     text: "Property type/Name"
                                     font_size: "15dp"
-                                WordInput:
+                                MDTextField:
                                     id: housetype
                                     hint_text: "house type"
                                     # on_text: app.word(self.text)
                                     padding: [20, ]
                                     text: root.type
                                     helper_text: 'Invalid Input'
+                                    font_size: "15dp"
                                     
                         MDBoxLayout:
                             opacity: 0.9
@@ -152,9 +153,11 @@
                                     MDLabel:
                                         text: root.country
                                         id: country_text
+                                        font_size: "15dp"
                                     MDIconButton:
                                         icon: 'arrow-right'
                                         on_press: app.show_listings("EditSale")
+                                        font_size: "15dp"
 
                         MDBoxLayout:
                             opacity: 0.9
@@ -181,6 +184,7 @@
                                     text: root.province
                                     on_text: app.statify(self.text)
                                     padding: [20, ]
+                                    font_size: "15dp"
 
 
                         MDBoxLayout:
@@ -209,6 +213,7 @@
                                     on_text: app.towni(self.text)
                                     text: root.town
                                     helper_text: 'Invalid Input'
+                                    font_size: "15dp"
                         
                         MDBoxLayout:
                             opacity: 0.9
@@ -232,7 +237,7 @@
                                 MDTextField:
                                     id: street
                                     hint_text: "street/address"
-                                    
+                                    font_size: "15dp"
                                     on_text: app.streeti(self.text)
                                     text: root.street
                                     helper_text: 'Invalid Input'
@@ -285,6 +290,7 @@
                                                 id: oner
                                                 size_hint_x: None
                                                 adaptive_width: True
+                                                font_size: "15dp"
                                         
                                         MDCard:
                                             radius: [3,]
@@ -302,6 +308,7 @@
                                                 bold: True
                                                 size_hint_x: None
                                                 adaptive_width: True
+                                                font_size: "15dp"
 
                                         MDCard:
                                             radius: [3,]
@@ -319,6 +326,7 @@
                                                 color: 'white'
                                                 size_hint_x: None
                                                 adaptive_width: True
+                                                font_size: "15dp"
 
                                         MDCard:
                                             radius: [3,]
@@ -336,6 +344,7 @@
                                                 bold: True
                                                 size_hint_x: None
                                                 adaptive_width: True
+                                                font_size: "15dp"
 
                                         MDCard:
                                             radius: [3,]
@@ -353,6 +362,7 @@
                                                 bold: True
                                                 size_hint_x: None
                                                 adaptive_width: True
+                                                font_size: "15dp"
                                         
                                         MDCard:
                                             radius: [3,]
@@ -370,6 +380,7 @@
                                                 bold: True
                                                 size_hint_x: None
                                                 adaptive_width: True
+                                                font_size: "15dp"
                                         MDCard:
                                             radius: [3,]
                                             ripple_behavior: True
@@ -386,12 +397,13 @@
                                                 bold: True
                                                 size_hint_x: None
                                                 adaptive_width: True
+                                                font_size: "15dp"
 
                                         MDCard:
                                             radius: [3,]
                                             ripple_behavior: True
                                             md_bg_color: app.theme_cls.primary_color
-                                            on_press: root.bedrooms='7'
+                                            on_press: root.bedrooms='7+'
                                             
                                             size_hint_x: None
                                             width: oner.width * 3
@@ -403,6 +415,7 @@
                                                 bold: True
                                                 size_hint_x: None
                                                 adaptive_width: True
+                                                font_size: "15dp"
 
                         MDBoxLayout:
                             opacity: 0.9
@@ -450,6 +463,7 @@
                                                 size_hint_x: None
                                                 adaptive_width: True
                                                 id: one
+                                                font_size: "15dp"
                                         
                                         MDCard:
                                             radius: [3,]
@@ -468,6 +482,7 @@
                                                 size_hint_x: None
                                                 adaptive_width: True
                                                 id: one
+                                                font_size: "15dp"
 
                                         MDCard:
                                             radius: [3,]
@@ -486,6 +501,7 @@
                                                 size_hint_x: None
                                                 adaptive_width: True
                                                 id: one
+                                                font_size: "15dp"
 
                                         MDCard:
                                             radius: [3,]
@@ -504,6 +520,7 @@
                                                 size_hint_x: None
                                                 adaptive_width: True
                                                 id: one
+                                                font_size: "15dp"
 
                                         MDCard:
                                             radius: [3,]
@@ -522,6 +539,7 @@
                                                 size_hint_x: None
                                                 adaptive_width: True
                                                 id: one
+                                                font_size: "15dp"
                                         
                                         
                                         MDCard:
@@ -541,6 +559,7 @@
                                                 size_hint_x: None
                                                 adaptive_width: True
                                                 id: one
+                                                font_size: "15dp"
 
                                         MDCard:
                                             radius: [3,]
@@ -559,6 +578,7 @@
                                                 size_hint_x: None
                                                 adaptive_width: True
                                                 id: one
+                                                font_size: "15dp"
 
                                         MDCard:
                                             radius: [3,]
@@ -577,6 +597,7 @@
                                                 size_hint_x: None
                                                 adaptive_width: True
                                                 id: one
+                                                font_size: "15dp"
                         MDBoxLayout:
                             opacity: 0.9
                             radius: [5]
@@ -610,6 +631,7 @@
                                         id: land_area
                                         height: self.minimum_height
                                         # on_text: app.land_space(self.text)
+                                        font_size: "15dp"
                                         text: root.landspace
                                         input_type: 'number'
                                         multiline: False
@@ -650,6 +672,7 @@
                                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                         size_hint: None, None
                                         adaptive_size: True
+                                        font_size: "15dp"
                                 EditRentPrice:
                                     size_hint_y: None
                                     height: landspace_text.height * 2
@@ -660,6 +683,7 @@
                                         id: price
                                         height: self.minimum_height
                                         # on_text: app.pricing(self.text)
+                                        font_size: "15dp"
                                         text: root.price
                                         input_type: 'number'
                                         multiline: False
@@ -697,7 +721,7 @@
                                     TextInput:
                                         id: description
                                         
-                                        
+                                        text: root.description
                                         multiline: True
                                         foreground_color: 0/255, 0/255, 0/255, 1
                                         background_color: 0,0,0,0  
@@ -720,6 +744,7 @@
                                 size_hint_y: None
                                 adaptive_height: True
                                 halign: 'center'
+                                font_size: "16dp"
                             MDBoxLayout:
                                 size_hint_y: None
                                 adaptive_height: True
@@ -727,70 +752,81 @@
                                     disabled: True
                                     disabled_color: 'lightgrey'
                                     active: True
+                                    font_size: "16dp"
                                 MDLabel:
                                     text: "Yes"
+                                    font_size: "15dp"
 
                                 MDCheckbox:
                                     disabled: True
                                     disabled_color: 'lightgrey'
+                                    font_size: "15dp"
                                 MDLabel: 
                                     text: "No"
+                                    font_size: "15dp"
 
                             MDGridLayout:
                                 cols: 2
                                 MDLabel:
                                     text: 'Fans'
-                                    font_size: '14dp'
+                                    font_size: '15dp'
                                 MDCheckbox:
                                     on_active: app.on_checkbox_active(*args, 0)
                                     id: 0
                                     active: True if root.amenities[0] == 'Yes' else False
+                                    font_size: "16dp"
 
                                 MDLabel:
                                     text: 'Air Conditioner'
-                                    font_size: '14dp'
+                                    font_size: '15dp'
                                 MDCheckbox:
                                     on_active: app.on_checkbox_active(*args, 1)
                                     id: 1
                                     active: True if root.amenities[1] == 'Yes' else False
+                                    font_size: "16dp"
 
                                 MDLabel:
                                     text: 'Water Heater'
-                                    font_size: '14dp'
+                                    font_size: '15dp'
                                 MDCheckbox:
                                     on_active: app.on_checkbox_active(*args, 2)
                                     id: 2
                                     active: True if root.amenities[2] == 'Yes' else False
+                                    font_size: "16dp"
 
                                 MDLabel:
                                     text: 'Swimming Pool'
-                                    font_size: '14dp'
+                                    font_size: '15dp'
                                 MDCheckbox:
                                     on_active: app.on_checkbox_active(*args, 3)
                                     id: 3
                                     active: True if root.amenities[3] == 'Yes' else False
+                                    font_size: "16dp"
 
                                 MDLabel:
                                     text: 'Wifi'
-                                    font_size: '14dp'
+                                    font_size: '15dp'
                                 MDCheckbox:
                                     on_active: app.on_checkbox_active(*args, 4)
                                     id: 4
                                     active: True if root.amenities[4] == 'Yes' else False
+                                    font_size: "16dp"
 
                                 MDLabel:
                                     text: 'Garage'
-                                    font_size: '14dp'
+                                    font_size: '15dp'
                                 MDCheckbox:
                                     on_active: app.on_checkbox_active(*args, 5)
                                     id: 5
                                     active: True if root.amenities[5] == 'Yes' else False
+                                    font_size: "16dp"
                                         
                         MDRaisedButton:
                             text: "Submit"
                             # on_press: self.submit()
                             pos_hint: {'center_x': 0.5}
                             on_press: app.update_rent_property(root.local_image, housetype.text, price.text, country_text.text, state.text, town.text, street.text, bedrooms.text, bathrooms.text, land_area.text, root.key, description.text)
+                            font_size: "15dp"
                 
 <EditRentPrice@MDCard+CommonElevationBehavior>
 <EditRentLandspace@MDCard+CommonElevationBehavior>

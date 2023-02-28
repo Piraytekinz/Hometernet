@@ -11,10 +11,11 @@
             MDIconButton:
                 icon: 'arrow-left'
                 on_press: app.play()
-                on_release: app.switch_signin()
+                on_release: app.wm.switch_to(self.signin)
                 id: home
                 size_hint_y: None
                 adaptive_height: True
+                font_size: '15dp'
         ScrollView:
             effect_cls: "ScrollEffect"
             MDBoxLayout:
@@ -72,7 +73,7 @@
                         radius: [10,]
                         id: passwrd
                         TextInput:
-                            hint_text: 'password'
+                            hint_text: 'create password'
                             multiline: False
                             foreground_color: 0/255, 0/255, 0/255, 1
                             size_hint_y: None
@@ -90,7 +91,7 @@
                         radius: [10,]
                         
                         TextInput:
-                            hint_text: 'password'
+                            hint_text: 'confirm password'
                             multiline: False
                             foreground_color: 0/255, 0/255, 0/255, 1
                             size_hint_y: None
@@ -127,7 +128,7 @@
                         size_hint: None, None
                         adaptive_size: True
                         text: 'By clicking sign up you agree to the'
-                        font_size: '16dp'
+                        font_size: '15dp'
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         haling: 'center'
                     MDBoxLayout:
@@ -140,7 +141,7 @@
                             text: "Terms and conditions"
                             size_hint: None, None
                             adaptive_size: True
-                            font_size: '16dp'
+                            font_size: '15dp'
                             halign: 'center'
                             color: app.theme_cls.primary_color
                             on_press: app.play()
@@ -150,7 +151,7 @@
                             text: 'Privacy policy'
                             size_hint: None, None
                             adaptive_size: True
-                            font_size: '16dp'
+                            font_size: '15dp'
                             color: app.theme_cls.primary_color
                             
                             

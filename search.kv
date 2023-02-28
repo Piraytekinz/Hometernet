@@ -4,11 +4,11 @@
         
         TopTitle:
             size_hint_y: None
-            height: searchido.height * 3
+            height: searchido.height * 2.2
             id: toppy
             MDIconButton:
                 icon: 'arrow-left'
-                user_font_size: "16dp"
+                font_size: "15dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 on_press: app.play()
                 on_release: app.switch_home()
@@ -16,7 +16,7 @@
 
             MDLabel:
                 text: "Search"
-                font_size: '17dp'
+                font_size: '16dp'
                 bold: True
                 halign: 'center'
                 theme_font_style: 'Overline'
@@ -24,7 +24,7 @@
             MDIconButton:
                 icon: 'magnify'
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                user_font_size: "16dp"
+                font_size: "15dp"
                 bold: True
                 on_press: app.play()
                 on_release: search.search(drop_item.text, country.text, state.text, town.text, bed_item.text)
@@ -74,6 +74,7 @@
                             on_press: app.play()
                             on_release: app.choice.open()
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            font_size: '15dp'
                     CountryCard:
                         radius: [10]
                         size_hint_x: None
@@ -86,7 +87,7 @@
                             multiline: False
                             foreground_color: 0/255, 0/255, 0/255, 1
                             background_color: 0,0,0,0
-                            font_size: "15sp"
+                            font_size: "15dp"
                             text_color: "black"
                             id: country
                             
@@ -144,6 +145,7 @@
                             on_press: app.play()
                             on_release: app.bedrooms_choice()
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            font_size: '15dp'
                     
         MDBoxLayout:
             
@@ -168,9 +170,9 @@
                         elevation: 0
                         ripple_behavior: True
                         size_hint: None, None
-                        height: '100dp'
+                        height: '70dp'
                         width: '270dp'
-                        padding: [128,0,0,0]
+                        padding: [self.width/2.2,self.height/2,self.width/2.2,self.height/2]
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         on_release: search.next(drop_item.text, country.text, state.text, town.text, bed_item.text)
                         MDIcon:
@@ -180,6 +182,7 @@
                             pos_hint: {'center_y': 0.5}
                             size_hint: None, None
                             adaptive_size: True
+                            font_size: '20dp'
             
 
 <TopTitle@MDCard+CommonElevationBehavior>

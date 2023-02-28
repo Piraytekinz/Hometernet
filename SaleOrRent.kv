@@ -13,8 +13,9 @@
                         icon: 'arrow-left'
                         on_press: app.play()
                         on_release: app.switch_products()
-                        custom_color: True
-                        font_color: 'white'
+                        font_size: '15dp'
+                        theme_text_color: "Custom"
+                        text_color: 'white'
                 
                 MDBoxLayout:
                     size_hint_y: None
@@ -26,7 +27,7 @@
                         text: "Are you selling or renting?"
                         color: "white"
                         bold: True
-                        font_size: "30dp"
+                        font_size: "25dp"
                         
                         
                         size_hint_y: None
@@ -51,7 +52,7 @@
                                 halign: 'center'
                                 bold: True
                                 text: "sell"
-                                font_size: "18dp"
+                                font_size: "16dp"
                                 id: sell
                                 size_hint_y: None
                                 adaptive_height: True
@@ -69,7 +70,7 @@
                                 halign: 'center'
                                 bold: True
                                 text: "rent"
-                                font_size: "18dp"
+                                font_size: "16dp"
                                 id: rent
                                 size_hint_y: None
                                 adaptive_height: True

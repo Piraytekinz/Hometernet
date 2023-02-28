@@ -4,7 +4,7 @@
         spacing: "20dp"
         MDCard:
             size_hint_y: None
-            height: icon.height * 3
+            height: icon.height * 2.5
             padding: [10,]
             elevation: 0
             id: about
@@ -18,7 +18,7 @@
                 pos_hint: {'center_y': 0.5}
                 
             MDIconButton:
-                user_font_size: '14dp'
+                font_size: '15dp'
                 icon: 'arrow-right'
                 on_press: app.play()
                 on_release: app.switch_home()
@@ -69,6 +69,7 @@
                                     text: "First name"
                                     size_hint_y: None
                                     adaptive_height: True
+                                    font_size: '14dp'
                                 Firstname:
                                     size_hint_y: None
                                     height: notice.height + 20
@@ -157,7 +158,7 @@
                                     hint_text: 'Input Message'
                                     multiline: True
                                     foreground_color: 0/255, 0/255, 0/255, 1
-                                    size_hint_y: None
+                                    
                                     font_size: "15dp"
                                     text_color: "black"
                                     pos_hint: {'center_y': 0.5}
