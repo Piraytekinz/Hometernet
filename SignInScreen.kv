@@ -10,7 +10,7 @@
             MDIconButton:
                 icon: 'arrow-left'
                 on_press: app.play()
-                on_release: app.switch_products()
+                on_release: app.switch_from_signin()
                 id: home
                 size_hint_y: None
                 adaptive_height: True
@@ -65,6 +65,7 @@
                             height: self.minimum_height
                             background_color: 0,0,0,0
                             on_text: app.email(self.text)
+                            id: email
 
                     Password:
                         size_hint_y: None
@@ -83,6 +84,7 @@
                             background_color: 0,0,0,0
                             password: True
                             on_text: app.password(self.text)
+                            id: password
 
                 MDBoxLayout:
                     size_hint_y: None
@@ -93,7 +95,7 @@
                         adaptive_height: True
                         font_size: '15dp'
                         color: app.theme_cls.primary_color
-                        on_release: app.password_reset()
+                        on_release: app.forgot_password_auth()
                         on_press: app.play()
                         
 

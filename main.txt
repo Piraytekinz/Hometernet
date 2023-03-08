@@ -16,17 +16,16 @@ from kivymd.uix.textfield import MDTextField
 from kivymd.uix.behaviors import CommonElevationBehavior, FakeRectangularElevationBehavior
 from kivymd.uix.snackbar import Snackbar
 from kivy.uix.recycleview import RecycleView
-# from kivy.effects.scroll import ScrollEffect
-# from kivy.effects.kinetic import KineticEffect
-# from kivy.effects.dampedscroll import DampedScrollEffect
+from kivy.effects.scroll import ScrollEffect
+from kivy.effects.kinetic import KineticEffect
+from kivy.effects.dampedscroll import DampedScrollEffect
 
 
-# from kivymd.effects.roulettescroll import RouletteScrollEffect
+from kivymd.effects.roulettescroll import RouletteScrollEffect
 
 import pyrebase
 import re
 from kivy.clock import time
-import json
 
 
 from kivy.core.audio import SoundLoader
@@ -37,7 +36,7 @@ from kivy.uix.textinput import TextInput
 
 
 
-
+import sys
 
 
 
@@ -45,7 +44,7 @@ from kivy.uix.textinput import TextInput
 
 
 from plyer import filechooser
-
+import json
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton, MDRaisedButton
 import smtplib
@@ -83,8 +82,7 @@ Config.set('kivy', 'exit_on_escape', 0)
 
 
 
-path = os.getcwd()
-print(path)
+
 
 
 
@@ -211,14 +209,14 @@ class StartingScreen(Screen):
 
 class MyAccount(Screen):
     text = StringProperty()
-    # with open(f'{path}\\user.json', 'r') as jsonfile:
-    #     curr = json.load(jsonfile)
-    # text = curr['email']
+    with open('user.json', 'r') as jsonfile:
+        curr = json.load(jsonfile)
+    text = curr['email']
 
-    # def read_user(self):
-    #     with open(f'{path}\\user.json', 'r') as jsonfile:
-    #         curr = json.load(jsonfile)
-    #     text = curr['email']
+    def read_user(self):
+        with open('user.json', 'r') as jsonfile:
+            curr = json.load(jsonfile)
+        text = curr['email']
 
 
 class ContactScreen(Screen):
@@ -226,7 +224,7 @@ class ContactScreen(Screen):
         super().__init__(**kw)
 
     def initialize_contact_message(self):
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
         try:
             func_timeout(30, self.work_thistime)
@@ -291,7 +289,7 @@ class ContactScreen(Screen):
 
 class HomeScreen(Screen):
     text = StringProperty()
-    with open(f'{path}\\user.json', 'r') as jsonfile:
+    with open('user.json', 'r') as jsonfile:
         curr = json.load(jsonfile)
     text = curr['email']
     print('texted')
@@ -595,7 +593,7 @@ class SearchLayout(MDBoxLayout):
         else:
             print('is equal')
 
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
             print(self.curr['localid'])
         
@@ -811,7 +809,7 @@ class PropertyCardsLayout(MDBoxLayout):
     def sign_out(self,obj=None):
         
         
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
 
         data['email'] = ''
@@ -821,7 +819,7 @@ class PropertyCardsLayout(MDBoxLayout):
         data['localid'] = ''
         
         
-        with open(f'{path}\\user.json', 'w') as jsonfile:
+        with open('user.json', 'w') as jsonfile:
             json.dump(data, jsonfile)
         self.clear_widgets()
         p = 'Successfully signed out'
@@ -841,7 +839,7 @@ class PropertyCardsLayout(MDBoxLayout):
     def begin_loading(self):
         # self.last_sold = 0
         print(self.loader)
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
         print(self.curr)
         try:
@@ -852,8 +850,8 @@ class PropertyCardsLayout(MDBoxLayout):
         except requests.exceptions.HTTPError as e:
             error_json = e.args[1]
             error = json.loads(error_json)['error']
-            print(str(error) + "is the error")
-            print(str(error) + "is the error") 
+            print(error + "is the error")
+            print(error + "is the error") 
             if error == 'Permission denied':
                 print("Permission denied")
                 print("Resigning in")
@@ -862,13 +860,13 @@ class PropertyCardsLayout(MDBoxLayout):
                 self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
                 usero = authi.refresh(self.user['refreshToken'])
                 self.curr['idToken'] = self.user['idToken']
-                with open(f'{path}\\user.json', 'w') as jsonfile:
+                with open('user.json', 'w') as jsonfile:
                     json.dump(self.curr, jsonfile)
                 
-                self.begin_loading()
-        # except:
-        #     toast("No internet connection")
-        #     print("No internet connection")
+                self.starter()
+        except:
+            toast("No internet connection")
+            print("No internet connection")
         # except Exception as e:
         #     print("No internet connection")
         #     toast("No internet connection")
@@ -922,7 +920,7 @@ class PropertyCardsLayout(MDBoxLayout):
             # print(a.val())
         #     curr['house_images'].append(a.val())
 
-        #     with open(f'{path}\\user.json', 'w') as jsonfile:
+        #     with open('user.json', 'w') as jsonfile:
         #         json.dump(curr, jsonfile)
         
         print(self.curr['idToken'])
@@ -930,15 +928,14 @@ class PropertyCardsLayout(MDBoxLayout):
 
         print(str(self.last_sold) + " " + "init last sold")
         
-        if self.curr['email'] != '':
-            if self.curr["sold"][self.curr['email']] > self.last_sold:
-                print("Initializing")
-                self.testichiro = db.child("People").child(self.curr['localid']).child("Sale").get(self.curr['idToken'])
-                self.testiroro = db.child("People").child(self.curr['localid']).child("Rent").get(self.curr['idToken'])
-                self.last_sold = self.curr["sold"][self.curr['email']]
-                print("After last sold")
-                    
-                self.next_after()
+        if self.curr["sold"] > self.last_sold:
+            print("Initializing")
+            self.testichiro = db.child("People").child(self.curr['localid']).child("Sale").get(self.curr['idToken'])
+            self.testiroro = db.child("People").child(self.curr['localid']).child("Rent").get(self.curr['idToken'])
+            self.last_sold = self.curr["sold"]
+            print("After last sold")
+                
+            self.next_after()
         
         
         
@@ -1046,7 +1043,6 @@ class PropertyCardsLayout(MDBoxLayout):
         print("Reloading")
         self.clear_widgets()
         self.begin_loading()
-        r.disabled = False
         
 
                     
@@ -1102,7 +1098,7 @@ class PropertyCardsLayout(MDBoxLayout):
         #         self.card.town = them14.val()
         #         self.card.image = them15.val()
         #         self.add_widget(self.card)
-        #     # with open(f'{path}\\user.json', 'w') as jsonfile:
+        #     # with open('user.json', 'w') as jsonfile:
         #     #     json.dump(dato, jsonfile)
         # except:
         #     pass
@@ -1183,17 +1179,17 @@ class PropertyCardsLayout(MDBoxLayout):
 
 
 
-# class Effect(DampedScrollEffect):
+class Effect(DampedScrollEffect):
 
-#     def on_overscroll(self, *args):
-#         super().on_overscroll(*args)
-#         # self.call_reload()
+    def on_overscroll(self, *args):
+        super().on_overscroll(*args)
+        # self.call_reload()
         
-#         if self.overscroll <= -20:
-#             self.call_reload()
+        if self.overscroll <= -20:
+            self.call_reload()
 
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         # self.min_overscroll = -20
         # self.overscroll = -20
@@ -1231,8 +1227,8 @@ class Scroller(ScrollView):
         super().__init__(**kwargs)
         self.do_scroll_x = False
         self.do_scroll_y = True
-        # self.effect = Effect
-        # self.effect_cls = Effect
+        self.effect = Effect
+        self.effect_cls = Effect
         
         
         
@@ -1400,7 +1396,7 @@ class HomeCardsLayout(MDBoxLayout):
         
 
     def omagaa(self):
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
             print(self.curr['localid'])
 
@@ -1609,7 +1605,7 @@ class RentCardsLayout(MDBoxLayout):
         
 
     def omagaa(self):
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
             print(self.curr['localid'])
 
@@ -1727,7 +1723,7 @@ class BookmarkLayout(MDBoxLayout):
             toast("No internet connection")
 
     def starto(self):
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
         self.last_rec = len(self.curr['bookmarks'][self.curr['email']])
         print(self.last_rec)
@@ -1826,7 +1822,7 @@ class BookmarkLayout(MDBoxLayout):
                         print(i)
                         self.curr['bookmarks'][self.curr['email']].remove(i)
 
-                with open(f'{path}\\user.json', 'w') as jsonfile:
+                with open('user.json', 'w') as jsonfile:
                     json.dump(self.curr, jsonfile)
             else:
                 print('Nope, Empty!!')
@@ -1847,7 +1843,7 @@ class BookmarkLayout(MDBoxLayout):
 
     def clear_bookmarks(self,obj):
         self.curr['bookmarks'][self.curr['email']] = []
-        with open(f'{path}\\user.json', 'w') as jsonfile:
+        with open('user.json', 'w') as jsonfile:
             json.dump(self.curr, jsonfile)
         self.clear_widgets()
         print('Bookmarks cleared')
@@ -1913,7 +1909,7 @@ class MainApp(MDApp):
         self.theme_cls.primary_hue = "900"
         self.wm.transition = RiseInTransition()
         
-        self.splash()
+        
         self.account = MyAccount(name='acc')
         self.signup = AccountLoginPage(name="sign-up")
         self.signin = SignInScreen(name="signin")
@@ -1940,11 +1936,10 @@ class MainApp(MDApp):
         self.screenos = []
         self.screeni = []
 
-        self.current_screen = ''
+        
 
         # self.wm.current = 'starter'
-        # self.wm.switch_to(self.starter)
-        
+        self.wm.switch_to(self.starter)
 
         choice_items = [
             {
@@ -2018,17 +2013,17 @@ class MainApp(MDApp):
         self.sign_in_pass = ''
         self.source = 'Images\Pirate King (2).jpg'
 
-        self.tot = 'house type'
-        self.country = 'West side'
-        self.state = 'Statey new'
-        self.town = 'new town'
-        self.street = 'street of peace'
-        self.bedrooms = '3'
-        self.bathrooms = '1'
-        self.landspace = '212'
-        self.price = '90890'
-        self.phonenumber = '+233244255518'
-        self.desc = 'Brief description will appear here....'
+        self.tot = ''
+        self.country = ''
+        self.state = ''
+        self.town = ''
+        self.street = ''
+        self.bedrooms = ''
+        self.bathrooms = ''
+        self.landspace = ''
+        self.price = ''
+        self.phonenumber = ''
+        self.desc = ''
         self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
         self.twitter = ''
         self.facebook = ''
@@ -2057,7 +2052,7 @@ class MainApp(MDApp):
         print("Starting")
 
     def start_up(self):
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
             print(self.curr['localid'])
             
@@ -2075,7 +2070,7 @@ class MainApp(MDApp):
                     print(self.user)
                     self.curr['idToken'] = self.user['idToken']
 
-                    with open(f'{path}\\user.json', 'w') as jsonfile:
+                    with open('user.json', 'w') as jsonfile:
                         json.dump(self.curr, jsonfile)
                 except:
                     print("Pass")
@@ -2090,13 +2085,7 @@ class MainApp(MDApp):
                 self.switch_home()
 
             elif self.wm.current == "details":
-                if self.current_screen == "bookmarks":
-                    self.switch_bookmarks()
-                if self.current_screen == "search":
-                    self.switch_search()
-                if self.current_screen == "home":
-                    self.switch_home()
-                    
+                self.switch_home()
             elif self.wm.current == "bookmarks":
                 self.switch_home() 
             elif self.wm.current == "sale" or self.wm.current == "rent":
@@ -2105,12 +2094,7 @@ class MainApp(MDApp):
                 print("oh dude")
                 self.switch_products()
             elif self.wm.current == "signin":
-                if self.current_screen == "acc":
-                    self.switch_acc()
-                if self.current_screen == "products":
-                    self.switch_products()
-                if self.current_screen == "home":
-                    self.switch_home()
+                self.switch_home()
                 
                 
                 
@@ -2268,7 +2252,6 @@ class MainApp(MDApp):
         print(text_of_option)
     
     def on_checkbox_active(self, checkbox, value, num):
-        # self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
         if value:
             print(checkbox.ids)
             print(num)
@@ -2330,11 +2313,12 @@ class MainApp(MDApp):
 
     
     
-    
+    def stopper(self):
+        sys.exit()
 
     @mainthread
     def switch_home(self):
-        self.current_screen = 'home'
+        
         self.wm.switch_to(self.home)
 
     @mainthread
@@ -2342,7 +2326,7 @@ class MainApp(MDApp):
         self.wm.switch_to(self.loading)
         
     def switch_acc(self):
-        self.current_screen = 'acc'
+        
         self.wm.switch_to(self.account)
 
     def switch_creator(self):
@@ -2367,13 +2351,7 @@ class MainApp(MDApp):
         
 
     
-    def switch_from_details(self):
-        if self.current_screen == "bookmarks":
-            self.switch_bookmarks()
-        if self.current_screen == "search":
-            self.switch_search()
-        if self.current_screen == "home":
-            self.switch_home()            
+                
         
 
     def switch_details(self, image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, phonenumber=None, twitter=None, facebook=None, description=None, key=None, amenities=None):
@@ -2404,12 +2382,12 @@ class MainApp(MDApp):
         
 
     def switch_search(self):
-        self.current_screen = 'search'
+        
         self.wm.switch_to(self.search)
         
 
     def switch_sale(self):
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.info = json.load(jsonfile)
             print(self.info['localid'])
         print(self.amenities)
@@ -2418,7 +2396,7 @@ class MainApp(MDApp):
         self.wm.switch_to(self.sale)
 
     def switch_rent(self):
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.info = json.load(jsonfile)
             print(self.info['localid'])
         print(self.amenities)
@@ -2429,21 +2407,23 @@ class MainApp(MDApp):
     def switch_signup(self):
         self.wm.switch_to(self.signup)
 
-    @mainthread
     def switch_products(self):
-        self.current_screen = 'products'
+        
         self.wm.switch_to(self.products)
 
         
 
     def switch_bookmarks(self):
-        self.current_screen = 'bookmarks'        
-        self.wm.switch_to(self.bk)
+        
+       
+        
+        
 
+        self.wm.switch_to(self.bk)
     
     def switch_signin(self):
         print(self.wm.current)
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.info = json.load(jsonfile)
         if self.info['email'] != "":
             p="You're already signed in"
@@ -2451,18 +2431,11 @@ class MainApp(MDApp):
         else:
             
             # self.signin = SignInScreen(name="signin")
-            self.signin.ids.email.text = ''
-            self.signin.ids.password.text = ''
             self.wm.switch_to(self.signin)
             print(self.wm.current)
 
     def switch_from_signin(self):
-        if self.current_screen == "acc":
-            self.switch_acc()
-        if self.current_screen == "products":
-            self.switch_products()
-        if self.current_screen == "home":
-            self.switch_home()
+        pass
 
     @mainthread
     def switch_congrats(self):
@@ -2475,7 +2448,7 @@ class MainApp(MDApp):
         
         
             
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
         
         if data['email'] == "":
@@ -2488,7 +2461,7 @@ class MainApp(MDApp):
     def call_guy(self, lockwood, price):
         print('WHy nigga why')
         print(lockwood)
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
         try:
             func_timeout(15, self.boooiiii, args=(lockwood, price,))
@@ -2524,7 +2497,7 @@ class MainApp(MDApp):
                     except requests.exceptions.HTTPError as e:
                         error_json = e.args[1]
                         error = json.loads(error_json)['error']
-                        print(str(error) + "is the error")
+                        print(error + "is the error")
                         if error == 'Permission denied':
                             print("Permission denied")
                             print("Resigning in rent")
@@ -2533,7 +2506,7 @@ class MainApp(MDApp):
                                 self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
                                 usero = authi.refresh(self.user['refreshToken'])
                                 self.curr['idToken'] = self.user['idToken']
-                                with open(f'{path}\\user.json', 'w') as jsonfile:
+                                with open('user.json', 'w') as jsonfile:
                                     json.dump(self.curr, jsonfile)
                                 print('dumped')
                                 self.call_guy(figaro,price)
@@ -2555,7 +2528,7 @@ class MainApp(MDApp):
                     except requests.exceptions.HTTPError as e:
                         error_json = e.args[1]
                         error = json.loads(error_json)['error']
-                        print(str(error) + "is the error")
+                        print(error + "is the error")
                         if error == 'Permission denied':
                             print("Permission denied")
                             print("Resigning in")
@@ -2564,7 +2537,7 @@ class MainApp(MDApp):
                                 self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
                                 usero = authi.refresh(self.user['refreshToken'])
                                 self.curr['idToken'] = self.user['idToken']
-                                with open(f'{path}\\user.json', 'w') as jsonfile:
+                                with open('user.json', 'w') as jsonfile:
                                     json.dump(self.curr, jsonfile)
                                 print('dumped')
                                 self.call_guy(figaro,price)
@@ -2578,7 +2551,7 @@ class MainApp(MDApp):
                     
                         # except:
                         #     print('Update views failed')
-                with open(f'{path}\\user.json', 'w') as jsonfile:
+                with open('user.json', 'w') as jsonfile:
                     json.dump(self.curr, jsonfile)
         else:
             print("No user in")
@@ -2632,7 +2605,7 @@ class MainApp(MDApp):
             self.country = texta
             print(self.country)
         elif self.screeni[0] == "EditSale":
-            self.edit.ids.country_text.text = texta
+            self.edit_sale.ids.country_text.text = texta
             self.country = texta
         elif self.screeni[0] == "EditRent":
             self.edit_rent.ids.country_text.text = texta
@@ -2753,7 +2726,7 @@ class MainApp(MDApp):
         self.dia.open()
             
     def send_email(self, email, phonenumber, twitter, facebook):
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
             print(data['email'])
         if data['email'] == "":
@@ -2911,7 +2884,7 @@ class MainApp(MDApp):
         self.passwrd = ''
         if self.curr['first_time'] == "true":
             self.curr['first_time'] = "false"
-            with open(f'{path}\\user.json', 'w') as jsonfile:
+            with open('user.json', 'w') as jsonfile:
                 json.dump(self.curr, jsonfile)
         
     def delete_property_auth(self, key, local_image, sale_or_rent):
@@ -2949,7 +2922,7 @@ class MainApp(MDApp):
 
         print(name,local_image,sale_or_rent)
         
-        # self.entry = DialogEntry()
+        self.entry = DialogEntry()
         print(self.passwrd + " " + 'ooooohhhhh ma gaaaaa')
         
         if self.curr['email'] and self.curr['password'] == "":
@@ -2959,40 +2932,32 @@ class MainApp(MDApp):
             
             if self.passwrd == self.curr['password']:
                 
-                print(str(name) + " " + "This is the name of the porperty")
+                
                 # user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
                 try:
                     deletion = self.curr['localid'] + '/' + local_image
                     storage.delete(deletion, self.curr['idToken'])
                     
                     if sale_or_rent == 'Sale':
-                        print("Is equal to sale")
-                        print(name)
-                        
+                        db.child("Sale").child(name).remove(self.curr['idToken'])
                         remove_people = db.child("People").child(self.curr['localid']).child("Sale").get(self.curr['idToken'])
                         for u in remove_people.each():
                             print(u.val()['prop_keys'])
-                            if str(u.val()['prop_keys']) == name:
-                                print(u.key())
-                                print("Is equal")
-                                db.child("People").child(self.curr['localid']).child("Sale").child(u.key()).remove(self.curr['idToken'])
-                                db.child("Sale").child(name).remove(self.curr['idToken'])
-                                break
-                            # else:
-                            #     print("Not found")
+                            if u.val()['prop_keys'] == name:
+                                db.child("People").child(self.curr['localid']).child("Sale").child(u.key()).child(name).remove(self.curr['idToken'])
+                        
 
                     else:
-                        print("Is equal to rent")
                         db.child("Rent").child(name).remove(self.curr['idToken'])
                         remove_people = db.child("People").child(self.curr['localid']).child("Rent").get(self.curr['idToken'])
                         for u in remove_people.each():
-                            
+                            print(u.val()['prop_keys'])
                             if u.val()['prop_keys'] == name:
                                 db.child("People").child(self.curr['localid']).child("Rent").child(u.key()).child(name).remove(self.curr['idToken'])
                 except requests.exceptions.HTTPError as e:
                     error_json = e.args[1]
                     error = json.loads(error_json)['error']
-                    print(str(error) + "is the error")
+                    print(error + "is the error")
                     if error == 'Permission denied':
                         print("Permission denied")
                         print("Resigning in")
@@ -3001,7 +2966,7 @@ class MainApp(MDApp):
                             self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
                             usero = authi.refresh(self.user['refreshToken'])
                             self.curr['idToken'] = self.user['idToken']
-                            with open(f'{path}\\user.json', 'w') as jsonfile:
+                            with open('user.json', 'w') as jsonfile:
                                 json.dump(self.curr, jsonfile)
                             
                             self.delete_property_init(name, local_image, sale_or_rent)
@@ -3058,7 +3023,7 @@ class MainApp(MDApp):
             except requests.exceptions.HTTPError as e:
                 error_json = e.args[1]
                 error = json.loads(error_json)['error']['message']
-                print(str(error) + "is the error")
+                print(error + "is the error")
                 if error == 'EMAIL_NOT_FOUND':
                     text = "Email not found"
                     
@@ -3076,7 +3041,7 @@ class MainApp(MDApp):
         
     
     def password_reset_auth(self):
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
         if self.curr['email'] == '':
             self.show_dialog('No user signed in')
@@ -3096,8 +3061,8 @@ class MainApp(MDApp):
                         text='Submit',
                         theme_text_color='Custom',
                         text_color='black',
-                        on_press=self.password_reset,
-                        on_release=lambda x:self.di.dismiss()
+                        on_press=self.password_reset(),
+                        on_release= self.di.dismiss()
                     )
                 ]
             )
@@ -3111,7 +3076,7 @@ class MainApp(MDApp):
         except requests.exceptions.HTTPError as e:
             error_json = e.args[1]
             error = json.loads(error_json)['error']['message']
-            print(str(error) + "is the error")
+            print(error + "is the error")
             if error == 'EMAIL_NOT_FOUND':
                 text = "Email not found"
                 
@@ -3124,12 +3089,10 @@ class MainApp(MDApp):
             authi.send_password_reset_email(self.curr['email'])
             text = "A password reset email has been sent to your mail"
             
-            
             self.show_dialog(text)
             self.passwrd = ''
         else:
             self.show_dialog('Invalid password')
-            self.passwrd = ''
 
 # "MKHRXCSZPZWXKIIF"
 # "GeoWorl38751759"
@@ -3146,7 +3109,7 @@ class MainApp(MDApp):
         email = self.mail
         password = self.passwrd
         
-        count = 0
+        
         try:
             self.user = authi.sign_in_with_email_and_password(email, password)
             ino = authi.get_account_info(self.user['idToken'])
@@ -3159,48 +3122,11 @@ class MainApp(MDApp):
             
             
             
-            with open(f'{path}\\user.json', 'r') as jsonfile:
+            with open('user.json', 'r') as jsonfile:
                 self.curr = json.load(jsonfile)
                 
 
-            if self.curr['first_time'] == "true":
-                
-                
-                
-
-                self.testichiro = db.child("People").child(self.user['localId']).child("Sale").get(self.user['idToken'])
-                self.testiroro = db.child("People").child(self.user['localId']).child("Rent").get(self.user['idToken'])
-                
-                if self.testichiro.each():
-                    for i in self.testichiro.each():
-                        count += 1
-
-                if self.testiroro.each():
-                    for u in self.testiroro.each():
-                        count += 1
-
-                self.curr['sold'][self.mail] = count
-                self.curr['bookmarks'][self.mail] = []
-                self.curr['viewed'][self.mail] = []
-                self.curr['first_time'] = "false"
-            else:
-                if self.mail not in self.curr['bookmarks']:
-                    
-                    self.testichiro = db.child("People").child(self.user['localId']).child("Sale").get(self.user['idToken'])
-                    self.testiroro = db.child("People").child(self.user['localId']).child("Rent").get(self.user['idToken'])
-                    
-                    if self.testichiro.each():
-                        for i in self.testichiro.each():
-                            count += 1
-
-                    if self.testiroro.each():
-                        for u in self.testiroro.each():
-                            count += 1
-
-                    self.curr['sold'][self.mail] = count
-                    self.curr['bookmarks'][self.mail] = []
-                    self.curr['viewed'][self.mail] = []
-                                
+            
 
             self.curr['email'] = self.mail
             self.curr['password'] = self.passwrd
@@ -3208,7 +3134,16 @@ class MainApp(MDApp):
             self.curr['localid'] = self.user['localId']
             
             print(self.user['localId'] + " " + "aaaaaaaaaaaaahahahahaaaaaaaahahahahaa")
-            
+            if self.curr['first_time'] == "true":
+                self.curr['bookmarks'][self.mail] = []
+                self.curr['viewed'][self.mail] = []
+                self.curr['sold'] = 0
+                self.curr['first_time'] = "false"
+            else:
+                if self.mail not in self.curr['bookmarks']:
+                    self.curr['bookmarks'][self.mail] = []
+                    self.curr['viewed'][self.mail] = []
+                    self.curr['sold'] = 0
             
             print(self.curr['localid'])
             print(self.curr['idToken'])
@@ -3233,7 +3168,7 @@ class MainApp(MDApp):
     # else:
     #     pass
 
-            with open(f'{path}\\user.json', 'w') as jsonfile:
+            with open('user.json', 'w') as jsonfile:
                 json.dump(self.curr, jsonfile)
             self.switch_home()
 
@@ -3248,7 +3183,7 @@ class MainApp(MDApp):
         except requests.exceptions.HTTPError as e:
             error_json = e.args[1]
             error = json.loads(error_json)['error']['message']
-            print(str(error) + "is the error")
+            print(error + "is the error")
             if error == 'EMAIL_NOT_FOUND':
                 text = "Email not found"
                 
@@ -3282,9 +3217,6 @@ class MainApp(MDApp):
     def editscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None):
         print("this is self.amenities")
         print(self.amenities)
-        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
-        print("Another self.amenities")
-        print(self.amenities)
         self.edit = EditDetailsScreen(name="edit")
         self.wm.switch_to(self.edit)
         self.edit.type = House_type
@@ -3309,14 +3241,10 @@ class MainApp(MDApp):
 
     def editrentscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None):
         self.edit_rent = EditRentDetailsScreen(name="edit-rent")
-        print(self.amenities)
-        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
-        print("Another self.amenities")
-        print(self.amenities)
         self.wm.switch_to(self.edit_rent)
         self.edit_rent.type = House_type
         self.edit_rent.image = image
-        self.edit_rent.price = pricing.replace('/mth', '') if pricing.endswith('/mth') else pricing.replace('/yr', '')
+        self.edit_rent.price = pricing
         self.edit_rent.country = locate
         self.edit_rent.province = state
         self.edit_rent.town = town
@@ -3333,14 +3261,19 @@ class MainApp(MDApp):
         
         # refreshed = authi.refresh(self.user['refreshToken'])
         # self.info['idToken'] = self.user['idToken']
-        # with open(f'{path}\\user.json', 'w') as jsonfile:
+        # with open('user.json', 'w') as jsonfile:
         #     json.dump(self.info, jsonfile)
 
     
     
 
     def update_property(self, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description):
-        print(locate)
+        print(bedrooms)
+        print(street)
+        print(landspace)
+        print(key)
+        print(House_type)
+        print(len(House_type))
 
         house_type = House_type.title()
         new_state = state.title()
@@ -3363,7 +3296,7 @@ class MainApp(MDApp):
         self.local_image = local_image
         amenities = self.amenities
         
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.datp = json.load(jsonfile)
         # pp = int(pricing)
         # print(pp)
@@ -3372,7 +3305,7 @@ class MainApp(MDApp):
         # self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
         # usero = authi.refresh(self.user['refreshToken'])
         # self.datp['idToken'] = self.user['idToken']
-        # with open(f'{path}\\user.json', 'w') as jsonfile:
+        # with open('user.json', 'w') as jsonfile:
         #     json.dump(self.datp, jsonfile)
         
         # try:
@@ -3425,7 +3358,6 @@ class MainApp(MDApp):
 
     def actual_sale_update(self, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description):
         try:
-            print(locate)
             amenities = self.amenities
             print(amenities)
             db.child("Sale").child(key).update({'housetype': House_type.title()}, self.datp['idToken'])
@@ -3455,7 +3387,7 @@ class MainApp(MDApp):
         except requests.exceptions.HTTPError as e:
             error_json = e.args[1]
             error = json.loads(error_json)['error']
-            print(str(error) + "is the error")
+            print(error + "is the error")
             if error == 'Permission denied':
                 print("Permission denied")
                 print("Resigning in")
@@ -3464,7 +3396,7 @@ class MainApp(MDApp):
                     self.user = authi.sign_in_with_email_and_password(self.datp['email'], self.datp['password'])
                     usero = authi.refresh(self.user['refreshToken'])
                     self.datp['idToken'] = self.user['idToken']
-                    with open(f'{path}\\user.json', 'w') as jsonfile:
+                    with open('user.json', 'w') as jsonfile:
                         json.dump(self.datp, jsonfile)
                     try:
                         func_timeout(40, self.actual_sale_update, args=(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,))
@@ -3487,9 +3419,8 @@ class MainApp(MDApp):
     def update_rent_property(self, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description):
         self.key = key
         self.local_image = local_image
-        print(pricing)
         
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             self.datp = json.load(jsonfile)
 
         
@@ -3498,11 +3429,12 @@ class MainApp(MDApp):
         
         amenities = self.amenities
 
-        
-        if pricing[0] == '$':
+        if self.edit_rent.price[0] == '$' and self.edit_rent.price[-1] == 'h' or self.edit_rent.price[-1] == 'r':
             self.amt = pricing
-        elif pricing[0] != '$' and pricing[-1] != 'h' or pricing[-1] != 'r':
-            self.amt = "$" + pricing + self.edit_rent.ids.pay_item.text
+        elif pricing[0] == '$' and pricing[-1] == 'h' or pricing[-1] == 'r':
+            self.amt = pricing
+        elif pricing[0] != '$' and pricing[-1] != 'h' or pricing[-1] == 'r':
+            self.amt = pricing + self.edit_rent.ids.pay_item.text
 
         if landspace[-1] == 't':
             self.landspace = landspace
@@ -3579,7 +3511,7 @@ class MainApp(MDApp):
         except requests.exceptions.HTTPError as e:
             error_json = e.args[1]
             error = json.loads(error_json)['error']
-            print(str(error) + "is the error")
+            print(error + "is the error")
             if error == 'Permission denied':
                 print("Permission denied")
                 print("Resigning in")
@@ -3588,7 +3520,7 @@ class MainApp(MDApp):
                     self.user = authi.sign_in_with_email_and_password(self.datp['email'], self.datp['password'])
                     usero = authi.refresh(self.user['refreshToken'])
                     self.datp['idToken'] = self.user['idToken']
-                    with open(f'{path}\\user.json', 'w') as jsonfile:
+                    with open('user.json', 'w') as jsonfile:
                         json.dump(self.datp, jsonfile)
                     try:
                         func_timeout(40, self.actual_rent_update, args=(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,))
@@ -3626,15 +3558,8 @@ class MainApp(MDApp):
     #         self.snackbar(p)
         
     def separate_function(self,obj):
-        # boy = []
         
-        filechooser.open_file(on_selection=self.change_image, multiselect=True,)
-        
-        
-        # print(boy)
-
-    
-        
+        filechooser.open_file(on_selection=self.change_image)
 
         
     def change_image(self, selection):
@@ -3701,7 +3626,7 @@ class MainApp(MDApp):
                 # except requests.exceptions.HTTPError as e:
                 #     error_json = e.args[1]
                 #     error = json.loads(error_json)['error']
-                #       print(str(error) + "is the error")
+                #       print(error + "is the error")
                     
                 #     if error == 'Permission denied':
                 #         print("Permission denied")
@@ -3712,7 +3637,7 @@ class MainApp(MDApp):
                 #             self.user = authi.sign_in_with_email_and_password(self.datp['email'], self.datp['password'])
                 #             usero = authi.refresh(self.user['refreshToken'])
                 #             self.datp['idToken'] = self.user['idToken']
-                #             with open(f'{path}\\user.json', 'w') as jsonfile:
+                #             with open('user.json', 'w') as jsonfile:
                 #                 json.dump(self.datp, jsonfile)
 
                 #             try:
@@ -3746,18 +3671,18 @@ class MainApp(MDApp):
     def sign_out(self,obj=None):
         
         
-        with open(f'{path}\\user.json', 'r') as jsonfile:
-            self.curr = json.load(jsonfile)
+        with open('user.json', 'r') as jsonfile:
+            data = json.load(jsonfile)
 
-        self.curr['email'] = ''
-        self.curr['password'] = ''
-        self.curr['idToken'] = ''
-        self.curr['house_images'] = []
-        self.curr['localid'] = ''
+        data['email'] = ''
+        data['password'] = ''
+        data['idToken'] = ''
+        data['house_images'] = []
+        data['localid'] = ''
         
         
-        with open(f'{path}\\user.json', 'w') as jsonfile:
-            json.dump(self.curr, jsonfile)
+        with open('user.json', 'w') as jsonfile:
+            json.dump(data, jsonfile)
         p = 'Successfully signed out'
         self.snackbar(p)
         
@@ -3788,7 +3713,7 @@ class MainApp(MDApp):
 
     def delete_user(self, obj):
         
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             dati = json.load(jsonfile)
             print(dati['password'])
         print(self.passwrd)
@@ -3842,7 +3767,7 @@ class MainApp(MDApp):
                 dati['house_images'] = []
                 
                 dati['localid'] = ''
-                with open(f'{path}\\user.json', 'w') as jsonfile:
+                with open('user.json', 'w') as jsonfile:
                     json.dump(dati, jsonfile)
                 
                 
@@ -3884,10 +3809,6 @@ class MainApp(MDApp):
         # self.sign_out()
         print(self.wm.current)
         # self.signin = SignInScreen(name="signin")
-        pt = PropertyCardsLayout()
-        pt.loader.clear()
-        self.signin.ids.email.text = ''
-        self.signin.ids.password.text = ''
         self.wm.switch_to(self.signin)
         print(self.wm.current)
             
@@ -3896,14 +3817,14 @@ class MainApp(MDApp):
     def bookmark(self, lola):
         
         
-        with open(f'{path}\\user.json', 'r') as jsonfile:
+        with open('user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
             mail = data['email']
         if mail != '':
             if lola not in data['bookmarks'][mail]:
                 if len(data['bookmarks'][mail]) != 24:
                     data['bookmarks'][mail].append(lola)
-                    with open(f'{path}\\user.json', 'w') as jsonfile:
+                    with open('user.json', 'w') as jsonfile:
                         json.dump(data, jsonfile)
                     notice = 'Successfully added to bookmarks'
                     self.snackbar(notice)
@@ -3913,7 +3834,7 @@ class MainApp(MDApp):
                     self.show_dialog(info)
             else:
                 data['bookmarks'][mail].remove(lola)
-                with open(f'{path}\\user.json', 'w') as jsonfile:
+                with open('user.json', 'w') as jsonfile:
                     json.dump(data, jsonfile)
                 notice = 'Successfully removed from bookmarks'
                 self.snackbar(notice)
@@ -3987,8 +3908,8 @@ class MainApp(MDApp):
             try:
                 func_timeout(40, self.house_sale, args=(selected_image,))
             except FunctionTimedOut:
-                toast("No internet connection timed out") 
-                print("No internet connection timed out")
+                toast("No internet connection") 
+                print("No internet connection")
             # except:
             #     print("No internet connection")
             #     p="No intenet connection"
@@ -4018,125 +3939,122 @@ class MainApp(MDApp):
         print(self.file)
         print(self.file[-1:-4])
         x = re.search(r".jpg$", self.file)
-        y = re.search(r".png$", self.file)
+        y = re.search(r".png", self.file)
         if x or y:
             print('yes there is a match')
-            try:
-                if self.file[0] == "/":
-                    storage.child(self.info['localid'] + '/' + self.file.replace('/', ',,')).put(str(self.file), self.info['idToken'])
-                    url = storage.child(self.info['localid'] + '/' + self.file.replace('/', ',,')).get_url(None)
-                else:
-                    
-                    storage.child(self.info['localid'] + '/' + self.file).put(str(self.file), self.info['idToken'])
-                    url = storage.child(self.info['localid'] + '/' + self.file).get_url(None)
-                    
-                print(self.file)
-                # with open(f'{path}\\user.json', 'r') as jsonfile:
-                #     dato = json.load(jsonfile)
-                print(self.phonenumber)
+            # try:
+            if self.file[0] == "/":
+                storage.child(self.info['localid'] + '/' + self.file.replace('/', ',,')).put(str(self.file))
+                url = storage.child(self.info['localid'] + '/' + self.file.replace('/', ',,')).get_url(None)
+            else:
+                storage.child(self.info['localid'] + '/' + self.file).put(str(self.file))
+                url = storage.child(self.info['localid'] + '/' + self.file).get_url(None)
+            print(self.file)
+            # with open('user.json', 'r') as jsonfile:
+            #     dato = json.load(jsonfile)
+            print(self.phonenumber)
+            self.info['house_images'].append(self.file)
             
 
-                
-                
-                data = {
-                    "housetype": "",
-                    "country": "",
-                    "state": "",
-                    "town": "",
-                    "street": "",
-                    "bedrooms": "",
-                    "bathrooms": "",
-                    "landspace": "",
-                    "url": "",
-                    "email": "",
-                    "phonenumber": "",
-                    "twitter": "",
-                    "facebook": "",
-                    "price": "",
-                    "local_image": "",
-                    "description": "",
-                    "amenities": [],
-                    "views": 0
-                }
+            
+            
+            data = {
+                "housetype": "",
+                "country": "",
+                "state": "",
+                "town": "",
+                "street": "",
+                "bedrooms": "",
+                "bathrooms": "",
+                "landspace": "",
+                "url": "",
+                "email": "",
+                "phonenumber": "",
+                "twitter": "",
+                "facebook": "",
+                "price": "",
+                "local_image": "",
+                "description": "",
+                "amenities": [],
+                "views": 0
+            }
 
-                
-                
-                data['housetype'] = self.tot.title()
-                data['country'] = self.country
-                data['state'] = self.state.title()
-                data['town'] = self.town.title()
-                data['street'] = self.street.title()
-                data['bedrooms'] = self.bedrooms
-                data['bathrooms'] = self.bathrooms
-                data['landspace'] = self.landspace + 'sq.ft'
-                data['url'] = url
-                data['email'] = self.mail
-                data['phonenumber'] = self.phonenumber
-                data['price'] = "$" + self.price
-                data['local_image'] = self.file.replace('/', ',,')
-                data['description'] = self.desc.capitalize()
-                data['amenities'] = self.amenities
-                data['twitter'] = self.twitter
-                data['facebook'] = self.facebook
-                
-                print("pushing data")
-                results = db.child("Sale").push(data, self.info['idToken'])
-                self.tot = ''
-                self.country = ''
-                self.state = ''
-                self.town = ''
-                self.street = ''
-                self.bedrooms = ''
-                self.bathrooms = ''
-                self.landspace = ''
-                self.price = ''
-                self.phonenumber = ''
-                self.desc = ''
-                self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
-                self.twitter = ''
-                self.facebook = ''
-                
+            
+            
+            data['housetype'] = self.tot.title()
+            data['country'] = self.country
+            data['state'] = self.state.title()
+            data['town'] = self.town.title()
+            data['street'] = self.street.title()
+            data['bedrooms'] = self.bedrooms
+            data['bathrooms'] = self.bathrooms
+            data['landspace'] = self.landspace + 'sq.ft'
+            data['url'] = url
+            data['email'] = self.mail
+            data['phonenumber'] = self.phonenumber
+            data['price'] = "$" + self.price
+            data['local_image'] = self.file.replace('/', ',,')
+            data['description'] = self.desc.capitalize()
+            data['amenities'] = self.amenities
+            data['twitter'] = self.twitter
+            data['facebook'] = self.facebook
+            
+            
+            results = db.child("Sale").push(data, self.info['idToken'])
+            self.tot = ''
+            self.country = ''
+            self.state = ''
+            self.town = ''
+            self.street = ''
+            self.bedrooms = ''
+            self.bathrooms = ''
+            self.landspace = ''
+            self.price = ''
+            self.phonenumber = ''
+            self.desc = ''
+            self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
+            self.twitter = ''
+            self.facebook = ''
 
+
+            
+            
+            key_data = {
+                "prop_keys": "",
+            }
+            key_data['prop_keys'] = results['name']
+            db.child("People").child(self.user['localId']).child("Sale").push(key_data, self.info['idToken'])
+            print(key_data)
+            print(results)
+            self.info["sold"] += 1
+            with open('user.json', 'a') as jsonfile:
+                json.dump(self.info, jsonfile)
+            self.switch_congrats()
                 
-                
-                key_data = {
-                    "prop_keys": "",
-                }
-                key_data['prop_keys'] = results['name']
-                db.child("People").child(self.info['localid']).child("Sale").push(key_data, self.info['idToken'])
-                print(key_data)
-                print(results)
-                print("updating sold")
-                self.info["sold"][self.info['email']] += 1
-                with open(f'{path}\\user.json', 'w') as jsonfile:
-                    json.dump(self.info, jsonfile)
-                print("updated sold")
-                self.switch_congrats()
-                
-            except requests.exceptions.HTTPError as e:
-                error_json = e.args[1]
-                error = json.loads(error_json)['error']
-                print(str(error) + "is the error")
-                if error == 'Permission denied':
-                    print("Permission denied")
-                    print("Resigning in")
-                    print(self.info['idToken'])
+            # except requests.exceptions.HTTPError as e:
+            #     error_json = e.args[1]
+            #     error = json.loads(error_json)['error']
+            #     print(error + "is the error")
+            #     if error == 'Permission denied':
+            #         print("Permission denied")
+            #         print("Resigning in")
+            #         print(self.info['idToken'])
                     
-                    try:
-                        self.user = authi.sign_in_with_email_and_password(self.info['email'], self.info['password'])
-                        usero = authi.refresh(self.user['refreshToken'])
-                        self.info['idToken'] = self.user['idToken']
-                        with open(f'{path}\\user.json', 'w') as jsonfile:
-                            json.dump(self.info, jsonfile)
-                        try:
-                            func_timeout(40, self.house_sale, args=(selection,))
-                        except FunctionTimedOut:
-                            self.snackbar('Failed to submit property')
-                        except Exception as e:
-                            self.snackbar('Failed to submit property')
-                    except:
-                        toast("No internet connection")
-                        print("No internet connection")
+            #         try:
+            #             self.user = authi.sign_in_with_email_and_password(self.info['email'], self.info['password'])
+            #             usero = authi.refresh(self.user['refreshToken'])
+            #             self.info['idToken'] = self.user['idToken']
+            #             with open('user.json', 'w') as jsonfile:
+            #                 json.dump(self.info, jsonfile)
+            #             try:
+            #                 func_timeout(40, self.house_sale, args=(selection,))
+            #             except FunctionTimedOut:
+            #                 self.snackbar('Failed to submit property')
+            #             except Exception as e:
+            #                 self.snackbar('Failed to submit property')
+            #         except:
+            #             toast("No internet connection")
+            #             print("No internet connection")
         else:
             self.show_notice()
             print('no match at all')
@@ -4208,7 +4126,7 @@ class MainApp(MDApp):
         selected_image = selection
         if len(selected_image) > 0:
             print(selected_image)
-            # self.switch_loading()
+            self.switch_loading()
             try:
                 func_timeout(40, self.house_rent, args=(selected_image,))
             except FunctionTimedOut:
@@ -4236,15 +4154,17 @@ class MainApp(MDApp):
         if x or y:
             try:
                 if self.file[0] == "/":
-                    storage.child(self.info['localid'] + '/' + self.file.replace('/', ',,')).put(str(self.file), self.info['idToken'])
+                    storage.child(self.info['localid'] + '/' + self.file.replace('/', ',,')).put(str(self.file))
                     url = storage.child(self.info['localid'] + '/' + self.file.replace('/', ',,')).get_url(None)
                 else:
-                    storage.child(self.info['localid'] + '/' + self.file).put(str(self.file), self.info['idToken'])
-                    url = storage.child(self.info['localid'] + '/' + self.file).get_url(None)
+                    storage.child(self.user['localid'] + '/' + self.file).put(str(self.file))
+                    url = storage.child(self.user['localid'] + '/' + self.file).get_url(None)
                 
 
             
-                
+                self.info['house_images'].append(self.file)
+                with open('user.json', 'w') as jsonfile:
+                    json.dump(self.info, jsonfile)
                 
                 data = {
                     "housetype": "",
@@ -4313,9 +4233,6 @@ class MainApp(MDApp):
                 db.child("People").child(self.info['localid']).child("Rent").push(key_data, self.info['idToken'])
                 print(key_data)
                 print(results)
-                self.info["sold"][self.info['email']] += 1
-                with open(f'{path}\\user.json', 'w') as jsonfile:
-                    json.dump(self.info, jsonfile)
                 self.switch_congrats()
             # for i in results.each():
                 # print(i.key())
@@ -4323,7 +4240,7 @@ class MainApp(MDApp):
             except requests.exceptions.HTTPError as e:
                 error_json = e.args[1]
                 error = json.loads(error_json)['error']
-                print(str(error) + "is the error")
+                print(error + "is the error")
                 if error == 'Permission denied':
                     print("Permission denied")
                     print("Resigning in")
@@ -4332,7 +4249,7 @@ class MainApp(MDApp):
                         self.user = authi.sign_in_with_email_and_password(self.info['email'], self.info['password'])
                         usero = authi.refresh(self.user['refreshToken'])
                         self.info['idToken'] = self.user['idToken']
-                        with open(f'{path}\\user.json', 'w') as jsonfile:
+                        with open('user.json', 'w') as jsonfile:
                             json.dump(self.datp, jsonfile)
                         try:
                             func_timeout(40, self.house_rent, args=(selection,))

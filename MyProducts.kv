@@ -1,121 +1,144 @@
 <MyProducts>:
-    on_enter: layout.starter()
+    on_enter: layout.begin_loading()
     MDFloatLayout:
-        
-        MDBoxLayout:
-            orientation: 'vertical'
-            spacing: "10dp"
-            PropTitle:
-                size_hint_y: None
-                height: arrow_right.height * 2.2
-                padding: [10]
-                id: prop_title
-
-                MDIconButton:
-                    icon: 'trash-can'
-                    font_size: "15dp"
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_press: app.play()
-                    on_release: app.delete_user_auth()
-                    id: arrow_right
-
-                MDLabel:
-                    text: "My Properties"
-                    font_size: '16dp'
-                    bold: True
-                    theme_font_style: 'Overline'
-                    halign: 'center'
-
-                
-                MDIconButton:
-                    icon: 'arrow-right'
-                    font_size: "15dp"
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_press: app.play()
-                    on_release: app.switch_home()
-                    id: arrow_right
-            
-                        
+        RelativeLayout:
             
 
-            
-                
-            ScrollView:
-                scroll_timeout: 300
-                scroll_distance: 20
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    spacing: '30dp'
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: "10dp"
+                PropTitle:
                     size_hint_y: None
-                    adaptive_height: True
-                    padding: [5,15,5,5]
-                    MDBoxLayout:
-                        size_hint_y: None
-                        adaptive_height: True
-                        spacing: "20dp"
-                        SignOut:
-                            ripple_behavior: True
-                            elevation: 0
-                            on_press: app.play()
-                            on_release: layout.sign_out_auth()
-                            md_bg_color: app.theme_cls.primary_color
-                            radius: [10, ]
-                            size_hint_y: None
-                            height: switch_account.height * 3
-                            MDLabel:
-                                text: "sign-out"
-                                halign: 'center'
-                                font_size: "16dp"
-                                bold: True
-                                color: 'white'
-                                id: sign_out
-                                size_hint_y: None
-                                adaptive_height: True
-                                pos_hint: {'center_y': 0.5}
+                    height: arrow_right.height * 2.2
+                    padding: [10]
+                    id: prop_title
 
-                        SwitchAccount:
-                            ripple_behavior: True
-                            on_press: app.play()
-                            on_release: app.switch_account()
-                            # on_press: layout.switch_account_auth()
-                            elevation: 0
-                            radius: [10, ]
-                            size_hint_y: None
-                            height: switch_account.height * 3
-                            MDLabel:
-                                text: "switch account"
-                                halign: 'center'
-                                font_size: "16dp"
-                                bold: True
-                                id: switch_account
-                                size_hint_y: None
-                                adaptive_height: True
-                                pos_hint: {'center_y': 0.5}
+                    MDIconButton:
+                        icon: 'trash-can'
+                        font_size: "15dp"
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        on_press: app.play()
+                        on_release: app.delete_user_auth()
+                        id: arrow_right
+
+                    MDLabel:
+                        text: "My Properties"
+                        font_size: '16dp'
+                        bold: True
+                        theme_font_style: 'Overline'
+                        halign: 'center'
+
+                    
+                    MDIconButton:
+                        icon: 'arrow-right'
+                        font_size: "15dp"
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        on_press: app.play()
+                        on_release: app.switch_home()
+                        id: arrow_right
+                
+                            
+                
 
                 
                     
-
-                
-            
-                
-                    PropertyCardsLayout:
+                ScrollView:
+                    scroll_timeout: 300
+                    scroll_distance: 20
+                    effect_cls: "ScrollEffect"
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        spacing: '30dp'
                         size_hint_y: None
                         adaptive_height: True
-                        spacing: "20dp"
-                        orientation: 'vertical'
-                        id: layout
+                        padding: [5,15,5,5]
+                        MDBoxLayout:
+                            size_hint_y: None
+                            adaptive_height: True
+                            spacing: "20dp"
+                            SignOut:
+                                ripple_behavior: True
+                                elevation: 0
+                                on_press: app.play()
+                                on_release: layout.sign_out_auth()
+                                md_bg_color: app.theme_cls.primary_color
+                                radius: [10, ]
+                                size_hint_y: None
+                                height: switch_account.height * 3
+                                MDLabel:
+                                    text: "sign-out"
+                                    halign: 'center'
+                                    font_size: "16dp"
+                                    bold: True
+                                    color: 'white'
+                                    id: sign_out
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                    pos_hint: {'center_y': 0.5}
+
+                            SwitchAccount:
+                                ripple_behavior: True
+                                on_press: app.play()
+                                on_release: app.switch_account()
+                                # on_press: layout.switch_account_auth()
+                                elevation: 0
+                                radius: [10, ]
+                                size_hint_y: None
+                                height: switch_account.height * 3
+                                MDLabel:
+                                    text: "switch account"
+                                    halign: 'center'
+                                    font_size: "16dp"
+                                    bold: True
+                                    id: switch_account
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                    pos_hint: {'center_y': 0.5}
+
+                    
                         
-        
-        MDFloatingActionButton:
-            icon: 'plus'
-            on_press: app.play()
-            on_release: app.switch_saleorrent()
-            pos_hint: {'center_x': 0.85, 'center_y': 0.1}
-            font_size: '15dp'
+
+                    
+                
+                    
+                        PropertyCardsLayout:
+                            size_hint_y: None
+                            adaptive_height: True
+                            spacing: "20dp"
+                            orientation: 'vertical'
+                            id: layout
+                            
+            
+            MDFloatingActionButton:
+                icon: 'plus'
+                on_press: app.play()
+                on_release: app.switch_saleorrent()
+                pos_hint: {'center_x': 0.85, 'center_y': 0.1}
+                font_size: '15dp'
+
+            Reload:
+                size_hint: None, None
+                height: "46dp"
+                width: "46dp"
+                radius: ["23dp"]
+                pos_hint: {'center_x': 0.85, 'center_y': 0.2}
+                padding: ["23dp"]
+                ripple_behavior: True
+                id: reload
+                elevation: 0
+                on_press: layout.reload()
+                on_release: pass
+                MDIcon:
+                    icon: 'refresh'
+                    font_size: "16dp"
                         
 <PropTitle@MDCard+CommonElevationBehavior>
 <SignOut@MDCard+CommonElevationBehavior>
 <SwitchAccount@MDCard+CommonElevationBehavior>
+# <Reload@MDCard+CircularElevationBehavior>
+<Effect>:
+    on_overscroll: layout.begin_loading()
+
     
 
             

@@ -1,0 +1,107 @@
+<MyAccount>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: "5dp"
+        AccCard:
+            size_hint_y: None
+            height: arrow_right.height * 2.2
+            padding: [10,]
+            elevation: 0
+            MDLabel:
+                text: 'My Account'
+                theme_font_style: 'Overline'
+            MDIconButton:
+                font_size: '15dp'
+                icon: 'arrow-right'
+                on_press: app.play()
+                on_release: app.switch_home()
+                pos_hint: {'center_y': 0.5}
+                id: arrow_right
+
+        MDBoxLayout:
+            ScrollView:
+                MDBoxLayout:
+                    size_hint_y: None
+                    adaptive_height: True
+                    spacing: "30dp"
+                    orientation: 'vertical'
+                    padding: [20]
+                    MDCard:
+                        size_hint: None, None
+                        height: icon.height + 30
+                        width: self.height
+                        radius: [self.height/2]
+                        pos_hint: {'center_x':0.5, 'center_y':0.5}
+                        padding: [self.width/2]
+                        elevation: 0
+                        MDIcon:
+                            id: icon
+                            icon: 'account'
+                            font_size: '150dp'
+                            size_hint_y: None
+                            adaptive_height: True
+                            pos_hint: {'center_x':0.5, 'center_y':0.5}
+
+                    MDLabel:
+                        text: app.curr['email']
+                        size_hint_y: None
+                        height: '20dp'
+                        halign: 'center'                       
+                        font_style: 'Overline'
+                        font_size: '20dp'
+                        bold: True
+                        
+                    MDList:
+                        
+                        OneLineIconListItem:
+                            text: "Password"
+                            divider: None
+                            on_press: app.play()
+                            on_release: app.password_reset_auth()
+                            IconLeftWidget:
+                                icon: 'key'         
+                                                
+                                font_size: '20dp'
+                                pos_hint:{'center_y': 0.5}
+                        OneLineIconListItem:
+                            text: "Sign Out"
+                            divider: None
+                            on_press: app.play()
+                            on_release: app.sign_out_auth()
+                            IconLeftWidget:
+                                icon: 'account'         
+                                                
+                                font_size: '20dp'
+                                pos_hint:{'center_y': 0.5}
+                        OneLineIconListItem:
+                            text: "Delete Account"
+                            divider: None
+                            on_press: app.play()
+                            on_release: app.delete_user_auth()
+                            IconLeftWidget:
+                                icon: 'trash-can'         
+                                                
+                                font_size: '20dp'
+                                pos_hint:{'center_y': 0.5}
+                        OneLineIconListItem:
+                            text: "Switch Account"
+                            divider: None
+                            on_press: app.play()
+                            on_release: app.switch_account()
+                            IconLeftWidget:
+                                icon: 'switch'         
+                                                
+                                font_size: '20dp'
+                                pos_hint:{'center_y': 0.5}
+                        OneLineIconListItem:
+                            text: "My Properties"
+                            divider: None
+                            on_press: app.play()
+                            on_release: app.switch_products()
+                            IconLeftWidget:
+                                icon: 'bed'         
+                                                
+                                font_size: '20dp'
+                                pos_hint:{'center_y': 0.5}
+
+<AccCard@MDCard+CommonElevationBehavior>

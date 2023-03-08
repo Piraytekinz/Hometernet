@@ -11,6 +11,7 @@
                 scroll_timeout: 300
                 scroll_distance: 20
                 id: scroller
+                do_scroll_x: False
                 
                 MDBoxLayout:
                     id: main_box
@@ -220,7 +221,7 @@
                                 valign: 'center'
                                 
                         
-                        ScrollView:
+                        HomeSaleScroll:
                             do_scroll_x: True
                             do_scroll_y: False
                             bar_width: 0
@@ -286,7 +287,7 @@
 
                         
                            
-                        ScrollView:
+                        HomeSaleScroll:
                             do_scroll_x: True
                             do_scroll_y: False
                             bar_width: 0
@@ -439,11 +440,23 @@
             ScrollView:
                 bar_width: 0
                 effect_cls: "ScrollEffect"
-                MDList:                         
+                MDList:     
+
+                    OneLineIconListItem:
+                        text: "My Account"
+                        divider: None
+                        on_press: app.play()
+                        on_release: app.switch_acc()
+                        IconLeftWidget:
+                            icon: 'account'         
+                                            
+                            font_size: '20dp'
+                            pos_hint:{'center_y': 0.5}
+                                        
                     OneLineIconListItem:
                         text: "Sell your Property"
                         divider: None
-                        on_press: app.switch_loading()
+                        # on_press: app.switch_loading()
                         on_release: app.switch_products()
                         IconLeftWidget:
                             icon: 'bed'         

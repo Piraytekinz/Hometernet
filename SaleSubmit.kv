@@ -127,6 +127,7 @@
                                     id: phonenumber
                                     hint_text: 'phonenumber'
                                     pos_hint: {'center_y': 0.5}
+                                    size_hint_y: None
                                     height: self.minimum_height
                                     on_text: app.phone(plus.text + self.text)
                                     input_type: 'number'
@@ -210,13 +211,13 @@
                         padding: [20,0,20,0]
                         spacing: "20dp"
                         MDLabel:
-                            text: "House type/Name"
+                            text: "Property type/Name"
                             font_size: "15dp"
                             size_hint_y: None
                             adaptive_height: True
                         MDTextField:
                             id: housetype
-                            hint_text: "house type"
+                            hint_text: "property type"
                             on_text: app.word(self.text)
                             padding: [20, ]
                             font_size: "15dp"

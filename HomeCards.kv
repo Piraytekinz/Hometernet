@@ -8,7 +8,7 @@
     size_hint_x: None
     size_hint_y: None
     height: Window.size[1] / 2.1 if Window.size[1] > Window.size[0] else Window.size[1] - 50
-    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2 
+    width: Window.size[0] - "50dp" if Window.size[0] < Window.size[1] else Window.size[0] / 2 
     
     id: home_card
     radius: [5, ]
@@ -21,10 +21,10 @@
                 id: pico
                 
                 
-                on_press: app.switch_details(root.image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.phonenumber, root.twitter, root.facebook, root.description, root.key, root.amenities)
+                on_release: app.switch_details(root.image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.phonenumber, root.twitter, root.facebook, root.description, root.key, root.amenities)
                 radius: [5,]
                 ripple_behavior: True
-                on_press: app.call_guy(root.key, root.price)
+                on_release: app.call_guy(root.key, root.price)
                 RelativeLayout:
                     FitImage:
                         source: str(root.image)

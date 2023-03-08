@@ -29,7 +29,7 @@
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         font_size: "15dp"
                         on_press: app.play()
-                        on_release: app.delete_property_auth(root.key, root.local_image, 'Sale')
+                        on_release: app.delete_property_auth(root.key, root.local_image, 'Rent')
                         bold: True
                 
                 
@@ -121,7 +121,7 @@
                                     font_size: "15dp"
                                 MDTextField:
                                     id: housetype
-                                    hint_text: "house type"
+                                    hint_text: "property type"
                                     # on_text: app.word(self.text)
                                     padding: [20, ]
                                     text: root.type
@@ -147,6 +147,8 @@
                                 MDLabel:
                                     text: "country"
                                     font_size: "15dp"
+                                    size_hint_y: None
+                                    adaptive_height: True
                                 MDBoxLayout:
                                     
                                     md_bg_color: 255/255, 255/255, 255/255, 1
@@ -154,10 +156,14 @@
                                         text: root.country
                                         id: country_text
                                         font_size: "15dp"
+                                        size_hint_y: None
+                                        adaptive_height: True
                                     MDIconButton:
                                         icon: 'arrow-right'
-                                        on_press: app.show_listings("EditSale")
+                                        on_press: app.show_listings("EditRent")
                                         font_size: "15dp"
+                                        size_hint_y: None
+                                        adaptive_height: True
 
                         MDBoxLayout:
                             opacity: 0.9
