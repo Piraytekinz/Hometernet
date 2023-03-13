@@ -5,10 +5,9 @@
     
     padding: [0]
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-    size_hint_x: None
-    size_hint_y: None
+    size_hint: None, None
     height: Window.size[1] / 2.1 if Window.size[1] > Window.size[0] else Window.size[1] - 50
-    width: Window.size[0] - "50dp" if Window.size[0] < Window.size[1] else Window.size[0] / 2 
+    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2 
     
     id: home_card
     radius: [5, ]
@@ -33,21 +32,23 @@
                         allow_stretch: True
 
                     
-                    MDBoxLayout:
-                        size_hint: None, None
-                        adaptive_size: True
+                    # MDBoxLayout:
+                    #     size_hint: None, None
+                    #     adaptive_size: True
+                    #     md_bg_color: 1,1,1,1
+                    #     padding: [10]
+                        
+                    MDLabel:
+                        text: root.price
+                        halign: 'center'
+                        font_size: "14dp"
                         md_bg_color: 1,1,1,1
-                        padding: [10]
+                        font_color: "black"
+                        bold: True
+                        size_hint: None, None
+                        height: dp(30)
+                        adaptive_width: True
                         pos_hint: {'center_x': 0.75, 'center_y': 0.89}
-                        MDLabel:
-                            text: root.price
-                            halign: 'center'
-                            font_size: "14dp"
-                            md_bg_color: 1,1,1,1
-                            font_color: "black"
-                            bold: True
-                            size_hint: None, None
-                            adaptive_size: True
                             
                             
                     
@@ -70,19 +71,17 @@
                     adaptive_height: True
                     font_size: '16dp'
                     
-                MDBoxLayout:
+                
+                
+                MDLabel:
+                    text: root.country + ',' + ' ' + root.province + ',' + ' ' + root.town + ',' + ' ' + root.street
+                    color: "gray"
+                    font_size: "14dp"
                     size_hint_y: None
                     adaptive_height: True
-                
-                    MDLabel:
-                        text: root.country + ',' + ' ' + root.province + ',' + ' ' + root.town + ',' + ' ' + root.street
-                        color: "gray"
-                        font_size: "14dp"
-                        size_hint_y: None
-                        adaptive_height: True
-                        markup: True
-                        shorten: True
-                        ellipsis_options: {'color':(0,0,0,0.5), 'underline':False}
+                    markup: True
+                    shorten: True
+                    ellipsis_options: {'color':(0,0,0,0.5), 'underline':False}
                         
                         
                     
@@ -94,74 +93,60 @@
                 padding: [10, 5, 0, 17]
                 size_hint_y: None
                 adaptive_height: True
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    spacing: "6dp"
+                
+                MDLabel:
+                    text: root.bedrooms + '\n [b]bedrooms[/b]'
+                    font_size: "14dp"
+                    bold: True
+                    halign: 'center'
                     size_hint_y: None
                     adaptive_height: True
-                    MDLabel:
-                        text: root.bedrooms
-                        font_size: "14dp"
-                        bold: True
-                        halign: 'center'
-                        size_hint_y: None
-                        adaptive_height: True
-                    MDLabel:
-                        text: "bedrooms"
-                        color: "black"
-                        font_size: "14dp"
-                        bold: True
-                        halign: 'center'
-                        size_hint_y: None
-                        adaptive_height: True
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    spacing: "6dp"
+                    markup: True
+                    
+                # MDBoxLayout:
+                #     orientation: 'vertical'
+                #     spacing: "6dp"
+                #     size_hint_y: None
+                #     adaptive_height: True
+                MDLabel:
+                    text: root.bathrooms + '\n [b]bathrooms[/b]'
+                    font_size: "14dp"
+                    bold: True
+                    halign: 'center'
                     size_hint_y: None
                     adaptive_height: True
-                    MDLabel:
-                        text: root.bathrooms
-                        font_size: "14dp"
-                        bold: True
-                        halign: 'center'
-                        size_hint_y: None
-                        adaptive_height: True
-                    MDLabel:
-                        text: "bathrooms"
-                        color: "black"
-                        font_size: "13dp"
-                        bold: True
-                        halign: 'center'
-                        size_hint_y: None
-                        adaptive_height: True
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    spacing: "6dp"
+                    markup: True
+                    # MDLabel:
+                    #     text: "bathrooms"
+                    #     color: "black"
+                    #     font_size: "13dp"
+                    #     bold: True
+                    #     halign: 'center'
+                    #     size_hint_y: None
+                    #     adaptive_height: True
+                
+                MDLabel:
+                    text: root.landspace + '\n [b]Land space[/b]'
+                    font_size: "14dp"
+                    bold: True
+                    halign: 'center'
                     size_hint_y: None
                     adaptive_height: True
-                    MDLabel:
-                        text: root.landspace
-                        font_size: "14dp"
-                        bold: True
-                        halign: 'center'
-                        size_hint_y: None
-                        adaptive_height: True
-                    MDLabel:
-                        text: "Land space"
-                        color: "black"
-                        font_size: "14dp"
-                        bold: True
-                        halign: 'center'
-                        size_hint_y: None
-                        adaptive_height: True
+                    markup: True
+                    # MDLabel:
+                    #     text: "Land space"
+                    #     color: "black"
+                    #     font_size: "14dp"
+                    #     bold: True
+                    #     halign: 'center'
+                    #     size_hint_y: None
+                    #     adaptive_height: True
         MDIconButton:
             icon: 'bookmark'
             theme_text_color: "Custom"
             text_color: 'black'
             on_press: app.bookmark(root.key)
-            font_size: '15dp'
-            user_font_size: '15dp'
             pos_hint: {'center_x': 0.1, 'center_y': 1}
-            size_hint: None, None
+            
 
 <Pico@MDCard+CommonElevationBehavior>

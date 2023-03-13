@@ -18,7 +18,7 @@
                         font_size: "15dp"
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         on_press: app.play()
-                        on_release: app.delete_user_auth()
+                        on_release: layout.delete_user_auth()
                         id: arrow_right
 
                     MDLabel:
@@ -60,7 +60,7 @@
                                 ripple_behavior: True
                                 elevation: 0
                                 on_press: app.play()
-                                on_release: layout.sign_out_auth()
+                                on_release: app.sign_out_auth()
                                 md_bg_color: app.theme_cls.primary_color
                                 radius: [10, ]
                                 size_hint_y: None
@@ -79,8 +79,8 @@
                             SwitchAccount:
                                 ripple_behavior: True
                                 on_press: app.play()
+                                on_release: layout.switch_account()
                                 on_release: app.switch_account()
-                                # on_press: layout.switch_account_auth()
                                 elevation: 0
                                 radius: [10, ]
                                 size_hint_y: None

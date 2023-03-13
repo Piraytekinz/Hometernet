@@ -243,11 +243,7 @@
 #     mama = json.load(jsonfile)
 
 # print(mama)
+from validate_email import validate_email
 
-string_example = 'What do we call you'
-print(len(string_example.replace('you', '')))
-man = string_example.endswith('you')
-if man:
-    string_example = string_example.replace('you', '')
-print(string_example)
-print(len(string_example))
+status = validate_email('anangjosh8@gmail.com', verify=True)
+print(status)

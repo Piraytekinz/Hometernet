@@ -26,38 +26,36 @@
                     radius: [5, ]
 
                 
-                MDBoxLayout:
-                    size_hint: None, None
-                    adaptive_size: True
+                MDLabel:
+                    text: root.price
+                    halign: 'center'
+                    font_size: "14dp"
                     md_bg_color: 1,1,1,1
-                    padding: [10]
+                    font_color: "black"
+                    bold: True
+                    size_hint: None, None
+                    height: dp(30)
+                    adaptive_width: True
                     pos_hint: {'center_x': 0.75, 'center_y': 0.89}
-                    MDLabel:
-                        text: root.price
-                        halign: 'center'
-                        font_size: "14dp"
-                        md_bg_color: 1,1,1,1
-                        font_color: "black"
-                        bold: True
-                        size_hint: None, None
-                        adaptive_size: True
-                MDBoxLayout:
-                    size_hint: None, None
-                    adaptive_size: True
-                    md_bg_color: 1,1,1,1
-                    padding: [10]
+                    
+                # MDBoxLayout:
+                #     size_hint: None, None
+                #     adaptive_size: True
+                #     md_bg_color: 1,1,1,1
+                #     padding: [10]
+                #     pos_hint: {'center_x': 0.25, 'center_y': 0.89}
+                MDLabel:
+                    text: str(root.views) + " " + "views"
+                    halign: 'center'
+                    font_size: "14dp"
                     pos_hint: {'center_x': 0.25, 'center_y': 0.89}
-                    MDLabel:
-                        text: str(root.views) + " " + "views"
-                        halign: 'center'
-                        font_size: "14dp"
-                        
-                        font_color: "black"
-                        bold: True
-                        size_hint_x: None
-                        size_hint: None, None
-                        adaptive_size: True
-                        md_bg_color: 1,1,1,1
+                    
+                    bold: True
+                    
+                    size_hint: None, None
+                    height: dp(30)
+                    adaptive_width: True
+                    md_bg_color: 1,1,1,1
                         
                         
                         
@@ -100,66 +98,31 @@
             padding: [10, 5, 0, 17]
             size_hint_y: None
             adaptive_height: True
-            MDBoxLayout:
-                orientation: 'vertical'
-                spacing: "6dp"
+            MDLabel:
+                text: root.bedrooms + '\n [b]bedrooms[/b]'
+                font_size: "14dp"
+                bold: True
+                halign: 'center'
                 size_hint_y: None
                 adaptive_height: True
-                MDLabel:
-                    text: root.bedrooms
-                    font_size: "13dp"
-                    bold: True
-                    halign: 'center'
-                    size_hint_y: None
-                    adaptive_height: True
-                MDLabel:
-                    text: "bedrooms"
-                    color: "black"
-                    font_size: "13dp"
-                    bold: True
-                    halign: 'center'
-                    size_hint_y: None
-                    adaptive_height: True
-            MDBoxLayout:
-                orientation: 'vertical'
-                spacing: "6dp"
+                markup: True
+            MDLabel:
+                text: root.bathrooms + '\n [b]bathrooms[/b]'
+                font_size: "14dp"
+                bold: True
+                halign: 'center'
                 size_hint_y: None
                 adaptive_height: True
-                MDLabel:
-                    text: root.bathrooms
-                    font_size: "13dp"
-                    bold: True
-                    halign: 'center'
-                    size_hint_y: None
-                    adaptive_height: True
-                MDLabel:
-                    text: "bathrooms"
-                    color: "black"
-                    font_size: "13dp"
-                    bold: True
-                    halign: 'center'
-                    size_hint_y: None
-                    adaptive_height: True
-            MDBoxLayout:
-                orientation: 'vertical'
-                spacing: "6dp"
+                markup: True
+                
+            MDLabel:
+                text: root.landspace + '\n [b]Land space[/b]'
+                font_size: "14dp"
+                bold: True
+                halign: 'center'
                 size_hint_y: None
                 adaptive_height: True
-                MDLabel:
-                    text: root.landspace
-                    font_size: "13dp"
-                    bold: True
-                    halign: 'center'
-                    size_hint_y: None
-                    adaptive_height: True
-                MDLabel:
-                    text: "Land space"
-                    color: "black"
-                    font_size: "13dp"
-                    bold: True
-                    halign: 'center'
-                    size_hint_y: None
-                    adaptive_height: True
+                markup: True
 
 
 <SalePic@MDCard+CommonElevationBehavior>

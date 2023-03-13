@@ -11,7 +11,7 @@
             MDIconButton:
                 icon: 'arrow-left'
                 on_press: app.play()
-                on_release: app.switch_signin()
+                on_release: app.wm.switch_to(app.signin)
                 id: home
                 size_hint_y: None
                 adaptive_height: True
@@ -26,15 +26,17 @@
                 adaptive_height: True
                 MDBoxLayout:
                     size_hint: None, None
-                    height: pirate.height + 50
-                    width: pirate.width + 50
-                    padding: [self.width/2,self.height/2,self.width/2,self.height/2]
+                    height: '130dp'
+                    width: '130dp'
                     
+                    md_bg_color: 1,0,0,1
                     pos_hint: {'center_x': 0.5, 'center_y': 0.3}
                     MDIcon:
-                        icon: 'pirate'
+                        icon: 'Hometernet-Transparent.png'
                         id: pirate
-                        font_size: '40dp'
+                        font_size: '130dp'
+                        pos_hint: {'center_x': 0.5}
+                        halign: 'center'
                 
                 MDLabel:
                     font_size: "25dp"
