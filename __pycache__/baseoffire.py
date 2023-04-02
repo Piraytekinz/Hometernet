@@ -243,7 +243,35 @@
 #     mama = json.load(jsonfile)
 
 # print(mama)
-from validate_email import validate_email
+# import DNS
+# from validate_email import validate_email
 
-status = validate_email('anangjosh8@gmail.com', verify=True)
-print(status)
+# DNS.defaults['server']=['8.8.8.8', '8.8.4.4']
+
+# status = validate_email('anangjosh8@gmail.com', verify=True)
+# print(status)
+
+# import smtplib
+# from email.mime.text import MIMEText
+import random
+
+# num = random.randint(100000,999999)
+
+
+
+# message = MIMEText(f"Your email login code is {num}. \n Warning do not share this code with anyone.")
+# message['Subject'] = "Your Hometernet login code."
+# message["From"] = "anangjosh8@gmail.com"
+# message["To"] = "dawdhlawdald@gmail.com"
+# server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+# server.login("anangjosh8@gmail.com", "iujwzdutnqmbpkjm")
+# server.sendmail("anangjosh8@gmail.com", "dawdhlawdald@gmail.com", message.as_string())
+# server.quit()
+
+# input = input("> ")
+# if input == num:
+#     print("Successfully signed in")
+# else:
+#     print("Wrong input code")
+
+print(' banana is good for you  '.strip())

@@ -3,7 +3,7 @@ import phonenumbers
 import pycountry
 from kivymd.app import MDApp
 from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition, SwapTransition, NoTransition, RiseInTransition
+from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition, SwapTransition, NoTransition, RiseInTransition, WipeTransition, SlideTransition, FallOutTransition, CardTransition
 from kivy.core.window import Window
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.card import MDCard
@@ -16,7 +16,11 @@ from kivymd.uix.textfield import MDTextField
 from kivymd.uix.behaviors import CommonElevationBehavior, FakeRectangularElevationBehavior
 from kivymd.uix.snackbar import Snackbar
 from kivy.uix.recycleview import RecycleView
+
 from validate_email import validate_email
+from kivymd.uix.label import MDLabel, MDIcon
+import concurrent.futures
+
 # from kivy.effects.scroll import ScrollEffect
 # from kivy.effects.kinetic import KineticEffect
 # from kivy.effects.dampedscroll import DampedScrollEffect
@@ -26,7 +30,7 @@ from validate_email import validate_email
 
 import pyrebase
 import re
-from kivy.clock import Clock
+from kivy.clock import Clock, time
 from kivy.animation import Animation
 import json
 
@@ -36,6 +40,7 @@ from kivy.base import EventLoop
 from kivy.config import Config
 
 from kivy.uix.textinput import TextInput
+
 
 
 
@@ -62,26 +67,26 @@ from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.bottomsheet import MDGridBottomSheet, MDListBottomSheet
 from kivymd.toast import toast
 from kivymd.uix.button import MDIconButton
+from kivymd.uix.spinner import MDSpinner
 import webbrowser
 
 
 import requests
 from kivy.clock import Clock, mainthread
-from func_timeout import func_timeout, FunctionTimedOut
+from func_timeout import func_timeout, FunctionTimedOut, func_set_timeout
+import random
 
-
+import threading
+from threading import Event
 import certifi
 import os
 import ssl
 
 
 
-
 ssl._create_default_https_context = ssl._create_unverified_context
 os.environ['SSL_CERT_FILE'] = certifi.where()
 Config.set('kivy', 'exit_on_escape', 0)
-
-
 
 
 
@@ -132,10 +137,10 @@ storage = firebasei.storage()
 
 # f = db.child("Sale").order_by_key().start_at('-NPoq8Avd25h5bvVSq21').limit_to_last(2).get()s
 
-
+# DNS.defaults['server']=['8.8.8.8', '8.8.4.4']
 print('Firebase initialized')
 
-
+# label = MDLabel()
 
 
 
@@ -187,6 +192,9 @@ Builder.load_file('Starter.kv')
 Builder.load_file('MyAccount.kv')
 Builder.load_file('PasswordResetEntry.kv')
 Builder.load_file('DeleteAccountEntry.kv')
+Builder.load_file('AccountChoice.kv')
+Builder.load_file('AccountItem.kv')
+Builder.load_file('CodeVerifyer.kv')
 
 
 
@@ -229,66 +237,11 @@ class ContactScreen(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
 
-    def initialize_contact_message(self):
-        with open(f'{path}/user.json', 'r') as jsonfile:
-            self.curr = json.load(jsonfile)
-        try:
-            func_timeout(30, self.work_thistime)
-        except FunctionTimedOut:
-            print("No internet connection")
-            snack = "Failed to send message"
-            snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y=.1)
-            snacky.open()
-        
-
-    def work_thistime(self):
-        self.send_contact_message()
-
     
-    def send_contact_message(self):
-        if self.curr["email"] != '':
-            firstname = self.ids.firstname.text
-            lastname = self.ids.lastname.text
-            email = self.ids.mail.text
-            messagi = self.ids.message.text
-            if len(firstname) >= 2 and len(lastname) < 16:
-                if len(lastname) >= 2 and len(lastname) < 16:
-                    if email == self.curr["email"]:
-                        if len(messagi) > 20 and len(messagi) < 225:
-                            message = MIMEText(messagi + '\nSender:' + f'\n{firstname}' + " " + f'{lastname}')
-                            message['Subject'] = "Contact Us Hometernet Notice"
-                            message["From"] = email
-                            message["To"] = "anangjosh8@gmail.com"
-                            server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-                            server.login("anangjosh8@gmail.com", "iujwzdutnqmbpkjm")
-                            server.sendmail(email, "anangjosh8@gmail.com", message.as_string())
-                            server.quit()
-                            # self.doa.dismiss()
-                            print("server exited")
-                            self.ids.message.text = ''
-                            text = "Message sent successfully"
-                            self.snackbar(text)
-                        else:
-                            text = "Message must be between 20 and 225 characters"
-                            self.show_dialog(text)
-                            
-                    else:
-                        text = "Email mismatch"
-                        self.show_dialog(text)
-                        
-                else:
-                    text = "Lastname must be between 2 and 16 characters"
-                    self.show_dialog(text)
-                    
-            else:
-                text = "Firstname must be between 2 and 16 characters"
-                self.show_dialog(text)
-        else:
-            self.show_dialog("You're not signed in")
             
     @mainthread
     def show_dialog(self, notice, button1=None):
-        self.dialog = MDDialog(text=notice, size_hint=(1, 1), buttons=[MDFlatButton(text="close", on_release=self.close_dialog), button1])
+        self.dialog = MDDialog(title="Notice", text=notice, size_hint=(1, 1), buttons=[MDFlatButton(text="close", on_release=self.close_dialog), button1])
         self.dialog.open()
     
     def close_dialog(self, obj):
@@ -296,73 +249,39 @@ class ContactScreen(Screen):
 
     @mainthread
     def snackbar(self, text):
-        snacky = Snackbar(text=text, snackbar_x="9dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y=.1)
+        snacky = Snackbar(text=text, snackbar_x="5dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y=None)
         snacky.open()
 
 class HomeScreen(Screen):
     text = StringProperty()
-    with open(f'{path}/user.json', 'r') as jsonfile:
-        curr = json.load(jsonfile)
-    text = curr['email']
-    print('texted')
+    # with open(f'{path}/user.json', 'r') as jsonfile:
+    #     curr = json.load(jsonfile)
+    # text = curr['email']
+    # print('texted')
     
 
     def __init__(self, **kw):
         super().__init__(**kw)
 
-    def on_pre_enter(self, *args):
-        print('pre-entering')
-        print(str(self.ids.grid_card.width) + " " + 'is the width of the grid card')
+    
         
-        
-        
-        return super().on_pre_enter(*args)
-        
+class Loading(MDLabel):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text = 'loading...'
+        self.font_size = '16dp'
+        self.bold = True
+        self.halign ='center'
 
-    def on_enter(self, *args):
-        print('entered')
-        print(str(self.ids.menu.width) + " " + "is the width")
-        print(str(self.ids.menu.height) + " " + "is the height")
-        return super().on_enter(*args)
-        
 
-class Reload(MDCard, CommonElevationBehavior):
+class CodeVerifyer(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def on_press(self, *args):
-        print('pressde in function')
-        print('disbaled in funciton')
-        self.disabled = True
-        return super().on_press(*args)
 
-    def on_release(self, *args):
-        print("[ressed]")
         
         
-        self.disabled = False
-        return super().on_release(*args)
 
-    def activate(self):
-        self.disabled = False
-        print("Activated")
-        
-        
-#         self.pos_hint = {'center_x': 0.5, 'center_y': 1}
-
-#     def activate(self):
-#         self.pos_hint = {'center_x': 0.5, 'center_y': 0.8}
-        
-        
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
-#         self.pos_hint_y = 0.5
-
-#     def setPos(self, **kwargs):
-#         super().__init__(**kwargs)
-#         pass
-        # self.pos_hint_y = 0.5
-        # print('Pos set')
 
 class MainScroll(ScrollView):
     pass
@@ -564,159 +483,32 @@ class EditRentDetailsScreen(Screen):
 class SearchScreen(Screen):
     pass
 
+class SpinnerWheel(MDSpinner):
+    pass
+
 class SearchLayout(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.new_country = ''
-        self.new_choice = ''
-        self.new_bedrooms = '1'
-        self.j = 0
-        self.last = ''
-        self.something = ''
-        self.old_country = ''
-        self.new_state = ''
-        self.new_city = ''
-
-    def search(self, choice, country, state, city, bedrooms):
-        try:
-            func_timeout(30, self.search_now, args=(choice, country.title(), state.title(), city.title(), bedrooms,))
-        except FunctionTimedOut:
-            print("No internet connection")
-            toast("No internet connection")
         
 
-    def search_now(self, choice, country, state, city, bedrooms):
-        
-        print(choice)
-        # self.old_country = country
-        self.old_country = country
-        self.old_choice = choice
-        self.old_bedrooms = bedrooms
-        self.old_state = state
-        self.old_city = city
-        if country != self.new_country or choice != self.new_choice or bedrooms != self.new_bedrooms:
-            print('is not equal')
-            self.new_country = country
-            self.new_choice = choice
-            self.new_bedrooms = bedrooms
-            self.old_country = self.new_country
-            self.something = ''
-            self.clear_all()
-        else:
-            print('is equal')
-
-        with open(f'{path}/user.json', 'r') as jsonfile:
-            self.curr = json.load(jsonfile)
-            print(self.curr['localid'])
-        
-        self.clear_all()
-        self.begin = db.child(choice).order_by_child('country').equal_to(country).get()
-        self.added(country, state, city, bedrooms)
-
-    @mainthread
-    def clear_all(self):
-        self.clear_widgets()
-        
-
-    @mainthread
-    def added(self, country, state, city, bedrooms):
-        
     
 
-        for u in self.begin.each():
-            print(u.key())
-            if u.key() == self.something:
-                continue
-            
-            if u.val()['bedrooms'] == bedrooms:
-                self.card = HomeCards()
-                self.card.image = u.val()['url']
-            
-                self.card.tot = u.val()['housetype']
-                self.card.country = u.val()['country']
-                self.card.province = u.val()['state']
-                self.card.town = u.val()['town']
-                self.card.street = u.val()['street']
-                self.card.bedrooms = u.val()['bedrooms']
-                self.card.bathrooms = u.val()['bathrooms']
-                self.card.landspace = u.val()['landspace']
-                self.card.email = u.val()['email']
-                self.card.price = u.val()['price']
-                self.card.key = u.key()
-                self.card.phonenumber = u.val()['phonenumber']
-                self.card.twitter = u.val()['twitter']
-                self.card.facebook = u.val()['facebook']
-                self.card.description = u.val()['description']
-                self.card.amenities = u.val()['amenities']
-                self.add_widget(self.card)
-                self.last = u.key()
-                self.something = u.key()
-                self.j += 1 
-                break
-            else:
-                snack = "Not found"
-                snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y=.1)
-                snacky.open()
+    
 
-    def next(self, choice, country, town, street, bedrooms):
-        print(self.something)
-        try:
-            func_timeout(30, self.next_next, args=(choice, country, town, street, bedrooms,))
-        except FunctionTimedOut:
-            print("No internet connection")
-            toast("No internet conection")
-            # snack = "No internet conection"
-            # snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y=.1)
-            # snacky.open()
-
-    def next_next(self, choice, country, state, city, bedrooms):
-        print(bedrooms)
-        if self.j == 30:
-            self.clear_all()
-            self.j = 0
-        if self.something != '':
-            self.again = db.child(self.old_choice).order_by_child('country').start_at(self.old_country).order_by_key().start_at(self.something).limit_to_first(2).get()
-            self.real_next(choice, country, state.title(), city.title(), bedrooms)
-
-    @mainthread
-    def real_next(self, choice, country, state, city, bedrooms):
-        
-        
-        print(self.again.key())
-        for u in self.again.each():
-            
-            if u.key() == self.something:
-                continue
-            
-            if u.val()['country'] == self.old_country:
-                if u.val()['bedrooms'] == self.old_bedrooms:
-                    self.card = HomeCards()
-                    self.card.image = u.val()['url']
-                    self.card.tot = u.val()['housetype']
-                    self.card.country = u.val()['country']
-                    self.card.province = u.val()['state']
-                    self.card.town = u.val()['town']
-                    self.card.street = u.val()['street']
-                    self.card.bedrooms = u.val()['bedrooms']
-                    self.card.bathrooms = u.val()['bathrooms']
-                    self.card.landspace = u.val()['landspace']
-                    self.card.email = u.val()['email']
-                    self.card.price = u.val()['price']
-                    self.card.key = u.key()
-                    self.card.phonenumber = u.val()['phonenumber']
-                    self.card.twitter = u.val()['twitter']
-                    self.card.facebook = u.val()['facebook']
-                    self.card.description = u.val()['description']
-                    self.card.amenities = u.val()['amenities']
-                    self.add_widget(self.card)
-                    self.last = u.key()
-                    self.something = u.key()
-                    self.j += 1
-        
+    
         
             # print(u.val())
 
 #-NGy3yrvpMXT0jYugGKH
+
+class ErrorLabel(MDLabel):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text = "Internet connection limited or unavailable"
+        self.font_size = "30dp"
+        self.halign = "center"
+        self.size_hint_y = None
+        self.adaptive_height = True
 
 class ReturnButton(MDCard):
     positionx = int(Window.size[1]*0.45)
@@ -792,6 +584,8 @@ class Congrats(Screen):
 class DeleteAccountEntry(MDBoxLayout):
     pass
 
+class AccountChoice(ScrollView):
+    pass
 
 class PropertyCardsLayout(MDBoxLayout):
 
@@ -801,21 +595,32 @@ class PropertyCardsLayout(MDBoxLayout):
         self.loader = []
         self.counter = 0
         print("First initializing")
-        self.clear_widgets()
-        self.dialog = DeleteAccountEntry()
+        self.done = False
+        self.denied = 0
+        self.deleted = False
+        # self.account_choice = MDDropdownMenu(
+        #     ver_growth='up',
+            
+        #     width_mult=5,
+        #     position='center',
+            
+        # )
+        
+        # self.denied = 0
         
     
-    @mainthread
-    def show_dialog(self, notice, button=None):
-        self.dialog = MDDialog(text=notice, size_hint=(1, 1), buttons=[MDRaisedButton(text="close", on_release=lambda x:self.dialog.dismiss())])
-        self.dialog.open()
+    
+        
+        
+    
+    
 
-    def close_dialog(self, obj):
-        self.dialog.dismiss()
+    
+    
 
     @mainthread
     def snackbar(self, snack):
-        snacky = Snackbar(text=snack, snackbar_x="10dp", snackbar_y="60dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y = 0.1)
+        snacky = Snackbar(text=snack, snackbar_x="5dp", snackbar_y="60dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y = None)
         snacky.open()
 
     def sign_out_auth(self):
@@ -845,20 +650,43 @@ class PropertyCardsLayout(MDBoxLayout):
         p = 'Successfully signed out'
         self.snackbar(p)
 
-    
+    @mainthread
+    def clear_all(self):
+        self.clear_widgets()
 
-    def switch_account(self):
-        self.sign_out()
+    @mainthread
+    def show_thread_dialog(self, notice, titler="Notice"):
+        self.dialog = MDDialog(title=titler, text=notice, size_hint=(1, 1), on_open=lambda x:self.delete_user())
+        
+        self.dialog.open()
+
+    @mainthread
+    def toast(self, text):
+        toast(text)
 
 
-    
+    @mainthread
+    def show_dialog(self, notice, button=None, titler='Notice'):
+        self.dialog = MDDialog(title=titler, text=notice, size_hint=(1, 1), buttons=[MDRaisedButton(text="close", on_press=lambda x:self.dialog.dismiss()), button])
+        
+        self.dialog.open()
+        
+    @mainthread
+    def close_dialog(self):
+        
+        
+        self.dialog.dismiss()
+
+
+    # def join_thread(self, obj):
+    #     self.delete_thread.join()
 
     def delete_user_auth(self):
-        
+        self.dialog_entry = DeleteAccountEntry()
         self.di = MDDialog(
             title='Please Enter your password to delete your account',
             type='custom',
-            content_cls=self.dialog,
+            content_cls=self.dialog_entry,
             buttons=[
                 MDFlatButton(
                     text='Cancel',
@@ -870,63 +698,103 @@ class PropertyCardsLayout(MDBoxLayout):
                     text='Submit',
                     theme_text_color='Custom',
                     text_color='black',
-                    on_press=self.delete_user,
-                    on_release=lambda x:self.di.dismiss()
+                    on_release=lambda x:self.show_thread_dialog(titler='Deleting Account', notice="Please wait..."),
+                    on_press=lambda x:self.di.dismiss()
                 )
             ]
         )
         self.di.open()
+        
+    def thread_delete_user(self, obj):
+        self.show_thread_dialog(titler='Deleting Account', notice="Please wait...")
+
+        
+        # self.delete_thread = threading.Thread(target=self.delete_user)
+        # self.delete_thread.start()
+        
+        
 
     
-    def delete_user(self, obj):
+    def delete_user(self):
         
+        
+
         try:
-            func_timeout(30, self.delete_account)
+            func_timeout(35, self.delete_account)
         except FunctionTimedOut:
             print("Failed to delete account timedout")
-            toast("Failed to delete account timedout")
+            self.toast("Failed to delete account timedout")
+        except requests.exceptions.HTTPError as e:
+            error_json = e.args[1]
+            error = json.loads(error_json)['error']
+            print(str(error) + "is the error")
+            print(str(error) + "is the error") 
+            if error == 'Permission denied':
+                print("Permission denied")
+                print("Resigning in")
+                self.denied += 1
+                if self.denied < 2:
+                    try:
+                        func_timeout(10, self.denied_signin)
+
+                        self.delete_user_auth()
+                    except FunctionTimedOut:
+                        print("Failed to delete account timedout")
+                        self.toast("Failed to delete account timedout")
+                        self.denied = 0
+                    except:
+                        print("Failed to delete account")
+                        self.toast("Failed to delete account")
+                        self.denied = 0
+                        
+                else:
+                    self.close_dialog()
+                    self.show_dialog('All permissions have been denied for deleting your account right now. Please wait until slots are open. Else Contact us and make a request to delete your account in the Contact Page providing us with your account details.')
+                    print("Permission finally denied")
+                    self.denied = 0
+            try:
+                if error['message'] == 'Not found.':
+                    self.toast("Not found")
+                elif error['message'] == 'CREDENTIAL_TOO_OLD_LOGIN_AGAIN':
+                    try:
+                        func_timeout(10, self.denied_signin)
+
+                        self.delete_user_auth()
+                    except FunctionTimedOut:
+                        print("Failed to delete account timedout")
+                        self.toast("Failed to delete account timedout")
+                    except:
+                        print("Failed to delete account")
+                        self.toast("Failed to delete account")
+            except:
+                pass
+            
+        except:
+            print("An Unknown error occured")
+            self.toast("Failed to delete account")
+            self.deleted=True
+        self.deleted = True
+        self.close_dialog()
+        
     
+
+    def denied_signin(self):
+        self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
+        usero = authi.refresh(self.user['refreshToken'])
+        self.curr['idToken'] = self.user['idToken']
+        with open(f'{path}/user.json', 'w') as jsonfile:
+            json.dump(self.curr, jsonfile)
 
     def delete_account(self):
         
         with open(f'{path}/user.json', 'r') as jsonfile:
             dati = json.load(jsonfile)
             print(dati['password'])
-        print(self.dialog.ids.passy.text)
+        print(self.dialog_entry.ids.passy.text)
         if dati['email'] and dati['password'] != "":
             # try:
-            
-            if self.dialog.ids.passy.text == dati['password']:    
-                user = authi.sign_in_with_email_and_password(dati['email'], dati['password'])
-                # db.child("People").child(user['localId']).remove()
-                testichiro = db.child("People").child(dati['localid']).child("Sale").get(dati['idToken'])
-                testiroro = db.child("People").child(dati['localid']).child("Rent").get(dati['idToken'])
-                if testichiro.each():
-                    for i in testichiro.each():
-
-                        local = user['localId'] + '/'                    
-                        storage.delete(local + i, user['idToken'])
-
-                        dude = i.val()['prop_keys']
-                        db.child("Sale").child(dude).remove(user['idToken'])
-                if testiroro.each():
-                    for q in testiroro.each():
-
-                        local = user['localId'] + '/'                    
-                        storage.delete(local + i, user['idToken'])
-
-                        dudo = q.val()['prop_keys']
-                        db.child("Rent").child(dudo).remove(user['idToken'])
-                try:
-                    db.child("People").child(dati['localid']).remove(user['idToken'])
-                    
-                except:
-                    print("DOesn't own property")
-                # storage.delete(user['localId'], user['idToken'])
-                    
-                
-                
-                authi.delete_user_account(user['idToken'])
+            print(self.dialog_entry.ids.passy.text)
+            if self.dialog_entry.ids.passy.text == dati['password']:   
                 message = MIMEText(dati['email'] + " " + "with localid" + " " + dati['localid'] + " " + "Just deleted their account")
                 message['Subject'] = "Deleted account Notice"
                 message["From"] = "anangjosh8@gmail.com"
@@ -934,8 +802,50 @@ class PropertyCardsLayout(MDBoxLayout):
                 server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
                 server.login("anangjosh8@gmail.com", "iujwzdutnqmbpkjm")
                 server.sendmail("anangjosh8@gmail.com", "anangjosh8@gmail.com", message.as_string())
-                server.quit()
+                server.quit() 
+                # user = authi.sign_in_with_email_and_password(dati['email'], dati['password'])
+                # db.child("People").child(user['localId']).remove()
+                testichiro = db.child("People").child(dati['localid']).child("ids").get(dati['idToken'])
+                # testiroro = db.child("People").child(dati['localid']).child("ids").get(dati['idToken'])
+                if testichiro.each():
+                    for i in testichiro.each():
+
+                        
+
+                        dude = i.val()['prop_keys']
+                        db.child("Sale").child(dude).remove(dati['idToken'])
+                        db.child("Rent").child(dude).remove(dati['idToken'])
+                        
+                        
+                        
+                # local = r"{dati['localid']} + /"
+                # storage.delete(local, dati['idToken'])
                 
+                db.child("People").child(dati['localid']).remove(dati['idToken'])
+                            
+                # except:
+                #     print("DOesn't own property")
+                
+
+                        
+
+                #         dudo = q.val()['prop_keys']
+                #         db.child("Rent").child(dudo).remove(dati['idToken'])
+
+                #         local = dati['localId'] + '/'                    
+                #         storage.delete(local + i, dati['idToken'])
+                
+                # storage.delete(dati['localId'], dati['idToken'])
+                    
+                
+                
+                authi.delete_user_account(dati['idToken'])
+                print("Removed account")
+                
+                for i in dati['accounts']:
+                    if i['email'] == dati['email']:
+                        dati['accounts'].remove(i)
+
                 del dati['bookmarks'][dati['email']]
                 del dati['viewed'][dati['email']]
                 del dati['sold'][dati['email']]
@@ -945,18 +855,22 @@ class PropertyCardsLayout(MDBoxLayout):
                 dati['house_images'] = []
                 
                 dati['localid'] = ''
+
+                
                 with open(f'{path}/user.json', 'w') as jsonfile:
                     json.dump(dati, jsonfile)
                 
                 self.snackbar('Successfully deleted account')
                 print("successfully deleted account")
-                self.dialog.ids.passy = ''
+                self.clear_all()
+                self.denied = 0
+                # self.dialog.ids.passy = ''
             else:
                 print('Invalid Password')
                 text = "Invalid password"
                 
                 self.show_dialog(text)
-                self.dialog.ids.passy = ''
+                # self.dialog_entry.ids.passy = ''
     #    except:
             # print("Operation unsuccessful")
     #         p = 'Operation Unsuccessful'
@@ -964,42 +878,15 @@ class PropertyCardsLayout(MDBoxLayout):
         else:
             p = 'No user signed in'
             self.snackbar(p)
-        
 
-    def begin_loading(self):
-        # self.last_sold = 0
-        print(self.loader)
-        with open(f'{path}/user.json', 'r') as jsonfile:
-            self.curr = json.load(jsonfile)
-        print(self.curr)
-        try:
-            func_timeout(30, self.added)
-        except FunctionTimedOut:
-            print("No internet connection timed out")
-            toast("No internet conection timed out")
-        except requests.exceptions.HTTPError as e:
-            error_json = e.args[1]
-            error = json.loads(error_json)['error']
-            print(str(error) + "is the error")
-            print(str(error) + "is the error") 
-            if error == 'Permission denied':
-                print("Permission denied")
-                print("Resigning in")
-                
-                # try:
-                self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
-                usero = authi.refresh(self.user['refreshToken'])
-                self.curr['idToken'] = self.user['idToken']
-                with open(f'{path}/user.json', 'w') as jsonfile:
-                    json.dump(self.curr, jsonfile)
-                
-                self.begin_loading()
-        except:
-            toast("No internet connection")
-            print("No internet connection")
+    
+        
+    
+        
+            # Animation(opacity=0, duration = 0.5).start(self.loading)
         # except Exception as e:
-        #     print("No internet connection")
-        #     toast("No internet connection")
+        #     print("Network Error")
+        #     toast("Network Error")
         
         
            
@@ -1039,161 +926,166 @@ class PropertyCardsLayout(MDBoxLayout):
             
         #     self.add_widget(self.card)
     
-    def added(self):
-        print('mmhmm')
+    # def added(self):
+    #     print('mmhmm')
         
+    #     with open(f'{path}/user.json', 'r') as jsonfile:
+    #         self.curr = json.load(jsonfile)
         
         
 
-        # print(a.val())
-        # if a.key() == 'local_image':
-            # print(a.val())
-        #     curr['house_images'].append(a.val())
+    #     # print(a.val())
+    #     # if a.key() == 'local_image':
+    #         # print(a.val())
+    #     #     curr['house_images'].append(a.val())
 
-        #     with open(f'{path}/user.json', 'w') as jsonfile:
-        #         json.dump(curr, jsonfile)
+    #     #     with open(f'{path}/user.json', 'w') as jsonfile:
+    #     #         json.dump(curr, jsonfile)
         
-        print(self.curr['idToken'])
-        print('OOh ma gaa')
+    #     print(self.curr['idToken'])
+    #     print('OOh ma gaa')
 
-        print(str(self.last_sold) + " " + "init last sold")
+    #     print(str(self.last_sold) + " " + "init last sold")
         
-        if self.curr['email'] != '':
-            if self.curr["sold"][self.curr['email']] > self.last_sold:
-                print("Initializing")
-                self.testichiro = db.child("People").child(self.curr['localid']).child("Sale").get(self.curr['idToken'])
-                self.testiroro = db.child("People").child(self.curr['localid']).child("Rent").get(self.curr['idToken'])
-                self.last_sold = self.curr["sold"][self.curr['email']]
-                print("After last sold")
-                    
-                
-                self.next_after()
-                
+    #     if self.curr['email'] != '':
+    #         if self.curr["sold"][self.curr['email']] > self.last_sold:
+    #             print("Initializing")
+    #             self.testichiro = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
+    #             # self.testiroro = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
+    #             self.last_sold = self.curr["sold"][self.curr['email']]
+    #             print("After last sold")
+
+    #             if self.testichiro.each():
+            
+    #                 for q in self.testichiro.each():
+    #                     self.dude = q.val()['prop_keys']
+    #                     print(self.loader)
+    #                     if self.dude not in self.loader:
+    #                         self.yours = db.child("Sale").order_by_key().equal_to(self.dude).get()
+    #                         self.ours = db.child("Rent").order_by_key().equal_to(self.dude).get()
+    #                         self.next_after(self.yours, self.ours)
+    #                     else:
+    #                         print("Already loaded booom in sale")
+                            
+    #             # if self.testiroro.each():
+            
+    #             #     for d in self.testiroro.each():    
+    #             #         self.bruv = d.val()['prop_keys']
+    #             #         if self.bruv not in self.loader:
+    #             #             self.ours = db.child("Rent").order_by_key().equal_to(self.bruv).get()
+    #             #             self.next_after(self.ours)
+    #             #         else:
+    #             #             print("Already loaded booom")
+    #             #             print(self.loader)
+    #     # Animation(opacity=0, duration = 0.5).start(self.loading)
         
         
     
 
-    @mainthread
-    def next_after(self):
-        print("Hey")
-        if self.testichiro.each():
+    # @mainthread
+    # def next_after(self, yours, ours):
+    #     print("Hey")
+        
+    #     if yours:
+    #         for u in yours:
+    #                     # another = person.val()
+                        
             
-            for q in self.testichiro.each():
-                dude = q.val()['prop_keys']
-                if dude not in self.loader:
-                    self.yours = db.child("Sale").order_by_key().equal_to(dude).get()
-                    for u in self.yours:
-                                # another = person.val()
-                                
+            
+            
+                
+    #             print('Okay maybe it wokred')
+    #             self.card = PropertySaleCards()
+    #             self.card.image = u.val()['url']
+    #             self.card.amenities = u.val()['amenities']
+    #             self.card.tot = u.val()['housetype']
+    #             self.card.country = u.val()['country']
+    #             self.card.province = u.val()['state']
+    #             self.card.town = u.val()['town']
+    #             self.card.street = u.val()['street']
+    #             self.card.bedrooms = u.val()['bedrooms']
+    #             self.card.bathrooms = u.val()['bathrooms']
+    #             self.card.landspace = u.val()['landspace']
+    #             self.card.email = u.val()['email']
+    #             self.card.price = u.val()['price']
+    #             self.card.key = u.key()
+    #             self.card.phonenumber = u.val()['phonenumber']
+    #             self.card.twitter = u.val()['twitter']
+    #             self.card.facebook = u.val()['facebook']
+    #             self.card.description = u.val()['description']
+    #             self.card.views = u.val()['views']
+    #             self.card.local_image = u.val()['local_image']
+                
+    #             self.add_widget(self.card)
+    #             print(self.loader)
+    #             self.loader.append(u.key())
+            
+    #         # print("added")
+    #         # print(self.loader)
+            
+    
                     
-                    
-                    
-                        
-                        print('Okay maybe it wokred')
-                        self.card = PropertySaleCards()
-                        self.card.image = u.val()['url']
-                        self.card.amenities = u.val()['amenities']
-                        self.card.tot = u.val()['housetype']
-                        self.card.country = u.val()['country']
-                        self.card.province = u.val()['state']
-                        self.card.town = u.val()['town']
-                        self.card.street = u.val()['street']
-                        self.card.bedrooms = u.val()['bedrooms']
-                        self.card.bathrooms = u.val()['bathrooms']
-                        self.card.landspace = u.val()['landspace']
-                        self.card.email = u.val()['email']
-                        self.card.price = u.val()['price']
-                        self.card.key = u.key()
-                        self.card.phonenumber = u.val()['phonenumber']
-                        self.card.twitter = u.val()['twitter']
-                        self.card.facebook = u.val()['facebook']
-                        self.card.description = u.val()['description']
-                        self.card.views = u.val()['views']
-                        self.card.local_image = u.val()['local_image']
-                        
-                        self.add_widget(self.card)
-                        
-                        self.loader.append(dude)
-                        
-                        # print("added")
-                        # print(self.loader)
-                        
-                else:
-                    print("Already loaded booom in sale")
-                    
-                        # print(self.loader)
+    #                     # print(self.loader)
                 
 
-        if self.testiroro.each():
-            
-            for d in self.testiroro.each():    
-                bruv = d.val()['prop_keys']
-                if bruv not in self.loader:
-                    self.ours = db.child("Rent").order_by_key().equal_to(bruv).get()
-                    for u in self.ours:
-                        
-                        print(u.key())
-                        
-                        
-                        
-                        
-                        print(u.val()['url'])
-                        
-                            
-                        print('Okay maybe it wokred')
-                        self.card = PropertyRentCards()
-                        self.card.image = u.val()['url'] if u.val()['url'][0] != '<' else u.val()['url'][1:-1]
-                        self.card.amenities = u.val()['amenities']
-                        self.card.tot = u.val()['housetype']
-                        self.card.country = u.val()['country']
-                        self.card.province = u.val()['state']
-                        self.card.town = u.val()['town']
-                        self.card.street = u.val()['street']
-                        self.card.bedrooms = u.val()['bedrooms']
-                        self.card.bathrooms = u.val()['bathrooms']
-                        self.card.landspace = u.val()['landspace']
-                        self.card.email = u.val()['email']
-                        self.card.price = u.val()['price']
-                        self.card.key = u.key()
-                        self.card.phonenumber = u.val()['phonenumber']
-                        self.card.twitter = u.val()['twitter']
-                        self.card.facebook = u.val()['facebook']
-                        self.card.description = u.val()['description']
-                        self.card.views = u.val()['views']
-                        self.card.local_image = u.val()['local_image']
-                       
-                        self.add_widget(self.card)
-                        
-                        self.loader.append(bruv)
-                        # print("added")
-                        # print(self.loader)
-                        print(self.counter)
-                            
-                else:
-                    print("Already loaded booom")
-                    print(self.loader)
+    #     if ours:
+    #         for u in ours:
+                
+    #             print(u.key())
+                
+                
+                
+                
+    #             print(u.val()['url'])
+                
+                    
+    #             print('Okay maybe it wokred')
+    #             self.card = PropertyRentCards()
+    #             self.card.image = u.val()['url']
+    #             self.card.amenities = u.val()['amenities']
+    #             self.card.tot = u.val()['housetype']
+    #             self.card.country = u.val()['country']
+    #             self.card.province = u.val()['state']
+    #             self.card.town = u.val()['town']
+    #             self.card.street = u.val()['street']
+    #             self.card.bedrooms = u.val()['bedrooms']
+    #             self.card.bathrooms = u.val()['bathrooms']
+    #             self.card.landspace = u.val()['landspace']
+    #             self.card.email = u.val()['email']
+    #             self.card.price = u.val()['price']
+    #             self.card.key = u.key()
+    #             self.card.phonenumber = u.val()['phonenumber']
+    #             self.card.twitter = u.val()['twitter']
+    #             self.card.facebook = u.val()['facebook']
+    #             self.card.description = u.val()['description']
+    #             self.card.views = u.val()['views']
+    #             self.card.local_image = u.val()['local_image']
+                
+    #             self.add_widget(self.card)
+                
+    #             self.loader.append(u.key())
+    #             # print("added")
+    #             print(self.loader)
+    #             print(self.counter)
+                    
+        
                         
 
-    def reload(self):
-        # self.loader.remove(key)
-        r = Reload()
-        print('pressde')
-        print('disbaled')
-        r.disabled = True
-        self.loader.clear()
-        self.last_sold = 0
-        print("Reloading")
-        self.clear_widgets()
-        self.begin_loading()
-        r.disabled = False
-
-    def remove_all(self):
-        print('Cleared')
-        self.loader.clear()
-        self.last_sold = 0
-        print("Reloading")
-        self.clear_widgets()
-        print("DOne and done")
+    # def reload(self):
+    #     # self.loader.remove(key)
+        
+        
+    #     print('pressde')
+    #     print('disbaled')
+        
+    #     self.loader.clear()
+    #     self.last_sold = 0
+    #     print("Reloading")
+    #     self.clear_widgets()
+        # self.begin_loading()
+        
+       
+    
         
 
                     
@@ -1203,7 +1095,7 @@ class PropertyCardsLayout(MDBoxLayout):
         
         
         # try:
-        #     testichiro = db.child("People").child(dato['localid']).child("Sale").get(dato['idToken'])
+        #     testichiro = db.child("People").child(dato['localid']).child("ids").get(dato['idToken'])
         #     for q in testichiro.each():
                 
         #         dude = q.val()['prop_keys']
@@ -1393,13 +1285,40 @@ class HomeCardsLayout(MDBoxLayout):
         self.last = ''
         self.something = ''
         self.counter = 0
-        try:
-            func_timeout(15, self.added)
-        except FunctionTimedOut:
-            print("No internet connection")
-            toast("No internet connection")
-        except Exception as e:
-            print("Network Error")
+        self.event=Event()
+        self.thread_added()
+        
+
+    def thread_added(self):
+        self.event=Event()
+        self.thread_adding = threading.Thread(target=self.timing_added)
+        self.thread_adding.start()
+        
+
+    def thread_other(self):
+        self.event=Event()
+        self.threa = threading.Thread(target=self.other).start()
+
+    def timing_added(self):
+        
+        if not self.event.is_set():
+            try:
+                func_timeout(10, self.added)
+            except FunctionTimedOut:
+                print("Internet connection limited or unavailable")
+                self.toast("Internet connection limited or unavailable")
+                self.event.set()
+            # except Exception as e:
+            #     print("Network Error")
+            #     self.toast("Network Error")
+            #     self.event.set()
+
+    @mainthread
+    def toast(self, text):
+        toast(text)
+
+    def refresh(self):
+        self.thread_added()
         
     def added(self):
         
@@ -1482,22 +1401,170 @@ class HomeCardsLayout(MDBoxLayout):
         #         if self.j >= len(house['Housing']):
         #             break
                 # print(self.j)
-        
-        self.people = db.child("Sale").get()
-        self.done()
+
+        bath_or_bed = ['bedrooms', 'bathrooms']
+        first_choice = random.choice(bath_or_bed)
+        print(first_choice)
+        num = ['1', '2', '3', '4', '5', '6', '7', '7+']
+        nume = random.choice(num)
+        print(nume)
+        if first_choice == 'bedrooms':
+            self.people = db.child("Sale").order_by_child('bedrooms').equal_to(nume).limit_to_first(5).get()
+        else:
+            self.people = db.child("Sale").order_by_child('bathrooms').equal_to(nume).limit_to_first(5).get()
+        if self.people.each():
+            # if len(self.people.each()) < 1:
+            #     self.thread_added()
+                
+            # else:
+            print(len(self.people.each()))
+            self.done()
+            
+        else:
+            print(self.people.each())
+            print("self.peop,e")
+            self.thread_added()
+            # self.done()
         
 
     @mainthread
     def done(self):
         self.j = 0
+        # if self.people.each():
+        for u in self.people.each():
+            self.something = u.key()
+            self.card = HomeCards()
+            
+                
+            self.card.image = u.val()['url']
+            
+            self.card.tot = u.val()['housetype']
+            self.card.country = u.val()['country']
+            self.card.province = u.val()['state']
+            self.card.town = u.val()['town']
+            self.card.street = u.val()['street']
+            self.card.bedrooms = u.val()['bedrooms']
+            self.card.bathrooms = u.val()['bathrooms']
+            self.card.landspace = u.val()['landspace']
+            self.card.email = u.val()['email']
+            self.card.price = u.val()['price']
+            self.card.key = u.key()
+            self.card.phonenumber = u.val()['phonenumber']
+            self.card.twitter = u.val()['twitter']
+            self.card.facebook = u.val()['facebook']
+            self.card.description = u.val()['description']
+            self.card.amenities = u.val()['amenities']
+            
+            self.add_widget(self.card)
+            self.last = u.key()
+            print('second iteration')
+            self.j += 1
+            print(str(self.j) + ' ' + 'this is jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
+            
+            # another = person.val()
+            print('First iteration')
+            print(self.something)
+                # break
+
+        
+
+        
+            
+                    
+                    
+        
+
+        
+    def other(self):
+        if not self.event.is_set():
+            try:
+                func_timeout(10, self.omagaa)
+            except FunctionTimedOut:
+                print("Internet connection limited or unavailable")
+                self.toast("Internet connection limited or unavailable")
+                self.event.set()
+            # except Exception as e:
+            #     print("Network Error")
+            #     self.toast("Network Error")
+            #     self.event.set()
+        
+    @mainthread
+    def clear(self):
+        # toast("Self.j is full now dude")
+        self.clear_widgets()
+
+    def omagaa(self):
+        # with open(f'{path}/user.json', 'r') as jsonfile:
+        #     self.curr = json.load(jsonfile)
+        #     print(self.curr['localid'])
+
+        if self.something == '':
+            # num = ['1', '2', '3', '4', '5', '6', '7', '7+']
+            # nume = random.choice(num)
+            # print(nume)
+            
+            # self.people = db.child("Sale").order_by_child('bedrooms').equal_to(nume).limit_to_first(5).get()
+            # if self.people.each():
+            #     # if len(self.people.each()) < 1:
+            #     #     self.thread_added()
+                    
+            #     # else:
+            #     print(len(self.people.each()))
+            #     self.done()
+                
+            # else:
+            #     print(self.people.each())
+            #     print("self.peop,e")
+            #     self.thread_added()
+            self.added()
+
+        else:
+            
+            
+                
+            # if self.j >= 5:
+            print("Starting again")
+            print(self.j)
+            # bath_or_bed = ['order_by_key', 'order_by_val']
+            # first_choice = random.choice(bath_or_bed)
+            # print(first_choice)
+            # num = ['1', '2', '3', '4', '5', '6', '7', '7+']
+            # nume = random.choice(num)
+            # print(nume)
+            # if first_choice == 'order_by_val':
+            #     print(str(self.j) + "This is self.jjjjjjj oh yeaaaahhhh")
+            #     self.people = db.child("Sale").order_by_value().start_at(self.something).limit_to_first(5).get()
+                
+                
+            # else:
+            print(str(self.j) + "This is self.jjjjjjj oh yeaaaahhhh")
+            self.people = db.child("Sale").order_by_key().start_at(self.something).limit_to_first(5).get()
+                
+                
+            if self.j >= 5:
+                if len(self.people.each()) >= 2:
+                    self.clear()
+            
+            print(self.j)
+            print("Checking if full")
+            print(str(len(self.people.each())) + "This is the length of the new self.epple")
+            self.j = 0
+            self.another()
+                    
+            
+
+    @mainthread
+    def otheri(self):
+        
+        print('Is it working')
+        print(self.last)
+        print(self.something + " " + "This is self.something and its supposed to be working but it's not.")
+        
         if self.people.each():
             for u in self.people.each():
                 self.something = u.key()
                 self.card = HomeCards()
-                
-                 
                 self.card.image = u.val()['url']
-                
                 self.card.tot = u.val()['housetype']
                 self.card.country = u.val()['country']
                 self.card.province = u.val()['state']
@@ -1523,90 +1590,7 @@ class HomeCardsLayout(MDBoxLayout):
                 # another = person.val()
                 print('First iteration')
                 print(self.something)
-                break
-
-        
-
-        
-            
-                    
-                    
-        
-
-        
-    def other(self):
-        try:
-            func_timeout(20, self.omagaa)
-        except FunctionTimedOut:
-            print("No internet connection")
-            toast("No internet connection")
-        except Exception as e:
-            print("No internet connection")
-            toast("No internet connection")
-        
-    @mainthread
-    def clear(self):
-        toast("Self.j is full now dude")
-        self.clear_widgets()
-
-    def omagaa(self):
-        with open(f'{path}/user.json', 'r') as jsonfile:
-            self.curr = json.load(jsonfile)
-            print(self.curr['localid'])
-
-        if self.something == '':
-            self.people = db.child("Sale").get()
-            self.otheri()
-
-        else:
-            
-            if self.j >= 5:
-                print("Self.j is full now dude!!!")
-                self.clear()
-                self.j = 0
-                
-            
-            self.again = db.child("Sale").order_by_key().start_at(self.something).limit_to_first(3).get()
-            self.another()
-
-    @mainthread
-    def otheri(self):
-        
-        print('Is it working')
-        print(self.last)
-        print(self.something + " " + "This is self.something and its supposed to be working but it's not.")
-        
-            
-        for u in self.people.each():
-            self.something = u.key()
-            self.card = HomeCards()
-            self.card.image = u.val()['url']
-            self.card.tot = u.val()['housetype']
-            self.card.country = u.val()['country']
-            self.card.province = u.val()['state']
-            self.card.town = u.val()['town']
-            self.card.street = u.val()['street']
-            self.card.bedrooms = u.val()['bedrooms']
-            self.card.bathrooms = u.val()['bathrooms']
-            self.card.landspace = u.val()['landspace']
-            self.card.email = u.val()['email']
-            self.card.price = u.val()['price']
-            self.card.key = u.key()
-            self.card.phonenumber = u.val()['phonenumber']
-            self.card.twitter = u.val()['twitter']
-            self.card.facebook = u.val()['facebook']
-            self.card.description = u.val()['description']
-            self.card.amenities = u.val()['amenities']
-            self.add_widget(self.card)
-            self.last = u.key()
-            print('second iteration')
-            self.j += 1
-            print(str(self.j) + ' ' + 'this is jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
-            
-            # another = person.val()
-            print('First iteration')
-            print(self.something)
-            if self.j == 1: 
+                 
                 break
 
     @mainthread
@@ -1614,40 +1598,40 @@ class HomeCardsLayout(MDBoxLayout):
             
         
         
-        
-        for u in self.again.each():
-            # for i in u.val()['house']['-NL8x6ZNQQFpsXDfgm7c']['bathrooms']:
-            
-                # print(i)
-            if u.key() == self.something:
-                continue
-            
-            self.card = HomeCards()
-            self.card.image = u.val()['url']
-            self.card.tot = u.val()['housetype']
-            self.card.country = u.val()['country']
-            self.card.province = u.val()['state']
-            self.card.town = u.val()['town']
-            self.card.street = u.val()['street']
-            self.card.bedrooms = u.val()['bedrooms']
-            self.card.bathrooms = u.val()['bathrooms']
-            self.card.landspace = u.val()['landspace']
-            self.card.email = u.val()['email']
-            self.card.price = u.val()['price']
-            self.card.key = u.key()
-            self.card.phonenumber = u.val()['phonenumber']
-            self.card.twitter = u.val()['twitter']
-            self.card.facebook = u.val()['facebook']
-            self.card.description = u.val()['description']
-            self.card.amenities = u.val()['amenities']
-            
-            self.add_widget(self.card)
-            
-            self.last = u.key()
-            self.something = u.key()
-            self.j += 1
-            
-            print(self.j)
+        if self.people.each():
+            for u in self.people.each()[self.j:self.j+5]:
+                # for i in u.val()['house']['-NL8x6ZNQQFpsXDfgm7c']['bathrooms']:
+                
+                    # print(i)
+                if u.key() == self.something:
+                    continue
+                
+                self.card = HomeCards()
+                self.card.image = u.val()['url']
+                self.card.tot = u.val()['housetype']
+                self.card.country = u.val()['country']
+                self.card.province = u.val()['state']
+                self.card.town = u.val()['town']
+                self.card.street = u.val()['street']
+                self.card.bedrooms = u.val()['bedrooms']
+                self.card.bathrooms = u.val()['bathrooms']
+                self.card.landspace = u.val()['landspace']
+                self.card.email = u.val()['email']
+                self.card.price = u.val()['price']
+                self.card.key = u.key()
+                self.card.phonenumber = u.val()['phonenumber']
+                self.card.twitter = u.val()['twitter']
+                self.card.facebook = u.val()['facebook']
+                self.card.description = u.val()['description']
+                self.card.amenities = u.val()['amenities']
+                
+                self.add_widget(self.card)
+                
+                self.last = u.key()
+                self.something = u.key()
+                self.j += 1
+                
+                print(self.j)
             
 
         
@@ -1667,13 +1651,33 @@ class RentCardsLayout(MDBoxLayout):
         self.last = ''
         self.j = 0
         self.something = ''
-        try:
-            func_timeout(15, self.added)
-        except FunctionTimedOut:
-            print("No internet connection timedout")
-        except Exception as e:
-            print("Network Error")
-        
+        self.event=Event()
+        self.thread_added()
+
+    @mainthread
+    def toast(self, text):
+        toast(text)
+
+    def thread_added(self):
+        self.event=Event()
+        self.threa = threading.Thread(target=self.timing_added)
+        self.threa.start()
+    
+    def timing_added(self):
+        if not self.event.is_set():
+            try:
+                func_timeout(10, self.added)
+            except FunctionTimedOut:
+                print("Internet connection limited or unavailable")
+                self.toast("Internet connection limited or unavailable")
+                self.event.set()
+            except:
+                print("Network Error")
+                self.toast("Network Error")
+                self.event.set()
+
+    def refresh(self):
+        self.thread_added()
         # house = {
         #     'Housing': [{
         #         'Image': 'Brick House.jpg',
@@ -1705,8 +1709,28 @@ class RentCardsLayout(MDBoxLayout):
         #     # self.card.bedrooms = i['bedrooms']
         #     self.add_widget(self.card)
     def added(self):
-        self.people = db.child("Rent").get()
-        self.done()
+        bath_or_bed = ['bedrooms', 'bathrooms']
+        first_choice = random.choice(bath_or_bed)
+        print(first_choice)
+        num = ['1', '2', '3', '4', '5', '6', '7', '7+']
+        nume = random.choice(num)
+        print(nume)
+        if first_choice == 'bedrooms':
+            self.people = db.child("Rent").order_by_child('bedrooms').equal_to(nume).limit_to_first(5).get()
+        else:
+            self.people = db.child("Rent").order_by_child('bathrooms').equal_to(nume).limit_to_first(5).get()
+        if self.people.each():
+            # if len(self.people.each()) < 1:
+            #     self.thread_added()
+                
+            # else:
+            print(len(self.people.each()))
+            self.done()
+            
+        else:
+            print(self.people.each())
+            print("self.peop,e")
+            self.thread_added()
 
     @mainthread
     def done(self):
@@ -1715,133 +1739,15 @@ class RentCardsLayout(MDBoxLayout):
         print(self.something + " " + "This is self.something and its supposed to be working but it's not.")
         self.j = 0
             
-        if self.people.each():
-            for u in self.people.each():
-                self.something = u.key()
-                self.card = HomeCards()
-                self.card.image = u.val()['url']
-                self.card.tot = u.val()['housetype']
-                self.card.country = u.val()['country']
-                self.card.town = u.val()['town']
-                self.card.province = u.val()['state']
-                self.card.street = u.val()['street']
-                self.card.bedrooms = u.val()['bedrooms']
-                self.card.bathrooms = u.val()['bathrooms']
-                self.card.landspace = u.val()['landspace']
-                self.card.email = u.val()['email']
-                self.card.price = u.val()['price']
-                self.card.key = u.key()
-                self.card.phonenumber = u.val()['phonenumber']
-                self.card.twitter = u.val()['twitter']
-                self.card.facebook = u.val()['facebook']
-                self.card.description = u.val()['description']
-                self.card.amenities = u.val()['amenities']
-                self.add_widget(self.card)
-                self.last = u.key()
-                print('second iteration')
-                
-                print('second iteration')
-                self.j += 1
-                print(str(self.j) + ' ' + 'this is jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
-                
-                # another = person.val()
-                print('First iteration')
-                print(self.something)
-                break
-
-    @mainthread
-    def clear(self):
-        print("Self.j is full now dude!!!")
-        toast("Self.j is full now dude")
-        self.clear_widgets()
         
-    def other(self):
-        try:
-            func_timeout(30, self.omagaa)
-        except FunctionTimedOut:
-            print("No internet connection")
-            toast("No internet connection timedout")
-        except Exception as e:
-            toast("No internet connection")
-        
-
-    def omagaa(self):
-        with open(f'{path}/user.json', 'r') as jsonfile:
-            self.curr = json.load(jsonfile)
-            print(self.curr['localid'])
-
-        if self.something == '':
-            self.peopli = db.child("Rent").get(token=self.curr['idToken'])
-            self.otheri()
-
-        else:
-            if self.j >= 5:
-                self.clear()
-                self.j = 0
-                
-            else:
-                self.again = db.child("Rent").order_by_key().start_at(self.something).limit_to_first(3).get(token=self.curr['idToken'])
-                self.another()
-
-    @mainthread
-    def otheri(self):
-        print('Is it working')
-        print(self.last)
-        print(self.something + " " + "This is self.something and its supposed to be working but it's not.")
-        
-        
-        
-        if self.peopli.each():
-            for u in self.peopli.each():
-                self.something = u.key()
-                self.card = HomeCards()
-                self.card.image = u.val()['url']
-                self.card.tot = u.val()['housetype']
-                self.card.country = u.val()['country']
-                self.card.province = u.val()['state']
-                self.card.town = u.val()['town']
-                self.card.street = u.val()['street']
-                self.card.bedrooms = u.val()['bedrooms']
-                self.card.bathrooms = u.val()['bathrooms']
-                self.card.landspace = u.val()['landspace']
-                self.card.email = u.val()['email']
-                self.card.price = u.val()['price']
-                self.card.key = u.key()
-                self.card.phonenumber = u.val()['phonenumber']
-                self.card.twitter = u.val()['twitter']
-                self.card.facebook = u.val()['facebook']
-                self.card.description = u.val()['description']
-                self.card.amenities = u.val()['amenities']
-                self.add_widget(self.card)
-                self.last = u.key()
-                print('second iteration')
-                self.j += 1
-                print(str(self.j) + ' ' + 'this is jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
-                
-                # another = person.val()
-                print('First iteration')
-                print(self.something)
-                if self.j == 1: 
-                    break
-
-    @mainthread
-    def another(self):
-            
-        print(self.again.val())
-        
-        for u in self.again.each():
-            # for i in u.val()['house']['-NL8x6ZNQQFpsXDfgm7c']['bathrooms']:
-                
-                # print(i)
-            if u.key() == self.something:
-                continue
-            
+        for u in self.people.each():
+            self.something = u.key()
             self.card = HomeCards()
             self.card.image = u.val()['url']
             self.card.tot = u.val()['housetype']
             self.card.country = u.val()['country']
-            self.card.province = u.val()['state']
             self.card.town = u.val()['town']
+            self.card.province = u.val()['state']
             self.card.street = u.val()['street']
             self.card.bedrooms = u.val()['bedrooms']
             self.card.bathrooms = u.val()['bathrooms']
@@ -1856,145 +1762,168 @@ class RentCardsLayout(MDBoxLayout):
             self.card.amenities = u.val()['amenities']
             self.add_widget(self.card)
             self.last = u.key()
-            self.something = u.key()
-            self.j += 1
+            print('second iteration')
+            
+            print('second iteration')
+            # self.j += 1
+            print(str(self.j) + ' ' + 'this is jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
+            
+            # another = person.val()
+            print('First iteration')
+            print(self.something)
+            # break
+
+    @mainthread
+    def clear(self):
+        print("Self.j is full now dude!!!")
+        # toast("Self.j is full now dude")
+        self.clear_widgets()
+
+    def thread_other(self):
+        self.event=Event()
+        self.threa = threading.Thread(target=self.other).start()
+        
+    def other(self):
+        if not self.event.is_set():
+            try:
+                func_timeout(10, self.omagaa)
+            except FunctionTimedOut:
+                print("Internet connection limited or unavailable")
+                self.toast("Internet connection limited or unavailable")
+                self.event.is_set()
+            except:
+                self.toast("Network Error")
+                print("Network Error")
+                self.event.is_set()
+        else:
+            print("Self. event has been set for rent cards layout")
+        
+
+    def omagaa(self):
+        with open(f'{path}/user.json', 'r') as jsonfile:
+            self.curr = json.load(jsonfile)
+            print(self.curr['localid'])
+
+        if self.something == '':
+            self.added()
+
+        else:
+           
+            print(str(self.j) + "This is self.jjjjjjj oh yeaaaahhhh")
+            self.people = db.child("Rent").order_by_key().start_at(self.something).limit_to_first(5).get()
+                
+                
+            if self.j >= 5:
+                if len(self.people.each()) >= 2:
+                    self.clear()
+            
+            print(self.j)
+            print("Checking if full")
+            print(str(len(self.people.each())) + "This is the length of the new self.epple")
+            self.j = 0
+            self.another()
+            
+                    
+            
+            
+           
+
+    @mainthread
+    def otheri(self):
+        print('Is it working')
+        
+        print(self.something + " " + "This is self.something and its supposed to be working but it's not.")
+        
+        
+        
+        if self.people.each():
+            for u in self.people.each():
+                self.something = u.key()
+                self.card = HomeCards()
+                self.card.image = u.val()['url']
+                self.card.tot = u.val()['housetype']
+                self.card.country = u.val()['country']
+                self.card.province = u.val()['state']
+                self.card.town = u.val()['town']
+                self.card.street = u.val()['street']
+                self.card.bedrooms = u.val()['bedrooms']
+                self.card.bathrooms = u.val()['bathrooms']
+                self.card.landspace = u.val()['landspace']
+                self.card.email = u.val()['email']
+                self.card.price = u.val()['price']
+                self.card.key = u.key()
+                self.card.phonenumber = u.val()['phonenumber']
+                self.card.twitter = u.val()['twitter']
+                self.card.facebook = u.val()['facebook']
+                self.card.description = u.val()['description']
+                self.card.amenities = u.val()['amenities']
+                self.add_widget(self.card)
+                self.last = u.key()
+                print('second iteration')
+                self.j += 1
+                print(str(self.j) + ' ' + 'this is jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
+                
+                # another = person.val()
+                print('First iteration')
+                print(self.something)
+                break
+
+    @mainthread
+    def another(self):
+            
+        print(self.people.val())
+        if self.people.each():
+            for u in self.people.each()[self.j:self.j+5]:
+                # for i in u.val()['house']['-NL8x6ZNQQFpsXDfgm7c']['bathrooms']:
+                    
+                    # print(i)
+                if u.key() == self.something:
+                    continue
+                
+                self.card = HomeCards()
+                self.card.image = u.val()['url']
+                self.card.tot = u.val()['housetype']
+                self.card.country = u.val()['country']
+                self.card.province = u.val()['state']
+                self.card.town = u.val()['town']
+                self.card.street = u.val()['street']
+                self.card.bedrooms = u.val()['bedrooms']
+                self.card.bathrooms = u.val()['bathrooms']
+                self.card.landspace = u.val()['landspace']
+                self.card.email = u.val()['email']
+                self.card.price = u.val()['price']
+                self.card.key = u.key()
+                self.card.phonenumber = u.val()['phonenumber']
+                self.card.twitter = u.val()['twitter']
+                self.card.facebook = u.val()['facebook']
+                self.card.description = u.val()['description']
+                self.card.amenities = u.val()['amenities']
+                self.add_widget(self.card)
+                self.last = u.key()
+                self.something = u.key()
+                self.j += 1
             
 
 
 class BookmarkScreen(Screen):
     pass
     
-loaded = []
+
 
 class BookmarkLayout(MDBoxLayout):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.last_rec = 0
-    
-    
-    def begin(self):
-        with open(f'{path}/user.json', 'r') as jsonfile:
-            self.curr = json.load(jsonfile)
-        try:
-            func_timeout(30, self.starto)
-        except FunctionTimedOut:
-            print("No internet connection timedout")
-            toast("No internet connection timedout")
-        except:
-            toast("No internet connection")
-            print("No internet connection")
-
-    def starto(self):
-        # with open(f'{path}/user.json', 'r') as jsonfile:
-        #     self.curr = json.load(jsonfile)
-        # self.last_rec = len(self.curr['bookmarks'][self.curr['email']])
-        # print(self.last_rec)
-        # print('OOh ma gaa')
-        if self.curr['email'] != '':
-            if len(self.curr['bookmarks'][self.curr['email']]) > 0:
-
-                print(self.curr['bookmarks'][self.curr['email']])
-                for i in self.curr['bookmarks'][self.curr['email']]:
-                    if i not in loaded:
-                        self.yours = db.child("Sale").order_by_key().equal_to(i).get()
-                        if self.yours:
-                            self.starti(self.yours)
         
+    
+    
+
     @mainthread
-    def starti(self, yours):
-        
-            
-        
-        for u in yours:
-            something = u.key()
-            print(u.key())
-            # another = person.val()
-            
-        
-            # if u.key() not in loaded:
-            #     if something not in loaded:
-            print('Okay maybe it wokred')
-            self.card = HomeCards()
-            self.card.image = u.val()['url']
-            self.card.amenities = u.val()['amenities']
-            self.card.tot = u.val()['housetype']
-            self.card.country = u.val()['country']
-            self.card.province = u.val()['state']
-            self.card.town = u.val()['town']
-            self.card.street = u.val()['street']
-            self.card.bedrooms = u.val()['bedrooms']
-            self.card.bathrooms = u.val()['bathrooms']
-            self.card.landspace = u.val()['landspace']
-            self.card.email = u.val()['email']
-            self.card.price = u.val()['price']
-            self.card.key = u.key()
-            self.card.phonenumber = u.val()['phonenumber']
-            self.card.twitter = u.val()['twitter']
-            self.card.facebook = u.val()['facebook']
-            self.card.description = u.val()['description']
-            self.add_widget(self.card)
-            loaded.append(u.key())
-            print("added")
-            print(loaded)
-                            
-                    
-            
-            
-                
-            
-                
-                    #     self.mine = db.child("Rent").order_by_key().equal_to(i).get()
-                    #     for u in self.mine:
-                    #         something = u.key()
-                    #         print(u.key())
-                    #         # another = person.val()
-                            
-                        
-                    #         # if u.key() not in loaded:
-                    #         #     if something not in loaded:
-                    #         print('Okay maybe it wokred')
-                    #         self.card = HomeCards()
-                    #         self.card.image = u.val()['url']
-                    #         self.card.amenities = u.val()['amenities']
-                    #         self.card.tot = u.val()['housetype']
-                    #         self.card.country = u.val()['country']
-                    #         self.card.province = u.val()['state']
-                    #         self.card.town = u.val()['town']
-                    #         self.card.street = u.val()['street']
-                    #         self.card.bedrooms = u.val()['bedrooms']
-                    #         self.card.bathrooms = u.val()['bathrooms']
-                    #         self.card.landspace = u.val()['landspace']
-                    #         self.card.email = u.val()['email']
-                    #         self.card.price = u.val()['price']
-                    #         self.card.key = u.key()
-                    #         self.card.phonenumber = u.val()['phonenumber']
-                    #         self.card.twitter = u.val()['twitter']
-                    #         self.card.facebook = u.val()['facebook']
-                    #         self.card.description = u.val()['description']
-                    #         self.add_widget(self.card)
-                    #         loaded.append(u.key())
-                    #         print("added")
-                    #         print(loaded)
-                            
-                    # else:
-                    #     print("Already loaded booom")
-                    #     print(loaded)
-
-        for i in self.curr['bookmarks'][self.curr['email']]:
-            if i not in loaded:
-                print(i)
-                self.curr['bookmarks'][self.curr['email']].remove(i)
-
-        with open(f'{path}/user.json', 'w') as jsonfile:
-            json.dump(self.curr, jsonfile)
-            # else:
-            #     print('Nope, Empty!!')
-
     def show_dialog(self, notice, button=None):
         self.dialog = MDDialog(text=notice, size_hint=(1, 1), buttons=[MDRaisedButton(text="close", on_release=self.close_dialog), button])
         self.dialog.open()
 
+    @mainthread
     def close_dialog(self,obj):
         self.dialog.dismiss()
         
@@ -2066,7 +1995,8 @@ class Listings(MDList):
 
 
 
-                    
+class AccountItem(OneLineListItem):
+    pass
                     
 
 
@@ -2080,13 +2010,16 @@ class MainApp(MDApp):
         self.wm = WindowManager()
         self.theme_cls.primary_palette = "Blue"
         self.theme_cls.primary_hue = "900"
-        self.wm.transition = SwapTransition()
-        
+        self.wm.transition = WipeTransition()
+        self.wm.transition.duration = .2
+        self.kill = False
+        self.has_error = False
         self.splash()
         self.account = MyAccount(name='acc')
         self.signup = AccountLoginPage(name="sign-up")
         self.signin = SignInScreen(name="signin")
         self.starter = StartingScreen(name='starter')
+        self.code_verifyer = CodeVerifyer(name="code")
         
         self.SaleOrRent = SaleOrRent(name="SaleOrRent")
         
@@ -2105,12 +2038,16 @@ class MainApp(MDApp):
         self.creator_screen = CreatorScreen(name='creator')
         self.tutorial = AppTutorial(name='tutor')
         self.congrats = Congrats(name='congrats')
-        self.pt = PropertyCardsLayout()
+        self.warning = Warning()
+        # self.pt = PropertyCardsLayout()
+
         
+
         self.screenos = []
         self.screeni = []
-
+        self.denied = 0
         self.current_screen = ''
+        self.sign_in_current = ''
 
         # self.wm.current = 'starter'
         # self.wm.switch_to(self.starter)
@@ -2163,8 +2100,7 @@ class MainApp(MDApp):
 
 
         
-        
-            
+        # self.account_choice = AccountChoice()
         
         
         
@@ -2172,12 +2108,20 @@ class MainApp(MDApp):
         # for i in self.screensers:
         #     self.wm.add_widget(i)
         
+        # self.event = Event()
         
+        # self.switch_loading()
         
-        # self.wm.switch_to(self.loading)
-        
-        
+        self.loader = []
+        self.last_sold = 0
         self.numberiy = 'item 0'
+
+
+        self.last_rec = 0
+        self.loaded = []
+        self.counter = 0
+
+        
 
         self.sale_or_rent = ''
         
@@ -2188,24 +2132,969 @@ class MainApp(MDApp):
         self.sign_in_pass = ''
         self.source = 'Images\Pirate King (2).jpg'
 
-        self.tot = ''
-        self.country = ''
-        self.state = ''
-        self.town = ''
-        self.street = ''
-        self.bedrooms = ''
-        self.bathrooms = ''
-        self.landspace = ''
-        self.price = ''
+        self.tot = 'Nice House'
+        self.country = 'Australia'
+        self.state = 'New South Wales'
+        self.town = 'Sydney'
+        self.street = 'Sydney Street'
+        self.bedrooms = '6'
+        self.bathrooms = '3'
+        self.landspace = '542'
+        self.price = '120000'
         self.phonenumber = ''
-        self.desc = ''
+        self.desc = 'Brief description will appear here..'
         self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
         self.twitter = ''
         self.facebook = ''
         return self.wm
         return super().build()
     
+    def switch_choice(self):
+        with open(f'{path}/user.json', 'r') as jsonfile:
+            self.curr = json.load(jsonfile)
+
+        self.account_choosing = AccountChoice()
+        # accounts = [
+        #     {
+        #         "viewclass": "OneLineListItem",
+        #         "text": acc['email'],
+        #         "divider": None,
+        #         "on_release": lambda x=acc['email'], y=acc['password']: self.switch(x, y)
+        #     }
+        #     for acc in self.curr['accounts']
+        # ]
+
+        self.account_choose = MDDialog(
+            title='Accounts',
+            type='custom',
+            content_cls=self.account_choosing,
+
+        )
+
+        
+        self.account_choose.open()
+        
+        # self.account_choice.caller=MyProducts().ids.account_choice
+        for i in self.curr['accounts']:
+            print(i)
+            self.account_item = AccountItem()
+            self.account_item.text = i['email']
+            self.account_item.divider = None
+            self.account_choosing.ids.account_listings.add_widget(self.account_item)
+                
+        
+    def close_account_choose(self):
+        sound.play()
+        self.account_choose.dismiss()
+        # self.account_choice.items.append(add_another)
+
+        # self.account_choice.open()
+
+    def switch(self, email):
+        print(email)
+        
+        self.loading.ids.spin.active=True
+        self.switch_loading()
+        self.event = Event()
+        self.thread_now = threading.Thread(target=self.switch_now, args=(email,))
+        self.thread_now.start()
+
+    def switch_now(self, email):
+        # self.snackbar('Switching account....')s
+        
+
+        if not self.event.is_set():
+            print('switching account')
+            print(email)
+            for i in self.curr['accounts']:
+                if i['email'] == email:
+                    password = i['password']
+                    print(password)
+
+            try:
+                func_timeout(20, self.switch_account, args=(email, password,))
+                
+                self.switch_products()
+                
+            except FunctionTimedOut:
+                print("Internet connection limited or unavailable")
+                self.toast("Internet connection limited or unavailable")
+                self.event.set()
+                time.sleep(1)
+                self.true_switch_products()
+                self.spin_false()
+            
+        
+            # except:
+            #     print("Failed to switch account")
+            #     self.toast("Failed to switch account")
+                
+            #     self.event.set()
+            #     time.sleep(1)
+            #     self.true_switch_products()
+            #     self.spin_false()
+
+
+    def switch_account(self, email, password):
+        with open(f'{path}/user.json', 'r') as jsonfile:
+            self.curr = json.load(jsonfile)
+        print(self.curr['email'])
+        print(email)
+        print(password)
+        self.user = authi.sign_in_with_email_and_password(email, password)
+        ino = authi.get_account_info(self.user['idToken'])
+        if ino['users'][0]['emailVerified'] != True:
+            authi.send_email_verification(self.user['idToken'])
+            text = "An email verification link has been sent to your mail"
+            
+            self.show_dialog(text)
+        
+        self.curr['email'] = email
+        self.curr['password'] = password
+        self.curr['idToken'] = self.user['idToken']
+        self.curr['localid'] = self.user['localId']
+
+        with open(f'{path}/user.json', 'w') as jsonfile:
+            json.dump(self.curr, jsonfile)
+        self.snackbar('Successfully signed in loading properties')
+        # self.account_choose.dismiss()
+        self.loader.clear()
+        self.last_sold = 0
+        self.clear_products()
+        
+
+
+    def reload_products(self):
+        self.loading.ids.spin.active = True
+        self.switch_loading()
+        print("Produts reloading")
+
+        self.loader.clear()
+        self.last_sold = 0
+        self.products.ids.layout.clear_widgets()
+        
+        self.begin_loading()
+        # time.sleep(5)
+        # self.true_switch_products()
+
+    def begin_loading(self):
+        
+       
+        self.event = Event()
+        self.th = threading.Thread(target=self.begin_now)
+        self.th.start()
+        
+
+    def begin_now(self):
+        # self.last_sold = 0
+        # self.loading = Loading()
+        
+        # print(self.loader)
+        print("Beginning now")
+        print(self.event.is_set())
+        if not self.event.is_set():
+            with open(f'{path}/user.json', 'r') as jsonfile:
+                self.curr = json.load(jsonfile)
+            # print(self.curr)
+            try:
+                func_timeout(25, self.added)
+            except FunctionTimedOut:
+                print("Failed to load properties timed out")
+                self.toast("Failed to load properties timed out")
+                self.event.set()
+                # self.true_switch_products()
+            except requests.exceptions.HTTPError as e:
+                error_json = e.args[1]
+                error = json.loads(error_json)['error']
+                print(str(error) + "is the error")
+                print(str(error) + "is the error") 
+                if error == 'Permission denied':
+                    print("Permission denied")
+                    print("Resigning in")
+                    
+                    # try:
+                    try:
+                        func_timeout(10, self.denied_signin)
+                        self.begin_loading()
+                    except FunctionTimedOut:
+                        print("Failed to resign in timedout")
+                        self.toast("Failed to resign in timedout")
+                        self.event.set()
+                        # self.true_switch_products()
+                        
+                    except:
+                        print("Failed to resign")
+                        self.toast("Failed to resign")
+                        self.event.set()
+                        # self.true_switch_products()
+                        
+                    
+            except:
+                self.toast("Failed to load properties")
+                print("Failed to load properties")
+                self.event.set()
+                # self.true_switch_products()
+            print(self.wm.current)
+            time.sleep(1)
+            self.true_switch_products()
+        else:
+            print("Event has been set")
+            
+        
+        
+        # self.spin_false()
+        print("spin falllllsssssseeeeee")
+        print(self.wm.current)
+        
+
+    @mainthread
+    def true_switch_products(self):
+        self.wm.transition=NoTransition()
+        self.wm.switch_to(self.products)
+
+
+
+
+    @mainthread
+    def clear_products(self):
+        self.products.ids.layout.clear_widgets()
+
+    # @mainthread
+    def switch_products(self):
+        
+        self.loading.ids.spin.active = True
+        self.switch_loading()
+        self.passwrd = ''
+        self.mail = ''
+        self.sign_in_current = 'products'
+        
+        self.begin_loading()
+        
+        # self.wm.switch_to(self.products)
+        print(self.products.ids.layout.done)
+        
+
+
+
+    def added(self):
+        print('mmhmm')
+        
+        with open(f'{path}/user.json', 'r') as jsonfile:
+            self.curr = json.load(jsonfile)
+        
+        
+
+        # print(a.val())
+        # if a.key() == 'local_image':
+            # print(a.val())
+        #     curr['house_images'].append(a.val())
+
+        #     with open(f'{path}/user.json', 'w') as jsonfile:
+        #         json.dump(curr, jsonfile)
+        
+        print(self.curr['idToken'])
+        print('OOh ma gaa')
+
+        print(str(self.last_sold) + " " + "init last sold")
+        
+        if self.curr['email'] != '':
+            if self.curr["sold"][self.curr['email']] > self.last_sold:
+                print("Initializing")
+                self.testichiro = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
+                # self.testiroro = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
+                self.last_sold = self.curr["sold"][self.curr['email']]
+                print("After last sold")
+
+                if self.testichiro.each():
+                    print("Inside testichiro")
+                    for q in self.testichiro.each():
+                        self.dude = q.val()['prop_keys']
+                        print(self.loader)
+                        # if not self.event.is_set():
+                        if self.dude not in self.loader:
+                            self.yours = db.child("Sale").order_by_key().equal_to(self.dude).get()
+                            self.ours = db.child("Rent").order_by_key().equal_to(self.dude).get()
+                            self.next_after(self.yours, self.ours)
+                        else:
+                            print("Already loaded booom in sale")
+                        
+                else:
+                    print("Not testichiro .each")
+            else:
+                print("self.curr is greater than last_sold")
+        else:
+            print("No one signed in")
+        print("Self.switch true products")
+        
+                # if self.testiroro.each():
+            
+                #     for d in self.testiroro.each():    
+                #         self.bruv = d.val()['prop_keys']
+                #         if self.bruv not in self.loader:
+                #             self.ours = db.child("Rent").order_by_key().equal_to(self.bruv).get()
+                #             self.next_after(self.ours)
+                #         else:
+                #             print("Already loaded booom")
+                #             print(self.loader)
+        # Animation(opacity=0, duration = 0.5).start(self.loading)
+        
+        
     
+
+    @mainthread
+    def next_after(self, yours, ours):
+        print("Hey")
+        
+        if yours:
+            for u in yours:
+                        # another = person.val()
+                        
+            
+            
+            
+                
+                print('Okay maybe it wokred')
+                self.card = PropertySaleCards()
+                self.card.image = u.val()['url']
+                self.card.amenities = u.val()['amenities']
+                self.card.tot = u.val()['housetype']
+                self.card.country = u.val()['country']
+                self.card.province = u.val()['state']
+                self.card.town = u.val()['town']
+                self.card.street = u.val()['street']
+                self.card.bedrooms = u.val()['bedrooms']
+                self.card.bathrooms = u.val()['bathrooms']
+                self.card.landspace = u.val()['landspace']
+                self.card.email = u.val()['email']
+                self.card.price = u.val()['price']
+                self.card.key = u.key()
+                self.card.phonenumber = u.val()['phonenumber']
+                self.card.twitter = u.val()['twitter']
+                self.card.facebook = u.val()['facebook']
+                self.card.description = u.val()['description']
+                self.card.views = u.val()['views']
+                self.card.local_image = u.val()['local_image']
+                
+                self.products.ids.layout.add_widget(self.card)
+                print(self.loader)
+                self.loader.append(u.key())
+            
+            # print("added")
+            # print(self.loader)
+            
+    
+                    
+                        # print(self.loader)
+                
+
+        if ours:
+            for u in ours:
+                
+                print(u.key())
+                
+                
+                
+                
+                print(u.val()['url'])
+                
+                    
+                print('Okay maybe it wokred')
+                self.card = PropertyRentCards()
+                self.card.image = u.val()['url']
+                self.card.amenities = u.val()['amenities']
+                self.card.tot = u.val()['housetype']
+                self.card.country = u.val()['country']
+                self.card.province = u.val()['state']
+                self.card.town = u.val()['town']
+                self.card.street = u.val()['street']
+                self.card.bedrooms = u.val()['bedrooms']
+                self.card.bathrooms = u.val()['bathrooms']
+                self.card.landspace = u.val()['landspace']
+                self.card.email = u.val()['email']
+                self.card.price = u.val()['price']
+                self.card.key = u.key()
+                self.card.phonenumber = u.val()['phonenumber']
+                self.card.twitter = u.val()['twitter']
+                self.card.facebook = u.val()['facebook']
+                self.card.description = u.val()['description']
+                self.card.views = u.val()['views']
+                self.card.local_image = u.val()['local_image']
+                
+                self.products.ids.layout.add_widget(self.card)
+                
+                self.loader.append(u.key())
+                # print("added")
+                print(self.loader)
+                print(self.counter)
+
+        
+    @mainthread
+    def true_switch_bookmarks(self):
+        self.wm.transition=NoTransition()
+        self.wm.switch_to(self.bk)
+
+
+    def begin_thread_bookmarks(self):
+        self.event = Event()
+        self.thread_bookmarks = threading.Thread(target=self.begin_bookmarks)
+        self.thread_bookmarks.start()
+
+
+    def begin_bookmarks(self):
+        if not self.event.is_set():
+            with open(f'{path}/user.json', 'r') as jsonfile:
+                self.curr = json.load(jsonfile)
+            try:
+                print("Starto")
+                func_timeout(30, self.starto_bookmarks)
+            except FunctionTimedOut:
+                print("Internet connection limited or unavailable")
+                self.toast("Internet connection limited or unavailable")
+                self.event.set()
+                
+        
+            except:
+                self.toast("Network Error")
+                print("Network Error")
+                self.event.set()
+
+            time.sleep(1)
+            self.true_switch_bookmarks()
+
+    def starto_bookmarks(self):
+        # with open(f'{path}/user.json', 'r') as jsonfile:
+        #     self.curr = json.load(jsonfile)
+        # self.last_rec = len(self.curr['bookmarks'][self.curr['email']])
+        # print(self.last_rec)
+        # print('OOh ma gaa')
+        if self.curr['email'] != '':
+            if len(self.curr['bookmarks'][self.curr['email']]) > 0:
+
+                # print(self.curr['bookmarks'][self.curr['email']])
+                for i in self.curr['bookmarks'][self.curr['email']]:
+                    if not self.event.is_set():
+                        if i not in self.loaded:
+                            print("checking")
+                            
+                            self.yours = db.child("Sale").order_by_key().equal_to(i).get()
+                            self.mine = db.child("Rent").order_by_key().equal_to(i).get()
+                            self.starti_bookmarks(self.yours, self.mine)  
+                    else:
+                        print("Event has been set")
+                        break
+                    
+
+                print(self.loaded)
+
+                
+
+            
+        
+    @mainthread
+    def starti_bookmarks(self, yours, mine):
+        
+            
+        if yours:
+            for u in yours:
+                # something = u.key()
+                # print(u.key())
+                # another = person.val()
+                
+            
+                # if u.key() not in self.loaded:
+                #     if something not in self.loaded:
+                # print('Okay maybe it wokred')
+                self.card = HomeCards()
+                self.card.image = u.val()['url']
+                self.card.amenities = u.val()['amenities']
+                self.card.tot = u.val()['housetype']
+                self.card.country = u.val()['country']
+                self.card.province = u.val()['state']
+                self.card.town = u.val()['town']
+                self.card.street = u.val()['street']
+                self.card.bedrooms = u.val()['bedrooms']
+                self.card.bathrooms = u.val()['bathrooms']
+                self.card.landspace = u.val()['landspace']
+                self.card.email = u.val()['email']
+                self.card.price = u.val()['price']
+                self.card.key = u.key()
+                self.card.phonenumber = u.val()['phonenumber']
+                self.card.twitter = u.val()['twitter']
+                self.card.facebook = u.val()['facebook']
+                self.card.description = u.val()['description']
+                self.bk.ids.bk.add_widget(self.card)
+                self.loaded.append(u.key())
+                print("added")
+                print(self.loaded)
+                            
+                    
+            print("DOne withe sale")
+            
+                
+            
+    
+        if mine:   
+            for u in mine:
+                # something = u.key()
+                # print(u.key())
+                # another = person.val()
+                
+            
+                # if u.key() not in self.loaded:
+                #     if something not in self.loaded:
+                # print('Okay maybe it wokred')
+                self.card = HomeCards()
+                self.card.image = u.val()['url']
+                self.card.amenities = u.val()['amenities']
+                self.card.tot = u.val()['housetype']
+                self.card.country = u.val()['country']
+                self.card.province = u.val()['state']
+                self.card.town = u.val()['town']
+                self.card.street = u.val()['street']
+                self.card.bedrooms = u.val()['bedrooms']
+                self.card.bathrooms = u.val()['bathrooms']
+                self.card.landspace = u.val()['landspace']
+                self.card.email = u.val()['email']
+                self.card.price = u.val()['price']
+                self.card.key = u.key()
+                self.card.phonenumber = u.val()['phonenumber']
+                self.card.twitter = u.val()['twitter']
+                self.card.facebook = u.val()['facebook']
+                self.card.description = u.val()['description']
+                self.bk.ids.bk.add_widget(self.card)
+                self.loaded.append(u.key())
+                print("added")
+                print(self.loaded)
+
+        self.counter += 1
+        print(self.counter)
+        print(self.loaded)
+        if self.counter == len(self.curr['bookmarks'][self.curr['email']]):
+            print("counted")
+            for b in self.curr['bookmarks'][self.curr['email']]:
+                if b not in self.loaded:
+                    print(b)
+                    print("Was not found")
+                    self.curr['bookmarks'][self.curr['email']].remove(b)
+                    self.toast("Some Properties may have been sold.")
+
+            with open(f'{path}/user.json', 'w') as jsonfile:
+                json.dump(self.curr, jsonfile)  
+            self.counter = 0
+
+        
+    def reload_bookmarks(self):
+        self.loading.ids.spin.active = True
+        self.wm.switch_to(self.loading)
+        # self.loader.remove(key)
+        
+        self.loaded.clear()
+        # self.last_sold = 0
+        
+        self.bk.ids.bk.clear_widgets()
+        self.begin_thread_bookmarks()
+        
+
+
+
+    def thread_initialize_contact_message(self):
+        self.contact.ids.send.opacity = 0
+        self.contact.ids.spin.active = True
+        self.contact.ids.send_card.disabled = True
+        
+        self.event=Event()
+        self.thread_message = threading.Thread(target=self.initialize_contact_message)
+        self.thread_message.start()
+
+
+    def initialize_contact_message(self):
+        if not self.event.is_set():
+            with open(f'{path}/user.json', 'r') as jsonfile:
+                self.curr = json.load(jsonfile)
+            if self.curr["email"] != '':
+                
+                if len(self.contact.ids.firstname.text) >= 2 and len(self.contact.ids.firstname.text) < 16:
+                    if len(self.contact.ids.lastname.text) >= 2 and len(self.contact.ids.lastname.text) < 16:
+                        if self.contact.ids.mail.text == self.curr["email"]:
+                            if len(self.contact.ids.message.text) > 0:
+                                try:
+                                    func_timeout(16, self.send_contact_message)
+                                except FunctionTimedOut:
+                                    print("Network Error")
+                                    self.toast("Failed to send message timedout")
+                                    self.event.set()
+                                except:
+                                    print("Network Error")
+                                    self.toast("Failed to send message")
+                                    self.event.set()
+
+                            else:
+                                text = "Please input a message"
+                                self.show_dialog(text)
+                                self.event.set()
+                                
+                        else:
+                            text = "Email mismatch"
+                            self.show_dialog(text)
+                            self.event.set()
+                            
+                    else:
+                        text = "Lastname must be between 2 and 16 characters"
+                        self.show_dialog(text)
+                        self.event.set()
+                        
+                else:
+                    text = "Firstname must be between 2 and 16 characters"
+                    self.show_dialog(text)
+                    self.event.set()
+            else:
+                self.show_dialog("You're not signed in")
+                self.event.set()
+        
+        self.opacity_spin_false()
+        
+    @mainthread
+    def opacity_spin_false(self):
+        self.contact.ids.send_card.disabled = False
+        self.contact.ids.spin.active = False
+        self.contact.ids.send.opacity = 1
+        
+    
+    def send_contact_message(self):
+        
+        message = MIMEText(self.contact.ids.mail.text + '\nSender:' + f'\n{self.contact.ids.firstname.text}' + " " + f'{self.contact.ids.lastname.text}')
+        message['Subject'] = "Contact Us Hometernet Notice"
+        message["From"] = self.contact.ids.mail.text
+        message["To"] = "anangjosh8@gmail.com"
+        server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+        server.login("anangjosh8@gmail.com", "iujwzdutnqmbpkjm")
+        server.sendmail(self.contact.ids.mail.text, "anangjosh8@gmail.com", message.as_string())
+        server.quit()
+        # self.doa.dismiss()
+        print("server exited")
+        
+        text = "Message sent successfully"
+        self.snackbar(text)
+                        
+
+
+
+
+
+    def search_thread(self, choice, country, state, city, bedrooms):
+        self.new_country = ''
+        self.new_choice = ''
+        self.new_bedrooms = '1'
+        self.search_j = 0
+        self.last = ''
+        self.search_something = ''
+        self.old_country = ''
+        self.new_state = ''
+        self.new_city = ''
+        self.search_counter = 0
+        self.search_begin = None
+        
+        print(self.has_error)
+        if self.has_error:
+            self.search.ids.relative.remove_widget(self.err)
+            self.search.ids.relative.remove_widget(self.ico_err)
+            self.has_error = False
+            print("Has removed error")
+        self.search.ids.spin.active = True
+        self.search.ids.more_card.disabled = True
+        self.search.ids.more_card.opacity = 0
+        
+        print("Beginning the search..")
+        self.event = Event()
+        self.thread_search = threading.Thread(target=self.search_it, args=(choice, country, state, city, bedrooms,))
+        self.thread_search.start()
+
+
+
+
+    @mainthread
+    def search_error(self, text, icon="cancel"):
+        self.err = MDLabel()
+        self.err.text=text
+        self.err.font_size="16dp"
+        self.err.halign="center"
+        self.err.size_hint_y=None
+        self.err.adaptive_height=True
+        self.err.pos_hint = {'center_y':0.5}
+        self.err.color="gray"
+        self.search.ids.relative.add_widget(self.err)
+           
+        self.ico_err = MDIcon()
+        self.ico_err.icon=icon
+        self.ico_err.font_size="60dp"
+        self.ico_err.size_hint=[None, None]
+        self.ico_err.adaptive_size=True
+        self.ico_err.pos_hint = {'center_y':0.6, 'center_x': 0.5}
+        self.ico_err.color="gray"
+        self.search.ids.relative.add_widget(self.ico_err)
+        self.has_error = True
+        print(self.has_error)
+
+    def search_it(self, choice, country, state, city, bedrooms):
+        if not self.event.is_set():
+            try:
+                func_timeout(70, self.search_now, args=(choice, country.title(), state.title(), city.title(), bedrooms,))
+            except FunctionTimedOut:
+                print("Internet connection limited or unavailable")
+                # self.toast("Internet connection limited or unavailable")
+                self.event.set()
+                self.search_error("Failed")
+                
+            except:
+                print("Network Error")
+                # self.toast("Network Error")
+                self.search_error("Failed")
+                self.event.set()
+        self.search.ids.spin.active = False
+
+    @mainthread
+    def clear_search(self):
+        self.search.ids.search.clear_widgets()
+
+    def search_now(self, choice, country, state, city, bedrooms):
+        
+        print(choice)
+        # self.old_country = country
+        self.old_country = country
+        self.old_choice = choice
+        self.old_bedrooms = bedrooms
+        self.old_state = state
+        self.old_city = city
+        if country != self.new_country or choice != self.new_choice or bedrooms != self.new_bedrooms:
+            print('is not equal')
+            self.new_country = country
+            self.new_choice = choice
+            self.new_bedrooms = bedrooms
+            self.old_country = self.new_country
+            self.something = ''
+            
+            self.clear_search()
+        else:
+            print('is equal')
+
+        self.search_j = 0
+
+        with open(f'{path}/user.json', 'r') as jsonfile:
+            self.curr = json.load(jsonfile)
+            print(self.curr['localid'])
+        
+        
+        self.clear_search()
+        print(state, city)
+        print(country+"Is the freak'n freak'n freaking country mannn yeeeaaaaahhhh")
+        if state == '' and city == '':
+            self.search_counter = 0
+            self.search_begin = db.child(choice).order_by_child('country').equal_to(country).get()
+            time.sleep(1)
+            if not self.event.is_set():
+
+                self.search_added(country, state, city, bedrooms)
+                print(self.search_begin.each()[0:])
+            
+                print("This one")
+            else:
+                print("Tried to continue search")
+        elif state != '' and city != '':
+            print(country+state+city)
+            self.search_counter = 0
+            self.search_begin = db.child(choice).order_by_child('location').equal_to(country+state+city).get()
+            print(self.search_begin.each()[0:])
+            time.sleep(1)
+            if not self.event.is_set():
+                self.search_added(country, state, city, bedrooms)
+                print("That one")
+            else:
+                print("Tried to continue search")
+            
+        
+            # self.added(country, state, city, bedrooms)
+        elif state == '' and city != '':
+            print('Must input state')
+            self.snackbar('Please enter a state')
+
+        elif city == '' and state != '':
+            print('Must input city')
+            self.snackbar('Please enter a city')
+        
+        
+        
+
+        # self.begin = db.child(choice).child(self.begin.key()).order_by_child('bedrooms').equal_to(bedrooms).get()
+        
+        # if state != '':
+        #     self.begin = self.begin.order_by_child('state').equal_to(state).get()
+        #     self.added(country, state, city, bedrooms)
+        # else:
+        #     self.added(country, state, city, bedrooms)
+
+    
+        
+
+    @mainthread
+    def search_added(self, country, state, city, bedrooms):
+        
+    
+        if self.search_begin.each():
+            for u in self.search_begin.each():
+                print(u.key())
+                self.search_counter += 1
+                
+                
+                if self.search_something == u.key():
+                    continue
+                
+                # if u.val()['state'] == state:
+                #     if u.val()['town'] == city:
+                if u.val()['bedrooms'] == bedrooms:
+                
+                    self.card = HomeCards()
+                    self.card.image = u.val()['url']
+                
+                    self.card.tot = u.val()['housetype']
+                    self.card.country = u.val()['country']
+                    self.card.province = u.val()['state']
+                    self.card.town = u.val()['town']
+                    self.card.street = u.val()['street']
+                    self.card.bedrooms = u.val()['bedrooms']
+                    self.card.bathrooms = u.val()['bathrooms']
+                    self.card.landspace = u.val()['landspace']
+                    self.card.email = u.val()['email']
+                    self.card.price = u.val()['price']
+                    self.card.key = u.key()
+                    self.card.phonenumber = u.val()['phonenumber']
+                    self.card.twitter = u.val()['twitter']
+                    self.card.facebook = u.val()['facebook']
+                    self.card.description = u.val()['description']
+                    self.card.amenities = u.val()['amenities']
+                    self.search.ids.search.add_widget(self.card)
+                    self.last = u.key()
+                    self.search_something = u.key()
+                    self.search_j += 1 
+                    
+                    break
+
+            if self.search_j == 0:
+                print("No found for number of bedrooms")
+                self.snackbar("Not found for number of bedrooms")
+                self.search.ids.spin.active = False
+            else:
+                self.search.ids.more_card.disabled = False
+                self.search.ids.more_card.opacity = 1
+                self.search.ids.spin.active = False
+        else:
+            # self.snackbar("Not found")
+            print("none")
+            self.search.ids.spin.active = False
+            self.search_error("Nothing found", icon="cloud")
+        
+
+    def next_thread(self, bedrooms):
+        self.search.ids.spin.active = True
+        self.search.ids.more_card.disabled = False
+        self.event = Event()
+        self.thread_next = threading.Thread(target=self.next, args=(bedrooms,))
+        self.thread_next.start()
+
+    def next(self, bedrooms):
+        print("This is self.counter" +  " " + str(self.search_counter))
+        if not self.event.is_set():
+            try:
+                func_timeout(30, self.next_next, args=(bedrooms,))
+            except FunctionTimedOut:
+                print("Internet connection limited or unavailable")
+                self.toast("Internet connection limited or unavailable")
+                self.event.set()
+                # snack = "No internet conection"
+                # snacky = Snackbar(text=snack, snackbar_x="15dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y=None)
+                # snacky.open()
+            except:
+                print("Network Error")
+                self.toast("Network Error")
+                self.event.set()
+        self.search.ids.more_card.disabled = False
+        self.search.ids.spin.active = False
+
+    def next_next(self, bedrooms):
+        
+        # print("This is self.j" + " " + str(self.j))
+        # print(str(len(self.begin.each())) + "is the length of the availabel countries")
+        print(self.search_counter)
+        if self.search_begin:
+            if self.search_counter < len(self.search_begin.each()):
+                if self.search_j / 10 == 1:
+                    self.clear_search()
+        else:
+            print('self.begin is empty')
+            
+        if self.search_something != '':
+            # self.again = db.child(self.old_choice).order_by_child('country').start_at(self.old_country).order_by_key().start_at(self.something).get()
+            self.real_next(bedrooms)
+            self.search.ids.spin.active = False
+            
+        
+
+    @mainthread
+    def real_next(self, bedrooms):
+        
+        
+        if self.search_begin.each():
+            for u in self.search_begin.each()[self.search_counter:]:
+                # print('lala')
+                if u.key() == self.search_something:
+                    continue
+                
+                # if u.val()['country'] == self.old_country:
+                #     if u.val()['state'] == self.old_state:
+                #         if u.val()['town'] == self.old_city:
+                self.search_counter += 1
+                print(u.key())
+                if u.val()['bedrooms'] == self.old_bedrooms:
+                    self.card = HomeCards()
+                    self.card.image = u.val()['url']
+                    self.card.tot = u.val()['housetype']
+                    self.card.country = u.val()['country']
+                    self.card.province = u.val()['state']
+                    self.card.town = u.val()['town']
+                    self.card.street = u.val()['street']
+                    self.card.bedrooms = u.val()['bedrooms']
+                    self.card.bathrooms = u.val()['bathrooms']
+                    self.card.landspace = u.val()['landspace']
+                    self.card.email = u.val()['email']
+                    self.card.price = u.val()['price']
+                    self.card.key = u.key()
+                    self.card.phonenumber = u.val()['phonenumber']
+                    self.card.twitter = u.val()['twitter']
+                    self.card.facebook = u.val()['facebook']
+                    self.card.description = u.val()['description']
+                    self.card.amenities = u.val()['amenities']
+                    self.search.ids.search.add_widget(self.card)
+                    self.last = u.key()
+                    self.something = u.key()
+                    self.search_j += 1
+                    print(self.search_j)
+                    if self.search_j / 5 == 1:
+                        
+                        break
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def on_start(self):
         
@@ -2219,11 +3108,14 @@ class MainApp(MDApp):
 
     def splash(self):
         try:
-            func_timeout(20, self.start_up)
+            func_timeout(10, self.start_up)
         except FunctionTimedOut:
-            print("No internet connection")
-            toast("No internet conection")
-
+            print("Failed to sign in timedout")
+            toast("Failed to sign in timedout")
+        except:
+            print("Failed to sign in")
+            print("Pass")
+            self.toast("Failed to sign in")
         print("Starting")
 
     def start_up(self):
@@ -2238,19 +3130,20 @@ class MainApp(MDApp):
                 print("Fase")
                 
             else:
-                try:
-                    print("bruuhhh")
-                    self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
-                    usero = authi.refresh(self.user['refreshToken'])
-                    print(self.user)
-                    self.curr['idToken'] = self.user['idToken']
+                # try:
+                print("bruuhhh")
+                self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
+                usero = authi.refresh(self.user['refreshToken'])
+                print(self.user)
+                self.curr['idToken'] = self.user['idToken']
 
-                    with open(f'{path}/user.json', 'w') as jsonfile:
-                        json.dump(self.curr, jsonfile)
-                except:
-                    print("Pass")
+                with open(f'{path}/user.json', 'w') as jsonfile:
+                    json.dump(self.curr, jsonfile)
+                # except:
+                #     print("Pass")
+                #     self.toast("Failed to sign in")
         else:
-            self.wm.switch_to(self.signin)
+            self.switch_signin()
 
     def hook_keyboard(self, window, key, *largs):
            
@@ -2275,12 +3168,7 @@ class MainApp(MDApp):
                 print("oh dude")
                 self.switch_products()
             elif self.wm.current == "signin":
-                if self.current_screen == "acc":
-                    self.switch_acc()
-                if self.current_screen == "products":
-                    self.switch_products()
-                if self.current_screen == "home":
-                    self.switch_home()
+                self.switch_from_signin()
                 
                 
                 
@@ -2308,6 +3196,15 @@ class MainApp(MDApp):
                 self.switch_home()
             elif self.wm.current == "congrats":
                 self.switch_products()
+            elif self.wm.current == "code":
+                self.switch_signup()
+            # elif self.wm.current == "loading":
+                # Event.set()
+                # self.switch_home()
+                # func_set_timeout(0, allowOverride=True)
+                
+                
+               
             
     def bedrooms_choice(self):
         bedrooms_items = [
@@ -2411,7 +3308,7 @@ class MainApp(MDApp):
         self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
         self.twitter = ''
         self.facebook = ''
-        self.dia.dismiss()
+        # self.dia.dismiss()
     
     def discard_mail(self):
         self.passwrd = ''
@@ -2470,7 +3367,7 @@ class MainApp(MDApp):
 
     
 
-
+    @mainthread
     def show_bottom(self, email, phonenumber, twitter, facebook):
         bottom_sheet_menu = MDListBottomSheet()
 
@@ -2504,39 +3401,58 @@ class MainApp(MDApp):
     
 
     @mainthread
-    def switch_home(self):
+    def switch_home(self, direction='left'):
+        self.wm.transition=SlideTransition()
+        self.wm.transition.duration = .1
+        self.wm.switch_to(self.home, direction=direction)
         self.current_screen = 'home'
-        self.wm.switch_to(self.home)
+        self.sign_in_current = 'home'
+        self.home.text = self.curr['email']
+        
 
     @mainthread
     def switch_loading(self):
-        self.wm.switch_to(self.loading)
+        # self.loading.ids.spin.active=True
+        self.wm.transition = SlideTransition()
+        self.wm.transition.duration = .2
+        self.wm.switch_to(self.loading, direction='right')
         
     def switch_acc(self):
-        self.current_screen = 'acc'
-        self.wm.switch_to(self.account)
+        self.wm.transition = SlideTransition()
+        self.wm.transition.duration = .1
+        self.wm.switch_to(self.account, direction='right')
+        
+        self.passwrd = ''
+        self.mail = ''
+        self.sign_in_current = 'acc'
+        self.account.text = self.curr['email']
+        
 
     def switch_creator(self):
-        
-        self.wm.switch_to(self.creator_screen)
+        self.wm.transition = SlideTransition()
+        self.wm.transition.duration = .1
+        self.wm.switch_to(self.creator_screen, direction='right')
 
     def switch_contact(self):
-        
+        self.wm.transition = SlideTransition()
+        self.wm.transition.duration = .1
         self.contact.ids.mail.text = ''
         
         self.contact.ids.firstname.text = ''
         self.contact.ids.lastname.text = ''
         self.contact.ids.message.text = ''
 
-        self.wm.switch_to(self.contact)
+        self.wm.switch_to(self.contact, direction='right')
 
     def switch_tutorial(self):
-        
-        self.wm.switch_to(self.tutorial)
+        self.wm.transition = SlideTransition()
+        self.wm.transition.duration = .1
+        self.wm.switch_to(self.tutorial, direction='right')
 
     def switch_about(self):
-        
-        self.wm.switch_to(self.about)
+        self.wm.transition = SlideTransition()
+        self.wm.transition.duration = .1
+        self.wm.switch_to(self.about, direction='right')
 
             
         
@@ -2551,10 +3467,13 @@ class MainApp(MDApp):
             self.switch_home()            
         
 
+    @mainthread
     def switch_details(self, image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, phonenumber=None, twitter=None, facebook=None, description=None, key=None, amenities=None):
-        
-        self.wm.switch_to(self.loading)
-        
+        self.wm.transition = CardTransition()
+        self.wm.transition.duration = .1
+        self.wm.switch_to(self.detail, direction='up')
+        # self.switch_loading()
+        self.sign_in_current = 'details'
         print(image)
         
         self.detail.image = image
@@ -2575,54 +3494,83 @@ class MainApp(MDApp):
         self.detail.key = key
         self.detail.amenities = amenities
         print(self.detail.amenities)
-        self.wm.switch_to(self.detail)
+        
+        
         
 
-    def switch_search(self):
+    def switch_search(self, direction='down'):
+        self.wm.transition = CardTransition()
+        self.wm.transition.duration = .1
+        
+        self.wm.switch_to(self.search, direction=direction)
         self.current_screen = 'search'
-        self.wm.switch_to(self.search)
         
 
     def switch_sale(self):
         with open(f'{path}/user.json', 'r') as jsonfile:
-            self.info = json.load(jsonfile)
-            print(self.info['localid'])
+            self.curr = json.load(jsonfile)
+            print(self.curr['localid'])
         print(self.amenities)
+        self.denied = 0
         self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
         self.sale = SaleSubmit(name="sale")
         self.wm.switch_to(self.sale)
 
     def switch_rent(self):
         with open(f'{path}/user.json', 'r') as jsonfile:
-            self.info = json.load(jsonfile)
-            print(self.info['localid'])
+            self.curr = json.load(jsonfile)
+            print(self.curr['localid'])
         print(self.amenities)
+        self.denied = 0
         self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
         self.rent = RentSubmit(name="rent")
         self.wm.switch_to(self.rent)
 
+    @mainthread
     def switch_signup(self):
+        self.passwrd = ''
+        self.mail = ''
+        self.signup.ids.email.text = ''
+        self.signup.ids.password.text = ''
+        self.signup.ids.confirm.text = ''
         self.wm.switch_to(self.signup)
 
-    @mainthread
-    def switch_products(self):
-        self.current_screen = 'products'
-        self.wm.switch_to(self.products)
+    
+        
+        
+        #     if self.products.ids.layout.done:
+        #         self.products.ids.spinner.active=False
+        #     if self.products.ids.layout.done is False:
+        
+            
+        # self.products.ids.spinner.active=False
+        # self.beg = PropertyCardsLayout()
+        # self.beg.begin_loading()
 
         
 
     def switch_bookmarks(self):
-        self.current_screen = 'bookmarks'        
-        self.wm.switch_to(self.bk)
+        self.current_screen = 'bookmarks'    
+        self.loading.ids.spin.active = True
+        self.switch_loading()
+        self.passwrd = ''
+        self.mail = ''
+        
+        
+        self.begin_thread_bookmarks()    
+        
 
-    
+    @mainthread
     def switch_signin(self):
         print(self.wm.current)
+        self.passwrd = ''
+        self.mail = ''
         with open(f'{path}/user.json', 'r') as jsonfile:
-            self.info = json.load(jsonfile)
-        if self.info['email'] != "":
-            p="You're already signed in"
-            self.snackbar(p)
+            self.curr = json.load(jsonfile)
+        if self.curr['email'] != "":
+            # p="You're already signed in"
+            # self.snackbar(p)
+            pass
         else:
             
             # self.signin = SignInScreen(name="signin")
@@ -2631,25 +3579,32 @@ class MainApp(MDApp):
             self.wm.switch_to(self.signin)
             print(self.wm.current)
 
+    @mainthread
     def switch_from_signin(self):
-        if self.current_screen == "acc":
+        self.passwrd = ''
+        self.mail = ''
+        if self.sign_in_current == "acc":
             self.switch_acc()
-        if self.current_screen == "products":
+        if self.sign_in_current == "products":
             self.switch_products()
-        if self.current_screen == "home":
+        if self.sign_in_current == "home":
+            self.switch_home()
+        if self.sign_in_current == "details":
             self.switch_home()
 
     @mainthread
     def switch_congrats(self):
         self.wm.switch_to(self.congrats)
     
-
-    
+    @mainthread
+    def switch_code_verifyer(self):
+        self.wm.switch_to(self.code_verifyer)
     
     def switch_saleorrent(self):
         
         
-            
+        
+        self.mail = ''
         with open(f'{path}/user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
         
@@ -2657,21 +3612,35 @@ class MainApp(MDApp):
             print(self.wm.current)
             self.switch_signin()
         else:
-            self.wm.switch_to(self.SaleOrRent)
+            self.wm.transition = SlideTransition()
+            self.wm.switch_to(self.SaleOrRent, direction="left")
         
-
     def call_guy(self, lockwood, price):
+        # self.loading.ids.spin.active=True
+        # self.switch_loading()
+        self.event = Event()
+        self.thread_guy = threading.Thread(target=self.call_other_guy, args=(lockwood, price,))
+        self.thread_guy.start()
+
+
+    def call_other_guy(self, lockwood, price):
         print('WHy nigga why')
         print(lockwood)
-        with open(f'{path}/user.json', 'r') as jsonfile:
-            self.curr = json.load(jsonfile)
-        try:
-            func_timeout(15, self.boooiiii, args=(lockwood, price,))
-        except FunctionTimedOut:
-            print('No internet connection')
-            self.toast('No internet connection')
-        except Exception as e:
-            self.toast('Failed to update views')
+        
+        if not self.event.is_set():
+            with open(f'{path}/user.json', 'r') as jsonfile:
+                self.curr = json.load(jsonfile)
+            try:
+                func_timeout(15, self.boooiiii, args=(lockwood, price,))
+            except FunctionTimedOut:
+                print('No internet connection timedout')
+                self.toast('No internet connection timedout')
+                self.event.set()
+            except:
+                self.toast('Failed to update views')
+                self.event.set()
+        # self.loading.ids.spin.active=False
+        
         
 
     def play(self):
@@ -2705,16 +3674,18 @@ class MainApp(MDApp):
                             print("Resigning in rent")
                             
                             try:
-                                self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
-                                usero = authi.refresh(self.user['refreshToken'])
-                                self.curr['idToken'] = self.user['idToken']
-                                with open(f'{path}/user.json', 'w') as jsonfile:
-                                    json.dump(self.curr, jsonfile)
-                                print('dumped')
+                                func_timeout(10, self.denied_signin)
                                 self.call_guy(figaro,price)
+                            except FunctionTimedOut:
+                                self.toast("Internet conneciton limit or unavailable")
                             except:
-                                self.toast("No internet connection")
-                                print("No internet connection")
+                                self.toast("Network Error")
+                                print("Network Error")
+                        try:
+                            if error['message'] == 'Permission denied.':
+                                pass
+                        except:
+                            pass
 
                     
                 else:
@@ -2744,8 +3715,8 @@ class MainApp(MDApp):
                                 print('dumped')
                                 self.call_guy(figaro,price)
                             except:
-                                self.toast("No internet connection")
-                                print("No internet connection")
+                                self.toast("Network Error")
+                                print("Network Error")
                     
                     #
                     # try:
@@ -2760,6 +3731,7 @@ class MainApp(MDApp):
 
     def email(self, texta):
         self.mail = texta
+        print(texta)
         
 
     def phone(self, texta):
@@ -2772,7 +3744,7 @@ class MainApp(MDApp):
         self.facebook = texta
 
     def password(self, texta):
-
+        print(texta)
         self.passwrd = texta
        
     def confirmed_password(self, texta):
@@ -2843,8 +3815,8 @@ class MainApp(MDApp):
     
     
     @mainthread
-    def show_dialog(self, notice, button1=None):
-        self.dialog = MDDialog(text=notice, size_hint=(1, 1), buttons=[MDFlatButton(text="close", on_release=self.close_dialog), button1])
+    def show_dialog(self, notice, button=None, titler="Notice"):
+        self.dialog = MDDialog(title=titler, text=notice, size_hint=(1, 1), buttons=[MDFlatButton(text="close", on_release=self.close_dialog), button])
         self.dialog.open()
 
     def close_dialog(self, obj):
@@ -2852,7 +3824,7 @@ class MainApp(MDApp):
 
     @mainthread
     def snackbar(self, obj):
-        self.snack = Snackbar(text=obj, snackbar_x="10dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y=.1)
+        self.snack = Snackbar(text=obj, snackbar_x="5dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y=None)
         self.snack.open()
 
     def open_maps(self, location):
@@ -2913,9 +3885,14 @@ class MainApp(MDApp):
     
     def show_terms(self):
         self.dia = MDDialog(
-            title='Warning!',
+            # title='Warning!',
             type='custom',
             content_cls=Warning(),
+            size_hint=[None, None],
+            width= Window.size[0] / 1.5,
+            # height=Window.size[1]
+            
+            height='500dp',
             buttons=[
                 
                 MDRaisedButton(
@@ -2926,8 +3903,55 @@ class MainApp(MDApp):
             ]
         )
         self.dia.open()
-            
+
+    def send_thread_email(self, email, phonenumber, twitter, facebook):
+        self.detail.ids.buy.opacity = 0
+        self.detail.ids.spin.active=True
+        self.detail.ids.biye.disabled = True
+        self.event = Event()
+        self.thread_email = threading.Thread(target=self.send_email, args=(email, phonenumber, twitter, facebook,))
+        self.thread_email.start()
+
+    @mainthread
+    def detail_spin_false(self):
+        self.detail.ids.spin.active=False
+        self.detail.ids.buy.opacity = 1
+        self.detail.ids.biye.disabled = False
+
     def send_email(self, email, phonenumber, twitter, facebook):
+        if not self.event.is_set():
+            try:
+                func_timeout(10, self.send_email_now, args=(email, phonenumber, twitter, facebook,))
+            except FunctionTimedOut:
+                self.toast("Network Error")
+                self.event.set()
+            except requests.exceptions.HTTPError as e:
+                error_json = e.args[1]
+                error = json.loads(error_json)['error']
+                print(str(error) + "is the error")
+                try:
+                    if error['message'] == 'INVALID_ID_TOKEN':
+                        try:
+                            func_timeout(10, self.denied_signin)
+                            self.send_thread_email(email, phonenumber, twitter, facebook)
+                        except FunctionTimedOut:
+                            self.toast("Network error")
+                            self.event.set()
+                        except:
+                            self.toast("Network error")
+                            self.event.set()
+                    else:
+                        self.toast("An unknown error occured")
+                        self.event.set()
+                except:
+                    self.toast("An unknown error occured")
+                    self.event.set()
+            except:
+                self.toast("An unknown error occured")
+                self.event.set()
+        self.detail_spin_false()    
+            
+    def send_email_now(self, email, phonenumber, twitter, facebook):
         with open(f'{path}/user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
             print(data['email'])
@@ -2938,26 +3962,15 @@ class MainApp(MDApp):
             ino = authi.get_account_info(data['idToken'])
             if ino['users'][0]['emailVerified'] != True:
                 # authi.send_email_verification(data['idToken'])
-                self.dia = MDDialog(
-                    title='Your email has not been verified!',
-                    text='Please re-sign in to get the verification link',
-                    buttons=[
-                        MDFlatButton(
-                            text='Cancel',
-                            theme_text_color='Custom',
-                            text_color='black',
-                            on_press=lambda x:self.dia.dismiss()
-                        )
-                    ]
-                )
-                self.dia.open()
+                self.show_dialog(titler='Your email has not been verified!', notice='Please re-sign in to get the verification link.')
+                
                     
                       
             else:
                 
                 print('horray hooray')
                 
-                message = MIMEText("An offer has been made to buy your house")
+                message = MIMEText("Someone just viewed your contact information")
                 message['Subject'] = "Hometernet Offer Notice"
                 message["From"] = "anangjosh8@gmail.com"
                 message["To"] = email
@@ -2988,46 +4001,48 @@ class MainApp(MDApp):
         self.screeni.clear()
         self.screeni.append(scr)
         self.dia = MDDialog(
-            title='Select Country',
             type='custom',
             content_cls=Countries(),
-            buttons=[
-                MDFlatButton(
-                    text='Cancel',
-                    theme_text_color='Custom',
-                    text_color='black',
-                    on_press=lambda x:self.dia.dismiss()
-                ),
-                MDFlatButton(
-                    text='Agree',
-                    theme_text_color='Custom',
-                    text_color='black',
-                    on_press= lambda x:self.dia.dismiss()
-                )
-            ]
+            size_hint=[None, None],
+            width= Window.size[0] / 1.2,
+            # height=Window.size[1]
+            
+            height='600dp',
+            # buttons=[
+            #     MDFlatButton(
+            #         text='Cancel',
+            #         theme_text_color='Custom',
+            #         text_color='black',
+            #         on_press=lambda x:self.dia.dismiss()
+            #     ),
+            #     MDFlatButton(
+            #         text='Agree',
+            #         theme_text_color='Custom',
+            #         text_color='black',
+            #         on_press= lambda x:self.dia.dismiss()
+            #     )
+            # ]
         )
         self.dia.open()
-        
-        
-    def account_submit(self):
-        email = self.mail
-        password = self.passwrd
+    
+    # @mainthread
+    def show_terms_create(self, email):
+        mail = email
+        password = self.signup.ids.password.text
         
         print(self.signup.ids.confirm.text)
-        
-        if len(password) >= 6:
-        
-            # try:
-                
-
-            status = validate_email(email, verify=True)
-            if status:
-
+        if len(mail) > 0:
+            if len(password) >= 6:
                 if self.signup.ids.confirm.text == password:
                     self.dia = MDDialog(
-                        title='Warning!',
                         type='custom',
                         content_cls=Warning(),
+                        title='Warning!',
+                        size_hint=[None, None],
+                        width= Window.size[0] / 1.5,
+                        # height=Window.size[1]
+                        
+                        height='500dp',
                         buttons=[
                             MDFlatButton(
                                 text='Cancel',
@@ -3038,68 +4053,271 @@ class MainApp(MDApp):
                             MDRaisedButton(
                                 text='Agree',
                                 theme_text_color='Custom',
-                                text_color='black',
-                                on_press= lambda x:self.create_account_init(),
+                                # on_press=lambda x: self.switch_code_verifyer(),
+                                on_press= lambda x:self.validate_behind(email),
                                 on_release= lambda x:self.dia.dismiss()
                             )
-                        ]
+                        ],
+                        
                     )
                     self.dia.open()
-                    
                 else:
                     text = "Password does not match"
                     
                     self.show_dialog(text)
             else:
-                text = "Invalid email"
-                    
+                text = "Password should be at least 6 characters"
+                
                 self.show_dialog(text)
-            
-            # except:
-            #     p="Authentication Failed"
-            #     self.snackbar(p)
         else:
-            text = "Password should be at least 6 characters"
-            
+            text='Please enter an email in the space'
             self.show_dialog(text)
-
-    def create_account_init(self):
-        try:
-            func_timeout(30, self.create_account)
-        except FunctionTimedOut:
-            print('Failed to create account')
-            p='Failed to create account'
-            self.snackbar(p)
-        except requests.exceptions.HTTPError as e:
-            error_json = e.args[1]
-            error = json.loads(error_json)['error']['message']
-            print(str(error) + "is the error")
-            # self.toast(str(error) + "is the error")
-            if error == 'EMAIL_EXISTS':
-                self.show_dialog('Email Exists')
             
+
+    def onTimeOut(self):
+        self.kill = True
+
+    def validate_mail(self, email):
+        print(email)
+        # self.switch_loading()
+        # self.loading.ids.spin.active=True
+        
+        try:
+            func_timeout(10, self.validator, args=(email,))
+        except FunctionTimedOut:
+            self.toast("Authentication failed timedout")
+            print("Authentication failed timdeout")
+            self.switch_signup()
+            
+        except:
+            self.toast("Authentication failed")
+            self.switch_signup() 
+             
+
+
+    # def stopit(self):
+    #     self.event.set()
+    #     print('set')
+    #     self.kill = True
+        
+
+    def validate_behind(self, email):
+        self.loading.ids.spin.active=True
+        self.switch_loading()
+        
+        
+        # executor = concurrent.futures.ThreadPoolExecutor()
+        # f2 = executor.submit(self.validator(email))
+        
+        threading.Thread(target=self.validate_mail, args=(email,)).start()
+        
+        # self.validator(email)
+
+    def validator(self, email):
+        # print(self.counting)
+        print("validating behind")
+        
+        # while self.kill is False:
+            # if self.event.is_set():
+            #     print("Broken")
+                
+            #     self.switch_signup()
+            #     break
+        print("Okay is false now what??")
+        self.evaluating_email = email
+        # 
+        # try:
+        self.validator_status = validate_email(email)
+        # print('verifying')
+        print(self.validator_status)
+        if self.validator_status:
+            
+            self.resend_now()
+        elif self.validator_status == False:
+            text = "Invalid email"
+                
+            self.show_dialog(text)
+            self.switch_signup()
+            self.spin_false()
+        else:
+            self.switch_signup()
+            self.toast('Authentication failed')
+            self.spin_false()
+        # except:
+        #     self.toast("Authentication failed")
+        #     self.switch_signup()
+            
+                 
+                
+
+            
+        # self.kill = True
+        # else:
+        #     print('Timedout out')
+        
+
+    # def account_submit(self):
+        
+                # try:
+                    
+                
+                # threading.Thread(target=self.validator, args=(email,)).start()
+                
+
+                
+                    
+        # self.resend_now()
+                        
+                
+                
+                # except:
+                #     self.toast("Authentication failed")
+            
+            
+    def resend_now(self):
+        self.loading.ids.spin.active=True
+        self.switch_loading()
+        self.event = Event()
+        self.thread_create = threading.Thread(target=self.resend_code)
+        self.thread_create.start()
+
+    def resend_code(self):
+        print("Sending code")
+        if not self.event.is_set():
+            try:
+                func_timeout(20, self.sending_code)
+            except FunctionTimedOut:
+                print('Authentication failed timedout')
+                self.toast("Authentication failed timedout")
+                self.switch_signup()
+                self.event.set()
+                self.spin_false()
+            except:
+                self.toast("Authentication failed")
+                self.switch_signin()
+                self.event.set()
+                self.spin_false()
+
+    def sending_code(self):
+        self.secret_num = random.randint(100000,999999)
+        print(self.secret_num)
+        message = MIMEText(f"Your email login code is {self.secret_num}. \n Warning do not share this code with anyone.")
+        message['Subject'] = "Your Hometernet login code is..."
+        message["From"] = "anangjosh8@gmail.com"
+        message["To"] = self.evaluating_email
+        server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+        server.login("anangjosh8@gmail.com", "iujwzdutnqmbpkjm")
+        server.sendmail("anangjosh8@gmail.com", self.evaluating_email, message.as_string())
+        server.quit()
+        self.switch_code_verifyer()
+        self.spin_false()
+
+
+
+    def create_account_init(self, typed_in):
+        # self.loading.ids.spin.active = True
+        # self.switch_loading()
+        print(self.secret_num)
+        print(self.code_verifyer.ids.verify_code.text)
+        print(typed_in + "is the code i typed")
+        num = self.secret_num
+        ot = self.secret_num
+        
+        print(ot == num)
+        if typed_in == "":
+            print("Invalid code")
+            self.snackbar("Invalid code")
+        else:
+            if int(self.secret_num) == int(typed_in):
+                print("was equal")
+                self.loading.ids.spin.active=True
+                self.switch_loading()
+                self.event = Event()
+                self.thread_create = threading.Thread(target=self.create_account_now)
+                self.thread_create.start()
+            else:
+                print("Invalid code")
+                self.snackbar("Invalid code")
+    
+    @mainthread
+    def spin_false(self):
+        self.loading.ids.spin.active = False
+
+    def create_account_now(self):
+        # self.loading.ids.labe.opacity = 0
+        # self.loading.ids.spinner.active= True
+        if not self.event.is_set():
+            try:
+                func_timeout(15, self.create_account)
+            except FunctionTimedOut:
+                print('Authentication failed timedout')
+                self.toast("Authentication failed timedout")
+                self.switch_signup()
+                self.event.set()
+                self.spin_false()
+            except requests.exceptions.HTTPError as e:
+                error_json = e.args[1]
+                error = json.loads(error_json)['error']
+                print(str(error) + "is the error")
+                # self.toast(str(error) + "is the error")
+                # self.toast("An unknown error occured")
+                self.event.set()
+                try:
+                    if error['message'] == 'EMAIL_EXISTS':
+                        self.show_dialog('Email Exists')
+                        
+                except:
+                    self.toast("An unknown error occured")
+                self.switch_signup()
+                self.spin_false()
+            # except:
+            #     print("Authentication failed")
+            #     self.toast("Authentication failed")
+            #     self.event.set()
+            #     self.switch_signup()
+                
+            
+            
+        
         
 
     def create_account(self):
-        email = self.mail
-        password = self.passwrd
-        
+        email = self.signup.ids.email.text
+        password = self.signup.ids.password.text
+        count = 0
         user = authi.create_user_with_email_and_password(email, password)
         useri = authi.send_email_verification(user['idToken'])
-        self.sign_in()
-        text = "An email verification link has been sent to your mail"
+        # self.sign_in()
+        text = "An email verification link has been sent to your mail. If not found in your inbox, check in spam."
        
         self.show_dialog(text)
-        self.switch_signin()
-        self.mail = ''
-        self.passwrd = ''
+        
+        
         if self.curr['first_time'] == "true":
+            self.switch_tutorial()
             self.curr['first_time'] = "false"
-            with open(f'{path}/user.json', 'w') as jsonfile:
-                json.dump(self.curr, jsonfile)
+        else:
+            self.switch_home()
+
+        self.curr['sold'][email] = count
+        self.curr['bookmarks'][email] = []
+        self.curr['viewed'][email] = []
+        self.curr['accounts'].append({'email': email, 'password': password})
+
+        self.curr['email'] = email
+        self.curr['password'] = password
+        self.curr['idToken'] = user['idToken']
+        self.curr['localid'] = user['localId']
+
+        with open(f'{path}/user.json', 'w') as jsonfile:
+            json.dump(self.curr, jsonfile)
+        self.spin_false()
+        
+        
         
     def delete_property_auth(self, key, local_image, sale_or_rent):
         print(key,local_image,sale_or_rent)
+        self.passwrd = ''
         self.dia = MDDialog(
             title='Please Enter your password',
             type='custom',
@@ -3115,19 +4333,35 @@ class MainApp(MDApp):
                     text='Submit',
                     theme_text_color='Custom',
                     text_color='black',
-                    on_press=lambda x=key, a=key, y=local_image, z=sale_or_rent: self.delete_property_init(a,y,z)
+                    on_press=lambda x=key, a=key, y=local_image, z=sale_or_rent: self.delete_dialog(a,y,z),
+                    on_release=lambda x:self.dia.dismiss()
                 )
             ]
         )
         self.dia.open()
 
+
+    def delete_dialog(self, name, local_image, sale_or_rent):
+        self.dialog_delete = MDDialog(text="Please wait...", title="Deleting Property", size_hint=(1,1), on_open=lambda x:self.delete_property_init(name, local_image, sale_or_rent))
+        self.dialog_delete.open()
+
+    @mainthread
+    def close_delete_dialog(self):
+        self.dialog_delete.dismiss()
+
     def delete_property_init(self, name, local_image, sale_or_rent):
-        try:
-            func_timeout(30, self.delete_property, args=(name, local_image, sale_or_rent,))
-        except FunctionTimedOut:
-            print('Failed to delete property')
-            self.toast('Failed to delete property')
         
+        try:
+            func_timeout(20, self.delete_property, args=(name, local_image, sale_or_rent,))
+        except FunctionTimedOut:
+            print('Internet connection limited or unavailable')
+            self.toast('Internet connection limited or unavailable')
+        except:
+            print('An unknown error occured')
+            self.toast('AN unknown error occured')
+        
+        self.close_delete_dialog()
+
     def delete_property(self, name, local_image, sale_or_rent):
 
         print(name,local_image,sale_or_rent)
@@ -3151,71 +4385,103 @@ class MainApp(MDApp):
                         print("Is equal to sale")
                         print(name)
                         db.child("Sale").child(name).remove(self.curr['idToken'])
-                        remove_people = db.child("People").child(self.curr['localid']).child("Sale").get(self.curr['idToken'])
-                        for u in remove_people.each():
-                            print(u.val()['prop_keys'])
-                            
-                            if str(u.val()['prop_keys']) == name:
-                                print(u.key())
-                                print("Is equal")
-                                db.child("People").child(self.curr['localid']).child("Sale").child(u.key()).remove(self.curr['idToken'])
+                        remove_people = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
+                        if remove_people.each():
+                            for u in remove_people.each():
+                                print(u.val()['prop_keys'])
                                 
-                                break
-                            # else:
-                            #     print("Not found")
+                                if str(u.val()['prop_keys']) == name:
+                                    print(u.key())
+                                    print("Is equal")
+                                    db.child("People").child(self.curr['localid']).child("ids").child(u.key()).remove(self.curr['idToken'])
+                                    
+                                    break
+                        else:
+                            print("Not found")
+                            self.toast("Not found")
 
                     else:
                         print("Is equal to rent")
                         db.child("Rent").child(name).remove(self.curr['idToken'])
-                        remove_people = db.child("People").child(self.curr['localid']).child("Rent").get(self.curr['idToken'])
-                        for u in remove_people.each():
-                            
-                            if u.val()['prop_keys'] == name:
-                                db.child("People").child(self.curr['localid']).child("Rent").child(u.key()).remove(self.curr['idToken'])
-                                print("Found it" + " " + name)
+                        remove_people = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
+                        if remove_people.each():
+                            for u in remove_people.each():
+                                
+                                if u.val()['prop_keys'] == name:
+                                    db.child("People").child(self.curr['localid']).child("ids").child(u.key()).remove(self.curr['idToken'])
+                                    print("Found it" + " " + name)
+                        else:
+                            print("Not found")
+                            self.toast("Not found")
 
                     deletion = self.curr['localid'] + '/' + local_image
                     storage.delete(deletion, self.curr['idToken'])
+                    self.curr['sold'][self.curr['email']] -= 1
+
+                    with open(f'{path}/user.json', 'w') as jsonfile:
+                        json.dump(self.curr, jsonfile)
 
                     p = 'Property Successfully deleted'
                     self.snackbar(p)
                         
                     self.passwrd = ''
-                                
+                    self.denied = 0
                 except requests.exceptions.HTTPError as e:
                     error_json = e.args[1]
                     error = json.loads(error_json)['error']
                     print(str(error) + "is the error")
                     # self.toast(str(error))
-                    print(error['message'])
+                    # print(error['message'])
                     if error == 'Permission denied':
                         print("Permission denied")
                         print("Resigning in")
-                        
-                        try:
-                            self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
-                            usero = authi.refresh(self.user['refreshToken'])
-                            self.curr['idToken'] = self.user['idToken']
-                            with open(f'{path}/user.json', 'w') as jsonfile:
-                                json.dump(self.curr, jsonfile)
+                        self.denied += 1
+                        if self.denied < 2:
+                            try:
+                                func_timeout(20, self.denied_signin)
+                                self.delete_property_init(name, local_image, sale_or_rent)
+                                self.denied = 0
+                                print("This is self.denied" + " " + str(self.denied))
+                            except FunctionTimedOut:
+                                self.toast("Internet connection limited or unavailable")
+                                print("Internet connection limited or unavailable")
+                                self.denied = 0
+                            except:
+                                self.toast("Failed to delete property")
+                                print("Failed to delete property")
+                                self.denied = 0
+
+                        else:
                             
-                            self.delete_property_init(name, local_image, sale_or_rent)
-                        except:
-                            self.toast("Failed to delete property")
-                            print("Failed to delete property")
-                    if error['message'] == 'Not Found.':
-                        self.toast("Not found")
-                        print("Not found")
+                            self.show_dialog("All permissions are denied for deleting properties right now. Please wait until the slots are open. Or you could request to delete your property on our contact page providing us with full details of the property.", titler="Permission denied")
+                            self.denied = 0
+                            print("Permission finally denied")
+                    # if error['message']:
+                    try:
+                        if error['message'] == 'Not Found.':
+                            self.toast("Not found")
+                            print("Not found")
+                    except:
+                        pass
+                        
+                    #     if error['message'] == 'Permission denied.':
+                    #         self.show_dialog("All permissions are denied for deleting properties right now. Please wait until the slots are open.")
+                    #         # self.denied = 0
+                    #         print("Permission finally denied")
 
                 
                 
             else:
                 text = "Invalid password"
-                
                 self.show_dialog(text)
+                self.passwrd = ''
         
 
+    
+
     def forgot_password_auth(self):
+        self.mail = ''
+        # self.text_error()
         self.di = MDDialog(
             title='Please Enter your email',
             type='custom',
@@ -3230,48 +4496,64 @@ class MainApp(MDApp):
                 MDRaisedButton(
                     text='Submit',
                     theme_text_color='Custom',
-                    text_color='black',
-                    on_press=self.forgot_password,
+                    on_press=self.thread_forgot_password,
                     on_release=lambda x:self.di.dismiss()
                 )
             ]
         )
         self.di.open()
 
-    def forgot_password(self, obj):
+    def thread_forgot_password(self, obj):
+        self.event = Event()
+        self.thread_forgot = threading.Thread(target=self.forgot_password)
+        self.thread_forgot.start()
+
+    def forgot_password(self):
+        print(self.mail)
         
         if self.mail == '':
             text = "Please type in your email in the space"
             
             self.show_dialog(text)
         else:
-            try:
-                func_timeout(30, self.actual_forgot_password)
-            except FunctionTimedOut:
-                self.toast('authentication failed')
-            except requests.exceptions.HTTPError as e:
-                error_json = e.args[1]
-                error = json.loads(error_json)['error']['message']
-                print(str(error) + "is the error")
-                if error == 'EMAIL_NOT_FOUND':
-                    text = "Email not found"
-                    
-                    self.show_dialog(text)
-                    print('Email not found')
-                    self.mail = ''
+            if not self.event.is_set():
+                try:
+                    func_timeout(10, self.actual_forgot_password)
+                except FunctionTimedOut:
+                    self.toast('Failed to send link Internet connection limited or unavailable')
+                    self.event.set()
+                except requests.exceptions.HTTPError as e:
+                    error_json = e.args[1]
+                    error = json.loads(error_json)['error']['message']
+                    print(str(error) + "is the error")
+                    if error == 'EMAIL_NOT_FOUND':
+                        text = "Email not found"
+                        
+                        self.show_dialog(text)
+                        print('Email not found')
+                        # self.mail = ''
+                    self.event.set()
+                except:
+                    self.toast("Failed to send link network error")
+                    self.event.set()
 
-    def actual_forgot_password(self, obj):
+    def actual_forgot_password(self):
+        self.snackbar("Sending password reset link to your email")
         authi.send_password_reset_email(self.mail)
+
         text = "A password reset email has been sent to your mail"
         
         self.show_dialog(text)
-        self.passwrd = ''
+        self.mail = ''
+
+    
 
         
     
     def password_reset_auth(self):
         with open(f'{path}/user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
+        self.passwrd = ''
         if self.curr['email'] == '':
             self.show_dialog('No user signed in')
         else:
@@ -3286,22 +4568,27 @@ class MainApp(MDApp):
                         text_color='black',
                         on_press=lambda x:self.di.dismiss()
                     ),
-                    MDFlatButton(
+                    MDRaisedButton(
                         text='Submit',
                         theme_text_color='Custom',
-                        text_color='black',
-                        on_press=self.password_reset,
+                        on_press=self.thread_password_reset,
                         on_release=lambda x:self.di.dismiss()
                     )
                 ]
             )
             self.di.open()
 
-    def password_reset(self, obj):
+    def thread_password_reset(self, obj):
+        print('threading password reset')
+        self.password_thread = threading.Thread(target = self.password_reset)
+        self.password_thread.start()
+
+    def password_reset(self):
+        
         try:
-            func_timeout(30, self.actual_password_reset)
+            func_timeout(15, self.actual_password_reset)
         except FunctionTimedOut:
-            self.toast('authentication failed')
+            self.toast('Network Error')
         except requests.exceptions.HTTPError as e:
             error_json = e.args[1]
             error = json.loads(error_json)['error']['message']
@@ -3312,8 +4599,12 @@ class MainApp(MDApp):
                 self.show_dialog(text)
                 print('Email not found')
                 self.passwrd = ''
+        except:
+            self.toast("Network Error")
     
     def actual_password_reset(self):
+        print(self.passwrd)
+        self.snackbar("Sending password reset link to your email")
         if self.passwrd == self.curr['password']:
             authi.send_password_reset_email(self.curr['email'])
             text = "A password reset email has been sent to your mail"
@@ -3323,24 +4614,60 @@ class MainApp(MDApp):
             self.passwrd = ''
         else:
             self.show_dialog('Invalid password')
+            print("Invalid password")
             self.passwrd = ''
 
 # "MKHRXCSZPZWXKIIF"
 # "GeoWorl38751759"
 
-    def sign_in(self):
-        try:
-            func_timeout(30, self.sign_in_now)
-        except FunctionTimedOut:
-            self.toast('sign in failed timed out')
-            
+    def stopit(self):
+        self.threader.join()
+        print('Joined')
 
+    def sign_in(self):
+        self.loading.ids.spin.active = True
+        self.switch_loading()
+        self.event = Event()
+        self.threader = threading.Thread(target=self.sign_in_boi)
+        self.threader.start()
+        print(self.threader.is_alive())
+        print('has started')
+        
+        # 
+        # self.close_dialog()
+
+    def sign_in_boi(self):
+        # self.switch_loading()
+        if not self.event.is_set():
+            print('during thread')
+            try:
+                func_timeout(25, self.sign_in_now)
+            except FunctionTimedOut:
+                self.toast('Authentication failed timed out')
+                print("Authentication failed timedout")
+                self.switch_signin()
+                self.event.set()
+                
+                # self.switch_from_signin()
+            except:
+                self.toast('Authentication failed')
+                print("Sign in failed")
+                self.switch_signin()
+                self.event.set()
+            
+            # self.switch_from_signin()
+            self.spin_false()
+            
+            
+        
     
     def sign_in_now(self):
-        email = self.mail
-        password = self.passwrd
+        email = self.signin.ids.email.text
+        
+        password = self.signin.ids.password.text
         
         count = 0
+        
         try:
             self.user = authi.sign_in_with_email_and_password(email, password)
             ino = authi.get_account_info(self.user['idToken'])
@@ -3362,42 +4689,53 @@ class MainApp(MDApp):
                 
                 
 
-                self.testichiro = db.child("People").child(self.user['localId']).child("Sale").get(self.user['idToken'])
-                self.testiroro = db.child("People").child(self.user['localId']).child("Rent").get(self.user['idToken'])
+                self.testichiro = db.child("People").child(self.user['localId']).child("ids").get(self.user['idToken'])
+                # self.testiroro = db.child("People").child(self.user['localId']).child("ids").get(self.user['idToken'])
                 
                 if self.testichiro.each():
                     for i in self.testichiro.each():
                         count += 1
 
-                if self.testiroro.each():
-                    for u in self.testiroro.each():
-                        count += 1
+                # if self.testiroro.each():
+                #     for u in self.testiroro.each():
+                #         count += 1
 
-                self.curr['sold'][self.mail] = count
-                self.curr['bookmarks'][self.mail] = []
-                self.curr['viewed'][self.mail] = []
-                self.curr['first_time'] = "false"
+                self.curr['sold'][email] = count
+                self.curr['bookmarks'][email] = []
+                self.curr['viewed'][email] = []
+                self.curr['accounts'].append({'email': email, 'password': password})
+                
             else:
-                if self.mail not in self.curr['bookmarks']:
+                if email not in self.curr['bookmarks']:
                     
-                    self.testichiro = db.child("People").child(self.user['localId']).child("Sale").get(self.user['idToken'])
-                    self.testiroro = db.child("People").child(self.user['localId']).child("Rent").get(self.user['idToken'])
+                    self.testichiro = db.child("People").child(self.user['localId']).child("ids").get(self.user['idToken'])
+                    # self.testiroro = db.child("People").child(self.user['localId']).child("ids").get(self.user['idToken'])
                     
                     if self.testichiro.each():
                         for i in self.testichiro.each():
                             count += 1
 
-                    if self.testiroro.each():
-                        for u in self.testiroro.each():
+                    # if self.testiroro.each():
+                    #     for u in self.testiroro.each():
+                    #         count += 1
+
+                    self.curr['sold'][email] = count
+                    self.curr['bookmarks'][email] = []
+                    self.curr['viewed'][email] = []
+                    self.curr['accounts'].append({'email': email, 'password': password})
+
+                if self.curr['sold'][email] == 0:
+                    self.testichiro = db.child("People").child(self.user['localId']).child("ids").get(self.user['idToken'])
+                    # self.testiroro = db.child("People").child(self.user['localId']).child("ids").get(self.user['idToken'])
+                    
+                    if self.testichiro.each():
+                        for i in self.testichiro.each():
                             count += 1
 
-                    self.curr['sold'][self.mail] = count
-                    self.curr['bookmarks'][self.mail] = []
-                    self.curr['viewed'][self.mail] = []
-                                
+                    self.curr['sold'][email] = count
 
-            self.curr['email'] = self.mail
-            self.curr['password'] = self.passwrd
+            self.curr['email'] = email
+            self.curr['password'] = password
             self.curr['idToken'] = self.user['idToken']
             self.curr['localid'] = self.user['localId']
             
@@ -3408,40 +4746,48 @@ class MainApp(MDApp):
             print(self.curr['localid'])
             print(self.curr['idToken'])
 
-    
 
-    # testro = db.child("People").get(curr['idToken'])
-    # for i in testro.each():
-        # print(i.val()['prop_keys'])
-    #     # dude = i.val()['prop_keys']
-        # print(i.key())
-    #     # them = db.child("Sale").child(dude).get(self.user['idToken'])
-    #     # for u in them.each():
-        # print(u.val())
-        # print(i.val())
-    
-    # againi = db.child("People").child("Sale").child(curr['localid']).child("house").get()
-    # if againi.each():
-    #     for i in againi.each():
-            # print(i.val()['local_image'])
-    #         curr['house_images'].append(i.val()['local_image'])
-    # else:
-    #     pass
+
+# testro = db.child("People").get(curr['idToken'])
+# for i in testro.each():
+    # print(i.val()['prop_keys'])
+#     # dude = i.val()['prop_keys']
+    # print(i.key())
+#     # them = db.child("Sale").child(dude).get(self.user['idToken'])
+#     # for u in them.each():
+    # print(u.val())
+    # print(i.val())
+
+# againi = db.child("People").child("Sale").child(curr['localid']).child("house").get()
+# if againi.each():
+#     for i in againi.each():
+        # print(i.val()['local_image'])
+#         curr['house_images'].append(i.val()['local_image'])
+# else:
+#     pass
+
+            if self.curr['first_time'] == "true":
+                self.switch_home()
+                self.curr['first_time'] = "false"
+            else:
+                self.switch_from_signin()
 
             with open(f'{path}/user.json', 'w') as jsonfile:
                 json.dump(self.curr, jsonfile)
             # self.reinit()
-            self.switch_home()
+            
 
-           
+        
             p = 'Successfully signed in'
             self.snackbar(p)
             
 
             self.home.text = self.curr['email']
-            
-            self.mail = ''
-            self.passwrd = ''
+            self.kill = True
+            self.spin_false()
+        
+        # self.mail = ''
+        # self.passwrd = ''
 
         except requests.exceptions.HTTPError as e:
             error_json = e.args[1]
@@ -3450,18 +4796,35 @@ class MainApp(MDApp):
             if error == 'EMAIL_NOT_FOUND':
                 text = "Email not found"
                 
-                self.show_dialog(text)
+                self.switch_signin()
                 print('Email not found')
-                self.mail = ''
-                self.text_error()
+                self.show_dialog(text)
+                
+                # self.text_error()
                 
             if error == 'INVALID_PASSWORD':
                 text = "Invalid password"
-                
+                self.switch_signin()
                 self.show_dialog(text)
                 print('Invalid password')
-                self.passwrd = ''
-                self.text_error()
+                
+                # self.text_error()
+            
+            if error == 'INVALID_EMAIL':
+                text = "Invalid email"
+                self.switch_signin()
+                self.show_dialog(text)
+                print('Invalid email')
+                
+                # self.text_error()
+
+            if error == "MISSING_PASSWORD":
+                text = "Missing password"
+                self.switch_signin()
+                self.show_dialog(text)
+                print('Missing password')
+            self.spin_false()
+                # self.text_error()
                 
         # except:
         #     p = 'Network Error'
@@ -3477,16 +4840,18 @@ class MainApp(MDApp):
         # except:
         #     text = "Invalid email or password"
         #     
-    @mainthread
-    def text_error(self):
-        self.signin.ids.email.text = ''
-        self.signin.ids.password.text = ''
-        self.signin.ids.password.error = True
+    # @mainthread
+    # def text_error(self):
+    #     self.signin.ids.email.text = ''
+    #     self.signin.ids.password.text = ''
+        # self.signin.ids.password.error = True
         
     
     
     def editscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None):
         print("this is self.amenities")
+        self.passwrd = ''
+        self.mail = ''
         print(self.amenities)
         self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
         print("Another self.amenities")
@@ -3511,11 +4876,14 @@ class MainApp(MDApp):
         print(key, town, street, local_image, amenities, House_type)
         print("This is the new self.amenities")
         print(self.amenities)
+        self.denied = 0
         
 
     def editrentscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None):
         self.edit_rent = EditRentDetailsScreen(name="edit-rent")
         print(self.amenities)
+        self.passwrd = ''
+        self.mail = ''
         self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
         print("Another self.amenities")
         print(self.amenities)
@@ -3536,12 +4904,20 @@ class MainApp(MDApp):
         self.edit_rent.description = description
         self.edit_rent.amenities = amenities
         print(key)
+        self.denied = 0
         
         # refreshed = authi.refresh(self.user['refreshToken'])
-        # self.info['idToken'] = self.user['idToken']
+        # self.curr['idToken'] = self.user['idToken']
         # with open(f'{path}/user.json', 'w') as jsonfile:
-        #     json.dump(self.info, jsonfile)
+        #     json.dump(self.curr, jsonfile)
 
+    def thread_dialog(self, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description, titler="Updating Property"):
+        self.thread_dialogbox = MDDialog(text='Please wait...', title=titler, size_hint=(1,1), on_open=lambda x:self.thread_update_property(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description))
+        self.thread_dialogbox.open()
+
+    
+    def close_thread_dialog(self):
+        self.thread_dialogbox.dismiss()
     
     
 
@@ -3554,13 +4930,13 @@ class MainApp(MDApp):
         new_street = street.title()
         new_desc = description.capitalize()
         
-        if pricing[0] == '$':
+        if '$' in pricing:
             self.amt = pricing
         else:
             self.amt = "$" + pricing
         
-        print(landspace[-1])
-        if landspace[-1] == 't':
+        
+        if landspace.endswith('sq.ft'):
             self.landspace = landspace
         else:
             self.landspace = landspace + 'sq.ft'
@@ -3570,33 +4946,31 @@ class MainApp(MDApp):
         amenities = self.amenities
         
         with open(f'{path}/user.json', 'r') as jsonfile:
-            self.datp = json.load(jsonfile)
+            self.curr = json.load(jsonfile)
         # pp = int(pricing)
         # print(pp)
         
         
+        
         # self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
         # usero = authi.refresh(self.user['refreshToken'])
-        # self.datp['idToken'] = self.user['idToken']
+        # self.curr['idToken'] = self.user['idToken']
         # with open(f'{path}/user.json', 'w') as jsonfile:
-        #     json.dump(self.datp, jsonfile)
+        #     json.dump(self.curr, jsonfile)
         
         # try:
 
         if len(house_type) > 5 and len(house_type) < 21:
             
             
-            if len(new_state) >= 3 and len(new_state) < 20:
-                if len(new_town) >= 3 and len(new_town) < 16:
+            if len(new_state) >= 3 and len(new_state) < 25:
+                if len(new_town) >= 3 and len(new_town) < 25:
 
                     if len(new_street) >= 3 and len(new_street) < 25:
                         if len(pricing) > 1:
                             if len(new_desc) > 20 and len(new_desc) < 255:
-                                try:
-                                    func_timeout(40, self.actual_sale_update, args=(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,))
-                                except FunctionTimedOut:
-                                    p = 'Failed to update Property'
-                                    self.snackbar(p)
+                                self.thread_dialog(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description, titler="Updating Property")
+
                             else:
                                 text = 'description must be between 20 and 255 characters long'
                                 self.show_dialog(text)
@@ -3606,15 +4980,15 @@ class MainApp(MDApp):
                             self.show_dialog(text)
                             self.edit.ids.street.error = True
                     else:
-                        text = "street must be between 2 and 25 characeters"
+                        text = "street must be between 3 and 25 characeters"
                         self.show_dialog(text)
                         self.edit.ids.street.error = True
                 else:
-                    text = "town must be between 2 and 16 characters"
+                    text = "town must be between 2 and 25 characters"
                     self.show_dialog(text)
                     self.edit.ids.town.error = True
             else:
-                text = "State must be between 2 and 16 characters"
+                text = "State must be between 2 and 25 characters"
                 self.show_dialog(text)
                 self.edit.ids.state.error = True
             
@@ -3629,9 +5003,21 @@ class MainApp(MDApp):
         
     #     PropertyCardsLayout().reload(key)
 
+    def thread_update_property(self, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description):
+        try:
+            func_timeout(20, self.actual_sale_update, args=(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,))
+        except FunctionTimedOut:
+            self.toast("Internet connection limited or unavailable")
+        except:
+            self.toast("Failed to update Property")
+
+        self.close_thread_dialog()
+
     def actual_sale_update(self, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description):
         try:
+            location = locate+state.title()+town.title()
             print(locate)
+            print(location)
             amenities = self.amenities
             print(amenities)
             getting = db.child("Sale").child(key).get()
@@ -3639,19 +5025,20 @@ class MainApp(MDApp):
                 self.toast("Not found")
                 print("Not found")
             else:
-                db.child("Sale").child(key).update({'housetype': House_type.title()}, self.datp['idToken'])
-                db.child("Sale").child(key).update({'country': locate}, self.datp['idToken'])
-                db.child("Sale").child(key).update({'state': state.title()}, self.datp['idToken'])
-                db.child("Sale").child(key).update({'town': town.title()}, self.datp['idToken'])
-                db.child("Sale").child(key).update({'street': street.title()}, self.datp['idToken'])
-                db.child("Sale").child(key).update({'bedrooms': bedrooms}, self.datp['idToken'])
-                db.child("Sale").child(key).update({'bathrooms': bathrooms}, self.datp['idToken'])
-                db.child("Sale").child(key).update({'landspace': self.landspace}, self.datp['idToken'])
-                db.child("Sale").child(key).update({'price': self.amt}, self.datp['idToken'])
-                db.child("Sale").child(key).update({'description': description.capitalize()}, self.datp['idToken'])
-                db.child("Sale").child(key).update({'amenities': amenities}, self.datp['idToken'])
+                db.child("Sale").child(key).update({'housetype': House_type.title()}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'country': locate}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'state': state.title()}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'town': town.title()}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'street': street.title()}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'bedrooms': bedrooms}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'bathrooms': bathrooms}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'landspace': self.landspace}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'price': self.amt}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'description': description.capitalize()}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'amenities': amenities}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'location': location}, self.curr['idToken'])
                 print(key)
-                print(loaded)
+                # print(loaded)
                 print(self.amenities)
                 self.amenities = amenities
                 # self.reloading(key)
@@ -3659,6 +5046,7 @@ class MainApp(MDApp):
                 self.sale_or_rent = "Sale"
                 # self.amenities = ['No', 'No', 'No', 'No', 'No', 'No']
                 print("Changes made successfully")
+                self.denied = 0
                 self.change_image_auth()
                 p = 'Changes made successfully'
                 self.snackbar(p)
@@ -3670,38 +5058,69 @@ class MainApp(MDApp):
             if error == 'Permission denied':
                 print("Permission denied")
                 print("Resigning in")
-                
-                try:
-                    self.user = authi.sign_in_with_email_and_password(self.datp['email'], self.datp['password'])
-                    usero = authi.refresh(self.user['refreshToken'])
-                    self.datp['idToken'] = self.user['idToken']
-                    with open(f'{path}/user.json', 'w') as jsonfile:
-                        json.dump(self.datp, jsonfile)
+                self.denied += 1
+                print(self.denied)
+                if self.denied < 2:
+                    # try:
                     try:
-                        func_timeout(40, self.actual_sale_update, args=(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,))
+                        func_timeout(10, self.denied_signin)
+                        self.update_property(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description)
+                        self.denied = 0
                     except FunctionTimedOut:
-                        p = 'Failed to update Property'
-                        self.snackbar(p)
-                        print('Timed out')
-                except:
-                    self.toast("No internet connection")
-                    print("No internet connection")
+                        self.toast("Internet connection limited or unavailable")
+                        print("Internet connection limited or unavailable")
+                        self.denied = 0
+                    except:
+                        self.toast("Network Error")
+                        print("Network Error")
+                        self.denied = 0
+                        # try:
+                        #     func_timeout(40, self.actual_sale_update, args=(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,))
+                        # except FunctionTimedOut:
+                        #     p = 'Failed to update Property'
+                        #     self.snackbar(p)
+                        #     print('Timed out')
+
+                        
+                    # except:
+                    #     self.toast("Network Error")
+                    #     print("Network Error")
+                else:
+                    self.show_dialog("All permissions are denied for updating properties right now. Please wait until the slots are open.", titler="Permission denied")
+                    self.denied = 0
+                    print("Permission finally denied")
                 # except Exception as e:
                 #     p = 'Failed to update Property'
                 #     self.snackbar(p)
                 #     print('Failed to update property')
-        
-        
+            # if error['message']:
+            #     if error['message'] == 'Permission denied.':
+            #         self.show_dialog("All permissions are denied for updating properties right now. Please wait until the slots are open.")
+            #         # self.denied = 0
+            #         print("Permission finally denied")
+    def thread_rent_dialog(self, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description):
+        self.thread_dialogbox = MDDialog(text='Please wait...', title="Updating Property", size_hint=(1,1), on_open=lambda x:self.thread_update_rent_property(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description))
+        self.thread_dialogbox.open()    
 
-    
+    def close_thread_rent(self):
+        self.thread_dialogbox.dismiss()
 
+    def thread_update_rent_property(self,  local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description):
+        try:
+            func_timeout(40, self.actual_rent_update, args=(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,))
+        except FunctionTimedOut:
+            self.toast("Internet connection limited or unavailable")
+        except:
+            self.toast("Failed to update Property")
+
+        self.close_thread_rent()
     def update_rent_property(self, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description):
         self.key = key
         self.local_image = local_image
         print(pricing)
         
         with open(f'{path}/user.json', 'r') as jsonfile:
-            self.datp = json.load(jsonfile)
+            self.curr = json.load(jsonfile)
 
         
         
@@ -3711,9 +5130,9 @@ class MainApp(MDApp):
 
         
         if pricing[0] == '$':
-            self.amt = pricing
-        elif pricing[0] != '$' and pricing[-1] != 'h' or pricing[-1] != 'r':
-            self.amt = "$" + pricing + self.edit_rent.ids.pay_item.text
+            self.amt = pricing + self.edit_rent.ids.pay_item.text if not pricing.endswith('/mth') or pricing.endswith('/yr') else pricing
+        else:
+            self.amt = '$' + pricing + self.edit_rent.ids.pay_item.text if not pricing.endswith('/mth') or pricing.endswith('/yr') else '$' + pricing
 
         if landspace[-1] == 't':
             self.landspace = landspace
@@ -3726,21 +5145,17 @@ class MainApp(MDApp):
 
         if len(House_type) > 5 and len(House_type) < 21:
             
-            if len(state) >= 3 and len(state) < 20:
+            if len(state) >= 3 and len(state) < 25:
 
                 
                 
-                if len(town) >= 3 and len(town) < 16:
+                if len(town) >= 3 and len(town) < 25:
 
                     if len(street) >= 3 and len(street) < 25:
                         if len(pricing) > 2:
                             if len(description) > 20 and len(description) < 255:
 
-                                try:
-                                    func_timeout(40, self.actual_rent_update, args=(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,))
-                                except FunctionTimedOut:
-                                    p = 'Failed to update Property'
-                                    self.snackbar(p)
+                                self.thread_rent_dialog(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description)
                                 
 
                                 
@@ -3751,47 +5166,49 @@ class MainApp(MDApp):
                             text = "Invalid Input for price"
                             self.show_dialog(text)
                     else:
-                        text = "street must be between 2 and 25 characeters"
+                        text = "street must be between 3 and 25 characeters"
                         self.show_dialog(text)
                         self.edit_rent.ids.street.error = True
                 else:
-                    text = "town must be between 2 and 16 characters"
+                    text = "town must be between 2 and 25 characters"
                     self.show_dialog(text)
                     self.edit_rent.ids.town.error = True
             else:
-                text = "State must be between 2 and 20 characters"
+                text = "State must be between 2 and 25 characters"
                 self.show_dialog(text)
                 self.edit_rent.ids.state.error = True
         else:
-            text = "House type must be between 5 and 21 characters characeters"
+            text = "House type must be between 5 and 21 characters"
             self.show_dialog(text)
             self.edit_rent.ids.housetype.error = True
 
     def actual_rent_update(self, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description):
         try:
+            location = locate+state.title()+town.title()
             amenities = self.amenities
             getting = db.child("Rent").child(key).get()
             if getting.val() == None:
                 self.toast("Not found")
                 print("Not found")
             else:
-                db.child("Rent").child(key).update({'housetype': House_type.title()}, self.datp['idToken'])
-                db.child("Rent").child(key).update({'country': locate}, self.datp['idToken'])
-                db.child("Rent").child(key).update({'state': state.title()}, self.datp['idToken'])
-                db.child("Rent").child(key).update({'town': town.title()}, self.datp['idToken'])
-                db.child("Rent").child(key).update({'street': street.title()}, self.datp['idToken'])
-                db.child("Rent").child(key).update({'bedrooms': bedrooms}, self.datp['idToken'])
-                db.child("Rent").child(key).update({'bathrooms': bathrooms}, self.datp['idToken'])
-                db.child("Rent").child(key).update({'landspace': self.landspace}, self.datp['idToken'])
-                db.child("Rent").child(key).update({'price': self.amt}, self.datp['idToken'])
-                db.child("Rent").child(key).update({'description': description.capitalize()}, self.datp['idToken'])
-                db.child("Rent").child(key).update({'amenities': amenities}, self.datp['idToken'])
-                
+                db.child("Rent").child(key).update({'housetype': House_type.title()}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'country': locate}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'state': state.title()}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'town': town.title()}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'street': street.title()}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'bedrooms': bedrooms}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'bathrooms': bathrooms}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'landspace': self.landspace}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'price': self.amt}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'description': description.capitalize()}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'amenities': amenities}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'location': location}, self.curr['idToken'])
                 self.sale_or_rent = "Rent"
                 self.amenities = amenities
                 self.change_image_auth()
                 p = 'Changes made successfully'
                 self.snackbar(p)
+                self.denied = 0
         except requests.exceptions.HTTPError as e:
             error_json = e.args[1]
             error = json.loads(error_json)['error']
@@ -3799,27 +5216,44 @@ class MainApp(MDApp):
             if error == 'Permission denied':
                 print("Permission denied")
                 print("Resigning in")
-                
-                try:
-                    self.user = authi.sign_in_with_email_and_password(self.datp['email'], self.datp['password'])
-                    usero = authi.refresh(self.user['refreshToken'])
-                    self.datp['idToken'] = self.user['idToken']
-                    with open(f'{path}/user.json', 'w') as jsonfile:
-                        json.dump(self.datp, jsonfile)
+                self.denied += 1
+                print(self.denied)
+                if self.denied < 2:
+                    # try:
                     try:
-                        func_timeout(40, self.actual_rent_update, args=(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,))
+                        func_timeout(20, self.denied_signin)
+                        self.update_rent_property(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description)
+                        self.denied = 0
                     except FunctionTimedOut:
-                        p = 'Failed to update Property'
-                        self.snackbar(p)
-                        print('Timed out')
-                except:
-                    self.toast("No internet connection")
-                    print("No internet connection")
+                        self.toast("Internet connection limited or unavailable")
+                        print("Internet connection limited or unavailable")
+                        self.denied = 0
+                    except:
+                        self.toast("Network Error")
+                        print("Network Error")
+                        self.denied = 0
+                        # try:
+                        #     func_timeout(40, self.actual_rent_update, args=(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,))
+                        # except FunctionTimedOut:
+                        #     p = 'Failed to update Property timedout'
+                        #     self.toast(p)
+                        #     print('Timed out')
+                    # except:
+                    #     self.toast("Network Error")
+                    #     print("Network Error")
+                else:
+                    self.show_dialog("All permissions are denied for updating properties right now. Please wait until the slots are open.")
+                    self.denied = 0
+                    print("Permission finally denied")
                 # except Exception as e:
                 #     p = 'Failed to update Property'
                 #     self.snackbar(p)
                 #     print('Failed to update property')
-
+            # if error['message']:
+            #     if error['message'] == 'Permission denied.':
+            #         self.show_dialog("All permissions are denied for updating properties right now. Please wait until the slots are open.")
+            #         # self.denied = 0
+            #         print("Permission finally denied")
         # except Exception as e:
              
         #     self.snackbar('Failed to update Property')
@@ -3830,8 +5264,8 @@ class MainApp(MDApp):
     def change_image_auth(self):
         agree_button = MDRaisedButton(text="yes", on_press=self.close_dialog, on_release=self.separate_function)
        
-        info = "Do you want to change your image?"
-        self.show_dialog(info,agree_button)
+        info = "Do you want to change your property image?"
+        self.show_dialog(info,button=agree_button)
         print("DOne being called")
 
     # def call_separate_function(self,obj):
@@ -3844,14 +5278,18 @@ class MainApp(MDApp):
     def separate_function(self,obj):
         # boy = []
         
-        filechooser.open_file(on_selection=self.change_image, multiselect=True,)
+        filechooser.open_file(on_selection=self.change_image_dialog,)
         
         
         # print(boy)
 
     
-        
+    def change_image_dialog(self, selection):
+        self.dialog_image = MDDialog(text="Please wait..", title="Updating image", size_hint=(1,1), on_open=lambda x:self.change_image(selection))
+        self.dialog_image.open()
 
+    def close_image_dialog(self):
+        self.dialog_image.dismiss()
         
     def change_image(self, selection):
         print(selection)
@@ -3859,13 +5297,16 @@ class MainApp(MDApp):
             self.new_file = str(selection[0])
             # self.switch_loading()
             try:
-                func_timeout(60, self.change_image_process, args=(self.new_file,))
+                func_timeout(30, self.change_image_process, args=(self.new_file,))
             except FunctionTimedOut:
-                self.toast("No internet connection timed out") 
-                print("No internet connection timed out")
+                self.toast("Internet conneciton limit or unavailable") 
+                print("Internet conneciton limit or unavailable")
+                self.switch_products()
+            except:
+                self.toast("Network Error")
                 self.switch_products()
             
-
+        self.close_image_dialog()
         
     def change_image_process(self, selection):
         print(selection)
@@ -3877,13 +5318,10 @@ class MainApp(MDApp):
             if x or y:
                 # urli = storage.child(data['localid']).child(self.local_image).get_url(data['idToken'])
                 # tokenop = "https://firebasestorage.googleapis.com/v0/b/first-db-77609.appspot.com/o/2C8VZdiEBCMhnFS0fnvzpa4jW2F2%2FC%3A%5CUsers%5CYvonne%5CDownloads%5Cbeautiful-house-15.jpg?alt=media"
-                # storage.child(self.data['localid']).delete(self.local_image, urli)
-                # print('SUccessfully deleted')
-                
-                # img = storage.child(self.data['localid']).child(self.local_image).get_url(None)
+                # storage.
                 
                 # user = authi.sign_in_with_email_and_password(dati['email'], dati['password'])
-                # try:
+                try:
                     
 
                     # bucket = admin_storage.bucket()
@@ -3891,55 +5329,66 @@ class MainApp(MDApp):
                     # print(blob)
                     # blob.delete()
                    
-                print(self.datp['localid'])
-                print(self.new_file)
-                print(self.key)
-                if self.new_file[0] == "/":
-                    storage.child(self.datp['localid'] + '/' + self.new_file.replace('/', ',,')).put(str(self.new_file), self.datp['idToken'])
-                    url = storage.child(self.datp['localid'] + '/' + self.new_file.replace('/', ',,')).get_url(None)
-                    print("updated")
-                else:
-                    storage.child(self.datp['localid'] + '/' + self.new_file).put(str(self.new_file), self.datp['idToken'])
-                    url = storage.child(self.datp['localid'] + '/' + self.new_file).get_url(None)
-                    print("updated")
-                if self.sale_or_rent == 'Sale':
-                    db.child("Sale").child(self.key).update({'local_image': self.new_file}, self.datp['idToken'])
-                    db.child("Sale").child(self.key).update({'url': url}, self.datp['idToken'])
-                else:
-                    db.child("Rent").child(self.key).update({'local_image': self.new_file}, self.datp['idToken'])
-                    db.child("Rent").child(self.key).update({'url': url}, self.datp['idToken'])
-                storage.delete(self.datp['localid'] + '/' + self.local_image, self.datp['idToken'])
-                print('Successfully deleted')
-                p = 'Changes made successfully'
-                self.snackbar(p)
-                self.switch_products()
+                    print(self.curr['localid'])
+                    print(self.new_file)
+                    print(self.key)
+                    if self.new_file[0] == "/":
+                        storage.child(self.curr['localid'] + '/' + self.new_file.replace('/', ',,')).put(str(self.new_file), self.curr['idToken'])
+                        url = storage.child(self.curr['localid'] + '/' + self.new_file.replace('/', ',,')).get_url(None)
+                        print("updated")
+                    else:
+                        storage.child(self.curr['localid'] + '/' + self.new_file).put(str(self.new_file), self.curr['idToken'])
+                        url = storage.child(self.curr['localid'] + '/' + self.new_file).get_url(None)
+                        print("updated")
+                    if self.sale_or_rent == 'Sale':
+                        db.child("Sale").child(self.key).update({'local_image': self.new_file}, self.curr['idToken'])
+                        db.child("Sale").child(self.key).update({'url': url}, self.curr['idToken'])
+                    else:
+                        db.child("Rent").child(self.key).update({'local_image': self.new_file}, self.curr['idToken'])
+                        db.child("Rent").child(self.key).update({'url': url}, self.curr['idToken'])
+                    storage.delete(self.curr['localid'] + '/' + self.local_image, self.curr['idToken'])
+                    print('Successfully deleted')
+                    p = 'Changes made successfully'
+                    self.snackbar(p)
+                    self.switch_products()
                 
-                # except requests.exceptions.HTTPError as e:
-                #     error_json = e.args[1]
-                #     error = json.loads(error_json)['error']
-                #       print(str(error) + "is the error")
+                except requests.exceptions.HTTPError as e:
+                    error_json = e.args[1]
+                    error = json.loads(error_json)['error']
+                    print(str(error) + "is the error")
                     
-                #     if error == 'Permission denied':
-                #         print("Permission denied")
-                #         print("Resigning in")
-                #         self.toast("Resigning in")
+                    if error == 'Permission denied':
+                        print("Permission denied")
+                        print("Resigning in")
                         
-                #         try:
-                #             self.user = authi.sign_in_with_email_and_password(self.datp['email'], self.datp['password'])
-                #             usero = authi.refresh(self.user['refreshToken'])
-                #             self.datp['idToken'] = self.user['idToken']
-                #             with open(f'{path}/user.json', 'w') as jsonfile:
-                #                 json.dump(self.datp, jsonfile)
+                        
+                        try:
+                            self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
+                            usero = authi.refresh(self.user['refreshToken'])
+                            self.curr['idToken'] = self.user['idToken']
+                            with open(f'{path}/user.json', 'w') as jsonfile:
+                                json.dump(self.curr, jsonfile)
 
-                #             try:
-                #                 func_timeout(40, self.change_image_process, args=(self.selection,))
-                #             except FunctionTimedOut:
-                #                 self.snackbar('Failed to update image') 
-                #                 print("No internet connection timed out")
+                            try:
+                                func_timeout(35, self.change_image_process, args=(self.selection,))
+                            except FunctionTimedOut:
+                                self.toast('Failed to update image') 
+                                print("Internet conneciton limit or unavailable")
+                            except:
+                                self.toast("Failed to update image")
+                                self.switch_products()
 
-                #         except:
-                #             self.snackbar('Failed to update image')
-                #             print("No internet connection")
+                        except:
+                            self.toast('Failed to update image')
+                            print("Network Error")
+
+                    try:
+                        if error['message'] == 'Permission denied.':
+                            self.show_dialog("All permissions are denied for updating property images right now. Please wait until the slots are open.", titler="Permission denied")
+                            # self.denied = 0
+                            print("Permission finally denied")
+                    except:
+                        pass
                 # except Exception as e:
                 #     print('Failed to update image')
                 #     self.snackbar('Failed to update image')
@@ -3952,31 +5401,7 @@ class MainApp(MDApp):
         
             
 
-    def sign_out_auth(self):
-        text = 'Are you sure you want to sign out?'
-        agree_button = MDFlatButton(text="Yes", on_release=self.sign_out)
-        self.dialog = MDDialog(text=text, size_hint=(1, 1), buttons=[MDRaisedButton(text="No", on_release=self.close_dialog), agree_button])
-        self.dialog.open()
-        
-
-    def sign_out(self,obj=None):
-        
-        
-        with open(f'{path}/user.json', 'r') as jsonfile:
-            self.curr = json.load(jsonfile)
-
-        self.curr['email'] = ''
-        self.curr['password'] = ''
-        self.curr['idToken'] = ''
-        self.curr['house_images'] = []
-        self.curr['localid'] = ''
-        
-        
-        with open(f'{path}/user.json', 'w') as jsonfile:
-            json.dump(self.curr, jsonfile)
-        self.pt = PropertyCardsLayout()
-        p = 'Successfully signed out'
-        self.snackbar(p)
+    
         
 
     
@@ -3986,29 +5411,13 @@ class MainApp(MDApp):
                 # notice = "No user signed in"
             # self.show_dialog(notice)
     
-    def delete_user_notice(self):
-        agree_button = MDFlatButton(text="Yes", on_release=self.close_dialog, on_press=self.delete_user_auth)
-        
-        info = "Are you sure you want to delete your account"
-        self.show_dialog(info,agree_button)
+    
 
-    def switch_account_auth(self):
-        agree_button = MDFlatButton(text="Yes", on_release=self.close_dialog, on_press=self.switch_account)
-        
-        info = "Are you sure you want to switch accounts? This will mean signing out."
-        self.show_dialog(info,agree_button)
+    
 
 
-    def switch_account(self):
-        # self.sign_out()
-        print(self.wm.current)
-        # self.signin = SignInScreen(name="signin")
-        
-        self.signin.ids.email.text = ''
-        self.signin.ids.password.text = ''
-        self.wm.switch_to(self.signin)
-        print(self.wm.current)
-            
+    
+    
         
 
     def bookmark(self, lola):
@@ -4019,7 +5428,7 @@ class MainApp(MDApp):
             mail = data['email']
         if mail != '':
             if lola not in data['bookmarks'][mail]:
-                if len(data['bookmarks'][mail]) != 24:
+                if len(data['bookmarks'][mail]) < 24:
                     data['bookmarks'][mail].append(lola)
                     with open(f'{path}/user.json', 'w') as jsonfile:
                         json.dump(data, jsonfile)
@@ -4042,26 +5451,26 @@ class MainApp(MDApp):
     def selected(self):
         
         
-        
-        if self.mail == self.info['email']:
+        print(self.mail)
+        if self.mail == self.curr['email']:
             if self.phonenumber != '':
                 phone_number  = phonenumbers.parse(self.phonenumber)
                 valid = phonenumbers.is_valid_number(phone_number)
                 print(valid)
                 if valid == True:
-                    if len(self.tot) > 5:
+                    if len(self.tot) > 5 and len(self.tot) < 21:
                         
                         if len(self.country) >= 2 and len(self.country) < 16:
                             # phone = '+2332222222222'
                             
-                            if len(self.state) >= 3 and len(self.state) < 20:
-                                if len(self.town) >= 3 and len(self.town) < 16:
+                            if len(self.state) >= 3 and len(self.state) < 25:
+                                if len(self.town) >= 3 and len(self.town) < 25:
 
-                                    if len(self.street) >= 6 and len(self.street) < 25:
+                                    if len(self.street) >= 3 and len(self.street) < 25:
                                         if len(self.landspace) > 1:
                                             if len(self.price) > 1:
                                                 if len(self.desc) > 20 and len(self.desc) < 255:
-                                                    filechooser.open_file(on_selection=self.real_sale)
+                                                    filechooser.open_file(on_selection=self.real_house_sale)
                                                 else:
                                                     info = "description must be between 20 and 255 characters"
                                                     self.show_dialog(info)
@@ -4072,20 +5481,20 @@ class MainApp(MDApp):
                                             info = "Invalid input for landspace"
                                             self.show_dialog(info)
                                     else:
-                                        info = "Street must be between 6 and 25 characters"
+                                        info = "Street must be between 3 and 25 characters"
                                         self.show_dialog(info)
 
                                 else:
-                                    info = "Town must be between 2 and 16 characters"
+                                    info = "Town must be between 2 and 25 characters"
                                     self.show_dialog(info)
                             else:
-                                info = "State must be between 2 and 20 characters"
+                                info = "State must be between 2 and 25 characters"
                                 self.show_dialog(info)
                         else:
                             info = "Please select your country"
                             self.show_dialog(info)
                     else:
-                        info = "Property type must be more than 5 characeters"
+                        info = "Property type must be between 5 and 21 characters"
                         self.show_dialog(info)
                 else:
                     info = "Invalid phonenumber"
@@ -4098,43 +5507,87 @@ class MainApp(MDApp):
             text = "Invalid email"
             self.show_dialog(text)
 
+    def real_house_sale(self, selection):
+        self.loading.ids.spin.active=True
+        self.switch_loading()
+
+        self.event = Event()
+        
+        self.sale_thread = threading.Thread(target=self.real_sale, args=(selection,))
+        self.sale_thread.start()
+        
+        
+        
+    @mainthread
+    def true_switch_sale(self):
+        self.wm.switch_to(self.sale)
+
     def real_sale(self, selection):
         print('Real sale')
-        
+        self.sale_tot = self.tot.title()
+        self.sale_country=self.country
+        self.sale_state = self.state.title()
+        self.sale_town=self.town.title()
+        self.sale_street=self.street.title()
+        self.sale_bedrooms = self.bedrooms
+        self.sale_bathrooms = self.bathrooms
+        self.sale_price = '$' + self.price
+        self.sale_desc = self.desc.capitalize()
+        self.sale_land = self.landspace + 'sq.ft'
+        self.sale_amenities = self.amenities
+        self.sale_mail = self.mail
+        self.sale_phone = self.phonenumber
+        self.sale_twitter = self.twitter
+        self.sale_facebook = self.facebook
+
+
+
         selected_image = selection
-        
+        # self.denied = 0
         print(selected_image)
         if len(selected_image) > 0:
             # self.switch_loading()
-            try:
-                func_timeout(40, self.house_sale, args=(selected_image,))
-            except FunctionTimedOut:
-                self.toast("No internet connection timed out") 
-                print("No internet connection timed out")
-            # except:
-            #     print("No internet connection")
+            if not self.event.is_set():
+                
+                try:
+                    func_timeout(30, self.house_sale, args=(selected_image,))
+                except FunctionTimedOut:
+                    self.toast("Internet connection limited or unavailable") 
+                    print("Internet connection limit or unavailable")
+                    self.true_switch_sale()
+                    self.event.set()
+                # except:
+                #     print("Failed to submit property")
+                #     self.toast("Failed to submit property")
+                #     self.event.set()
+                #     self.true_switch_sale()
+                
+            else:
+                print("Event is set before anything")
             #     p="No intenet connection"
             #     self.snackbar(p)
         else:
             info = "You need to select an image to continue"
             self.show_dialog(info)
+            self.true_switch_sale()
         
         # except FunctionTimedOut:
-            # print("No internet connection")
-        #     p="no internet connection"
+            # print("Failed to submit property")
+        #     p="Failed to submit property"
         #     self.snackbar(p)
         # except Exception as e:
             # print("An error occured")
         #     p="An error occured"
-        #     self.snackbar(p)
+
+    
     
     def house_sale(self, selection):
         
         
-        self.yet = False
+        # self.yet = False
         
         print(selection)
-        
+        # print("Number of times denied" + " " + str(self.denied))
         self.file = selection[0]
 
         print(self.file)
@@ -4144,20 +5597,29 @@ class MainApp(MDApp):
         if x or y:
             print('yes there is a match')
             try:
+                
+                
                 if self.file[0] == "/":
-                    storage.child(self.info['localid'] + '/' + self.file.replace('/', ',,')).put(str(self.file), self.info['idToken'])
-                    url = storage.child(self.info['localid'] + '/' + self.file.replace('/', ',,')).get_url(None)
+                    
+                    if not self.event.is_set():
+                        storage.child(self.curr['localid'] + '/' + self.file.replace('/', ',,')).put(str(self.file), self.curr['idToken'])
+                        url = storage.child(self.curr['localid'] + '/' + self.file.replace('/', ',,')).get_url(None)
+                    else:
+                        print("Self.event set inside storage")
                 else:
                     
-                    storage.child(self.info['localid'] + '/' + self.file).put(str(self.file), self.info['idToken'])
-                    url = storage.child(self.info['localid'] + '/' + self.file).get_url(None)
+                    if not self.event.is_set():
+                        storage.child(self.curr['localid'] + '/' + self.file).put(str(self.file), self.curr['idToken'])
+                        url = storage.child(self.curr['localid'] + '/' + self.file).get_url(None)
+                    else:
+                        print("Self.event set inside storage")
+                
                 
                 print(self.file)
                 # with open(f'{path}/user.json', 'r') as jsonfile:
                 #     dato = json.load(jsonfile)
                 print(self.phonenumber)
             
-
                 
                 
                 data = {
@@ -4178,31 +5640,33 @@ class MainApp(MDApp):
                     "local_image": "",
                     "description": "",
                     "amenities": [],
-                    "views": 0
+                    "views": 0,
+                    "location": ""
                 }
 
                 
                 
-                data['housetype'] = self.tot.title()
-                data['country'] = self.country
-                data['state'] = self.state.title()
-                data['town'] = self.town.title()
-                data['street'] = self.street.title()
-                data['bedrooms'] = self.bedrooms
-                data['bathrooms'] = self.bathrooms
-                data['landspace'] = self.landspace + 'sq.ft'
+                data['housetype'] = self.sale_tot.strip()
+                data['country'] = self.sale_country
+                data['state'] = self.sale_state.strip()
+                data['town'] = self.sale_town.strip()
+                data['street'] = self.sale_street.strip()
+                data['bedrooms'] = self.sale_bedrooms
+                data['bathrooms'] = self.sale_bathrooms
+                data['landspace'] = self.sale_land.strip()
                 data['url'] = url
-                data['email'] = self.mail
-                data['phonenumber'] = self.phonenumber
-                data['price'] = "$" + self.price
+                data['email'] = self.sale_mail.strip()
+                data['phonenumber'] = self.sale_phone.strip()
+                data['price'] = self.sale_price.strip()
                 data['local_image'] = self.file.replace('/', ',,')
-                data['description'] = self.desc.capitalize()
-                data['amenities'] = self.amenities
-                data['twitter'] = self.twitter
-                data['facebook'] = self.facebook
+                data['description'] = self.sale_desc.strip()
+                data['amenities'] = self.sale_amenities
+                data['twitter'] = self.sale_twitter.strip()
+                data['facebook'] = self.sale_facebook.strip()
+                data['location'] = self.sale_country.strip()+self.sale_state.strip()+self.sale_town.strip()
                 
                 print("pushing data")
-                results = db.child("Sale").push(data, self.info['idToken'])
+                results = db.child("Sale").push(data, self.curr['idToken'])
                 self.tot = ''
                 self.country = ''
                 self.state = ''
@@ -4226,15 +5690,16 @@ class MainApp(MDApp):
                     "prop_keys": "",
                 }
                 key_data['prop_keys'] = results['name']
-                db.child("People").child(self.info['localid']).child("Sale").push(key_data, self.info['idToken'])
+                db.child("People").child(self.curr['localid']).child("ids").push(key_data, self.curr['idToken'])
                 print(key_data)
                 print(results)
                 print("updating sold")
-                self.info["sold"][self.info['email']] += 1
+                self.curr["sold"][self.curr['email']] += 1
                 with open(f'{path}/user.json', 'w') as jsonfile:
-                    json.dump(self.info, jsonfile)
+                    json.dump(self.curr, jsonfile)
                 print("updated sold")
                 self.switch_congrats()
+            
                 
             except requests.exceptions.HTTPError as e:
                 error_json = e.args[1]
@@ -4243,55 +5708,72 @@ class MainApp(MDApp):
                 if error == 'Permission denied':
                     print("Permission denied")
                     print("Resigning in")
-                    print(self.info['idToken'])
-                    
+                    print(self.curr['idToken'])
+                    # self.denied += 1
+                    # if self.denied < 2:
                     try:
-                        self.user = authi.sign_in_with_email_and_password(self.info['email'], self.info['password'])
-                        usero = authi.refresh(self.user['refreshToken'])
-                        self.info['idToken'] = self.user['idToken']
-                        with open(f'{path}/user.json', 'w') as jsonfile:
-                            json.dump(self.info, jsonfile)
-                        try:
-                            func_timeout(40, self.house_sale, args=(selection,))
-                        except FunctionTimedOut:
-                            self.toast('Failed to submit property')
-                        except Exception as e:
-                            self.toast('Failed to submit property')
+                        func_timeout(1, self.denied_signin)
+                        time.sleep(1)
+                        if not self.event.is_set():
+                            self.real_house_sale(selection)
+                        else:
+                            print("Tried to start after denial")
+                    except FunctionTimedOut:
+                        self.toast("Internet connection limited or unavailable")
+                        
+                        self.event.set()
+                        print("Internet connection limited or unavailable")
+                        self.true_switch_sale()
                     except:
-                        self.toast("No internet connection")
-                        print("No internet connection")
+                        self.toast("Failed to submit property")
+                        print("Failed to submit property")
+                        self.event.set()
+                        self.true_switch_sale()
+                    
+                       
+
+                try:
+                    if error['message'] == 'Permission denied.':
+                        self.show_dialog("All permissions are denied for selling properties right now. Please wait until the slots are open.", titler="Permission denied")
+                        # self.denied = 0
+                        print("Permission finally denied")
+                        self.true_switch_sale()
+                except:
+                    pass
+                
         else:
             self.show_notice()
+            self.true_switch_sale()
             print('no match at all')
             
     
         
         
 
-                
+    
         
 
     def rent_property(self):
         
-        if self.mail == self.info['email']:
+        if self.mail == self.curr['email']:
             if self.phonenumber != '':
                 phone_number  = phonenumbers.parse(self.phonenumber)
                 valid = phonenumbers.is_valid_number(phone_number)
                 print(valid)
                 if valid == True:
-                    if len(self.tot) > 5:
+                    if len(self.tot) > 5 and len(self.tot) < 21:
                         
                         if len(self.country) >= 2 and len(self.country) < 16:
                             # phone = '+2332222222222'
                             
-                            if len(self.state) >= 3 and len(self.state) < 20:
-                                if len(self.town) >= 3 and len(self.town) < 16:
+                            if len(self.state) >= 3 and len(self.state) < 25:
+                                if len(self.town) >= 3 and len(self.town) < 25:
 
                                     if len(self.street) >= 6 and len(self.street) < 25:
                                         if len(self.landspace) > 1:
                                             if len(self.price) > 1:
                                                 if len(self.desc) > 20 and len(self.desc) < 255:
-                                                    filechooser.open_file(on_selection=self.real_rent)
+                                                    filechooser.open_file(on_selection=self.real_house_rent)
                                                 else:
                                                     info = "description must be between 20 and 255 characters"
                                                     self.show_dialog(info)
@@ -4302,20 +5784,20 @@ class MainApp(MDApp):
                                             info = "Invalid input for landspace"
                                             self.show_dialog(info)
                                     else:
-                                        info = "Street must be between 6 and 25 characters"
+                                        info = "Street must be between 3 and 25 characters"
                                         self.show_dialog(info)
 
                                 else:
-                                    info = "Town must be between 2 and 16 characters"
+                                    info = "Town must be between 2 and 25 characters"
                                     self.show_dialog(info)
                             else:
-                                info = "State must be between 2 and 20 characters"
+                                info = "State must be between 2 and 25 characters"
                                 self.show_dialog(info)
                         else:
                             info = "Please select your country"
                             self.show_dialog(info)
                     else:
-                        info = "Property type must be more than 5 characeters"
+                        info = "Property type must be between 5 and 21 characters"
                         self.show_dialog(info)
                 else:
                     info = "Invalid phonenumber"
@@ -4328,31 +5810,73 @@ class MainApp(MDApp):
             text = "Invalid email"
             self.show_dialog(text)
 
+    @mainthread
+    def true_switch_rent(self):
+        self.wm.switch_to(self.rent)
+
+
+    def real_house_rent(self, selection):
+        self.loading.ids.spin.active = True
+        self.switch_loading()
+        self.event = Event()
+        self.thread_rent = threading.Thread(target=self.real_rent, args=(selection,))
+        self.thread_rent.start()
+
+
 
     def real_rent(self, selection):
         print('real rent')
         
+
+        self.rent_tot = self.tot.title()
+        self.rent_country=self.country
+        self.rent_state = self.state.title()
+        self.rent_town=self.town.title()
+        self.rent_street=self.street.title()
+        self.rent_bedrooms = self.bedrooms
+        self.rent_bathrooms = self.bathrooms
+        self.rent_price = self.price
+        self.rent_desc = self.desc.capitalize()
+        self.rent_land = self.landspace + 'sq.ft'
+        self.rent_amenities = self.amenities
+        self.rent_mail = self.mail
+        self.rent_phone = self.phonenumber
+        self.rent_twitter = self.twitter
+        self.rent_facebook = self.facebook
+
+
+
+
         print('done')
         selected_image = selection
         if len(selected_image) > 0:
             print(selected_image)
             # self.switch_loading()
+            
             try:
-                func_timeout(40, self.house_rent, args=(selected_image,))
+                func_timeout(30, self.house_rent, args=(selected_image,))
             except FunctionTimedOut:
-                self.toast("No internet connection")
+                self.toast("Internet connection limited or unavailable")
+                print("Internet connection limited or unavailable")
+                self.event.set()
+                self.true_switch_rent()
             # except:
-            #     p = "No internet connection"
+            #     print("Failed to submit property")
+            #     self.event.set()
+            #     self.toast('Failed to submit property')
+            #     self.true_switch_rent()
             #     self.snackbar(p)
-            #     print("No internet connection")
+            #     print("Failed to submit property")
+            
         else:
             info = "You need to select an image to continue"
             self.show_dialog(info)
+            self.true_switch_rent()
 
     
     def house_rent(self, selection):
         
-        # self.user = authi.sign_in_with_email_and_password(self.info['email'], self.info['password'])
+        # self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
         print(selection)
         
         self.file = selection[0]
@@ -4363,13 +5887,15 @@ class MainApp(MDApp):
         y = re.search(r".png$", self.file)
         if x or y:
             try:
-                if self.file[0] == "/":
-                    storage.child(self.info['localid'] + '/' + self.file.replace('/', ',,')).put(str(self.file), self.info['idToken'])
-                    url = storage.child(self.info['localid'] + '/' + self.file.replace('/', ',,')).get_url(None)
+                if not self.event.is_set():
+                    if self.file[0] == "/":
+                        storage.child(self.curr['localid'] + '/' + self.file.replace('/', ',,')).put(str(self.file), self.curr['idToken'])
+                        url = storage.child(self.curr['localid'] + '/' + self.file.replace('/', ',,')).get_url(None)
+                    else:
+                        storage.child(self.curr['localid'] + '/' + self.file).put(str(self.file), self.curr['idToken'])
+                        url = storage.child(self.curr['localid'] + '/' + self.file).get_url(None)
                 else:
-                    storage.child(self.info['localid'] + '/' + self.file).put(str(self.file), self.info['idToken'])
-                    url = storage.child(self.info['localid'] + '/' + self.file).get_url(None)
-                
+                    print("tried to upload to storage behnid my back")
 
             
                 
@@ -4392,30 +5918,32 @@ class MainApp(MDApp):
                     "facebook": "",
                     "description": "",
                     "amenities": "",
-                    "views": 0
+                    "views": 0,
+                    "location": ""
                 }
-
                 
-                data['housetype'] = self.tot.title()
-                data['country'] = self.country
-                data['state'] = self.state.title()
-                data['street'] = self.street.title()
-                data['town'] = self.town.title()
-                data['bedrooms'] = self.bedrooms
-                data['bathrooms'] = self.bathrooms
-                data['landspace'] = self.landspace + 'sq.ft'
+                
+                data['housetype'] = self.rent_tot.strip()
+                data['country'] = self.rent_country
+                data['state'] = self.rent_state.strip()
+                data['town'] = self.rent_town.strip()
+                data['street'] = self.rent_street.strip()
+                data['bedrooms'] = self.rent_bedrooms
+                data['bathrooms'] = self.rent_bathrooms
+                data['landspace'] = self.rent_land.strip()
                 data['url'] = url
-                data['email'] = self.info['email']
-                data['price'] = "$" + self.price + self.rent.ids.pay_item.text
+                data['email'] = self.rent_mail.strip()
+                data['phonenumber'] = self.rent_phone.strip()
+                data['price'] = "$" + self.rent_price.strip() + self.rent.ids.pay_item.text
                 data['local_image'] = self.file.replace('/', ',,')
-                data['phonenumber'] = self.phonenumber
-                data['twitter'] = self.twitter
-                data['facebook'] = self.facebook
-                data['description'] = self.desc.capitalize()
-                data['amenities'] = self.amenities
+                data['description'] = self.rent_desc.strip()
+                data['amenities'] = self.rent_amenities
+                data['twitter'] = self.rent_twitter.strip()
+                data['facebook'] = self.rent_facebook.strip()
+                data['location'] = self.rent_country.strip()+self.rent_state.strip()+self.rent_town.strip()
                 # db.child("People").child(key).child("house").push(data)
                 # results = db.child("People").child("Rent").child(self.user['localId']).child("house").push(data)
-                results = db.child("Rent").push(data, self.info['idToken'])
+                results = db.child("Rent").push(data, self.curr['idToken'])
                 self.tot = ''
                 self.country = ''
                 self.state = ''
@@ -4439,13 +5967,14 @@ class MainApp(MDApp):
                     "prop_keys": "",
                 }
                 key_data['prop_keys'] = results['name']
-                db.child("People").child(self.info['localid']).child("Rent").push(key_data, self.info['idToken'])
+                db.child("People").child(self.curr['localid']).child("ids").push(key_data, self.curr['idToken'])
                 print(key_data)
                 print(results)
-                self.info["sold"][self.info['email']] += 1
+                self.curr["sold"][self.curr['email']] += 1
                 with open(f'{path}/user.json', 'w') as jsonfile:
-                    json.dump(self.info, jsonfile)
+                    json.dump(self.curr, jsonfile)
                 self.switch_congrats()
+                
             # for i in results.each():
                 # print(i.key())
 
@@ -4458,28 +5987,49 @@ class MainApp(MDApp):
                     print("Resigning in")
                     
                     try:
-                        self.user = authi.sign_in_with_email_and_password(self.info['email'], self.info['password'])
-                        usero = authi.refresh(self.user['refreshToken'])
-                        self.info['idToken'] = self.user['idToken']
-                        with open(f'{path}/user.json', 'w') as jsonfile:
-                            json.dump(self.datp, jsonfile)
-                        try:
-                            func_timeout(40, self.house_rent, args=(selection,))
-                        except FunctionTimedOut:
-                            self.toast('Failed to submit property')
-                        except Exception as e:
-                            self.toast('Failed to submit property')
+                        func_timeout(1, self.denied_signin)
+                        time.sleep(1)
+                        if not self.event.is_set():
+                            self.real_house_rent(selection)
+                        else:
+                            print("Tried to work after denial")
+                    except FunctionTimedOut:
+                        self.toast("Internet connection limited or unavailable")
+                        print("Internet connection limited or unavailable")
+                        self.event.set()
+                        self.switch_true_rent()
+                        
                     except:
-                        self.toast("No internet connection")
-                        print("No internet connection")
-            
+                        self.toast("Failed to submit property")
+                        print("Failed to submit property")
+                        self.event.set()
+                        self.switch_true_rent()
+                
+
+                try:
+                    if error['message'] == 'Permission denied.':
+                        self.show_dialog("All permissions are denied for renting properties right now. Please wait until the slots are open.", titler="Permission denied")
+                        # self.denied = 0
+                        print("Permission finally denied")
+                        self.switch_true_rent()
+                except:
+                    pass
+                
         else:
             self.show_notice()
+            self.switch_true_rent()
     
     @mainthread
     def show_notice(self):
         
         info = 'Please select an image file'
         self.show_dialog(info)
+
+    def denied_signin(self):
+        self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
+        usero = authi.refresh(self.user['refreshToken'])
+        self.curr['idToken'] = self.user['idToken']
+        with open(f'{path}/user.json', 'w') as jsonfile:
+            json.dump(self.curr, jsonfile)
 
 MainApp().run()

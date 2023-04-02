@@ -3,14 +3,14 @@
     
     padding: [0]
     size_hint: None, None
-    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2 + 40
+    width: Window.size[0] / 1.1 if Window.size[0] < Window.size[1] else Window.size[0] / 2 
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-    height: Window.size[1] / 2 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 45
+    height: Window.size[1] / 2  if Window.size[1] > Window.size[0] else Window.size[1] / 1.1
     id: main_card
-    radius: [5, ]
+    radius: ["5dp", ]
     MDBoxLayout:
         orientation: 'vertical'
-        padding: [10,]
+        padding: ["10dp",]
         spacing: "20dp"
         SalePic:
             on_press: app.play()
@@ -33,9 +33,9 @@
                     md_bg_color: 1,1,1,1
                     font_color: "black"
                     bold: True
-                    size_hint: None, None
+                    size_hint_y: None
                     height: dp(30)
-                    adaptive_width: True
+                    size_hint_max_x: dp(100)
                     pos_hint: {'center_x': 0.75, 'center_y': 0.89}
                     
                 # MDBoxLayout:
@@ -52,9 +52,9 @@
                     
                     bold: True
                     
-                    size_hint: None, None
+                    size_hint_y: None
                     height: dp(30)
-                    adaptive_width: True
+                    size_hint_max_x: dp(100)
                     md_bg_color: 1,1,1,1
                         
                         
@@ -67,7 +67,7 @@
         MDBoxLayout:
             orientation: 'vertical'
             spacing: "10dp"
-            padding: [10, 0, 5, 0]
+            padding: ["15dp", "0dp", "5dp", "0dp"]
             size_hint_y: None
             adaptive_height: True
             MDLabel:
@@ -95,7 +95,7 @@
         MDSeparator:
 
         MDBoxLayout:
-            padding: [10, 5, 0, 17]
+            padding: ["10dp", "5dp", "0dp", "17dp"]
             size_hint_y: None
             adaptive_height: True
             MDLabel:

@@ -4,14 +4,15 @@
         spacing: "5dp"
         AccCard:
             size_hint_y: None
-            height: arrow_right.height * 2.2
+            height: "70dp"
             padding: [10,]
             elevation: 0
             MDLabel:
                 text: 'My Account'
-                theme_font_style: 'Overline'
+                font_size: '16dp'
+                bold: True
             MDIconButton:
-                font_size: '15dp'
+                icon_size: "20dp"
                 icon: 'arrow-right'
                 on_press: app.play()
                 on_release: app.switch_home()
@@ -43,7 +44,7 @@
                             pos_hint: {'center_x':0.5, 'center_y':0.5}
 
                     MDLabel:
-                        text: app.curr['email']
+                        text: root.text
                         size_hint_y: None
                         height: '20dp'
                         halign: 'center'                       
@@ -59,9 +60,9 @@
                             on_press: app.play()
                             on_release: app.password_reset_auth()
                             IconLeftWidget:
-                                icon: 'key'         
+                                icon: 'key-outline'         
                                                 
-                                font_size: '20dp'
+                                icon_size: '20dp'
                                 pos_hint:{'center_y': 0.5}
                         
                         # OneLineIconListItem:
@@ -81,9 +82,9 @@
                             on_press: app.play()
                             on_release: app.switch_products()
                             IconLeftWidget:
-                                icon: 'bed'         
+                                icon: 'bed-outline'         
                                                 
-                                font_size: '20dp'
+                                icon_size: '20dp'
                                 pos_hint:{'center_y': 0.5}
 
 <AccCard@MDCard+CommonElevationBehavior>

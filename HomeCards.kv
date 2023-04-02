@@ -6,21 +6,21 @@
     padding: [0]
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
     size_hint: None, None
-    height: Window.size[1] / 2.1 if Window.size[1] > Window.size[0] else Window.size[1] - 50
-    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2 
+    height: Window.size[1] / 2 if Window.size[1] > Window.size[0] else Window.size[1] / 1.1
+    width: Window.size[0] / 1.1 if Window.size[0] < Window.size[1] else Window.size[0] / 2 
     
     id: home_card
-    radius: [5, ]
+    radius: ["5dp", ]
     RelativeLayout:
         MDBoxLayout:
             orientation: 'vertical'
-            padding: [10,]
+            padding: ["10dp",]
             spacing: "20dp"
             Pico:
                 id: pico
                 
-                
-                on_release: app.switch_details(root.image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.phonenumber, root.twitter, root.facebook, root.description, root.key, root.amenities)
+                on_press: app.play()
+                on_press: app.switch_details(root.image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.phonenumber, root.twitter, root.facebook, root.description, root.key, root.amenities)
                 radius: [5,]
                 ripple_behavior: True
                 on_release: app.call_guy(root.key, root.price)
@@ -45,9 +45,9 @@
                         md_bg_color: 1,1,1,1
                         font_color: "black"
                         bold: True
-                        size_hint: None, None
+                        size_hint_y: None
                         height: dp(30)
-                        adaptive_width: True
+                        size_hint_max_x: dp(100)
                         pos_hint: {'center_x': 0.75, 'center_y': 0.89}
                             
                             
@@ -61,7 +61,7 @@
             MDBoxLayout:
                 orientation: 'vertical'
                 spacing: "15dp"
-                padding: [10, 0, 5, 0]
+                padding: ["15dp", "0dp", "5dp", "0dp"]
                 size_hint_y: None
                 adaptive_height: True
                 MDLabel:
@@ -90,7 +90,7 @@
             MDSeparator:
 
             MDBoxLayout:
-                padding: [10, 5, 0, 17]
+                padding: ["10dp", "5dp", "0dp", "17dp"]
                 size_hint_y: None
                 adaptive_height: True
                 
@@ -146,7 +146,10 @@
             theme_text_color: "Custom"
             text_color: 'black'
             on_press: app.bookmark(root.key)
+            # on_release: self.icon='bookmark' if self.icon == 'bookmark-outline' else self.icon ='bookmark'
             pos_hint: {'center_x': 0.1, 'center_y': 1}
+            icon_size: "20dp"
+            id: bookmark_icon
             
 
 <Pico@MDCard+CommonElevationBehavior>

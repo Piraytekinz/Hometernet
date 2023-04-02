@@ -1,0 +1,22 @@
+<MoreCard>:
+    elevation: 0
+    ripple_behavior: True
+    size_hint: None, None
+    height: '70dp'
+    width: '270dp'
+    padding: [self.width/2.2,self.height/2,self.width/2.2,self.height/2]
+    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+    on_release: SearchLayout.next()
+    
+    id: more_card
+    MDIcon:
+        icon: "arrow-down"
+        halign: 'center'
+        id: another
+        pos_hint: {'center_y': 0.5}
+        size_hint: None, None
+        adaptive_size: True
+        font_size: '20dp'
+
+<SearchLayout>
+    

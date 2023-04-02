@@ -7,7 +7,7 @@
             effect_cls: 'ScrollEffect'
             MDBoxLayout:
                 orientation: 'vertical'
-                spacing: "25dp"
+                spacing: "35dp"
                 adaptive_height: True
                 size_hint_y: None
                 MDBoxLayout:
@@ -36,7 +36,7 @@
                                     on_press: app.play()
                                     on_release: app.switch_from_details()
                                     ripple_behavior: True
-                                    font_size: '16dp'
+                                    icon_size: "20dp"
                             
                             AnchorLayout:
                                 anchor_x: 'right'
@@ -48,12 +48,12 @@
                                     on_press: app.play()
                                     on_release: app.bookmark(root.key)
                                     ripple_behavior: True
-                                    font_size: '16dp'
+                                    icon_size: "20dp"
 
                             AnchorLayout:
                                 anchor_x: 'left'
                                 anchor_y: 'bottom'
-                                padding: [20,0,0,20]
+                                padding: ["20dp","0dp","0dp","20dp"]
                                 MDLabel:
                                     text: root.price
                                     color: 'white'
@@ -61,6 +61,7 @@
                                     size_hint_y: None
                                     adaptive_height: True
                                     bold: True
+                                    
                                     
                 # MDBoxLayout:
                 #     padding: [15,20,0,0]
@@ -78,7 +79,7 @@
                     spacing: "20dp"
                     size_hint_y: None
                     adaptive_height: True
-                    padding: [25,15,0,0]
+                    padding: ["20dp","15dp","10dp","0dp"]
                     
                     MDLabel:
                         text: root.type
@@ -129,7 +130,7 @@
                         MapsCard:
                             size_hint: None, None
                             width: gmaps_icon.width + gmaps_label.width + 25
-                            height: bedrooms.height * 2.5
+                            height: '50dp'
                             radius: [10,]
                             padding: [5,10,5,10]
                             on_press: app.open_maps(root.country + ',' + " " + root.town + ',' + " " + root.street)
@@ -160,7 +161,7 @@
                     size_hint_y: None
                     adaptive_height: True
                     spacing: "10dp"
-                    padding: [25,5,10,0]
+                    padding: ["20dp","5dp","10dp","0dp"]
                     BedroomsCard:
                         size_hint_y: None
                         height: landspace.height * 2
@@ -200,7 +201,7 @@
                         padding: [5]
                         MDLabel:
                             halign: 'center'
-                            text: root.landspace + " " + 'landspace'
+                            text: root.landspace + " " + 'land'
                             font_size: '15dp'
                             size_hint_y: None
                             adaptive_height: True
@@ -213,7 +214,7 @@
                     size_hint_y: None
                     adaptive_height: True
                     orientation: 'vertical'
-                    padding: [25,15,0,0]
+                    padding: ["20dp","15dp","0dp","0dp"]
                     spacing: "20dp"
                     MDLabel:
                         text: 'Description'
@@ -229,7 +230,7 @@
                         font_size: '14dp'
                         color: 'gray'
                 MDBoxLayout:
-                    padding: [20]
+                    padding: ["20dp"]
                     size_hint_y: None
                     adaptive_height: True
                     Further:
@@ -357,22 +358,31 @@
                 radius: [5,]
                 ripple_behavior: True
                 size_hint_y: None
-                height: buy_text.height * 3
+                height: buy.height * 3
                 id: biye
                 pos_hint: {'center_y': 0.5}
-                on_release: app.send_email(root.email, root.phonenumber, root.twitter, root.facebook)
+                on_release: app.send_thread_email(root.email, root.phonenumber, root.twitter, root.facebook)
                 on_press: app.play()
-                MDLabel:
-                    text: "Buy"
-                    halign: "center"
-                    color: "white"
-                    font_size: "13dp"
-                    bold: True
-                    id: buy_text
-                    size_hint_y: None
-                    adaptive_height: True
-                    
-                    pos_hint: {'center_y': 0.5}
+                RelativeLayout:
+                    MDLabel:
+                        text: "Buy"
+                        halign: "center"
+                        color: "white"
+                        font_size: "13dp"
+                        bold: True
+                        id: buy
+                        size_hint_y: None
+                        adaptive_height: True
+                        id: buy
+                        pos_hint: {'center_y': 0.5}
+                    MDSpinner:
+                        size_hint: None, None
+                        height: '13dp'
+                        width: '13dp'
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        color: "white"
+                        active: False
+                        id: spin
                     
             
                     

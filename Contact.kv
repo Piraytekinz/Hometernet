@@ -4,21 +4,22 @@
         spacing: "20dp"
         MDCard:
             size_hint_y: None
-            height: icon.height * 2.5
+            height: "70dp"
             padding: [10,]
             elevation: 0
             id: about
             radius: [0]
             MDLabel:
                 text: 'Contact Us'
-                theme_font_style: 'Overline'
+                font_size: '16dp'
+                bold: True
                 size_hint_y: None
                 adaptive_height: True
                 valign: 'center'
                 pos_hint: {'center_y': 0.5}
                 
             MDIconButton:
-                font_size: '15dp'
+                icon_size: "20dp"
                 icon: 'arrow-right'
                 on_press: app.play()
                 on_release: app.switch_home()
@@ -28,7 +29,7 @@
             ScrollView:
                 effect_cls: "ScrollEffect"
                 MDBoxLayout:
-                    padding: [25,0,10,18]
+                    padding: [15,0,15,18]
                     spacing: "35dp"
                     orientation: 'vertical'
                     size_hint_y: None
@@ -55,7 +56,7 @@
                         orientation: 'vertical'
                         size_hint_y: None
                         adaptive_height: True
-                        spacing: "20dp"
+                        spacing: "30dp"
                         MDBoxLayout:
                             spacing: "23dp"
                             size_hint_y: None
@@ -72,8 +73,8 @@
                                     font_size: '14dp'
                                 Firstname:
                                     size_hint_y: None
-                                    height: notice.height + 20
-                                    radius: [10,]
+                                    height: "45dp"
+                                    radius: ["10dp",]
                                     id: name_box
                                     TextInput:
                                         hint_text: 'First name'
@@ -86,6 +87,8 @@
                                         height: self.minimum_height
                                         background_color: 0,0,0,0
                                         id: firstname
+                                        input_type: 'text'
+                                        cursor_color: 0,0,1,1
 
                             MDBoxLayout:
                                 orientation: 'vertical'
@@ -99,8 +102,8 @@
                                     adaptive_height: True
                                 Lastname:
                                     size_hint_y: None
-                                    height: notice.height + 20
-                                    radius: [10,]
+                                    height: "45dp"
+                                    radius: ["10dp",]
                                     id: last_name_box
                                     TextInput:
                                         hint_text: 'Last name'
@@ -113,6 +116,8 @@
                                         height: self.minimum_height
                                         background_color: 0,0,0,0
                                         id: lastname
+                                        input_type: 'text'
+                                        cursor_color: 0,0,1,1
                         MDBoxLayout:
                             orientation: 'vertical'
                             spacing: "10dp"
@@ -125,8 +130,8 @@
                                 adaptive_height: True
                             MailCard:
                                 size_hint_y: None
-                                height: notice.height + 20
-                                radius: [10,]
+                                height: "45dp"
+                                radius: ["10dp",]
                                 id: mail_box
                                 TextInput:
                                     hint_text: 'Email'
@@ -139,6 +144,8 @@
                                     height: self.minimum_height
                                     background_color: 0,0,0,0
                                     id: mail
+                                    input_type: 'mail'
+                                    cursor_color: 0,0,1,1
                         MDBoxLayout:
                             orientation: 'vertical'
                             spacing: "10dp"
@@ -152,17 +159,17 @@
                             MessageCard:
                                 size_hint_y: None
                                 height: notice.height * 5
-                                radius: [10,]
+                                radius: ["10dp",]
                                 id: story_box
                                 TextInput:
                                     hint_text: 'Input Message'
                                     multiline: True
                                     foreground_color: 0/255, 0/255, 0/255, 1
-                                    
+                                    input_type: 'text'
                                     font_size: "15dp"
                                     text_color: "black"
                                     pos_hint: {'center_y': 0.5}
-                                    
+                                    cursor_color: 0,0,1,1
                                     background_color: 0,0,0,0
                                     id: message
                     SendCard:
@@ -171,18 +178,30 @@
                         radius: [10]
                         ripple_behavior: True
                         md_bg_color: app.theme_cls.primary_color
-                        
-                        on_press: root.initialize_contact_message()
-                        MDLabel:
-                            text: "Send"
-                            font_size: '13dp'
-                            color: 'white'
-                            halign: 'center'
-                            id: send
-                            size_hint_y: None
-                            adaptive_height: True
-                            bold: True
-                            pos_hint: {'center_y': 0.5}
+                        on_press: app.play()
+                        on_release: app.thread_initialize_contact_message()
+                        id: send_card
+                        RelativeLayout:
+                            MDLabel:
+                                text: "Send"
+                                font_size: '13dp'
+                                color: 'white'
+                                halign: 'center'
+                                id: send
+                                size_hint_y: None
+                                adaptive_height: True
+                                bold: True
+                                pos_hint: {'center_y': 0.5}
+                                
+                            MDSpinner:
+                                color: "white"
+                                # font_size: '13dp'
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                size_hint: None, None
+                                height: '13dp'
+                                width: '13dp'
+                                active: False
+                                id: spin
 
 <Firstname@MDCard+CommonElevationBehavior>
 <Lastname@MDCard+CommonElevationBehavior>

@@ -4,11 +4,11 @@
         orientation: 'vertical'
         MDCard:
             size_hint_y: None
-            height: arrow_left.height * 2.2
+            height: "70dp"
             radius: [0]
             MDIconButton:
                 icon: 'arrow-left'
-                font_size: "15dp"
+                icon_size: "20dp"
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 on_press: app.play()
                 on_release: app.discard_auth()
@@ -24,14 +24,17 @@
             MDIconButton:
                 icon: 'trash-can'
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                font_size: "15dp"
+                icon_size: "20dp"
                 on_press: app.play()
+                on_release: app.discard()
                 on_release: app.switch_products()
 
         
         
         ScrollView:
             do_scroll_x: False
+            scroll_distance: 10
+            effect_cls: "ScrollEffect"
             MDBoxLayout:
                 orientation: 'vertical'
                 spacing: "30dp"
@@ -73,6 +76,7 @@
                             hint_text: "email"
                             on_text: app.email(self.text)
                             font_size: '15dp'
+                            input_type: 'mail'
                             
 
                 MDBoxLayout:
@@ -137,6 +141,7 @@
                                     foreground_color: 0/255, 0/255, 0/255, 1
                                     background_color: 0,0,0,0
                                     font_size: "15dp"
+                                    cursor_color: app.theme_cls.primary_color
                 
                 MDBoxLayout:
                     opacity: 0.9
@@ -166,6 +171,7 @@
                             on_text: app.tg(self.text)
                             padding: [20, ]
                             font_size: '15dp'
+                            input_type: 'text'
 
                 MDBoxLayout:
                     opacity: 0.9
@@ -194,6 +200,7 @@
                             on_text: app.fb(self.text)
                             padding: [20, ]
                             font_size: '15dp'
+                            input_type: 'text'
                             
                 MDBoxLayout:
                     opacity: 0.9
@@ -222,6 +229,7 @@
                             on_text: app.word(self.text)
                             padding: [20, ]
                             font_size: '15dp'
+                            input_type: 'text'
 
                 MDBoxLayout:
                     opacity: 0.9
@@ -296,6 +304,7 @@
                             on_text: app.statify(self.text)
                             padding: [20, ]
                             font_size: '15dp'
+                            input_type: 'text'
 
                 MDBoxLayout:
                     opacity: 0.9
@@ -324,6 +333,7 @@
                             padding: [20, ]
                             on_text: app.towni(self.text)
                             font_size: '15dp'
+                            input_type: 'text'
                 
                 MDBoxLayout:
                     opacity: 0.9
@@ -351,6 +361,7 @@
                             hint_text: "street/address"
                             font_size: '15dp'
                             on_text: app.streeti(self.text)
+                            input_type: "address"
 
 
                 MDBoxLayout: 
@@ -378,6 +389,7 @@
                             do_scroll_y: False
                             do_scroll_x: True
                             bar_width: 0
+                            scroll_distance: 15
                             MDBoxLayout:
                                 spacing: '10dp'
                                 
@@ -551,6 +563,7 @@
                             do_scroll_y: False
                             do_scroll_x: True
                             bar_width: 0
+                            scroll_distance: 15
                             MDBoxLayout:
                                 spacing: '10dp'
                                 size_hint_x: None
@@ -742,6 +755,7 @@
                                 background_color: 0,0,0,0
                                 font_size: "15dp"
                                 pos_hint: {'center_y': 0.5}
+                                cursor_color: app.theme_cls.primary_color
 
 
                 
@@ -798,6 +812,8 @@
                                 background_color: 0,0,0,0 
                                 pos_hint: {'center_y': 0.5}
                                 font_size: '15dp'
+                                hint_text: 'price'
+                                cursor_color: app.theme_cls.primary_color
 
                 MDBoxLayout:
                     opacity: 0.9
@@ -810,29 +826,28 @@
                     orientation: 'vertical'
                     spacing: "20dp"
                     md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: [20,30,20,10]
                     
-                    MDBoxLayout:
-                        orientation: 'vertical'
-                        padding: [20,30,20,10]
-                        spacing: "20dp"
+                    
                         
-                        MDLabel:
-                            text: "Brief Description(max=255 words)"
-                            font_size: "15dp"
-                            size_hint_y: None
-                            adaptive_height: True
-                        Description_rent:
-                            radius: [9,]
-                            
-                            
-                            TextInput:
-                                id: description
-                                
-                                on_text: app.description(self.text)
-                                multiline: True
-                                foreground_color: 0/255, 0/255, 0/255, 1
-                                background_color: 0,0,0,0 
-                                    
+                        
+                    MDLabel:
+                        text: "Brief Description(max=255 words)"
+                        font_size: "15dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                    
+                        
+                        
+                    TextInput:
+                        id: description
+                        hint_text: 'description'
+                        on_text: app.description(self.text)
+                        multiline: True
+                        foreground_color: 0/255, 0/255, 0/255, 1
+                        background_color: 0,0,0,0 
+                        input_type: 'text'
+                        cursor_color: app.theme_cls.primary_color
 
                 MDBoxLayout:
                     opacity: 0.9
@@ -925,7 +940,8 @@
                     
                 MDRaisedButton:
                     text: "Submit"
-                    on_press: app.rent_property()
+                    on_press: app.play()
+                    on_release: app.rent_property()
                     pos_hint: {'center_x': 0.5}
                     font_size: '15dp'
 

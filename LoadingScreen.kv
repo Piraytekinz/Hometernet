@@ -1,8 +1,16 @@
 <LoadingScreen>:
 
-        
     MDLabel:
-        halign: 'center'
-        text: "loading..."
+        text: 'loading...'
         bold: True
         font_size: '16dp'
+        halign: 'center'
+        opacity: 0
+        id: labe
+    MDSpinner:
+        active: True
+        size_hint: None, None
+        height: '30dp'
+        width: '30dp'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        id: spin

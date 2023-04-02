@@ -3,19 +3,20 @@
         orientation: 'vertical'
         HeaderCard:
             size_hint_y: None
-            height: icon.height * 2.2
+            height: "70dp"
             padding: [10,]
             elevation: 0
             MDLabel:
                 text: 'Tutorial'
-                theme_font_style: 'Overline'
+                font_size: '16dp'
+                bold: True
                 size_hint_y: None
                 adaptive_height: True
                 valign: 'center'
                 pos_hint: {'center_y': 0.5}
                 
             MDIconButton:
-                font_size: '15dp'
+                icon_size: "20dp"
                 icon: 'arrow-right'
                 on_press: app.play()
                 on_release: app.switch_home()
@@ -23,12 +24,13 @@
                 id: icon
                 
         ScrollView:
+            effect_cls: "ScrollEffect"
             MDBoxLayout:
                 orientation: 'vertical'
                 size_hint_y: None
                 adaptive_height: True
                 padding: [10,]
-
+                spacing: "13dp"
                 SellCard:
                     elevation: 1
                     md_bg_color: 1,1,1,1
@@ -47,7 +49,7 @@
                         spacing: "20dp"
                         padding: [10]
                         MDLabel:
-                            color: 'black'
+                            
                             halign: 'center'
                             font_size: '25dp'
                             text: 'How to Sell'
@@ -57,52 +59,71 @@
                         
                         MDLabel:
                             text: "1. Click on the menu icon in the top right corner of the screen."
-                            color: 'black'
+                            
                             size_hint_y: None
                             adaptive_height: True
-                            bold: True
+                            
+                            
                             
                         MDLabel:
                             text: "2. Click on Sell Your Propery... you will be redirected to a My Properties page."
-                            color: 'black'
+                            
                             size_hint_y: None
                             adaptive_height: True
-                            bold: True
+                            
                             
                         MDLabel:
                             text: "3. Click on the floating button with a plus in the center."        
-                            color: 'black'
+                            
                             size_hint_y: None
                             adaptive_height: True
-                            bold: True
+                            
                             
                         MDLabel:
                             text: "4. You'll get redirected to another screen that tells you to choose between selling and renting, if you've not signed in you'll be redirected to the sign in page."
-                            color: 'black'    
+                                
                             size_hint_y: None
                             adaptive_height: True
-                            bold: True
+                            
                             
                         MDLabel:
                             text: "5. Fill in the necessary details for your property and contact info and click submit"    
-                            color: 'black'    
+                                
                             size_hint_y: None
                             adaptive_height: True
-                            bold: True
+                            
                             
                         MDLabel:
                             text: "6. You will be asked to choose an image from the files on your device."
-                            color: 'black'
+                            
                             size_hint_y: None
                             adaptive_height: True
-                            bold: True
+                            
                             
                         MDLabel:
                             text: "7. When that is done, your property will be submitted and uploaded."       
-                            color: 'black' 
+                             
                             size_hint_y: None
                             adaptive_height: True
-                            bold: True
+                            
+                MDCard:
+                    size_hint_y: None
+                    height: note.height + improve.height + 30
+                    orientation: 'vertical'
+                    
+                    padding: [10,]
+                    MDLabel:
+                        text: "Note:"
+                        bold: True
+                        size_hint_y: None
+                        adaptive_height: True
+                        id: note
+                    MDLabel:
+                        text: "For now you're allowed to upload only one image. Improvements will be made later."
+                        id: improve
+                        size_hint_y: None
+                        adaptive_height: True
+                            
                             
                            
 

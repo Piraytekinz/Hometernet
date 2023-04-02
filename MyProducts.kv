@@ -1,21 +1,23 @@
 <MyProducts>:
-    on_enter: layout.begin_loading()
+    # on_enter: 
+    #     layout.begin_loading()
+    #     spinner.active=True if layout.done is False else False
     MDFloatLayout:
         RelativeLayout:
             
 
             MDBoxLayout:
                 orientation: 'vertical'
-                spacing: "10dp"
+                # spacing: "10dp"
                 PropTitle:
                     size_hint_y: None
-                    height: arrow_right.height * 2.2
+                    height: "70dp"
                     padding: [10]
                     id: prop_title
 
                     MDIconButton:
-                        icon: 'trash-can'
-                        font_size: "15dp"
+                        icon: 'trash-can-outline'
+                        icon_size: "20dp"
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         on_press: app.play()
                         on_release: layout.delete_user_auth()
@@ -31,76 +33,145 @@
                     
                     MDIconButton:
                         icon: 'arrow-right'
-                        font_size: "15dp"
+                        icon_size: "20dp"
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         on_press: app.play()
                         on_release: app.switch_home()
                         id: arrow_right
+                MDBoxLayout:
+                    size_hint_y: None
+                    adaptive_height: True
+                    # spacing: (Window.size[0]/3)+sell.width*1.5
+                    md_bg_color: 1,1,1,0.5
+                    
+                    AnchorLayout:
+                        anchor_x: 'left'
+                        anchor_y: 'center'
+                        size_hint_y: None
+                        height: switch.height
+                        # md_bg_color: 1,0,0,1
+                        MDIconButton:
+                            icon: "account-arrow-left-outline"
+                            icon_size: "22dp"
+                            on_press: app.play()
+                            theme_text_color: 'Custom'
+                            text_color: "black"
+                            on_press: self.text_color=app.theme_cls.primary_color
+                            on_release: self.text_color="black"
+                            on_release: layout.sign_out_auth()
+                            pos_hint: {'center_y': 0.5, 'center_x': 0.5}
+                            id: sign_out
+                    AnchorLayout:
+                        anchor_x: 'center'
+                        anchor_y: 'center'
+                        # md_bg_color: 1,0,0,1
+                        MDIconButton:
+                            icon: "account-switch-outline"
+                            icon_size: "22dp"
+                            on_press: app.play()
+                            theme_text_color: 'Custom'
+                            text_color: "black"
+                            on_press: self.text_color=app.theme_cls.primary_color
+                            on_release: self.text_color="black"
+                            on_release: app.switch_choice()
+                            pos_hint: {'center_y': 0.5, 'center_x': 0.5}
+                            id: switch
+                    AnchorLayout:
+                        anchor_x: 'right'
+                        anchor_y: 'center'
+                        MDIconButton:
+                            icon: "home-plus-outline"
+                            icon_size: "22dp"
+                            on_press: app.play()
+                            theme_text_color: 'Custom'
+                            text_color: "black"
+                            on_press: self.text_color=app.theme_cls.primary_color
+                            on_release: self.text_color="black"
+                            on_release: app.switch_saleorrent()
+                            pos_hint: {'center_y': 0.5, 'center_x': 0.9}
+                            id: sell
                 
-                            
+                
                 
 
                 
                     
                 ScrollView:
-                    scroll_timeout: 300
-                    scroll_distance: 20
+                    
                     effect_cls: "ScrollEffect"
+                    scroll_distance: 8
                     MDBoxLayout:
                         orientation: 'vertical'
                         spacing: '30dp'
                         size_hint_y: None
                         adaptive_height: True
-                        padding: [5,15,5,5]
-                        MDBoxLayout:
-                            size_hint_y: None
-                            adaptive_height: True
-                            spacing: "20dp"
-                            SignOut:
-                                ripple_behavior: True
-                                elevation: 0
-                                on_press: app.play()
-                                on_release: app.sign_out_auth()
-                                md_bg_color: app.theme_cls.primary_color
-                                radius: [10, ]
-                                size_hint_y: None
-                                height: switch_account.height * 3
-                                MDLabel:
-                                    text: "sign-out"
-                                    halign: 'center'
-                                    font_size: "16dp"
-                                    bold: True
-                                    color: 'white'
-                                    id: sign_out
-                                    size_hint_y: None
-                                    adaptive_height: True
-                                    pos_hint: {'center_y': 0.5}
+                        padding: ["0dp","10dp","0dp","5dp"]
+                        
+                                
+                            # SignOut:
+                            #     ripple_behavior: True
+                            #     elevation: 0
+                            #     on_press: app.play()
+                            #     on_release: layout.sign_out_auth()
+                            #     md_bg_color: 0,0,0,1
+                            #     radius: ["10dp", ]
+                            #     size_hint_y: None
+                            #     height: "60dp"
+                            #     MDLabel:
+                            #         text: "sign-out"
+                            #         halign: 'center'
+                            #         font_size: "16dp"
+                            #         bold: True
+                            #         color: 'white'
+                            #         id: sign_out
+                            #         size_hint_y: None
+                            #         adaptive_height: True
+                            #         pos_hint: {'center_y': 0.5}
 
-                            SwitchAccount:
-                                ripple_behavior: True
-                                on_press: app.play()
-                                on_release: layout.switch_account()
-                                on_release: app.switch_account()
-                                elevation: 0
-                                radius: [10, ]
-                                size_hint_y: None
-                                height: switch_account.height * 3
-                                MDLabel:
-                                    text: "switch account"
-                                    halign: 'center'
-                                    font_size: "16dp"
-                                    bold: True
-                                    id: switch_account
-                                    size_hint_y: None
-                                    adaptive_height: True
-                                    pos_hint: {'center_y': 0.5}
+                            # SwitchAccount:
+                            #     ripple_behavior: True
+                            #     on_press: app.play()
+                            #     on_release: 
+                            #         app.switch_choice()
+                                
+                            #     id: account_choice
+                            #     elevation: 0
+                            #     radius: ["10dp", ]
+                            #     size_hint_y: None
+                            #     height: "60dp"
+                            #     MDLabel:
+                            #         text: "switch account"
+                            #         halign: 'center'
+                            #         font_size: "16dp"
+                            #         bold: True
+                            #         id: switch_account
+                            #         size_hint_y: None
+                            #         adaptive_height: True
+                            #         pos_hint: {'center_y': 0.5}
+                            # MDCard:
+                                
+                            #     md_bg_color: app.theme_cls.primary_color
+                            #     size_hint: .4, None
+                            #     height: "60dp"
+                            #     radius: ["10dp"]
+                            #     ripple_behavior: True
+                            #     on_press: app.play()
+                            #     on_release: app.switch_saleorrent()
+                            #     MDLabel:
+                            #         halign: 'center'
+                            #         color: "white"
+                            #         font_size: "16dp"
+                            #         text: "sell"
+                            #         bold: True
+                                    
 
                     
                         
 
                     
                 
-                    
+                        
+
                         PropertyCardsLayout:
                             size_hint_y: None
                             adaptive_height: True
@@ -108,36 +179,52 @@
                             orientation: 'vertical'
                             id: layout
                             
-            
-            MDFloatingActionButton:
-                icon: 'plus'
-                on_press: app.play()
-                on_release: app.switch_saleorrent()
-                pos_hint: {'center_x': 0.85, 'center_y': 0.1}
-                font_size: '15dp'
+
+                      
+           
+                
+                
 
             Reload:
+                
                 size_hint: None, None
                 height: "46dp"
                 width: "46dp"
                 radius: ["23dp"]
-                pos_hint: {'center_x': 0.85, 'center_y': 0.2}
+                pos_hint: {'center_x': 0.5}
                 padding: ["23dp"]
                 ripple_behavior: True
                 id: reload
                 elevation: 0
-                on_press: layout.reload()
-                on_release: pass
+                on_press: app.reload_products()
+                pos_hint: {'center_x': 0.9, 'center_y': 0.2}
                 MDIcon:
                     icon: 'refresh'
                     font_size: "16dp"
+
+                # MDFloatingActionButton:
+                #     icon: "refresh"
+                #     pos_hint: {'center_x': 0.6}
+                #     on_press: app.reload_products()
+
+                
+
+            MDSpinner:
+                active: False
+                size_hint: None, None
+                width: '30dp'
+                height: '30dp'
+                pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+                id: spinner
+                
+
+            
                         
 <PropTitle@MDCard+CommonElevationBehavior>
 <SignOut@MDCard+CommonElevationBehavior>
 <SwitchAccount@MDCard+CommonElevationBehavior>
-# <Reload@MDCard+CircularElevationBehavior>
-<Effect>:
-    on_overscroll: layout.begin_loading()
+<Reload@MDCard+CommonElevationBehavior>
+
 
     
 

@@ -2,163 +2,176 @@
     
     MDBoxLayout:
         orientation: 'vertical'
-        AnchorLayout:
-            anchor_x: 'left'
-            anchor_y: 'top'
-            size_hint_y: None
-            height: home.height
-            
-            MDIconButton:
-                icon: 'arrow-left'
-                on_press: app.play()
-                on_release: app.wm.switch_to(app.signin)
-                id: home
-                size_hint_y: None
-                adaptive_height: True
-                font_size: '15dp'
+        
         ScrollView:
             effect_cls: "ScrollEffect"
             MDBoxLayout:
                 orientation: 'vertical'
-                padding: [25,50,25,35]
-                spacing: "20dp"
                 size_hint_y: None
                 adaptive_height: True
-                MDBoxLayout:
-                    size_hint: None, None
-                    height: '130dp'
-                    width: '130dp'
-                    
-                    md_bg_color: 1,0,0,1
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                    MDIcon:
-                        icon: 'Hometernet-Transparent.png'
-                        id: pirate
-                        font_size: '130dp'
-                        pos_hint: {'center_x': 0.5}
-                        halign: 'center'
-                
-                MDLabel:
-                    font_size: "25dp"
-                    text: 'Welcome to Hometernet'
-                    halign: 'center'
+                AnchorLayout:
+                    anchor_x: 'left'
+                    anchor_y: 'top'
                     size_hint_y: None
-                    adaptive_height: True
-                    id: notice
+                    height: home.height
                     
-
+                    MDIconButton:
+                        icon: 'arrow-left'
+                        on_press: app.play()
+                        on_release: app.wm.switch_to(app.signin)
+                        id: home
+                        size_hint_y: None
+                        adaptive_height: True
+                        icon_size: "20dp"
                 MDBoxLayout:
                     orientation: 'vertical'
+                    padding: [25,50,25,35]
                     spacing: "20dp"
                     size_hint_y: None
                     adaptive_height: True
-                    EmailCreate:
-                        size_hint_y: None
-                        height: notice.height + 20
-                        radius: [10,]
-                        id: mail_box
-                        TextInput:
-                            hint_text: 'email'
-                            multiline: False
-                            foreground_color: 0/255, 0/255, 0/255, 1
-                            size_hint_y: None
-                            font_size: "15dp"
-                            text_color: "black"
-                            pos_hint: {'center_y': 0.5}
-                            height: self.minimum_height
-                            background_color: 0,0,0,0
-                            on_text: app.email(self.text)
-
-                    PasswordCreate:
-                        size_hint_y: None
-                        height: notice.height + 20
-                        radius: [10,]
-                        id: passwrd
-                        TextInput:
-                            hint_text: 'create password'
-                            multiline: False
-                            foreground_color: 0/255, 0/255, 0/255, 1
-                            size_hint_y: None
-                            font_size: "15dp"
-                            text_color: "black"
-                            pos_hint: {'center_y': 0.5}
-                            height: self.minimum_height
-                            background_color: 0,0,0,0
-                            password: True
-                            on_text: app.password(self.text)
-
-                    ConfirmPassword:
-                        size_hint_y: None
-                        height: notice.height + 20
-                        radius: [10,]
-                        
-                        TextInput:
-                            hint_text: 'confirm password'
-                            multiline: False
-                            foreground_color: 0/255, 0/255, 0/255, 1
-                            size_hint_y: None
-                            font_size: "15dp"
-                            text_color: "black"
-                            pos_hint: {'center_y': 0.5}
-                            height: self.minimum_height
-                            background_color: 0,0,0,0
-                            password: True
-                            id: confirm
-                
-                        
-
-                Final:
-                    radius: [10]
-                    md_bg_color: app.theme_cls.primary_color
-                    ripple_behavior: True
-                    size_hint_y: None
-                    height: passwrd.height
-                    on_press: app.play()
-                    on_release: app.account_submit()
-                    MDLabel:
-                        text: 'sign up'
-                        halign: 'center'
-                        font_size: '15dp'
-                        color: 'white'
-
-                MDBoxLayout:
-                    spacing: "20dp"
-                    size_hint_y: None
-                    adaptive_height: True
-                    orientation: 'vertical'
-                    MDLabel:
-                        size_hint: None, None
-                        adaptive_size: True
-                        text: 'By clicking sign up you agree to the'
-                        font_size: '15dp'
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        haling: 'center'
                     MDBoxLayout:
                         size_hint: None, None
-                        adaptive_size: True
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        height: '130dp'
+                        width: '130dp'
                         
+                        # md_bg_color: 1,0,0,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                        Image:
+                            source: 'Hometernet-Transparent.png'
+                            id: pirate
+                            # font_size: '130dp'
+                            # pos_hint: {'center_x': 0.5}
+                            # halign: 'scenter'
+                    
+                    
+                        
+
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        spacing: "23dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                        MDLabel:
+                            font_size: "20dp"
+                            text: 'Welcome to Hometernet'
+                            halign: 'center'
+                            size_hint_y: None
+                            adaptive_height: True
+                            id: notice
+                        EmailCreate:
+                            size_hint_y: None
+                            height: '45dp'
+                            radius: [10,]
+                            id: mail_box
+                            TextInput:
+                                hint_text: 'email'
+                                multiline: False
+                                foreground_color: 0/255, 0/255, 0/255, 1
+                                size_hint_y: None
+                                font_size: "15dp"
+                                text_color: "black"
+                                pos_hint: {'center_y': 0.5}
+                                height: self.minimum_height
+                                background_color: 0,0,0,0
+                                on_text: app.email(self.text)
+                                input_type: 'mail'
+                                id: email
+
+                        PasswordCreate:
+                            size_hint_y: None
+                            height: '45dp'
+                            radius: [10,]
+                            id: passwrd
+                            TextInput:
+                                hint_text: 'create password'
+                                multiline: False
+                                foreground_color: 0/255, 0/255, 0/255, 1
+                                size_hint_y: None
+                                font_size: "15dp"
+                                text_color: "black"
+                                pos_hint: {'center_y': 0.5}
+                                height: self.minimum_height
+                                background_color: 0,0,0,0
+                                password: True
+                                on_text: app.password(self.text)
+                                id: password
+
+                        ConfirmPassword:
+                            size_hint_y: None
+                            height: '45dp'
+                            radius: [10,]
+                            
+                            TextInput:
+                                hint_text: 'confirm password'
+                                multiline: False
+                                foreground_color: 0/255, 0/255, 0/255, 1
+                                size_hint_y: None
+                                font_size: "15dp"
+                                text_color: "black"
+                                pos_hint: {'center_y': 0.5}
+                                height: self.minimum_height
+                                background_color: 0,0,0,0
+                                password: True
+                                id: confirm
+                    
+                            
+
+                    Final:
+                        radius: [10]
+                        md_bg_color: app.theme_cls.primary_color
+                        ripple_behavior: True
+                        size_hint_y: None
+                        height: passwrd.height
+                        on_press: app.play()
+                        # on_press: 
+                            # app.switch_loading()
+                        # app.loading.ids.labe.opacity=1
+                        on_release: app.show_terms_create(email.text)
+                        # on_release: app.show_dialog(titler='Creating account', notice='Please wait...')
+                        MDLabel:
+                            text: 'sign up'
+                            halign: 'center'
+                            font_size: '15dp'
+                            color: 'white'
+
+                    MDBoxLayout:
                         spacing: "20dp"
-                        MDTextButton:
-                            text: "Terms and conditions"
+                        size_hint_y: None
+                        adaptive_height: True
+                        orientation: 'vertical'
+                        MDLabel:
                             size_hint: None, None
                             adaptive_size: True
+                            text: 'By clicking sign up you agree to the'
                             font_size: '15dp'
-                            halign: 'center'
-                            color: app.theme_cls.primary_color
-                            on_press: app.play()
-                            on_release: app.show_terms()
-                            
-                        MDTextButton:
-                            text: 'Privacy policy'
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            haling: 'center'
+                        MDBoxLayout:
                             size_hint: None, None
                             adaptive_size: True
-                            font_size: '15dp'
-                            color: app.theme_cls.primary_color
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                             
-                            
-                            id: sign_up
-                            halign: 'center'
+                            spacing: "20dp"
+                            MDTextButton:
+                                text: "Terms and conditions"
+                                size_hint: None, None
+                                adaptive_size: True
+                                font_size: '15dp'
+                                halign: 'center'
+                                color: app.theme_cls.primary_color
+                                on_press: app.play()
+                                on_release: app.show_terms()
+                                
+                            MDTextButton:
+                                text: 'Privacy policy'
+                                size_hint: None, None
+                                adaptive_size: True
+                                font_size: '15dp'
+                                color: app.theme_cls.primary_color
+                                
+                                
+                                id: sign_up
+                                halign: 'center'
 
 <EmailCreate@MDCard+CommonElevationBehavior>
 <PasswordCreate@MDCard+CommonElevationBehavior>
