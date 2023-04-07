@@ -274,4 +274,32 @@ import random
 # else:
 #     print("Wrong input code")
 
-print(' banana is good for you  '.strip())
+# print(' banana is good for you  '.strip())
+# from plyer import filechooser
+
+# def func_name(selection):
+#     print(selection)
+
+# filechooser.save_file(open='C:/Users/Yvonne/Pictures', on_selection=func_name)
+
+# import webbrowser
+
+# webbrowser.open("https://fb.me/Dwin Halm")
+# name = 'Trafalgar'
+# num = 0
+# namo = list(name)
+
+# leng = len(namo)-1
+
+# for i in range(len(namo)//2):
+#     temp = namo[num]
+#     namo[num] = namo[leng-num]
+#     namo[leng-num] = temp
+#     num += 1
+    
+# total = ''
+# for i in namo:
+#     total += i
+# print(total)
+er = 'adwdwdaw '
+print(er.title().strip())

@@ -410,7 +410,7 @@
                                     radius: [3,]
                                     ripple_behavior: True
                                     md_bg_color: app.theme_cls.primary_color
-                                    on_press: root.bedrooms='7'
+                                    on_press: root.bedrooms='7+'
                                     
                                     size_hint_x: None
                                     width: oner.width * 3
@@ -820,5 +820,6 @@
                     pos_hint: {'center_x': 0.5}
                     on_release: app.update_property(root.local_image, housetype.text, price.text, country_text.text, state.text, town.text, street.text, bedrooms.text, bathrooms.text, land_area.text, root.key, description.text)
                     font_size: '15dp'
+                    
 <EditPrice@MDCard+CommonElevationBehavior>
 <EditLandspace@MDCard+CommonElevationBehavior>

@@ -18,7 +18,7 @@
                     MDIconButton:
                         icon: 'arrow-left'
                         on_press: app.play()
-                        on_release: app.wm.switch_to(app.signin)
+                        on_release: app.first_time_signin(direction='right')
                         id: home
                         size_hint_y: None
                         adaptive_height: True
@@ -31,12 +31,12 @@
                     adaptive_height: True
                     MDBoxLayout:
                         size_hint: None, None
-                        height: '130dp'
-                        width: '130dp'
+                        height: '140dp'
+                        width: '140dp'
                         
                         # md_bg_color: 1,0,0,1
                         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                        Image:
+                        FitImage:
                             source: 'Hometernet-Transparent.png'
                             id: pirate
                             # font_size: '130dp'

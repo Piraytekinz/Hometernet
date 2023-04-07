@@ -15,7 +15,7 @@
             ScrollView:
                 bar_width: 0
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                
+                effect_cls: "ScrollEffect"
                 MDBoxLayout:
                     spacing: "30dp"
                     orientation: 'vertical'
@@ -33,7 +33,7 @@
                         bold: True
 
                     MDLabel:
-                        text: 'Please type in the 6 digit verification code we sent to your email.'
+                        text: 'Please type in the 6 digit verification code we sent to ' + root.text
                         halign: 'center'
                         font_size: '15dp'
                         size_hint_y: None
@@ -50,7 +50,7 @@
                         TextInput:
                             size_hint_y: None
                             height: self.minimum_height
-                            id: code_verify
+                            
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                             multiline: False
                             foreground_color: 0/255, 0/255, 0/255, 1
@@ -60,6 +60,7 @@
                             id: verify_code
                             font_size: '50dp'
                             cursor_color: 0,0,0,1
+                            on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
 
                     MDBoxLayout:
                         size_hint: None, None
@@ -81,7 +82,7 @@
                             size_hint: None, None
                             adaptive_size: True
                             on_press: app.play()
-                            on_release: app.resend_now()
+                            on_release: app.resend_now('sign-in')
                             id: sign_up
 
                     MDRaisedButton:

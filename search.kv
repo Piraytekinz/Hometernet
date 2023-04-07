@@ -1,5 +1,5 @@
 <SearchScreen>:
-    on_enter: country.focused = True
+    on_enter: prop.focused = True
     MDBoxLayout:
         orientation: 'vertical'
         
@@ -28,7 +28,7 @@
                 icon_size: "20dp"
                 bold: True
                 on_press: app.play()
-                on_release: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text)
+                on_release: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
                 id: searchido
 
         MDBoxLayout:
@@ -77,7 +77,25 @@
                             pos_hint: {'center_x': 1, 'center_y': 0.5}
                             font_size: '14dp'
                             
-                            
+                    PropCard:
+                        radius: ["10dp"]
+                        size_hint_x: None
+                        width: "160dp"
+                        TextInput:
+                            hint_text: 'property name/type'
+                            size_hint: 1, None
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            height: self.minimum_height
+                            multiline: False
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: 0,0,0,0
+                            font_size: "15dp"
+                            text_color: "black"
+                            id: prop
+                            input_type: "text"
+                            on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
+                            cursor_color: app.theme_cls.primary_color
+
                     CountryCard:
                         radius: ["10dp"]
                         size_hint_x: None
@@ -95,7 +113,7 @@
                             id: country
                             input_type: "text"
                             active_line: True
-                            on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text)
+                            on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
                             cursor_color: app.theme_cls.primary_color
 
                     TownCard:
@@ -114,7 +132,7 @@
                             text_color: "black"
                             id: state
                             input_type: "text"
-                            on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text)
+                            on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
                             cursor_color: app.theme_cls.primary_color
 
                     StreetCard:
@@ -133,8 +151,10 @@
                             text_color: "black"
                             id: town
                             input_type: "text"
-                            on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text)
+                            on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
                             cursor_color: app.theme_cls.primary_color
+
+                    
                     
                     BedCard:
                         radius: ["10dp"]
@@ -177,6 +197,17 @@
                         padding: [10]
                         id: real_layout
                         
+                        MDIconButton:
+                            icon: 'refresh'
+                            icon_size: '30dp'
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            id: refresh_card
+                            disabled: True
+                            opacity: 0
+                            on_press: app.play()
+                            on_press: app.reverser_next()
+                            md_bg_color: 1,1,1,1
+
                         SearchLayout:
                             size_hint_y: None
                             adaptive_height: True
@@ -193,27 +224,17 @@
                             width: "30dp"
                             id: spin
                             
-                        MoreCard:
-                            elevation: 0
-                            ripple_behavior: True
-                            size_hint: None, None
-                            height: another.height * 3
-                            width: self.height
-                            padding: [self.width/3,self.height/2,self.width/3,self.height/2]
+                        MDIconButton:
+                            icon: 'arrow-down'
+                            icon_size: '30dp'
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                             on_release: app.next_thread(bed_item.text)
-                            radius: [self.width/2]
+                            md_bg_color: 1,1,1,1
                             id: more_card
                             disabled: True
                             opacity: 0
-                            MDIcon:
-                                icon: "arrow-down"
-                                halign: 'center'
-                                id: another
-                                pos_hint: {'center_y': 0.5}
-                                size_hint: None, None
-                                adaptive_size: True
-                                font_size: '20dp'
+                            on_press: app.play()
+                            
             
 
 <TopTitle@MDCard+CommonElevationBehavior>
@@ -223,3 +244,4 @@
 <TownCard@MDCard+CommonElevationBehavior>
 <CountryCard@MDCard+CommonElevationBehavior>
 <BedCard@MDCard+CommonElevationBehavior>
+<PropCard@MDCard+CommonElevationBehavior>

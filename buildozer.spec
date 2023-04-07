@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,kivymd,pillow,phonenumbers,pyrebase4,plyer,func_timeout,pycountry,requests,validate_email,urllib3,certifi,chardet,openssl,charset_normalizer,idna,oauth2client,cachetools,httplib2,pyparsing,uritemplate,protobuf,pyasn1,rsa,proto-plus,msgpack,cachecontrol,pyasn1-modules,gcloud,requests_toolbelt,python_jwt,jwcrypto,cryptography,deprecated,wrapt,Crypto,pycryptodome
+requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,kivymd,pillow,phonenumbers,pyrebase4,plyer,func_timeout,pycountry,requests,urllib3,certifi,chardet,openssl,charset_normalizer,idna,oauth2client,cachetools,httplib2,pyparsing,uritemplate,protobuf,pyasn1,rsa,proto-plus,msgpack,cachecontrol,pyasn1-modules,gcloud,requests_toolbelt,python_jwt,jwcrypto,cryptography,deprecated,wrapt,Crypto,pycryptodome
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

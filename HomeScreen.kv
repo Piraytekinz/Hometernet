@@ -175,7 +175,7 @@
                     orientation: 'vertical'
                     size_hint_y: None
                     height: best.height + first.height + 80
-                    padding: ["20dp", "20dp", "15dp", "30dp"]
+                    padding: ["18dp", "30dp", "15dp", "30dp"]
                     spacing: "15dp"
                     
                     id: ad_word
@@ -227,6 +227,7 @@
                         id: inner_scroll
                         size_hint_y: None
                         height: Window.size[1] / 1.8  if Window.size[1] > Window.size[0] else Window.size[1] / 1
+                        effect_cls: "ScrollEffect"
                         MDBoxLayout:
                             size_hint: None, None
                             height: Window.size[1] / 1.8  if Window.size[1] > Window.size[0] else Window.size[1] / 1
@@ -236,11 +237,11 @@
 
                             MDIconButton: 
                                 icon: 'refresh'
-                                icon_size: '20dp'
+                                icon_size: '30dp'
                                 on_press: app.play()
                                 md_bg_color: 1,1,1,1
                                 pos_hint: {'center_y': 0.5}
-                                on_release: grid.refresh()
+                                on_release: app.thread_reload_sale('reload')
                                 on_release: grid.clear_widgets()
 
                             # MDCard:
@@ -259,29 +260,28 @@
                             #     id: grid_card
                             #     MDIcon:
                             #         icon: "refresh"
-                            #         pos_hint: {'center_y': 0.5}
-                            #         id: re_sale
-                            #         font_size: '20dp'
                             #         size_hint: None, None
                             #         adaptive_size: True
                             
                             HomeCardsLayout:
                                 id: grid
-                                size_hint_y: None
-                                size_hint_x: None
+                                size_hint: None, None
                                 adaptive_width: True
-                                adaptive_height: True
+                                height: Window.size[1] / 1.8  if Window.size[1] > Window.size[0] else Window.size[1] / 1
                                 spacing: "20dp"
                                 padding: [15, 0, 10, 10]
                                 
 
                             MDIconButton: 
                                 icon: 'arrow-right'
-                                icon_size: '20dp'
+                                icon_size: '30dp'
                                 on_press: app.play()
                                 md_bg_color: 1,1,1,1
                                 pos_hint: {'center_y': 0.5}
-                                on_release: grid.thread_other()
+                                on_release: app.thread_reload_sale('more')
+                                on_press: self.disabled=True
+                                id: sale_arrow
+                                
     
 
         
@@ -337,6 +337,7 @@
                         scroll_distance: 8
                         size_hint_y: None
                         height: Window.size[1] / 1.8 if Window.size[1] > Window.size[0] else Window.size[1] / 1
+                        effect_cls: "ScrollEffect"
                         MDBoxLayout:
                             size_hint: None, None
                             height: Window.size[1] / 1.8 if Window.size[1] > Window.size[0] else Window.size[1] / 1
@@ -345,11 +346,12 @@
 
                             MDIconButton: 
                                 icon: 'refresh'
-                                icon_size: '20dp'
+                                icon_size: '30dp'
                                 on_press: app.play()
                                 md_bg_color: 1,1,1,1
                                 pos_hint: {'center_y': 0.5}
-                                on_release: gride.refresh()
+                                
+                                on_release: app.thread_reload_rent('reload_rent')
                                 on_release: gride.clear_widgets()
 
                             # MDCard:
@@ -375,22 +377,24 @@
 
                             RentCardsLayout:
                                 id: gride
-                                size_hint_y: None
-                                size_hint_x: None
+                                size_hint: None, None
+                                
                                 adaptive_width: True
                                 
-                                adaptive_height: True
+                                height: Window.size[1] / 1.8 if Window.size[1] > Window.size[0] else Window.size[1] / 1
                                 spacing: "20dp"
                                 padding: [15, 0, 10, 10]
                             
 
                             MDIconButton:
                                 icon: 'arrow-right'
-                                icon_size: '20dp'
+                                icon_size: '30dp'
                                 md_bg_color: 1,1,1,1
                                 pos_hint: {'center_y': 0.5}
                                 on_press: app.play()
-                                on_release: gride.thread_other()
+                                on_release: app.thread_reload_rent('more_rent')
+                                on_press: self.disabled=True
+                                id: rent_arrow
                             # GridiCard:
                             #     elevation: 0
                             #     ripple_behavior: True

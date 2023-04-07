@@ -65,16 +65,16 @@
                                 icon_size: '20dp'
                                 pos_hint:{'center_y': 0.5}
                         
-                        # OneLineIconListItem:
-                        #     text: "Delete Account"
-                        #     divider: None
-                        #     on_press: app.play()
-                        #     on_release: app.delete_user_auth()
-                        #     IconLeftWidget:
-                        #         icon: 'trash-can'         
+                        OneLineIconListItem:
+                            text: "Remove Account"
+                            divider: None
+                            on_press: app.play()
+                            on_release: app.remove_user_auth()
+                            IconLeftWidget:
+                                icon: 'trash-can-outline'         
                                                 
-                        #         font_size: '20dp'
-                        #         pos_hint:{'center_y': 0.5}
+                                icon_size: '20dp'
+                                pos_hint:{'center_y': 0.5}
                         
                         OneLineIconListItem:
                             text: "My Properties"

@@ -102,7 +102,7 @@
                             
                         MDLabel:
                             id: count
-                            text: root.country + " " + root.province + " " + root.town + " " + root.street
+                            text: root.country + ", " + root.province + ", " + root.town + ", " + root.street
                             font_size: "15dp"
                             color: "gray"
                             size_hint_y: None
@@ -361,7 +361,7 @@
                 height: buy.height * 3
                 id: biye
                 pos_hint: {'center_y': 0.5}
-                on_release: app.send_thread_email(root.email, root.phonenumber, root.twitter, root.facebook)
+                on_release: app.send_thread_email(root.email, root.phonenumber, root.twitter, root.facebook, root.type, root.price, root.country, root.bedrooms)
                 on_press: app.play()
                 RelativeLayout:
                     MDLabel:
