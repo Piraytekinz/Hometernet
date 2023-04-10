@@ -73,7 +73,7 @@
                             
                             
                         MDLabel:
-                            text: "3. Click on the floating button with a plus in the center."        
+                            text: "3. Click on the house icon with a plus on its side."        
                             
                             size_hint_y: None
                             adaptive_height: True
@@ -121,6 +121,24 @@
                     MDLabel:
                         text: "For now you're allowed to upload only one image. Improvements will be made later."
                         id: improve
+                        size_hint_y: None
+                        adaptive_height: True
+                
+                MDCard:
+                    size_hint_y: None
+                    height: note_one.height + improve_one.height + 30
+                    orientation: 'vertical'
+                    
+                    padding: [10,]
+                    MDLabel:
+                        text: "Note:"
+                        bold: True
+                        size_hint_y: None
+                        adaptive_height: True
+                        id: note_one
+                    MDLabel:
+                        text: "Notifications will be sent through email. Only accept emails from senders: 'Hometernet' or 'hometernetmanager'. Any email containing senders other than these two should be ignored."
+                        id: improve_one
                         size_hint_y: None
                         adaptive_height: True
                             

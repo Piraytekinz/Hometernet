@@ -60,7 +60,7 @@
                             id: verify_code
                             font_size: '50dp'
                             cursor_color: 0,0,0,1
-                            on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
+                            on_text_validate: app.create_account_init(verify_code.text)
 
                     MDBoxLayout:
                         size_hint: None, None

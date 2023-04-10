@@ -199,14 +199,15 @@
                         
                         MDIconButton:
                             icon: 'refresh'
-                            icon_size: '30dp'
+                            icon_size: '25dp'
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                             id: refresh_card
+                            md_bg_color: 1,1,1,1
                             disabled: True
                             opacity: 0
                             on_press: app.play()
                             on_press: app.reverser_next()
-                            md_bg_color: 1,1,1,1
+                            
 
                         SearchLayout:
                             size_hint_y: None
@@ -226,7 +227,7 @@
                             
                         MDIconButton:
                             icon: 'arrow-down'
-                            icon_size: '30dp'
+                            icon_size: '25dp'
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                             on_release: app.next_thread(bed_item.text)
                             md_bg_color: 1,1,1,1

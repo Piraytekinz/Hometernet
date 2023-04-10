@@ -810,11 +810,11 @@ class PropertyCardsLayout(MDBoxLayout):
             if self.dialog_entry.ids.passy.text == dati['password']:   
                 message = MIMEText(dati['email'] + " " + "with localid" + " " + dati['localid'] + " " + "Just deleted their account")
                 message['Subject'] = "Deleted account Notice"
-                message["From"] = "anangjosh8@gmail.com"
-                message["To"] = "anangjosh8@gmail.com"
+                message["From"] = "hometernetmanager@gmail.com"
+                message["To"] = "hometernetmanager@gmail.com"
                 server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-                server.login("anangjosh8@gmail.com", "iujwzdutnqmbpkjm")
-                server.sendmail("anangjosh8@gmail.com", "anangjosh8@gmail.com", message.as_string())
+                server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
+                server.sendmail("hometernetmanager@gmail.com", "hometernetmanager@gmail.com", message.as_string())
                 server.quit() 
                 # user = authi.sign_in_with_email_and_password(dati['email'], dati['password'])
                 # db.child("People").child(user['localId']).remove()
@@ -1962,12 +1962,17 @@ class BookmarkLayout(MDBoxLayout):
 
             with open(f'{path}/user.json', 'w') as jsonfile:
                 json.dump(self.curr, jsonfile)
+            
             self.clear_widgets()
+            self.snackbar("Bookmarks cleared successfully")
         else:
-            self.show_dialog("You're not signed in")
+            self.snackbar("You're not signed in")
         print('Bookmarks cleared')
         
-
+    
+    def snackbar(self, obj):
+        self.snack = Snackbar(text=obj, snackbar_x="5dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y=None)
+        self.snack.open()
 
 class DialogEntry(MDBoxLayout):
     pass
@@ -2843,11 +2848,12 @@ class MainApp(MDApp):
     def remove_reload_spin(self):
         self.home.ids.grid.remove_widget(self.reload_spin)
         self.home.ids.sale_arrow.disabled = False
+        self.home.ids.refresh_sale.disabled = False
 
     @mainthread
     def remove_rent_reload_spin(self):
         self.home.ids.gride.remove_widget(self.reload_spin)
-        
+        self.home.ids.refresh_rent.disabled = False
         self.home.ids.rent_arrow.disabled = False
         
 
@@ -2921,7 +2927,7 @@ class MainApp(MDApp):
         message["From"] = self.contact.ids.mail.text
         message["To"] = "anangjosh8@gmail.com"
         server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-        server.login("anangjosh8@gmail.com", "iujwzdutnqmbpkjm")
+        server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
         server.sendmail(self.contact.ids.mail.text, "anangjosh8@gmail.com", message.as_string())
         server.quit()
         # self.doa.dismiss()
@@ -3156,18 +3162,21 @@ class MainApp(MDApp):
                         break
 
             if self.search_j == 0:
+                
                 print("No found please check provided number of bedrooms or property type")
                 self.snackbar("Not found please check provided number of bedrooms or property type")
                 self.search.ids.spin.active = False
                 self.search_spin_unseen()
+                self.search_error("Nothing found", icon="cloud")
             else:
                 self.search.ids.more_card.disabled = False
                 self.search.ids.more_card.opacity = 1
+                self.search.ids.refresh_card.disabled = False
+                self.search.ids.refresh_card.opacity = 1
                 self.search.ids.spin.active = False
                 self.search_spin_unseen()
 
-                self.search.ids.refresh_card.disabled = False
-                self.search.ids.refresh_card.opacity = 1
+                
                 
         else:
             # self.snackbar("Not found")
@@ -3179,8 +3188,9 @@ class MainApp(MDApp):
     def next_thread(self, bedrooms):
         self.search.ids.spin.active = True
         self.search.ids.spin.opacity = 1
-        self.search.ids.more_card.disabled = True
         self.search.ids.refresh_card.disabled = True
+        self.search.ids.more_card.disabled = True
+        
         self.event = Event()
         self.thread_next = threading.Thread(target=self.next, args=(bedrooms,))
         self.thread_next.start()
@@ -3202,8 +3212,9 @@ class MainApp(MDApp):
             self.toast("Network Error")
             self.event.set()
         self.search.ids.more_card.disabled = False
-        self.search.ids.spin.active = False
         self.search.ids.refresh_card.disabled = False
+
+        self.search.ids.spin.active = False
         self.search_spin_unseen()
 
     def next_next(self, bedrooms):
@@ -4235,13 +4246,15 @@ class MainApp(MDApp):
                 
                 message = MIMEText(f"Someone just viewed your contact information for \n {type} \n {country} \n{price} \n{bedrooms} bedrooms.")
                 message['Subject'] = "Hometernet Offer Notice"
-                message["From"] = "anangjosh8@gmail.com"
+                message["From"] = "hometernetmanager@gmail.com"
                 message["To"] = email
                 server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-                server.login("anangjosh8@gmail.com", "iujwzdutnqmbpkjm")
-                server.sendmail(data['email'], email, message.as_string())
+                server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
+                # server.sendmail(data['email'], email, message.as_string())
+                server.sendmail("hometernetmanager@gmail.com", email, message.as_string())
+                
                 message = MIMEText("An offer has been made to buy property belonging to" + " " + email + " " + phonenumber)
-                server.sendmail("anangjosh8@gmail.com", "anangjosh8@gmail.com", message.as_string())
+                server.sendmail("hometernetmanager@gmail.com", "anangjosh8@gmail.com", message.as_string())
                 server.quit()
                 
                 self.show_bottom(email, phonenumber, twitter, facebook)
@@ -4474,17 +4487,19 @@ class MainApp(MDApp):
                 self.event.set()
                 self.spin_false()
 
+# lhgajriuhglozfyd
+# iujwzdutnqmbpkjm
     def sending_code(self):
         self.tried = 0
         self.secret_num = random.randint(100000,999999)
         print(self.secret_num)
-        message = MIMEText(f"Your email login code is {self.secret_num}. \n Warning do not share this code with anyone.")
+        message = MIMEText(f"Your email login code is {self.secret_num}. \n Warning do not share this code with anyone. \n You can ignore this email if you weren't authenticating an account.")
         message['Subject'] = "Your Hometernet login code is..."
-        message["From"] = "anangjosh8@gmail.com"
+        message["From"] = "hometernetmanager@gmail.com"
         message["To"] = self.evaluating_email
         server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-        server.login("anangjosh8@gmail.com", "iujwzdutnqmbpkjm")
-        server.sendmail("anangjosh8@gmail.com", self.evaluating_email, message.as_string())
+        server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
+        server.sendmail("hometernetmanager@gmail.com", self.evaluating_email, message.as_string())
         server.quit()
         time.sleep(1)
         if not self.event.is_set():
