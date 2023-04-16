@@ -4255,21 +4255,14 @@ class MainApp(MDApp):
         if self.validator_status:
             
             self.resend_now('sign-up')
-        elif self.validator_status == False:
+        else:
             text = "Invalid email"
                 
             self.show_dialog(text)
             time.sleep(1)
             self.switch_signup()
             self.spin_false()
-        else:
-            time.sleep(1)
-            self.switch_signup()
-            self.toast('Authentication failed')
-            self.spin_false()
-        # except:
-        #     self.toast("Authentication failed")
-        #     self.switch_signup()
+        
             
                  
                 
@@ -4292,7 +4285,7 @@ class MainApp(MDApp):
         self.func = func
         if not self.event.is_set():
             try:
-                func_timeout(30, self.sending_code)
+                func_timeout(40, self.sending_code)
             except FunctionTimedOut:
                 
                 self.toast("Authentication failed timedout")
@@ -4411,7 +4404,7 @@ class MainApp(MDApp):
        
     
         try:
-            func_timeout(15, self.create_account)
+            func_timeout(40, self.create_account)
         except FunctionTimedOut:
             
             self.toast("Authentication failed timedout")
@@ -4537,7 +4530,7 @@ class MainApp(MDApp):
     def delete_property_init(self, name, local_image, sale_or_rent):
         
         try:
-            func_timeout(20, self.delete_property, args=(name, local_image, sale_or_rent,))
+            func_timeout(40, self.delete_property, args=(name, local_image, sale_or_rent,))
         except FunctionTimedOut:
             
             self.toast('Internet connection limited or unavailable')
@@ -4918,7 +4911,7 @@ class MainApp(MDApp):
         
         
         try:
-            func_timeout(40, self.sign_in_now)
+            func_timeout(60, self.sign_in_now)
         except FunctionTimedOut:
             self.toast('Authentication failed timed out')
             
