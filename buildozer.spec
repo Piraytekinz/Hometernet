@@ -47,7 +47,7 @@ requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,kivymd,pillow,phone
 presplash.filename = Hometernet-splash.png
 
 # (str) Icon of the application
-icon.filename = Hometernet-white.png
+icon.filename = Hometernet-icon.png
 
 # (list) Supported orientations
 # Valid options are: landscape, portrait, portrait-reverse or landscape-reverse

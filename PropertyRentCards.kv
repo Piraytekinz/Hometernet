@@ -55,31 +55,29 @@
         
             
             
-        MDBoxLayout:
-            orientation: 'vertical'
-            spacing: "10dp"
-            padding: [10, 0, 5, 0]
+        
+        Label:
+            text: root.tot
+            bold: True
+            size_hint_y: None
+            height: self.texture_size[1]
+            font_size: '16dp'
+            color: "black"
+            text_size: self.size
+            padding_x: "15dp"
+            
+            
+        MDLabel:
+            text: root.country + ',' + ' ' + root.province + ',' + ' ' + root.town + ',' + ' ' + root.street
+            color: "gray"
+            font_size: "14dp"
             size_hint_y: None
             adaptive_height: True
-            MDLabel:
-                text: root.tot
-                bold: True
-                size_hint: None, None
-                adaptive_size: True
-                font_size: "15dp"
-            MDBoxLayout:
-                size_hint_y: None
-                adaptive_height: True
-                
-                MDLabel:
-                    text: root.country + ',' + ' ' + root.province + ',' + ' ' + root.town + ',' + ' ' + root.street
-                    color: "gray"
-                    font_size: "13dp"
-                    size_hint_y: None
-                    adaptive_height: True
-                    markup: True
-                    shorten: True
-                    ellipsis_options: {'color':(0,0,0,0.5), 'underline':False}
+            text_size: self.size
+            markup: True
+            shorten: True
+            ellipsis_options: {'color':(0,0,0,0.5), 'underline':False}
+            padding_x: "15dp"
                         
 
         MDSeparator:

@@ -1,241 +1,285 @@
 <SearchScreen>:
     on_enter: prop.focused = True
-    MDBoxLayout:
-        orientation: 'vertical'
-        
-        TopTitle:
-            size_hint_y: None
-            height: "70dp"
-            id: toppy
-            MDIconButton:
-                icon: 'arrow-left'
-                icon_size: "20dp"
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                on_press: app.play()
-                on_release: app.switch_home()
-                bold: True
-
-            MDLabel:
-                text: "Search"
-                font_size: '16dp'
-                bold: True
-                halign: 'center'
-                theme_font_style: 'Overline'
-
-            MDIconButton:
-                icon: 'magnify'
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                icon_size: "20dp"
-                bold: True
-                on_press: app.play()
-                on_release: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
-                id: searchido
-
+    ScrollView:
+        bar_width: 0
+        effect_cls: "ScrollEffect"
+        scroll_distance: 6
         MDBoxLayout:
+            orientation: 'vertical'
             size_hint_y: None
-            height: "55dp"
-            
-            
-            ScrollView:
-                bar_width: 0
-                do_scroll_y: False
-                do_scroll_x: True
-                scroll_distance: 15
-                MDBoxLayout:
-                    padding: [8,]
-                    spacing: "10dp"
-                    size_hint_x: None
-                    adaptive_width: True
+            adaptive_height: True
+            spacing: "20dp"
+            padding: ["10dp"]
+            MDBoxLayout:
+                size_hint_y: None
+                height: '60dp'
+                spacing: "10dp"
+                MDIconButton:
+                    icon: 'arrow-left'
+                    icon_size: "20sp"
+                    pos_hint: {'center_y': 0.5}
+                    on_press: app.play()
+                    on_release: app.switch_home()
+                    bold: True
+                    md_bg_color: 1,1,1,1
+
+                MDLabel:
+                    text: "Search"
+                    font_size: '25dp'
+                    bold: True
+                    # halign: 'center'
+                    theme_font_style: 'Overline'
+                    size_hint_y: None
+                    adaptive_height: True
+                    pos_hint: {'center_y':0.5}
+
+                MDIconButton:
+                    icon: 'magnify'
+                    pos_hint: {'center_y': 0.5}
+                    icon_size: "20sp"
+                    bold: True
+                    on_press: app.play()
+                    on_release: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
+                    id: searchido
+                    md_bg_color: 1,1,1,1
+
+            # MDBoxLayout:
+            #     size_hint_y: None
+                
+            #     adaptive_height: True
+                
+                
+            #     MDBoxLayout:
+            #         padding: [8,]
+            #         spacing: "10dp"
+            #         size_hint: None, None
+            #         adaptive_width: True
+            #         orientation: 'vertical'
+            #         adaptive_height: True
+            MDGridLayout:
+                cols: 2
+                size_hint_y: None
+                adaptive_height: True
+                spacing: "20dp"
+                
+                ChooseCard:
+                    radius: ["10dp"]
+                    size_hint: None, None
+                    width: "130dp"
                     
-
-                    ChooseCard:
-                        radius: ["10dp"]
-                        size_hint_x: None
-                        width: "130dp"
-                        spacing: "10dp"
-                        padding: [10,0,0,0]
-                        id: sale_or_rent
-                        MDLabel:
-                            text: "For: "
-                            size_hint: None, None
-                            adaptive_size: True
-                            halign: 'center'
-                            color: 'gray'
-                            font_size: '15dp'
-                            id: for_text
-                            pos_hint: {'center_y': 0.5}
-                            
-                        MDDropDownItem:
-                            id: drop_item
-                            text: 'Sale'
-                            size_hint_y: None
-                            adaptive_height: True
-                            on_press: app.play()
-                            on_release: 
-                                app.choice.open()
-                                app.choice.check_position_caller(None, None, None)
-                            pos_hint: {'center_x': 1, 'center_y': 0.5}
-                            font_size: '14dp'
-                            
-                    PropCard:
-                        radius: ["10dp"]
-                        size_hint_x: None
-                        width: "160dp"
-                        TextInput:
-                            hint_text: 'property name/type'
-                            size_hint: 1, None
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                            height: self.minimum_height
-                            multiline: False
-                            foreground_color: 0/255, 0/255, 0/255, 1
-                            background_color: 0,0,0,0
-                            font_size: "15dp"
-                            text_color: "black"
-                            id: prop
-                            input_type: "text"
-                            on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
-                            cursor_color: app.theme_cls.primary_color
-
-                    CountryCard:
-                        radius: ["10dp"]
-                        size_hint_x: None
-                        width: "160dp"
-                        TextInput:
-                            hint_text: 'country'
-                            size_hint: 1, None
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                            height: self.minimum_height
-                            multiline: False
-                            foreground_color: 0/255, 0/255, 0/255, 1
-                            background_color: 0,0,0,0
-                            font_size: "15dp"
-                            text_color: "black"
-                            id: country
-                            input_type: "text"
-                            active_line: True
-                            on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
-                            cursor_color: app.theme_cls.primary_color
-
-                    TownCard:
-                        radius: ["10dp"]
-                        size_hint_x: None
-                        width: "160dp"
-                        TextInput:
-                            hint_text: 'State/Province'
-                            size_hint: 1, None
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                            height: self.minimum_height
-                            multiline: False
-                            foreground_color: 0/255, 0/255, 0/255, 1
-                            background_color: 0,0,0,0
-                            font_size: "15dp"
-                            text_color: "black"
-                            id: state
-                            input_type: "text"
-                            on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
-                            cursor_color: app.theme_cls.primary_color
-
-                    StreetCard:
-                        radius: ["10dp"]
-                        size_hint_x: None
-                        width: "160dp"
-                        TextInput:
-                            hint_text: 'town/city'
-                            size_hint: 1, None
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                            height: self.minimum_height
-                            multiline: False
-                            foreground_color: 0/255, 0/255, 0/255, 1
-                            background_color: 0,0,0,0
-                            font_size: "15dp"
-                            text_color: "black"
-                            id: town
-                            input_type: "text"
-                            on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
-                            cursor_color: app.theme_cls.primary_color
-
-                    
-                    
-                    BedCard:
-                        radius: ["10dp"]
-                        size_hint_x: None
-                        width: "160dp"
-                        spacing: "10dp"
-                        padding: [10,0,0,0]
-                        MDLabel:
-                            text: "bedrooms: "
-                            size_hint: None, None
-                            adaptive_size: True
-                            halign: 'center'
-                            color: 'gray'
-                            font_size: '15dp'
-                            
-                            pos_hint: {'center_y': 0.5}
-                        MDDropDownItem:
-                            id: bed_item
-                            text: '1'
-                            size_hint_x: None
-                            adaptive_width: True
-                            on_press: app.play()
-                            on_release: app.bedrooms_choice()
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                            font_size: '14dp'
-                    
-        MDBoxLayout:
-            RelativeLayout:
-                id: relative
-                ScrollView:
-                    do_scroll_y: True
-                    do_scroll_x: False
-                    bar_width: 0
-                    effect_cls: "ScrollEffect"
-                    MDBoxLayout:
+                    padding: [10,0,0,0]
+                    id: sale_or_rent
+                    height: "55dp"
+                    MDLabel:
+                        text: "For: "
+                        size_hint: None, None
+                        adaptive_size: True
+                        halign: 'center'
+                        color: 'gray'
+                        font_size: '15dp'
+                        id: for_text
+                        pos_hint: {'center_y': 0.5}
+                    MDDropDownItem:
+                        id: drop_item
+                        text: 'Sale'
                         size_hint_y: None
                         adaptive_height: True
-                        spacing: "10dp"
-                        orientation: 'vertical'
-                        padding: [10]
-                        id: real_layout
+                        on_press: app.play()
+                        on_release: 
+                            app.choice.open()
+                            app.choice.check_position_caller(None, None, None)
+                        pos_hint: {'center_y': 0.5}
+                        font_size: '14dp'
+                BedCard:
+                    radius: ["10dp"]
+                    size_hint: None, None
+                    width: "130dp"
+                    
+                    padding: [10,0,0,0]
+                    height: "55dp"
+                    MDLabel:
+                        text: "rooms: "
+                        size_hint: None, None
+                        adaptive_size: True
+                        halign: 'center'
+                        color: 'gray'
+                        font_size: '15dp'
                         
-                        MDIconButton:
-                            icon: 'refresh'
-                            icon_size: '25dp'
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                            id: refresh_card
-                            md_bg_color: 1,1,1,1
-                            disabled: True
-                            opacity: 0
-                            on_press: app.play()
-                            on_press: app.reverser_next()
+                        pos_hint: {'center_y': 0.5}
+                    MDDropDownItem:
+                        id: bed_item
+                        text: '1'
+                        size_hint_x: None
+                        width: '2dp'
+                        on_press: app.play()
+                        on_release: app.bedrooms_choice()
+                        pos_hint: {'center_y': 0.5}
+                        font_size: '14dp'
+                    
+                
                             
+            PropCard:
+                radius: ["10dp"]
+                size_hint_y: None
+                height: "55dp"
+                TextInput:
+                    hint_text: 'property type'
+                    size_hint: 1, None
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    height: self.minimum_height
+                    multiline: False
+                    foreground_color: 0/255, 0/255, 0/255, 1
+                    background_color: 0,0,0,0
+                    font_size: "15dp"
+                    text_color: "black"
+                    id: prop
+                    input_type: "text"
+                    on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
+                    cursor_color: app.theme_cls.primary_color
+                    icon_left: 'bed'
 
-                        SearchLayout:
-                            size_hint_y: None
-                            adaptive_height: True
-                            id: search
-                            spacing: "20dp"
-                            orientation: 'vertical'
-                            
+            CountryCard:
+                radius: ["10dp"]
+                size_hint_y: None
+                height: "55dp"
+                TextInput:
+                    hint_text: 'country'
+                    size_hint: 1, None
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    height: self.minimum_height
+                    multiline: False
+                    foreground_color: 0/255, 0/255, 0/255, 1
+                    background_color: 0,0,0,0
+                    font_size: "15dp"
+                    text_color: "black"
+                    id: country
+                    input_type: "text"
+                    active_line: True
+                    on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
+                    cursor_color: app.theme_cls.primary_color
 
-                        MDSpinner:
-                            active: False
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                            size_hint: None, None
-                            height: "30dp"
-                            width: "30dp"
-                            id: spin
-                            
-                        MDIconButton:
-                            icon: 'arrow-down'
-                            icon_size: '25dp'
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                            on_release: app.next_thread(bed_item.text)
-                            md_bg_color: 1,1,1,1
-                            id: more_card
-                            disabled: True
-                            opacity: 0
-                            on_press: app.play()
-                            
+            MDBoxLayout:
+                size_hint_y: None
+                adaptive_height: True
+                
+                spacing: "10dp"
+                TownCard:
+                    radius: ["10dp"]
+                    size_hint_y: None
+                    height: "55dp"
+                    TextInput:
+                        hint_text: 'State/Province'
+                        size_hint: 1, None
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        height: self.minimum_height
+                        multiline: False
+                        foreground_color: 0/255, 0/255, 0/255, 1
+                        background_color: 0,0,0,0
+                        font_size: "15dp"
+                        text_color: "black"
+                        id: state
+                        input_type: "text"
+                        on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
+                        cursor_color: app.theme_cls.primary_color
+
+                StreetCard:
+                    radius: ["10dp"]
+                    size_hint_y: None
+                    height: "55dp"
+                    TextInput:
+                        hint_text: 'town/city'
+                        size_hint: 1, None
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        height: self.minimum_height
+                        multiline: False
+                        foreground_color: 0/255, 0/255, 0/255, 1
+                        background_color: 0,0,0,0
+                        font_size: "15dp"
+                        text_color: "black"
+                        id: town
+                        input_type: "text"
+                        on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
+                        cursor_color: app.theme_cls.primary_color
+
+                
+                
+                
+            
+            MDLabel:
+                size_hint_y: None
+                height: '50dp'
+                text: 'Search results'
+                markup: True
+                id: check
+                font_size: '17dp'
+                opacity: 0
+               
+                theme_font_style: 'H6'
+                
+            # MDBoxLayout:
+            #     size_hint_y: None
+            #     adaptive_height: True
+            #     md_bg_color: 1,0,0,1
+                # RelativeLayout:
+                #     id: relative
+                #     size_hint_y: None
+                #     adaptive_height: True
+                    # ScrollView:
+                    #     do_scroll_y: True
+                    #     do_scroll_x: False
+                    #     bar_width: 0
+                    #     effect_cls: "ScrollEffect"
+                    #     scroll_distance: 5
+            # MDBoxLayout:
+            #     size_hint_y: None
+            #     adaptive_height: True
+            #     spacing: "10dp"
+            #     orientation: 'vertical'
+            #     padding: [10]
+            #     id: real_layout
+                
+            MDIconButton:
+                icon: 'refresh'
+                icon_size: '25sp'
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                id: refresh_card
+                md_bg_color: 1,1,1,1
+                disabled: True
+                opacity: 0
+                on_press: app.play()
+                on_press: app.reverser_next()
+                
+
+            SearchLayout:
+                size_hint: None, None
+                adaptive_size: True
+                id: search
+                spacing: "20dp"
+                # orientation: 'vertical'
+                cols: 1 if Window.size[1] > Window.size[0] else 2
+                
+                pos_hint: {'center_x': 0.5}
+                
+
+            MDSpinner:
+                active: False
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                size_hint: None, None
+                height: "30dp"
+                width: "30dp"
+                id: spin
+                
+            MDIconButton:
+                icon: 'arrow-down'
+                icon_size: '25sp'
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                on_release: app.next_thread(bed_item.text)
+                md_bg_color: 1,1,1,1
+                id: more_card
+                disabled: True
+                opacity: 0
+                on_press: app.play()
+                                
             
 
 <TopTitle@MDCard+CommonElevationBehavior>
@@ -246,3 +290,4 @@
 <CountryCard@MDCard+CommonElevationBehavior>
 <BedCard@MDCard+CommonElevationBehavior>
 <PropCard@MDCard+CommonElevationBehavior>
+

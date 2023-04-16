@@ -2,405 +2,420 @@
     
     
     
-    MDBoxLayout:
-        orientation: 'vertical'
-        ScrollView:
-            effect_cls: 'ScrollEffect'
-            # on_overscroll: self.scrolled(self)
-            # on_scroll_y: app.check_pull_refresh(self, grid)
-            
-            scroll_distance: 8
-            id: scroller
-            do_scroll_x: False
-            
-            MDBoxLayout:
-                id: main_box
-                orientation: 'vertical'
+    # BoxLayout:
+    #     orientation: 'vertical'
+    ScrollView:
+        effect_cls: 'ScrollEffect'
+        # on_overscroll: self.scrolled(self)
+        # on_scroll_y: app.check_pull_refresh(self, grid)
+        
+        scroll_distance: 1
+        id: scroller
+        do_scroll_x: False
+        
+        MDBoxLayout:
+            id: main_box
+            orientation: 'vertical'
+            size_hint_y: None
+            adaptive_height: True   
+            spacing: "45dp"        
+            # MDBoxLayout:
+            #     orientation: 'vertical'                    
+            padding: [0,0,0,10]
+            RelativeLayout:
+                id: hero_box
                 size_hint_y: None
-                adaptive_height: True   
-                spacing: "30dp"        
+                height: Window.size[1]
+                FitImage:
+                    id: main_image
+                    source: "Apartment-Buildings.jpg"
                 MDBoxLayout:
-                    orientation: 'vertical'                    
-                    id: hero_box
-                    size_hint_y: None
-                    height: Window.size[1]
-                    RelativeLayout:
+                    # md_bg_color: 0,0,.4,1
+                    padding: [18, 15, 15, 0]
+                    orientation: 'vertical'
+                    spacing: "35dp"
+                    AnchorLayout:
+                        anchor_x: 'left'
+                        anchor_y: 'top'
+                        
+                        padding: [0,0,0,40]
+                        
+                        MyCard:
+                            size_hint: None, None
+                            height: menu.height * 2
+                            width: self.height
+                            ripple_behavior: True
+                            radius: ["3dp",]
+                            on_press: app.play()
+                            on_release: nav.set_state("open")
+                            # padding: ["19dp","9dp","20dp","21dp"]
+                            padding: [self.width/3.9,self.height/3.2,self.width/3.9,self.height/3.2]
+                            id: menu_card
+                            MDIcon:
+                                icon: "menu"
+                                id: menu
+                                font_size: '21dp'
+                                size_hint: None, None
+                                adaptive_size: True
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+
+                                
+                            
+                        
+                    
+                    
+                        
+                        
+                    MDLabel:
+                        id: src
+                        text: "Buy and Sell on [b]Hometernet.[/b]"
+                        color: "white"
+                        markup: True
+                        font_size: "38dp" if Window.size[1] > Window.size[0] else "34dp"
+                        halign: 'center'
+                        size_hint_y: None
+                        adaptive_height: True
+                        pos_hint: {'center_y': 0.5, 'center_x': 0.5}
+                        
+                        
+                            
+                    
+                    SearchButton:
+                        elevation: 0
+                        # theme_text_color: "Custom"
+                        # text_color: 'black'
+                        md_bg_color: 1,1,1,1
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        size_hint_x: None
+                        
+                        width: self.height
+                        radius: [self.width/2]
+                        # padding: [self.width/3]
+                        on_press: app.play()
+                        on_release: app.switch_search()
+                        id: btn
+                        ripple_behavior: True
                         
                         FitImage:
-                            id: main_image
-                            source: "Apartment-Buildings.jpg"
-                        MDBoxLayout:
-                            # md_bg_color: 0,0,.4,1
-                            padding: [18, 15, 15, 0]
-                            orientation: 'vertical'
-                            spacing: "35dp"
-                            AnchorLayout:
-                                anchor_x: 'left'
-                                anchor_y: 'top'
+                            source: 'SearchButton.png'
                                 
-                                padding: [0,0,0,40]
-                                bg_color: 1,0,0,1
-                                MyCard:
-                                    size_hint: None, None
-                                    height: menu.height * 2
-                                    width: self.height
-                                    ripple_behavior: True
-                                    radius: ["3dp",]
-                                    on_press: app.play()
-                                    on_release: nav.set_state("open")
-                                    # padding: ["19dp","9dp","20dp","21dp"]
-                                    padding: [self.width/3.9,self.height/3.2,self.width/3.9,self.height/3.2]
-                                    id: menu_card
-                                    MDIcon:
-                                        icon: "menu"
-                                        id: menu
-                                        font_size: '21dp'
-                                        size_hint: None, None
-                                        adaptive_size: True
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-
-                                        
-                                    
                                 
+                                
+                        # MDBoxLayout:
+                        #     size_hint_x: .5
+                        #     size_hint_y: .7
+                        #     MDCard:
+                        #         elevation: 12
+                        #         md_bg_color: app.theme_cls.primary_color
+                        #         radius: [3,0,0,0]
+                        #         MDLabel:
+                        #             text: "sale"
+                        #             color: "white"
+                        #             halign: "center"
+                        #             font_size: "15sp"
+                        #             bold: True
+                        #     MDCard:
+                        #         elevation: 12
+                                
+                        #         radius: [0,3,0,0]
+                        #         md_bg_color: 255/255, 255/255, 255/255, 0.1
+                        #         MDLabel:
+                        #             text: "rent"
+                        #             color: "white"
+                        #             halign: "center"
+                        #             font_size: "15sp"
+                            #             bold: True
+                            # MDCard:
+                            #     elevation: 12
+                            #     radius: [0,3,0,0]
+                                
+                            #     TextInput:
+                            #         hint_text: "Search by location or address"
+                            #         size_hint: 1, None
+                            #         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            #         height: self.minimum_height
+                            #         multiline: False
+                            #         foreground_color: 0/255, 0/255, 0/255, 1
+                            #         background_color: 0,0,0,0
+                            #         font_size: "15sp"
+                            #         text_color: "black"
+                            #         padding: [20, ]
+                            # MDCard:
+                            #     elevation: 12
+                            #     md_bg_color: app.theme_cls.primary_color
+                            #     radius: [0,0,3,3]
+                            #     ripple_behavior: True
+                            #     MDLabel:
+                            #         text: "search"
+                            #         color: "white"
+                            #         font_size: "15sp"
+                            #         halign: "center"
+                            #         bold: True
+                        
                             
-                            
-                                
-                                
-                            MDLabel:
-                                id: src
-                                text: "Buy and Sell on [b]Hometernet.[/b]"
-                                color: "white"
-                                markup: True
-                                font_size: "40dp" if Window.size[1] > Window.size[0] else "34dp"
-                                halign: 'center'
-                                size_hint_y: None
-                                adaptive_height: True
-                                pos_hint: {'center_y': 0.5, 'center_x': 0.5}
-                                
-                                
-                                    
-                            
-                            SearchButton:
-                                elevation: 0
-                                # theme_text_color: "Custom"
-                                # text_color: 'black'
-                                md_bg_color: 1,1,1,1
-                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                size_hint_x: None
-                                
-                                width: self.height
-                                radius: [self.width/2]
-                                # padding: [self.width/3]
-                                on_press: app.play()
-                                on_release: app.switch_search()
-                                id: btn
-                                ripple_behavior: True
-                                
-                                FitImage:
-                                    source: 'SearchButton.png'
-                                        
-                                        
-                                        
-                                # MDBoxLayout:
-                                #     size_hint_x: .5
-                                #     size_hint_y: .7
-                                #     MDCard:
-                                #         elevation: 12
-                                #         md_bg_color: app.theme_cls.primary_color
-                                #         radius: [3,0,0,0]
-                                #         MDLabel:
-                                #             text: "sale"
-                                #             color: "white"
-                                #             halign: "center"
-                                #             font_size: "15sp"
-                                #             bold: True
-                                #     MDCard:
-                                #         elevation: 12
-                                        
-                                #         radius: [0,3,0,0]
-                                #         md_bg_color: 255/255, 255/255, 255/255, 0.1
-                                #         MDLabel:
-                                #             text: "rent"
-                                #             color: "white"
-                                #             halign: "center"
-                                #             font_size: "15sp"
-                                    #             bold: True
-                                    # MDCard:
-                                    #     elevation: 12
-                                    #     radius: [0,3,0,0]
-                                        
-                                    #     TextInput:
-                                    #         hint_text: "Search by location or address"
-                                    #         size_hint: 1, None
-                                    #         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                    #         height: self.minimum_height
-                                    #         multiline: False
-                                    #         foreground_color: 0/255, 0/255, 0/255, 1
-                                    #         background_color: 0,0,0,0
-                                    #         font_size: "15sp"
-                                    #         text_color: "black"
-                                    #         padding: [20, ]
-                                    # MDCard:
-                                    #     elevation: 12
-                                    #     md_bg_color: app.theme_cls.primary_color
-                                    #     radius: [0,0,3,3]
-                                    #     ripple_behavior: True
-                                    #     MDLabel:
-                                    #         text: "search"
-                                    #         color: "white"
-                                    #         font_size: "15sp"
-                                    #         halign: "center"
-                                    #         bold: True
-                                
-                                    
-                            MDLabel:
-                                text: "Bridging the Gap between Worlds."
-                                pos_hint: {"center_x": 0.5, "center_y": .6}
-                                color: "white"
-                                bold: True
-                                font_size: "16dp" if Window.size[1] > Window.size[0] else '14dp'
-                                halign: 'center'
-                                
+                    MDLabel:
+                        text: "Bridging the Gap between Worlds."
+                        pos_hint: {"center_x": 0.5, "center_y": .6}
+                        color: "white"
+                        bold: True
+                        font_size: "16dp" if Window.size[1] > Window.size[0] else '14dp'
+                        halign: 'center'
+                        
+            
+            # MDBoxLayout:
+            #     orientation: 'vertical'
+            #     size_hint_y: None
+            #     height: best.height + first.height + 80
+            #     padding: ["18dp", "30dp", "15dp", "30dp"]
+            #     spacing: "15dp"
                 
-                # MDBoxLayout:
-                #     orientation: 'vertical'
-                #     size_hint_y: None
-                #     height: best.height + first.height + 80
-                #     padding: ["18dp", "30dp", "15dp", "30dp"]
-                #     spacing: "15dp"
-                    
-                #     id: ad_word
-                MDLabel:
-                    text: "   Best Property Deals."
-                    color: "black"
-                    size_hint_y: None
-                    font_size: "24dp"
-                    
-                    
-                    adaptive_height: True
-                    id: best
-                    
-                MDLabel:
-                    text: "     Browse properties from across the globe."
-                    size_hint_y: None
-                    color: 'gray'
-                    adaptive_height: True
-                    id: first
-                    font_size: "17dp"
-                        
-
-                # MDBoxLayout:
-                #     orientation: 'vertical'
-                #     size_hint_y: None
-                #     adaptive_height: True
-                #     id: second_box
-                #     spacing: "30dp"
-                    
-                    
+            #     id: ad_word
+            MDLabel:
+                text: "Best Property Deals. \n \n[size=16dp][color=#9A9A9A]Browse properties from across the globe.[/color][/size]"
+                color: "black"
+                size_hint_y: None
+                font_size: "23dp"
                 
-                MDLabel:
-                    text: "     For sale"
-                    font_size: '17dp'
-                    bold: True
-                    halign: 'left'
-                    size_hint_y: None
-                    height: '80dp'
-                    # pos_hint:{'center_x': 0.1}
-                    
-                    
-                        
+                markup: True
+                adaptive_height: True
+                id: best
+                padding_x: "20dp"
                 
-                HomeSaleScroll:
-                    do_scroll_x: True
-                    do_scroll_y: False
-                    bar_width: 0
-                    scroll_distance: 8
-                    id: inner_scroll
-                    size_hint_y: None
-                    height: Window.size[1] / 1.8  if Window.size[1] > Window.size[0] else Window.size[1] / 1
-                    effect_cls: "ScrollEffect"
-                    MDBoxLayout:
-                        size_hint: None, None
-                        height: Window.size[1] / 1.8  if Window.size[1] > Window.size[0] else Window.size[1] / 1
-                        
-                        adaptive_width: True
+            # MDLabel:
+            #     text: "     Browse properties from across the globe."
+            #     size_hint_y: None
+            #     color: 'gray'
+            #     adaptive_height: True
+            #     id: first
+            #     font_size: "17dp"
+                    
 
-
-                        MDIconButton: 
-                            icon: 'refresh'
-                            icon_size: '25dp'
-                            on_press: app.play()
-                            md_bg_color: 1,1,1,1
-                            pos_hint: {'center_y': 0.5}
-                            on_release: app.thread_reload_sale('reload')
-                            on_release: grid.clear_widgets()
-                            id: refresh_sale
-                            on_press: self.disabled=True
-                            on_press: sale_arrow.disabled = True
-                        # MDCard:
-                        #     elevation: 0
-                        #     ripple_behavior: True
-                        #     size_hint: None, None
-                        #     height: "50dp"
-                        #     width: self.height
-                        #     pos_hint: {'center_y': 0.5}
-                        #     padding: ["15dp","20dp","20dp","20dp"]
-                            
-                        #     radius: [self.width/2]
-                        #     on_press: app.play()
-                        #     on_release: grid.refresh()
-                        #     on_release: grid.clear_widgets()
-                        #     id: grid_card
-                        #     MDIcon:
-                        #         icon: "refresh"
-                        #         size_hint: None, None
-                        #         adaptive_size: True
-                        
-                        HomeCardsLayout:
-                            id: grid
-                            size_hint: None, None
-                            adaptive_width: True
-                            height: Window.size[1] / 1.8  if Window.size[1] > Window.size[0] else Window.size[1] / 1
-                            spacing: "20dp"
-                            padding: [15, 0, 10, 10]
-                            
-
-                        MDIconButton: 
-                            icon: 'arrow-right'
-                            icon_size: '25dp'
-                            on_press: app.play()
-                            md_bg_color: 1,1,1,1
-                            pos_hint: {'center_y': 0.5}
-                            on_release: app.thread_reload_sale('more')
-                            on_press: self.disabled=True
-                            on_press: refresh_sale.disabled = True
-                            id: sale_arrow
-                            
-
-
-    
-    
-
-                        
-                            
-                        # GridCard:
-                        #     elevation: 0
-                        #     ripple_behavior: True
-                        #     size_hint: None, None
-                        #     height: "50dp"
-                        #     width: self.height
-                        #     pos_hint: {'center_y': 0.5}
-                        #     padding: ["15dp","20dp","20dp","20dp"]
-                        #     radius: [self.width/2]
-                        #     on_press: app.play()
-                        #     on_release: grid.thread_other()
-                        #     id: grid_card
-                        #     MDIcon:
-                        #         icon: "arrow-right"
-                        #         pos_hint: {'center_y': 0.5}
-                        #         id: more_sale
-                        #         font_size: '20dp'
-                        #         size_hint: None, None
-                        #         adaptive_size: True
-                                    
+            # MDBoxLayout:
+            #     orientation: 'vertical'
+            #     size_hint_y: None
+            #     adaptive_height: True
+            #     id: second_box
+            #     spacing: "30dp"
                 
-                MDBoxLayout:
-                    size_hint_y: None
-                    height: '150dp'
-                    padding: ["20dp",]
-                    MDSeparator:
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.4}
-                    
-                    
-                MDLabel:
-                    text: "     For rent"
-                    font_size: '17dp'
-                    bold: True
-                    halign: 'left'
-                    size_hint_y: None
-                    height: '140dp'
-                    valign: "bottom"
-                    # pos_hint:{'center_x': 0.1}
-                    
+                
+            
+            MDLabel:
+                text: "For sale"
+                # theme_font_style: 'H1'
+                font_size: '20dp'
+                bold: True
+                padding_x: "20dp"
+                size_hint_y: None
+                height: '100dp'
+                padding_y: '200dp'
+                
+                color: 'black'
+                # pos_hint:{'center_x': 0.1}
+                
                 
                     
-                HomeSaleScroll:
-                    do_scroll_x: True
-                    do_scroll_y: False
-                    bar_width: 0
-                    scroll_distance: 8
-                    size_hint_y: None
-                    height: Window.size[1] / 1.8 if Window.size[1] > Window.size[0] else Window.size[1] / 1
-                    effect_cls: "ScrollEffect"
-                    MDBoxLayout:
-                        size_hint: None, None
-                        height: Window.size[1] / 1.8 if Window.size[1] > Window.size[0] else Window.size[1] / 1
-                        adaptive_width: True
+            
+            # ScrollView:
+            #     do_scroll_x: True
+            #     do_scroll_y: False
+            #     bar_width: 0
+            #     scroll_distance: 2
+            #     id: inner_scroll
+            #     size_hint_y: None
+            #     height: Window.size[1] / 1.8  if Window.size[1] > Window.size[0] else Window.size[1] / 1
+            #     effect_cls: "ScrollEffect"
+            MDBoxLayout:
+                size_hint_y: None
+                # height: Window.size[1] / 1.8  if Window.size[1] > Window.size[0] else Window.size[1] / 1
+                orientation: 'vertical'
+                # adaptive_width: True
+                spacing: "20dp"
+                adaptive_height: True
+                id: new
+                MDIconButton: 
+                    icon: 'refresh'
+                    icon_size: '21sp'
+                    on_press: app.play()
+                    md_bg_color: 1,1,1,1
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.thread_reload_sale('reload')
+                    # on_release: grid.clear_widgets()
+                    id: refresh_sale
+                    on_press: self.disabled=True
+                    on_press: sale_arrow.disabled = True
+                # MDCard:
+                #     elevation: 0
+                #     ripple_behavior: True
+                #     size_hint: None, None
+                #     height: "50dp"
+                #     width: self.height
+                #     pos_hint: {'center_y': 0.5}
+                #     padding: ["15dp","20dp","20dp","20dp"]
+                    
+                #     radius: [self.width/2]
+                #     on_press: app.play()
+                #     on_release: grid.refresh()
+                #     on_release: grid.clear_widgets()
+                #     id: grid_card
+                #     MDIcon:
+                #         icon: "refresh"
+                #         size_hint: None, None
+                #         adaptive_size: True
+                
+                HomeCardsLayout:
+                    pos_hint: {'center_x': 0.5}
+                    cols: 1 if Window.size[1] > Window.size[0] else 2
+                    id: grid
+                    size_hint: None, None
+                    adaptive_size: True
+                    spacing: "20dp"
+                    padding: ["10dp", "0dp", "10dp", "10dp"]
+                    # orientation: 'vertical'
+                   
+                
+
+                MDIconButton: 
+                    icon: 'arrow-down'
+                    icon_size: '21sp'
+                    on_press: app.play()
+                    md_bg_color: 1,1,1,1
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.thread_reload_sale('more')
+                    on_press: self.disabled=True
+                    on_press: refresh_sale.disabled = True
+                    id: sale_arrow
                         
 
-                        MDIconButton: 
-                            icon: 'refresh'
-                            icon_size: '25dp'
-                            on_press: app.play()
-                            md_bg_color: 1,1,1,1
-                            pos_hint: {'center_y': 0.5}
-                            on_press: self.disabled=True
-                            on_press: rent_arrow.disabled = True
-                            on_release: app.thread_reload_rent('reload_rent')
-                            on_release: gride.clear_widgets()
-                            id: refresh_rent
 
-                        # MDCard:
-                        #     elevation: 0
-                        #     ripple_behavior: True
-                        #     size_hint: None, None
-                        #     height: "50dp"
-                        #     width: self.height
-                        #     pos_hint: {'center_y': 0.5}
-                        #     padding: ["15dp","20dp","20dp","20dp"]
-                        #     radius: [self.width/2]
-                        #     on_press: app.play()
-                        #     on_release: gride.refresh()
-                        #     on_release: gride.clear_widgets()
-                        #     id: grid_card
-                        #     MDIcon:
-                        #         icon: "refresh"
-                        #         pos_hint: {'center_y': 0.5}
-                        #         id: re_sale
-                        #         font_size: '20dp'
-                        #         size_hint: None, None
-                        #         adaptive_size: True
 
-                        RentCardsLayout:
-                            id: gride
-                            size_hint: None, None
-                            
-                            adaptive_width: True
-                            
-                            height: Window.size[1] / 1.8 if Window.size[1] > Window.size[0] else Window.size[1] / 1
-                            spacing: "20dp"
-                            padding: [15, 0, 10, 10]
+
+
+                    
                         
+                    # GridCard:
+                    #     elevation: 0
+                    #     ripple_behavior: True
+                    #     size_hint: None, None
+                    #     height: "50dp"
+                    #     width: self.height
+                    #     pos_hint: {'center_y': 0.5}
+                    #     padding: ["15dp","20dp","20dp","20dp"]
+                    #     radius: [self.width/2]
+                    #     on_press: app.play()
+                    #     on_release: grid.thread_other()
+                    #     id: grid_card
+                    #     MDIcon:
+                    #         icon: "arrow-right"
+                    #         pos_hint: {'center_y': 0.5}
+                    #         id: more_sale
+                    #         font_size: '20dp'
+                    #         size_hint: None, None
+                    #         adaptive_size: True
+                                
+            
+            MDBoxLayout:
+                size_hint_y: None
+                height: '150dp'
+                padding: ["20dp",]
+                MDSeparator:
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+                
+                
+            MDLabel:
+                text: "For rent"
+                font_size: '20dp'
+                bold: True
+                # halign: 'center'
+                size_hint_y: None
+                # text_size: self.size
+                height: '140dp'
+                padding_x: "20dp"
+                # valign: "bottom"
+                # color: "black"
+                # padding_y: "20dp"
+                # pos_hint:{'center_x': 0.1}
+                
+            
+                
+            # HomeSaleScroll:
+            #     do_scroll_x: True
+            #     do_scroll_y: False
+            #     bar_width: 0
+            #     scroll_distance: 2
+            #     size_hint_y: None
+            #     height: Window.size[1] / 1.8 if Window.size[1] > Window.size[0] else Window.size[1] / 1
+            #     effect_cls: "ScrollEffect"
+            MDBoxLayout:
+                size_hint_y: None
+                adaptive_height: True
+                orientation: 'vertical'
+                id: newa
+                spacing: "20dp"
+                MDIconButton: 
+                    icon: 'refresh'
+                    icon_size: '21sp'
+                    on_press: app.play()
+                    md_bg_color: 1,1,1,1
+                    pos_hint: {'center_x': 0.5}
+                    on_press: self.disabled=True
+                    on_press: rent_arrow.disabled = True
+                    on_release: app.thread_reload_rent('reload_rent')
+                    # on_release: gride.clear_widgets()
+                    id: refresh_rent
 
-                        MDIconButton:
-                            icon: 'arrow-right'
-                            icon_size: '25dp'
-                            md_bg_color: 1,1,1,1
-                            pos_hint: {'center_y': 0.5}
-                            on_press: app.play()
-                            on_release: app.thread_reload_rent('more_rent')
-                            on_press: self.disabled=True
-                            on_press: refresh_rent.disabled=True
-                            id: rent_arrow
+                # MDCard:
+                #     elevation: 0
+                #     ripple_behavior: True
+                #     size_hint: None, None
+                #     height: "50dp"
+                #     width: self.height
+                #     pos_hint: {'center_y': 0.5}
+                #     padding: ["15dp","20dp","20dp","20dp"]
+                #     radius: [self.width/2]
+                #     on_press: app.play()
+                #     on_release: gride.refresh()
+                #     on_release: gride.clear_widgets()
+                #     id: grid_card
+                #     MDIcon:
+                #         icon: "refresh"
+                #         pos_hint: {'center_y': 0.5}
+                #         id: re_sale
+                #         font_size: '20dp'
+                #         size_hint: None, None
+                #         adaptive_size: True
+
+                RentCardsLayout:
+                    id: gride
+                    pos_hint: {'center_x': 0.5}
+                    cols: 1 if Window.size[1] > Window.size[0] else 2
+                    # adaptive_width: True
+                    size_hint: None, None
+                    adaptive_size: True
+                    
+                    spacing: "20dp"
+                    padding: ["10dp", "0dp", "10dp", "10dp"]
+                
+                
+
+                MDIconButton:
+                    icon: 'arrow-down'
+                    icon_size: '21sp'
+                    md_bg_color: 1,1,1,1
+                    pos_hint: {'center_x': 0.5}
+                    on_press: app.play()
+                    on_release: app.thread_reload_rent('more_rent')
+                    on_press: self.disabled=True
+                    on_press: refresh_rent.disabled=True
+                    id: rent_arrow
                         # GridiCard:
                             #     elevation: 0
                             #     ripple_behavior: True
@@ -494,55 +509,97 @@
     Nav:
         id: nav
         orientation: 'vertical'
-        radius: [0]  
+        radius: [0, 10,10,0]  
         elevation: 0
         padding: [0]
-        NewCard:
+        opening_time: 0.1
+        closing_time: 0.1
+        spacing: "20dp"
+        # NewCard:
             
-            elevation: 0
-            radius: [0]
+        #     elevation: 0
+        #     radius: [0]
+        #     size_hint_y: None
+        #     height: Window.size[1]/3
+        #     padding: [0]
+        #     # md_bg_color: app.theme_cls.primary_color
+        #     RelativeLayout:
+        #         FitImage:
+                
+        #             source: main_image.source
+                
+        #         MDLabel:
+        #             text: root.text
+        #             color: "white"
+        #             font_size: "15dp"
+        #             bold: True
+        #             size_hint_y: None
+        #             adaptive_height: True
+        #             pos_hint: {'center_x': 0.6, 'center_y': 0.1}
+        #         AnchorLayout:
+        #             anchor_x: 'right'
+        #             anchor_y: 'top'
+        #             padding: [20]
+        #             MDRoundFlatButton:
+        #                 text: 'sign in'
+        #                 theme_text_color: "Custom"
+        #                 line_color: 'white'
+        #                 text_color: 'white'
+        #                 on_press: app.play()
+        #                 on_release: app.switch_signin()
+        GridLayout:
+            
             size_hint_y: None
-            height: Window.size[1]/2 - 100
-            padding: [0]
-            # md_bg_color: app.theme_cls.primary_color
-            RelativeLayout:
-                FitImage:
-                
-                    source: main_image.source
-                
-                MDLabel:
-                    text: root.text
-                    color: "white"
-                    font_size: "15dp"
-                    bold: True
-                    size_hint_y: None
-                    adaptive_height: True
-                    pos_hint: {'center_x': 0.6, 'center_y': 0.1}
-                AnchorLayout:
-                    anchor_x: 'right'
-                    anchor_y: 'top'
-                    padding: [20]
-                    MDRoundFlatButton:
-                        text: 'sign in'
-                        theme_text_color: "Custom"
-                        line_color: 'white'
-                        text_color: 'white'
-                        on_press: app.play()
-                        on_release: app.switch_signin()
-                        
-                        
+            adaptive_height: True
+            spacing: '10dp'
+            padding: ['20dp', '20dp', '10dp', '5dp']
+            cols: 2
+            rows: 1
+            # MDCard:
+            #     radius: [10]
+            #     size_hint: None, None
+            #     width: '55dp'
+            #     height: '60dp'
+            #     md_bg_color: 1,1,1,1
+            Image:
+                source: 'Hometernet-icon.png'
+                size_hint: None, None
+                width: '55dp'
+                height: '60dp'
+            MDLabel:
+                text: 'Main Menu'
+                bold: True
+                font_size: '20dp'
+                size_hint_y: None
+                height: '60dp'
+                id: mail_text
+
+        
+            
         
         ScrollView:
             bar_width: 0
             effect_cls: "ScrollEffect"
+            # MDBoxLayout:
+            #     spacing: "30dp"
+            #     orientation: 'vertical'
+            #     size_hint_y: None
+            #     adaptive_height: True
             MDList:     
-                
+                padding: ["5dp", "25dp", "5dp", "0dp"]
+                MDLabel:
+                    text: '     Main'
+                    color: 'gray'
+                    size_hint_y: None
+                    adaptive_height: True
+                    font_size: '15dp'
+
                 OneLineIconListItem:
-                    text: "My Account"
+                    text: "[size=16dp]My Account[/size]"
                     divider: None
                     on_press: app.play()
                     on_release: app.switch_acc()
-                    
+                    radius: [10]
                     IconLeftWidget:
                         icon: 'account-outline'         
                         
@@ -551,18 +608,19 @@
                         
                                     
                 OneLineIconListItem:
-                    text: "Sell your Property"
+                    text: "[size=16dp]Sell your Property[/size]"
                     divider: None
                     on_press: app.play()
                     on_release: app.switch_products()
+                    radius: [10]
                     IconLeftWidget:
                         icon: 'bed-outline'         
-                         
+                        
                         icon_size: '20dp'
                         pos_hint:{'center_y': 0.5}
                 OneLineIconListItem:
-                    text: "Bookmarks"
-                    divider: None
+                    text: "[size=16dp]Bookmarks[/size]"
+                    radius: [10]
                     on_press: app.play()
                     on_release: app.switch_bookmarks()
                     
@@ -571,13 +629,27 @@
                         
                         icon_size: '20dp'
                         pos_hint:{'center_y': 0.5}
-                
+
+
+            # MDList:
+            #     padding: ["5dp", "0dp", "5dp", "0dp"]
+                Label:
+                    text: '     Others'
+                    color: 'gray'
+                    size_hint_y: None
+                    text_size: self.size
+                    height: '45dp'
+                    font_size: '15dp'
+                    # padding_y: '2dp' 
+                    valign: 'bottom'
+                    
+
                 OneLineIconListItem:
-                    text: "App Tutorial"
+                    text: "[size=16dp]App Tutorial[/size]"
                     divider: None
                     on_press: app.play()
                     on_release: app.switch_tutorial()
-                    
+                    radius: [10]
                     IconLeftWidget:
                         icon: 'book-outline'
                         icon_size: '20dp'
@@ -585,11 +657,11 @@
                         
 
                 OneLineIconListItem:
-                    text: "About us"
+                    text: "[size=16dp]About us[/size]"
                     divider: None
                     on_press: app.play()
                     on_release: app.switch_about()
-                    
+                    radius: [10]
                     IconLeftWidget:
                         icon: 'ubisoft'
                         icon_size: '20dp'
@@ -597,23 +669,23 @@
                         
                 
                 OneLineIconListItem:
-                    text: "Contact us"
+                    text: "[size=16dp]Contact us[/size]"
                     divider: None
                     on_press: app.play()
                     on_release: app.switch_contact()
-                    
+                    radius: [10]
                     IconLeftWidget:
                         icon: 'phone-outline'
                         icon_size: '20dp'
                         pos_hint:{'center_y': 0.5}
-                        
+                    
 
                 OneLineIconListItem:
-                    text: "Meet The Creator"
+                    text: "[size=16dp]Meet The Creator[/size]"
                     divider: None
                     on_press: app.play()
                     on_release: app.switch_creator()
-                    
+                    radius: [10]
                     IconLeftWidget:
                         icon: 'pirate'
                         icon_size: '20dp'
@@ -725,19 +797,3 @@
 <Nav@MDNavigationDrawer+CommonElevationBehavior>
 <NewCard@MDCard+CommonElevationBehavior>
 
-
-
-
-
-
-
-
-
-# on_press: nav.set_state("open")
-
-
-# on_press: gride.other()
-
-
-
-# on_press: app.switch_creator()

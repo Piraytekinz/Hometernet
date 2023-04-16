@@ -38,7 +38,7 @@
             MDBoxLayout:
                 orientation: 'vertical'
                 spacing: "30dp"
-                padding: [0, 10, 0, 30]
+                padding: [10, 10, 10, 30]
                 size_hint_y: None
                 adaptive_height: True
                 
@@ -49,7 +49,7 @@
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -77,14 +77,43 @@
                             on_text: app.email(self.text)
                             font_size: '15dp'
                             input_type: 'mail'
-                            
 
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: [0,self.height/2.5,0,self.height/3]
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        padding: [20,0,20,0]
+                        spacing: "20dp"
+                        pos_hint: {'center_y': 0.5}
+                        MDLabel:
+                            text: "Website(optional)"
+                            font_size: "15dp"
+                            size_hint_y: None
+                            adaptive_height: True
+                        MDTextField:
+                            id: site
+                            hint_text: "site link"
+                            on_text: app.linki(self.text)
+                            padding: [20, ]
+                            font_size: '15dp'
+                            input_type: 'url'            
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    radius: [5]
+                    size_hint: None, None
+                    height: price_card.height + landspace_text.height * 10
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -148,7 +177,7 @@
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -178,7 +207,7 @@
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -207,7 +236,7 @@
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -236,7 +265,7 @@
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -282,7 +311,7 @@
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -311,7 +340,7 @@
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -340,7 +369,7 @@
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -369,7 +398,7 @@
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -377,7 +406,7 @@
                     md_bg_color: 255/255, 255/255, 255/255, 0.8
                     MDBoxLayout:
                         orientation: 'vertical'
-                        padding: [20,0,20,10]
+                        padding: [20,0,20,5]
                         MDLabel:
                             text: "Bedroom number"
                             font_size: "15dp"
@@ -395,156 +424,99 @@
                                 
                                 size_hint_x: None
                                 adaptive_width: True
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '1'
+                                    
+                                    
                                     on_press: root.bedrooms='1'
                                     on_release: app.rooms('1')
-                                    size_hint_x: None
-                                    width: oner.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '1'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        id: oner
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                   
                                 
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '2'
+                                    
+                                    
                                     on_press: root.bedrooms='2'
                                     on_release: app.rooms('2')
-                                    size_hint_x: None
-                                    width: oner.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '2'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
 
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '3'
+                                    
+                                    
                                     on_press: root.bedrooms='3'
                                     on_release: app.rooms('3')
-                                    size_hint_x: None
-                                    width: oner.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        bold: True
-                                        text: '3'
-                                        halign: 'center'
-                                        color: 'white'
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
 
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '4'
+                                    
+                                    
                                     on_press: root.bedrooms='4'
                                     on_release: app.rooms('4')
-                                    size_hint_x: None
-                                    width: oner.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '4'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
 
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '5'
+                                    
+                                    
                                     on_press: root.bedrooms='5'
                                     on_release: app.rooms('5')
-                                    size_hint_x: None
-                                    width: oner.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '5'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
                                 
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '6'
+                                    
+                                    
                                     on_press: root.bedrooms='6'
                                     on_release: app.rooms('6')
-                                    size_hint_x: None
-                                    width: oner.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '6'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
+                                MDRoundFlatButton:
+                                    text: '7'
+                                    
+                                    
                                     on_press: root.bedrooms='7'
                                     on_release: app.rooms('7')
-                                    size_hint_x: None
-                                    width: oner.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '7'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
 
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '7+'
+                                    
+                                    
                                     on_press: root.bedrooms='7'
                                     on_release: app.rooms('7+')
-                                    size_hint_x: None
-                                    width: oner.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '7+'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
 
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -552,7 +524,7 @@
                     md_bg_color: 255/255, 255/255, 255/255, 0.8
                     MDBoxLayout:
                         orientation: 'vertical'
-                        padding: [20,0,20,10]
+                        padding: [20,0,20,5]
                         MDLabel:
                             text: "Bathroom number"
                             font_size: "15dp"
@@ -568,157 +540,100 @@
                                 spacing: '10dp'
                                 size_hint_x: None
                                 adaptive_width: True
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '1'
+                                    
+                                    
                                     on_press: root.bathrooms='1'
                                     on_release: app.baths('1')
-                                    size_hint_x: None
-                                    width: one.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '1'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        id: one
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
                                 
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '2'
+                                    
+                                    
                                     on_press: root.bathrooms='2'
                                     on_release: app.baths('2')
-                                    size_hint_x: None
-                                    width: one.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '2'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
 
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '3'
+                                    
+                                    
                                     on_press: root.bathrooms='3'
                                     on_release: app.baths('3')
-                                    size_hint_x: None
-                                    width: one.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        bold: True
-                                        text: '3'
-                                        halign: 'center'
-                                        color: 'white'
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
 
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '4'
+                                    
+                                    
                                     on_press: root.bathrooms='4'
                                     on_release: app.baths('4')
-                                    size_hint_x: None
-                                    width: one.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '4'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
 
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '5'
+                                    
+                                    
                                     on_press: root.bathrooms='5'
                                     on_release: app.baths('5')
-                                    size_hint_x: None
-                                    width: one.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '5'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
                                 
                                 
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '6'
+                                    
+                                    
                                     on_press: root.bathrooms='6'
                                     on_release: app.baths('6')
-                                    size_hint_x: None
-                                    width: one.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '6'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
 
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '7'
+                                    
+                                    
                                     on_press: root.bathrooms='7'
                                     on_release: app.baths('7')
-                                    size_hint_x: None
-                                    width: one.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '7'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
 
-                                MDCard:
-                                    radius: [3,]
-                                    ripple_behavior: True
-                                    md_bg_color: app.theme_cls.primary_color
+                                MDRoundFlatButton:
+                                    text: '7+'
+                                    
+                                    
                                     on_press: root.bathrooms='7+'
                                     on_release: app.baths('7+')
-                                    size_hint_x: None
-                                    width: one.width * 3
-                                    elevation: 0
-                                    MDLabel:
-                                        text: '7+'
-                                        halign: 'center'
-                                        color: 'white'
-                                        bold: True
-                                        size_hint_x: None
-                                        adaptive_width: True
-                                        font_size: '15dp'
+                                    
+                                    
+                                    text_color: app.theme_cls.primary_color
+                                    
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -769,7 +684,7 @@
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -820,7 +735,7 @@
                     radius: [5]
                     size_hint: None, None
                     height: price_card.height + landspace_text.height * 20
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 2
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -854,7 +769,7 @@
                     radius: [5]
                     size_hint: None, None
                     height: Window.size[1] / 1.5 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 50
-                    width: Window.size[0] - 130 if Window.size[0] < Window.size[1] else Window.size[0] / 1.5
+                    width: Window.size[0] / 1.2
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -931,11 +846,19 @@
                             font_size: '16dp'
 
                         MDLabel:
-                            text: 'Garage'
+                            text: 'Parking'
                             font_size: '15dp'
                         MDCheckbox:
                             on_active: app.on_checkbox_active(*args, 5)
                             id: 5
+                            font_size: '16dp'
+
+                        MDLabel:
+                            text: 'Backyard'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 6)
+                            id: 6
                             font_size: '16dp'
                     
                 MDRaisedButton:

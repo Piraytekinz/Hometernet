@@ -21,6 +21,7 @@
 
         MDBoxLayout:
             ScrollView:
+                effect_cls: 'ScrollEffect'
                 MDBoxLayout:
                     size_hint_y: None
                     adaptive_height: True
@@ -53,12 +54,24 @@
                         bold: True
                         
                     MDList:
-                        
                         OneLineIconListItem:
-                            text: "Password"
+                            text: "[size=16dp]Sign in[/size]"
+                            divider: None
+                            on_press: app.play()
+                            on_release: app.switch_signin()
+                            radius: [10]
+                            IconLeftWidget:
+                                icon: 'account-arrow-right-outline'         
+                                                
+                                icon_size: '20dp'
+                                pos_hint:{'center_y': 0.5}
+
+                        OneLineIconListItem:
+                            text: "[size=16dp]Password[/size]"
                             divider: None
                             on_press: app.play()
                             on_release: app.password_reset_auth()
+                            radius: [10]
                             IconLeftWidget:
                                 icon: 'key-outline'         
                                                 
@@ -66,10 +79,11 @@
                                 pos_hint:{'center_y': 0.5}
                         
                         OneLineIconListItem:
-                            text: "Remove Account"
+                            text: "[size=16dp]Remove Account[/size]"
                             divider: None
                             on_press: app.play()
                             on_release: app.remove_user_auth()
+                            radius: [10]
                             IconLeftWidget:
                                 icon: 'trash-can-outline'         
                                                 
@@ -77,10 +91,11 @@
                                 pos_hint:{'center_y': 0.5}
                         
                         OneLineIconListItem:
-                            text: "My Properties"
+                            text: "[size=16dp]My Properties[/size]"
                             divider: None
                             on_press: app.play()
                             on_release: app.switch_products()
+                            radius: [10]
                             IconLeftWidget:
                                 icon: 'bed-outline'         
                                                 

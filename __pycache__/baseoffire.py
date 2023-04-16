@@ -301,5 +301,154 @@ import random
 # for i in namo:
 #     total += i
 # print(total)
-er = 'adwdwdaw '
-print(er.title().strip())
+
+
+import pyrebase
+from datetime import datetime, date, timedelta
+import os
+import json
+from firebase_admin import credentials
+from firebase_admin import auth
+import firebase_admin
+import smtplib
+from email.mime.text import MIMEText
+
+firebaseconfig = {
+    "apiKey": "AIzaSyDG9LX4CI6Rsef49D1VTMmA_9QHg5zHywo",
+    "authDomain": "first-db-77609.firebaseapp.com",
+    "databaseURL": "https://first-db-77609-default-rtdb.firebaseio.com",
+    "projectId": "first-db-77609",
+    "storageBucket": "first-db-77609.appspot.com",
+    "messagingSenderId": "820407820543",
+    "appId": "1:820407820543:web:62a2c15e88e30ef6346cca",
+    "measurementId": "G-NGK0NGTGJX",
+    "type": "service_account",
+    "project_id": "first-db-77609",
+    "private_key_id": "c7599cc9be6de93088877bd6b6db6ea6efd9e3a2",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC9Bycx+4BU4PGp\nDJ5XPpmswcegqk9dkdmB+8PmXdgjWdR9UFAPkE+VXytPMBUVvO1TNju1MwwvrJhT\nuOAjubXZj5euqtFHgaxBiD2CPZGSWMPUyTSLX1uVWwwexOuzhdBr/5aT44I30Go9\nZV3GUVKKlIysb/Fc1Gr7YtIE/6e9YsvN2dJvdCwfmxVaqSgga2xxqM0a6v0vlgDb\ndjDuFdhoPjCoB53cpYvsspMvRNSQ3Xa/lXOTCkOCY0wFad50rQtpito/0YXHIscN\nz5PcxaBpggFvGrV3pN28vxX1LEGBarknMfsgywQ0M9HVB3VoRXDO1LfoG4OkQBJt\n88dUFJTRAgMBAAECggEABeY3UB81j4iT6CsGdcn0izSCv7oS9yRML8sg/3N0MXG+\nMMFA92RhRHPTduGk9dBHLpSzpzV6MtJx0FKVra2//fPGF8eZV5BFpUeshkAYRwNF\nzNIw9WzO35XXZm4uPjR910IDM7c65xWmPCdpxly/PQeS7paBh4xyUIlCbVEifbW9\n64+zYUSFO8LamSGxQdcMcQl0858HXYFY793VWHPybZedZ8CM+xE0dBif1B2mp7kC\n0jwI25BeHfsj4l8V/FwlEtSFtG1Qx+C99a185ocqsmA0Am1BapCKZ7nX4IaJDp92\nbpHKsDKsP2T/o8Ex6dG+zsCCTmep9pG5zczecSq1QQKBgQDr322QPlc6idm9d+9x\ngKFkrRnWyUZzTCa0aiV73WKLN4G4k+DAL19qYwFkK5OutECDPBuweb8VSCYvyl5N\nMZcOMvuV+1DYuYhSuBabDfAE+zJMSmETvrSwJk0xEw0FdLgmm3/9O3WvthK5mX6+\nqbsN2Zks/tgG8re07HgsCAYmQQKBgQDNKGnfROTGrlTN7NfQS1/jGYC/6N33nTTm\nrEfdTw7jxBCWaplQrCHOrDhKz1g3UISR6tUY1PECJEV/W/mVylc/Q4yQPaW42WAt\n9KYJ8hVLoiRSPVdrwJAeSMXZypgiBONRKrRAaAGsIWoRpzguUEBB/j5wBPvA0PTg\nBH4WYEJqkQKBgAs6p8ymKyDuTx9mBlAw/337f69qBaCXj4AnTYGIGJjoG5Td9WUw\n3CoEbJyINo+qpSeaRPcx1Jb+yFKeH78tDTPv2WpafI7Uxlipyum20CZsjwhywgxe\nl9uK90HO1l/cHqg33u//VKr40Atl81LAYddW9KPfvgkWpQhH+bCe8SwBAoGAYapu\nlFJ40rilOI8awldPo449g565JKrbR0EWyR1cykNJXkILEKORSJEmDz8cEOEs60Yv\nAi5FOa7IwvOnIo777+sZXIVsgk5Bgj8oWC29w47B2cDIAEzgjvo37hGLUQ6gpMA+\npTaeLTKPCy5fCXU80e3WDX/h1Y3kNU0ONVrH43ECgYBWimuvPTmGwS5rBWC9Z7OD\nvfVT4uSuAiXrDdPo0N9HqCKunSuJIqihA/NJELmq9DrBWZI1AFDXaLBlz2RqBq3T\n4k/BaE9gsS0Tn+K9Plee/fWFkVO6fFTSiARn128VyF9hqXEm0vnIiyYhTQvIkQKZ\nmC+UyHUSL+EjIg1MXbE2vw==\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-ykjt8@first-db-77609.iam.gserviceaccount.com",
+    "client_id": "105639461294547029153",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ykjt8%40first-db-77609.iam.gserviceaccount.com"
+}
+
+cred = credentials.Certificate("first-db-77609-firebase-adminsdk-ykjt8-c7599cc9be.json")
+firebase_admin.initialize_app(cred, {"databaseURL": "https://first-db-77609-default-rtdb.firebaseio.com"})
+
+firebasei = pyrebase.initialize_app(firebaseconfig)
+path = os.getcwd()
+db = firebasei.database()
+authi = firebasei.auth()
+storage = firebasei.storage()
+
+users = auth.list_users()
+
+# try:
+
+with open(f"{path}/user.json", "r") as jsonfile:
+    curr = json.load(jsonfile)
+
+dev = authi.sign_in_with_email_and_password(curr['email'], curr['password'])
+
+with open("New Test/evaluate.json", "r") as jsondude:
+    curri = json.load(jsondude)
+
+
+
+# get = db.child("Sale").get()
+# for i in get.each():
+#     if i.val()['email'] == 'anangjosh8@gmail.com':
+        
+#         key_data = {
+#             "prop_keys": "",
+#         }
+#         key_data['prop_keys'] = i.key()
+#         db.child("People").child(dev['localId']).child("ids").push(key_data, dev['idToken'])
+#         print("pushed successfully")
+
+
+
+
+
+
+# print(authi.get())
+# for user in users.users:
+#     if user.email == 'pirateyonko5@gmail.com':
+#         print(user.uid)
+#         testichiro = db.child("People").child(str(user.uid)).child("ids").get(dev['idToken'])
+#         for u in testichiro.each():
+#             if u.val()['prop_keys'] == '-NSxOwBmQ-iVDD92Yex-':
+#                 db.child("People").child(str(user.uid)).child("ids").child(u.key()).remove(dev['idToken'])
+#                 break
+#         print('successfully deleted')
+# except:
+#     pass
+
+
+# for i in testichiro.each():
+p = db.child("Sale").get()
+    # print(i.val())
+
+tod = datetime.today()
+# ok = date.strftime(tod, '%Y-%m-%d')
+
+
+
+new = tod + timedelta(days=93)
+
+for i in p.each():
+    check = datetime.strptime(i.val()['date'], '%Y-%m-%d')
+    new = check + timedelta(days=new)
+
+    if new < datetime.today():
+        email = i.val()['email']
+        print(email)
+        print(i.val()['date'])
+        print(i.key())
+        print("Removeing property")
+        db.child("Sale").child(i.key()).remove(dev['idToken'])
+        print("Removed property")
+        for user in users.users:
+            if user.email == email:
+                curri["keys"].append(i.key())
+                testichiro = db.child("People").child(str(user.uid)).child("ids").get(dev['idToken'])
+                for u in testichiro.each():
+                    
+                    if u.val()['prop_keys'] == i.key():
+                        db.child("People").child(str(user.uid)).child("ids").child(u.key()).remove(dev['idToken'])
+                        message = MIMEText(f"Your property {i.val()['housetype']}, {i.val()['bedrooms']} bedrooms, {i.val()['country']}, {i.val()['town']}, {i.val()['street']} has expired and has been deleted.")
+                        message['Subject'] = 'Your property has been deleted...'
+                        message["From"] = "hometernetmanager@gmail.com"
+                        message["To"] = email
+                        print('Starting server')
+                        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+                        server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
+                        server.sendmail("hometernetmanager@gmail.com", email, message.as_string())
+                        server.quit()
+                        print("Message sent")
+                        break
+                print(testichiro)
+                print(user.uid)
+
+        with open("New Test/evaluate.json", "w") as jsondude:
+            json.dump(curri, jsondude)
+#         print('user id for property')
+
+#         # db.child("Sale").child(i.key()).remove(user['idToken'])
+
+#        
+#         break
+        
+
+
+
+
+
+
+
+# today = '2023-01-12'
+# today = datetime.strptime(today, '%Y-%m-%d')
+# print(tod<today)
+# print(new)
