@@ -3,7 +3,7 @@
     ScrollView:
         bar_width: 0
         effect_cls: "ScrollEffect"
-        scroll_distance: 6
+        scroll_distance: 1
         MDBoxLayout:
             orientation: 'vertical'
             size_hint_y: None
@@ -16,7 +16,7 @@
                 spacing: "10dp"
                 MDIconButton:
                     icon: 'arrow-left'
-                    icon_size: "20sp"
+                    icon_size: "24sp"
                     pos_hint: {'center_y': 0.5}
                     on_press: app.play()
                     on_release: app.switch_home()
@@ -36,7 +36,7 @@
                 MDIconButton:
                     icon: 'magnify'
                     pos_hint: {'center_y': 0.5}
-                    icon_size: "20sp"
+                    icon_size: "24sp"
                     bold: True
                     on_press: app.play()
                     on_release: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)

@@ -6,49 +6,46 @@
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
     height: Window.size[1] / 2 if Window.size[1] > Window.size[0] else Window.size[1] / 1.1
     id: main_card
-    
+    on_press: app.play()
+            
+    on_release: app.editrentscreen(root.image, root.local_image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
     radius: ["5dp", ]
     MDBoxLayout:
         orientation: 'vertical'
         padding: ["10dp",]
         spacing: "20dp"
-        RentPic:
-            on_press: app.play()
-            
-            on_release: app.editrentscreen(root.image, root.local_image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
-            radius: [5,]
-            ripple_behavior: True
-            RelativeLayout:
-                FitImage:
-                    source: str(root.image)
-                    radius: [5,]
+        
+        RelativeLayout:
+            FitImage:
+                source: str(root.image)
+                radius: [5,]
 
+            
+            
+            MDLabel:
+                text: root.price
+                halign: 'center'
+                font_size: "14dp"
+                md_bg_color: 1,1,1,1
+                font_color: "black"
+                bold: True
+                size_hint_y: None
+                height: dp(30)
+                size_hint_max_x: dp(100)
+                pos_hint: {'center_x': 0.75, 'center_y': 0.89}
                 
-               
-                MDLabel:
-                    text: root.price
-                    halign: 'center'
-                    font_size: "14dp"
-                    md_bg_color: 1,1,1,1
-                    font_color: "black"
-                    bold: True
-                    size_hint_y: None
-                    height: dp(30)
-                    size_hint_max_x: dp(100)
-                    pos_hint: {'center_x': 0.75, 'center_y': 0.89}
-                    
-                MDLabel:
-                    text: str(root.views) + " " + "views"
-                    halign: 'center'
-                    font_size: "14dp"
-                    pos_hint: {'center_x': 0.25, 'center_y': 0.89}
-                    
-                    bold: True
-                    
-                    size_hint_y: None
-                    height: dp(30)
-                    size_hint_max_x: dp(100)
-                    md_bg_color: 1,1,1,1
+            MDLabel:
+                text: str(root.views) + " " + "views"
+                halign: 'center'
+                font_size: "14dp"
+                pos_hint: {'center_x': 0.25, 'center_y': 0.89}
+                
+                bold: True
+                
+                size_hint_y: None
+                height: dp(30)
+                size_hint_max_x: dp(100)
+                md_bg_color: 1,1,1,1
                         
                         
 
@@ -83,64 +80,31 @@
         MDSeparator:
 
         MDBoxLayout:
-            padding: [10, 5, 0, 17]
+            padding: ["10dp", "5dp", "0dp", "17dp"]
             size_hint_y: None
             adaptive_height: True
-            MDBoxLayout:
-                orientation: 'vertical'
-                spacing: "6dp"
+            MDLabel:
+                text: root.bedrooms + '\n [b]bedrooms[/b]'
+                font_size: "14dp"
+                bold: True
+                halign: 'center'
                 size_hint_y: None
                 adaptive_height: True
-                MDLabel:
-                    text: root.bedrooms
-                    font_size: "13dp"
-                    bold: True
-                    halign: 'center'
-                    size_hint_y: None
-                    adaptive_height: True
-                MDLabel:
-                    text: "bedrooms"
-                    color: "black"
-                    font_size: "13dp"
-                    bold: True
-                    halign: 'center'
-                    size_hint_y: None
-                    adaptive_height: True
-            MDBoxLayout:
-                orientation: 'vertical'
-                spacing: "6dp"
-                MDLabel:
-                    text: root.bathrooms
-                    font_size: "13dp"
-                    bold: True
-                    halign: 'center'
-                    size_hint_y: None
-                    adaptive_height: True
-                MDLabel:
-                    text: "bathrooms"
-                    color: "black"
-                    font_size: "13dp"
-                    bold: True
-                    halign: 'center'
-                    size_hint_y: None
-                    adaptive_height: True
-            MDBoxLayout:
-                orientation: 'vertical'
-                spacing: "6dp"
-                MDLabel:
-                    text: root.landspace
-                    font_size: "13dp"
-                    bold: True
-                    halign: 'center'
-                    size_hint_y: None
-                    adaptive_height: True
-                MDLabel:
-                    text: "Land space"
-                    color: "black"
-                    font_size: "13dp"
-                    bold: True
-                    halign: 'center'
-                    size_hint_y: None
-                    adaptive_height: True
-
-<RentPic@MDCard+CommonElevationBehavior>
+                markup: True
+            MDLabel:
+                text: root.bathrooms + '\n [b]bathrooms[/b]'
+                font_size: "14dp"
+                bold: True
+                halign: 'center'
+                size_hint_y: None
+                adaptive_height: True
+                markup: True
+                
+            MDLabel:
+                text: root.landspace + '\n [b]Land space[/b]'
+                font_size: "14dp"
+                bold: True
+                halign: 'center'
+                size_hint_y: None
+                adaptive_height: True
+                markup: True

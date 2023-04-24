@@ -1,473 +1,470 @@
 <DetailsScreen>:
     
-    MDBoxLayout:
-        orientation: 'vertical'
+    on_enter: bk_ico.icon="bookmark" if app.curr['email'] != '' and root.key in app.curr['bookmarks'][app.curr['email']] else "bookmark-outline"
         
-        ScrollView:
-            effect_cls: 'ScrollEffect'
-            on_touch_move: app.set_color()
-            MDBoxLayout:
-                orientation: 'vertical'
-                spacing: "35dp"
-                adaptive_height: True
-                size_hint_y: None
-                MDBoxLayout:
-                    
-                    size_hint_y: None
-                    height: Window.size[1] / 2
-                    padding: [0]
-                    
-                    ImageCard:
-                        padding: [0]
-                        md_bg_color: 0,0,0,1
-                        radius: [0]
-                        RelativeLayout:
-                            AsyncImage:
-                                source: str(root.image)
-                                
-                                id: house_image
-                                keep_ratio: False if Window.size[1] > Window.size[0] else True
-                                allow_stretch: True
-                            AnchorLayout:
-                                anchor_x: 'left'
-                                anchor_y: 'top'
-                                padding: ["20dp"]
-                                MDIconButton:
-                                    icon: "arrow-left"
-                                    
-                                    on_press: app.play()
-                                    on_release: app.switch_from_details()
-                                    ripple_behavior: True
-                                    icon_size: "20sp"
-                                    md_bg_color: 1,1,1,1
-                            
-                            AnchorLayout:
-                                anchor_x: 'right'
-                                anchor_y: 'top'
-                                padding: ["20dp"]
-                                MDIconButton:
-                                    icon: "bookmark-outline"
-                                    
-                                    on_press: app.play()
-                                    on_release: app.bookmark(root.key)
-                                    ripple_behavior: True
-                                    icon_size: "20sp"
-                                    md_bg_color: 1,1,1,1
-
-                            AnchorLayout:
-                                anchor_x: 'left'
-                                anchor_y: 'bottom'
-                                padding: ["20dp","0dp","0dp","20dp"]
-                                MDLabel:
-                                    text: root.price
-                                    color: 'white'
-                                    font_size: '23dp'
-                                    size_hint_y: None
-                                    adaptive_height: True
-                                    bold: True
-                                    
-                                    
-                # MDBoxLayout:
-                #     padding: [15,20,0,0]
-                #     size_hint_y: None
-                #     adaptive_height: True
-                #     MDLabel:
-                #         font_size: '23dp'
-                #         text: 'Details:'
-                #         adaptive_height: True
-                        
-                #         bold: True
+    ScrollView:
+        effect_cls: 'ScrollEffect'
+        on_touch_move: app.set_color()
+        scroll_distance: 1
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: "35dp"
+            adaptive_height: True
+            size_hint_y: None
+            
                 
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    spacing: "20dp"
-                    size_hint_y: None
-                    adaptive_height: True
-                    padding: ["20dp","15dp","10dp","0dp"]
-                    
-                    MDLabel:
-                        text: root.type
-                        size_hint_y: None
-                        adaptive_height: True
-                        font_size: "20dp"
-                        color: "black"
-                        bold: True
+            ImageCard:
+                padding: [0]
+                md_bg_color: 0,0,0,1
+                radius: [0]
+                size_hint_y: None
+                height: Window.size[1] / 2
+                RelativeLayout:
+                    AsyncImage:
+                        source: str(root.image)
                         
-                    MDBoxLayout:
-                        size_hint_y: None
-                        adaptive_height: True
-                        
-                        MDIcon:
-                            icon: 'google-maps'
-                            size_hint: None, None
-                            adaptive_size: True
-                            font_size: '18dp'
-                            pos_hint: {'center_y': 0.5}
+                        id: house_image
+                        keep_ratio: False if Window.size[1] > Window.size[0] else True
+                        allow_stretch: True
+                    AnchorLayout:
+                        anchor_x: 'left'
+                        anchor_y: 'top'
+                        padding: ["20dp"]
+                        MDIconButton:
+                            icon: "arrow-left"
                             
+                            on_press: app.play()
+                            on_release: app.switch_from_details()
+                            ripple_behavior: True
+                            icon_size: "20sp"
+                            md_bg_color: 1,1,1,1
+                    
+                    AnchorLayout:
+                        anchor_x: 'right'
+                        anchor_y: 'top'
+                        padding: ["20dp"]
+                        MDIconButton:
+                            icon: "bookmark-outline"
+                            id: bk_ico
+                            on_press: app.play()
+                            on_release: self.icon='bookmark' if self.icon == 'bookmark-outline' else 'bookmark-outline'
+                            on_release: app.bookmark(root.key)
+                            ripple_behavior: True
+                            icon_size: "20sp"
+                            md_bg_color: 1,1,1,1
+
+                    AnchorLayout:
+                        anchor_x: 'left'
+                        anchor_y: 'bottom'
+                        padding: ["20dp","0dp","0dp","20dp"]
                         MDLabel:
-                            id: count
-                            text: root.country + ", " + root.province + ", " + root.town + ", " + root.street
-                            font_size: "15dp"
-                            color: "gray"
+                            text: root.price
+                            color: 'white'
+                            font_size: '23dp'
                             size_hint_y: None
                             adaptive_height: True
-                            
-                        # MDLabel:
-                        #     text: root.town + " "
-                        #     font_size: "13dp"
-                        #     color: "gray"
-                        #     size_hint: None, None
-                        #     adaptive_size: True
-                            
-                        # MDLabel:
-                        #     text: root.street
-                        #     font_size: "13dp"
-                        #     color: 'gray'
-                        #     size_hint: None, None
-                        #     adaptive_size: True
-                        #     height: count.height
-                            
-
-                    MDBoxLayout:
+                            bold: True
+                                
+                                
+            # MDBoxLayout:
+            #     padding: [15,20,0,0]
+            #     size_hint_y: None
+            #     adaptive_height: True
+            #     MDLabel:
+            #         font_size: '23dp'
+            #         text: 'Details:'
+            #         adaptive_height: True
+                    
+            #         bold: True
+            
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: "20dp"
+                size_hint_y: None
+                adaptive_height: True
+                padding: ["20dp","15dp","10dp","0dp"]
+                
+                MDLabel:
+                    text: root.type
+                    size_hint_y: None
+                    adaptive_height: True
+                    font_size: "20dp"
+                    color: "black"
+                    bold: True
+                    
+                MDBoxLayout:
+                    size_hint_y: None
+                    adaptive_height: True
+                    
+                    MDIcon:
+                        icon: 'google-maps'
+                        size_hint: None, None
+                        adaptive_size: True
+                        font_size: '18dp'
+                        pos_hint: {'center_y': 0.5}
+                        
+                    MDLabel:
+                        id: count
+                        text: root.country + ", " + root.province + ", " + root.town + ", " + root.street
+                        font_size: "15dp"
+                        color: "gray"
                         size_hint_y: None
                         adaptive_height: True
-                        MapsCard:
-                            size_hint: None, None
-                            width: gmaps_icon.width + gmaps_label.width + 25
-                            height: '50dp'
-                            radius: [10,]
-                            padding: [5,10,5,10]
-                            on_press: app.open_maps(root.country + ',' + " " + root.town + ',' + " " + root.street)
-                            ripple_behavior: True
+                        
+                    # MDLabel:
+                    #     text: root.town + " "
+                    #     font_size: "13dp"
+                    #     color: "gray"
+                    #     size_hint: None, None
+                    #     adaptive_size: True
+                        
+                    # MDLabel:
+                    #     text: root.street
+                    #     font_size: "13dp"
+                    #     color: 'gray'
+                    #     size_hint: None, None
+                    #     adaptive_size: True
+                    #     height: count.height
+                        
+
+                
+                MapsCard:
+                    size_hint: None, None
+                    width: gmaps_icon.width + gmaps_label.width + 25
+                    height: '50dp'
+                    radius: [10,]
+                    padding: [5,10,5,10]
+                    on_press: app.open_maps(root.country + ',' + " " + root.town + ',' + " " + root.street)
+                    ripple_behavior: True
+                    
+                    
+                    MDIcon:
+                        icon: 'google-maps'
+                        size_hint: None, None
+                        adaptive_size: True
+                        font_size: '18dp'
+                        id: gmaps_icon
+                        
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        halign: 'center'
                             
-                            
+                    MDLabel:
+                        text: 'google maps'
+                        font_size: '17dp'
+                        size_hint: None, None
+                        adaptive_size: True
+                        id: gmaps_label
+                        
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        halign: 'center'
+                        
+            MDBoxLayout:
+                size_hint_y: None
+                adaptive_height: True
+                spacing: "10dp"
+                padding: ["20dp","5dp","10dp","0dp"]
+                BedroomsCard:
+                    size_hint_y: None
+                    height: landspace.height * 2
+                    radius: [10,]
+                    padding: [5,]
+                    MDLabel:
+                        halign: 'center'
+                        text: root.bedrooms + " " + 'bedrooms'
+                        font_size: '15dp'
+                        id: bedrooms
+                        size_hint_y: None
+                        adaptive_height: True
+                        valign: 'center'
+                        halign: 'center'
+                        
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                BathroomsCard:
+                    size_hint_y: None
+                    height: landspace.height * 2
+                    radius: [10,]
+                    padding: [5]
+                    MDLabel:
+                        halign: 'center'
+                        text: root.bathrooms + " " + 'bathrooms'
+                        font_size: '15dp'
+                        id: bathrooms
+                        size_hint_y: None
+                        adaptive_height: True
+                        valign: 'center'
+                        halign: 'center'
+                        
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                LandspaceCard:
+                    size_hint_y: None
+                    height: landspace.height * 2
+                    radius: [10,]
+                    padding: [5]
+                    MDLabel:
+                        halign: 'center'
+                        text: root.landspace + " " + 'land'
+                        font_size: '15dp'
+                        size_hint_y: None
+                        adaptive_height: True
+                        id: landspace
+                        valign: 'center'
+                        halign: 'center'
+                        
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDBoxLayout:
+                size_hint_y: None
+                adaptive_height: True
+                orientation: 'vertical'
+                padding: ["20dp","15dp","0dp","0dp"]
+                spacing: "20dp"
+                MDLabel:
+                    text: 'Description'
+                    size_hint_y: None
+                    adaptive_height: True
+                    font_size: "20dp"
+                    color: "black"
+                    bold: True
+                MDLabel:
+                    text: root.description
+                    size_hint_y: None
+                    adaptive_height: True
+                    font_size: '14dp'
+                    color: 'gray'
+            MDBoxLayout:
+                padding: ["20dp"]
+                size_hint_y: None
+                adaptive_height: True
+                Further:
+                    radius: [10]
+                    padding: [10,20,10,50]
+                    elevation: 0
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: (grody.height + grodyo.height + grodyi.height + tech.height + cooling.height + ext.height + further_amenities.height) * 2
+                    # adaptive_height: True
+                    spacing: "30dp"
+                    MDLabel:
+                        text: 'Further Amenities'
+                        halign: 'center'
+                        font_size: '23dp'
+                        bold: True
+                        size_hint_y: None
+                        adaptive_height: True
+                        id: further_amenities
+                        pos_hint: {'center_y': 0.5}
+                    
+                    MDLabel:
+                        text: 'Cooling and Heating'
+                        
+                        font_size: '20dp'
+                        
+                        size_hint_y: None
+                        adaptive_height: True
+                        id: cooling
+                        
+
+                    MDGridLayout:
+                        spacing: "20dp"
+                        cols: 2
+                        id: grody
+                        
+                        size_hint_y: None
+                        adaptive_height: True
+                        
+                        
+                        MDBoxLayout:
+                            size_hint_y: None
+                            adaptive_height: True
+                            spacing: "10dp"
                             MDIcon:
-                                icon: 'google-maps'
+                                icon: 'fan'
                                 size_hint: None, None
                                 adaptive_size: True
                                 font_size: '18dp'
-                                id: gmaps_icon
-                                
-                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                halign: 'center'
-                                    
                             MDLabel:
-                                text: 'google maps'
-                                font_size: '17dp'
+                                text: 'Fans'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: fan
+                            
+
+                        MDLabel:
+                            text: root.amenities[0]
+                            size_hint_y: None
+                            adaptive_height: True
+                            font_size: '14dp'
+                        MDBoxLayout:
+                            size_hint_y: None
+                            adaptive_height: True
+                            spacing: "10dp"
+                            MDIcon:
+                                icon: 'snowflake'
                                 size_hint: None, None
                                 adaptive_size: True
-                                id: gmaps_label
-                                
-                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                halign: 'center'
+                                font_size: '18dp'
+
+                            MDLabel:
+                                text: 'Air Conditioner'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: ac
                             
-                MDBoxLayout:
-                    size_hint_y: None
-                    adaptive_height: True
-                    spacing: "10dp"
-                    padding: ["20dp","5dp","10dp","0dp"]
-                    BedroomsCard:
-                        size_hint_y: None
-                        height: landspace.height * 2
-                        radius: [10,]
-                        padding: [5,]
                         MDLabel:
-                            halign: 'center'
-                            text: root.bedrooms + " " + 'bedrooms'
-                            font_size: '15dp'
-                            id: bedrooms
+                            text: root.amenities[1]
                             size_hint_y: None
                             adaptive_height: True
-                            valign: 'center'
-                            halign: 'center'
-                            
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    BathroomsCard:
-                        size_hint_y: None
-                        height: landspace.height * 2
-                        radius: [10,]
-                        padding: [5]
-                        MDLabel:
-                            halign: 'center'
-                            text: root.bathrooms + " " + 'bathrooms'
-                            font_size: '15dp'
-                            id: bathrooms
+                            font_size: '14dp'
+
+                        MDBoxLayout:
                             size_hint_y: None
                             adaptive_height: True
-                            valign: 'center'
-                            halign: 'center'
+                            spacing: "10dp"
+                            MDIcon:
+                                icon: 'pool'
+                                size_hint: None, None
+                                adaptive_size: True
+                                font_size: '18dp'
+                            MDLabel:
+                                text: 'Swimming Pool'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: swim
                             
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    LandspaceCard:
-                        size_hint_y: None
-                        height: landspace.height * 2
-                        radius: [10,]
-                        padding: [5]
                         MDLabel:
-                            halign: 'center'
-                            text: root.landspace + " " + 'land'
-                            font_size: '15dp'
+                            text: root.amenities[3]
                             size_hint_y: None
                             adaptive_height: True
-                            id: landspace
-                            valign: 'center'
-                            halign: 'center'
+                            font_size: '14dp'
+
+                    
+
+                    
+                        MDBoxLayout:
+                            size_hint_y: None
+                            adaptive_height: True
+                            spacing: "10dp"
+                            MDIcon:
+                                icon: 'water-boiler'
+                                size_hint: None, None
+                                adaptive_size: True
+                                font_size: '18dp'
+                            MDLabel:
+                                text: 'Water Heater' 
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: wh
                             
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                MDBoxLayout:
-                    size_hint_y: None
-                    adaptive_height: True
-                    orientation: 'vertical'
-                    padding: ["20dp","15dp","0dp","0dp"]
-                    spacing: "20dp"
+                        MDLabel:
+                            text: root.amenities[2]
+                            size_hint_y: None
+                            adaptive_height: True
+                            font_size: '14dp'
+                            
                     MDLabel:
-                        text: 'Description'
+                        text: 'Tech and Entertainment'
+                        
+                        font_size: '20dp'
+                        
                         size_hint_y: None
                         adaptive_height: True
-                        font_size: "20dp"
-                        color: "black"
-                        bold: True
-                    MDLabel:
-                        text: root.description
+                        id: tech
+                        
+                    MDGridLayout:
+                        spacing: "20dp"
+                        cols: 2
+                        id: grodyo
+                        
                         size_hint_y: None
                         adaptive_height: True
-                        font_size: '14dp'
-                        color: 'gray'
-                MDBoxLayout:
-                    padding: ["20dp"]
-                    size_hint_y: None
-                    adaptive_height: True
-                    Further:
-                        radius: [10]
-                        padding: [10,20,10,50]
-                        elevation: 0
-                        orientation: 'vertical'
+                        
+                        
+                        MDBoxLayout:
+                            size_hint_y: None
+                            adaptive_height: True
+                            spacing: "10dp"
+                            MDIcon:
+                                icon: 'wifi'
+                                size_hint: None, None
+                                adaptive_size: True
+                                font_size: '18dp'
+                            MDLabel:
+                                text: 'Wifi'
+                                font_size: '14dp'
+                                size_hint_y: None
+                                adaptive_height: True
+                                id: wifi
+                            
+                        MDLabel:
+                            text: root.amenities[4]
+                            size_hint_y: None
+                            adaptive_height: True
+                            font_size: '14dp'
+
+                    MDLabel:
+                        text: 'Exterior'
+                        
+                        font_size: '20dp'
+                        
                         size_hint_y: None
-                        height: (grody.height + grodyo.height + grodyi.height + tech.height + cooling.height + ext.height + further_amenities.height) * 2
-                        # adaptive_height: True
-                        spacing: "30dp"
-                        MDLabel:
-                            text: 'Further Amenities'
-                            halign: 'center'
-                            font_size: '23dp'
-                            bold: True
-                            size_hint_y: None
-                            adaptive_height: True
-                            id: further_amenities
-                            pos_hint: {'center_y': 0.5}
+                        adaptive_height: True
+                        id: ext
                         
-                        MDLabel:
-                            text: 'Cooling and Heating'
-                            
-                            font_size: '20dp'
-                            
-                            size_hint_y: None
-                            adaptive_height: True
-                            id: cooling
-                            
-
-                        MDGridLayout:
-                            spacing: "20dp"
-                            cols: 2
-                            id: grody
-                            
-                            size_hint_y: None
-                            adaptive_height: True
-                            
-                            
-                            MDBoxLayout:
-                                size_hint_y: None
-                                adaptive_height: True
-                                spacing: "10dp"
-                                MDIcon:
-                                    icon: 'fan'
-                                    size_hint: None, None
-                                    adaptive_size: True
-                                    font_size: '18dp'
-                                MDLabel:
-                                    text: 'Fans'
-                                    font_size: '14dp'
-                                    size_hint_y: None
-                                    adaptive_height: True
-                                    id: fan
-                                
-
-                            MDLabel:
-                                text: root.amenities[0]
-                                size_hint_y: None
-                                adaptive_height: True
-                                font_size: '14dp'
-                            MDBoxLayout:
-                                size_hint_y: None
-                                adaptive_height: True
-                                spacing: "10dp"
-                                MDIcon:
-                                    icon: 'snowflake'
-                                    size_hint: None, None
-                                    adaptive_size: True
-                                    font_size: '18dp'
-
-                                MDLabel:
-                                    text: 'Air Conditioner'
-                                    font_size: '14dp'
-                                    size_hint_y: None
-                                    adaptive_height: True
-                                    id: ac
-                                
-                            MDLabel:
-                                text: root.amenities[1]
-                                size_hint_y: None
-                                adaptive_height: True
-                                font_size: '14dp'
-
-                            MDBoxLayout:
-                                size_hint_y: None
-                                adaptive_height: True
-                                spacing: "10dp"
-                                MDIcon:
-                                    icon: 'pool'
-                                    size_hint: None, None
-                                    adaptive_size: True
-                                    font_size: '18dp'
-                                MDLabel:
-                                    text: 'Swimming Pool'
-                                    font_size: '14dp'
-                                    size_hint_y: None
-                                    adaptive_height: True
-                                    id: swim
-                                
-                            MDLabel:
-                                text: root.amenities[3]
-                                size_hint_y: None
-                                adaptive_height: True
-                                font_size: '14dp'
-
+                    MDGridLayout:
+                        spacing: "20dp"
+                        cols: 2
+                        id: grodyi
                         
-
+                        size_hint_y: None
+                        adaptive_height: True
                         
-                            MDBoxLayout:
-                                size_hint_y: None
-                                adaptive_height: True
-                                spacing: "10dp"
-                                MDIcon:
-                                    icon: 'water-boiler'
-                                    size_hint: None, None
-                                    adaptive_size: True
-                                    font_size: '18dp'
-                                MDLabel:
-                                    text: 'Water Heater' 
-                                    font_size: '14dp'
-                                    size_hint_y: None
-                                    adaptive_height: True
-                                    id: wh
-                                
+                        
+                        MDBoxLayout:
+                            size_hint_y: None
+                            adaptive_height: True
+                            spacing: "10dp"
+                            MDIcon:
+                                icon: 'car-outline'
+                                size_hint: None, None
+                                adaptive_size: True
+                                font_size: '18dp'
                             MDLabel:
-                                text: root.amenities[2]
+                                text: 'Parking'
+                                font_size: '14dp'
                                 size_hint_y: None
                                 adaptive_height: True
-                                font_size: '14dp'
-                                
+                                id: garage
+                            
                         MDLabel:
-                            text: 'Tech and Entertainment'
-                            
-                            font_size: '20dp'
-                            
+                            text: root.amenities[5]
                             size_hint_y: None
                             adaptive_height: True
-                            id: tech
-                            
-                        MDGridLayout:
-                            spacing: "20dp"
-                            cols: 2
-                            id: grodyo
-                            
+                            font_size: '14dp'
+                        MDBoxLayout:
                             size_hint_y: None
                             adaptive_height: True
-                            
-                            
-                            MDBoxLayout:
-                                size_hint_y: None
-                                adaptive_height: True
-                                spacing: "10dp"
-                                MDIcon:
-                                    icon: 'wifi'
-                                    size_hint: None, None
-                                    adaptive_size: True
-                                    font_size: '18dp'
-                                MDLabel:
-                                    text: 'Wifi'
-                                    font_size: '14dp'
-                                    size_hint_y: None
-                                    adaptive_height: True
-                                    id: wifi
-                                
+                            spacing: "10dp"
+                            MDIcon:
+                                icon: 'flower'
+                                size_hint: None, None
+                                adaptive_size: True
+                                font_size: '18dp'
                             MDLabel:
-                                text: root.amenities[4]
+                                text: 'backyard'
+                                font_size: '14dp'
                                 size_hint_y: None
                                 adaptive_height: True
-                                font_size: '14dp'
-
+                                id: garage
+                            
                         MDLabel:
-                            text: 'Exterior'
-                            
-                            font_size: '20dp'
-                            
+                            text: root.amenities[6]
                             size_hint_y: None
                             adaptive_height: True
-                            id: ext
-                            
-                        MDGridLayout:
-                            spacing: "20dp"
-                            cols: 2
-                            id: grodyi
-                            
-                            size_hint_y: None
-                            adaptive_height: True
-                            
-                            
-                            MDBoxLayout:
-                                size_hint_y: None
-                                adaptive_height: True
-                                spacing: "10dp"
-                                MDIcon:
-                                    icon: 'car-outline'
-                                    size_hint: None, None
-                                    adaptive_size: True
-                                    font_size: '18dp'
-                                MDLabel:
-                                    text: 'Parking'
-                                    font_size: '14dp'
-                                    size_hint_y: None
-                                    adaptive_height: True
-                                    id: garage
+                            font_size: '14dp'
                                 
-                            MDLabel:
-                                text: root.amenities[5]
-                                size_hint_y: None
-                                adaptive_height: True
-                                font_size: '14dp'
-                            MDBoxLayout:
-                                size_hint_y: None
-                                adaptive_height: True
-                                spacing: "10dp"
-                                MDIcon:
-                                    icon: 'flower'
-                                    size_hint: None, None
-                                    adaptive_size: True
-                                    font_size: '18dp'
-                                MDLabel:
-                                    text: 'backyard'
-                                    font_size: '14dp'
-                                    size_hint_y: None
-                                    adaptive_height: True
-                                    id: garage
-                                
-                            MDLabel:
-                                text: root.amenities[6]
-                                size_hint_y: None
-                                adaptive_height: True
-                                font_size: '14dp'
-                                    
 
 
                 
@@ -477,7 +474,7 @@
     MDBoxLayout:
         
         size_hint_y: None
-        height: '70dp'
+        height: biye.height
         padding: [10,]
         pos_hint: {'center_y': -1}
         id: dude
@@ -494,7 +491,7 @@
             on_press: app.play()
             RelativeLayout:
                 MDLabel:
-                    text: "Buy"
+                    text: "Offer"
                     halign: "center"
                     color: "white"
                     font_size: "13dp"
