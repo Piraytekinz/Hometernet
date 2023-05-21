@@ -1,5 +1,5 @@
 <SearchScreen>:
-    on_enter: prop.focused = True
+    on_enter: prop.focused = True if prop.text == '' else False
     ScrollView:
         bar_width: 0
         effect_cls: "ScrollEffect"
@@ -16,7 +16,7 @@
                 spacing: "10dp"
                 MDIconButton:
                     icon: 'arrow-left'
-                    icon_size: "24sp"
+                    icon_size: "24dp"
                     pos_hint: {'center_y': 0.5}
                     on_press: app.play()
                     on_release: app.switch_home()
@@ -36,7 +36,7 @@
                 MDIconButton:
                     icon: 'magnify'
                     pos_hint: {'center_y': 0.5}
-                    icon_size: "24sp"
+                    icon_size: "24dp"
                     bold: True
                     on_press: app.play()
                     on_release: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
@@ -216,27 +216,7 @@
                
                 theme_font_style: 'H6'
                 
-            # MDBoxLayout:
-            #     size_hint_y: None
-            #     adaptive_height: True
-            #     md_bg_color: 1,0,0,1
-                # RelativeLayout:
-                #     id: relative
-                #     size_hint_y: None
-                #     adaptive_height: True
-                    # ScrollView:
-                    #     do_scroll_y: True
-                    #     do_scroll_x: False
-                    #     bar_width: 0
-                    #     effect_cls: "ScrollEffect"
-                    #     scroll_distance: 5
-            # MDBoxLayout:
-            #     size_hint_y: None
-            #     adaptive_height: True
-            #     spacing: "10dp"
-            #     orientation: 'vertical'
-            #     padding: [10]
-            #     id: real_layout
+            
                 
             MDIconButton:
                 icon: 'refresh'
@@ -247,7 +227,8 @@
                 disabled: True
                 opacity: 0
                 on_press: app.play()
-                on_press: app.reverser_next()
+                on_release: app.reverser_next()
+                ripple_scale: 0
                 
 
             SearchLayout:
@@ -279,6 +260,7 @@
                 disabled: True
                 opacity: 0
                 on_press: app.play()
+                ripple_scale: 0
                                 
             
 

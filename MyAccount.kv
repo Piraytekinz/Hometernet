@@ -52,6 +52,7 @@
                         font_style: 'Overline'
                         font_size: '20dp'
                         bold: True
+                        id: user
                         
                     MDList:
                         OneLineIconListItem:
@@ -77,6 +78,19 @@
                                                 
                                 icon_size: '20dp'
                                 pos_hint:{'center_y': 0.5}
+
+                        
+                        OneLineIconListItem:
+                            text: "[size=16dp]Sign out[/size]"
+                            divider: None
+                            on_press: app.play()
+                            on_release: app.sign_out_auth()
+                            radius: [10]
+                            IconLeftWidget:
+                                icon: 'account-arrow-left-outline'         
+                                                
+                                icon_size: '20dp'
+                                pos_hint:{'center_y': 0.5}
                         
                         OneLineIconListItem:
                             text: "[size=16dp]Remove Account[/size]"
@@ -86,6 +100,18 @@
                             radius: [10]
                             IconLeftWidget:
                                 icon: 'trash-can-outline'         
+                                                
+                                icon_size: '20dp'
+                                pos_hint:{'center_y': 0.5}
+
+                        OneLineIconListItem:
+                            text: "[size=16dp]Terms and conditions[/size]"
+                            divider: None
+                            on_press: app.play()
+                            on_release: app.show_terms()
+                            radius: [10]
+                            IconLeftWidget:
+                                icon: 'book-open-outline'         
                                                 
                                 icon_size: '20dp'
                                 pos_hint:{'center_y': 0.5}

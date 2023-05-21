@@ -1,0 +1,52 @@
+<UpdateScreen>:
+    
+            
+
+
+    
+    
+    MDBoxLayout:
+        size_hint_y: None
+        adaptive_height: True
+        spacing: "30dp"
+        orientation: 'vertical'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        MDIcon:
+            font_size: '70dp'
+            icon: 'airplane-takeoff'
+            size_hint: None, None
+            adaptive_size: True
+            pos_hint: {'center_x': 0.5}
+        MDLabel:
+            text: "New Update Available"
+            
+            bold: True
+            font_size: "25dp"
+            
+            
+            size_hint_y: None
+            adaptive_height: True
+            halign: 'center'
+            padding_x: '20dp'
+
+        MDBoxLayout:
+            size_hint: None, None
+            adaptive_size: True
+            
+            spacing: "20dp"
+            padding: [20, 0, 20, 0]
+            pos_hint: {'center_x':0.5}
+            MDFillRoundFlatButton:
+                text: 'update'
+                theme_text_color: "Custom"
+                text_color: "white"
+                md_bg_color: [0,0,0,1]
+                pos_hint: {'center_x':0.5}
+                on_press: app.update_app()
+
+            MDRoundFlatButton:
+                text: 'ignore'
+                on_press: app.switch_home() if app.curr['first_time'] == 'False' else app.first_time_signin()
+                pos_hint: {'center_x':0.5}
+            
+        

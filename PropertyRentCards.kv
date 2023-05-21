@@ -2,7 +2,7 @@
     
     padding: [0]
     size_hint: None, None
-    width: Window.size[0] / 1.1 if Window.size[0] < Window.size[1] else Window.size[0] / 2 
+    width: Window.size[0] / 1.05 if Window.size[0] < Window.size[1] else Window.size[0] / 2 
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
     height: Window.size[1] / 2 if Window.size[1] > Window.size[0] else Window.size[1] / 1.1
     id: main_card
@@ -79,32 +79,11 @@
 
         MDSeparator:
 
-        MDBoxLayout:
-            padding: ["10dp", "5dp", "0dp", "17dp"]
+        MDLabel:
+            text: root.bedrooms + ' rooms' + ' - ' + root.bathrooms + ' baths' + ' - ' + root.landspace 
+            font_size: '14dp'
             size_hint_y: None
-            adaptive_height: True
-            MDLabel:
-                text: root.bedrooms + '\n [b]bedrooms[/b]'
-                font_size: "14dp"
-                bold: True
-                halign: 'center'
-                size_hint_y: None
-                adaptive_height: True
-                markup: True
-            MDLabel:
-                text: root.bathrooms + '\n [b]bathrooms[/b]'
-                font_size: "14dp"
-                bold: True
-                halign: 'center'
-                size_hint_y: None
-                adaptive_height: True
-                markup: True
-                
-            MDLabel:
-                text: root.landspace + '\n [b]Land space[/b]'
-                font_size: "14dp"
-                bold: True
-                halign: 'center'
-                size_hint_y: None
-                adaptive_height: True
-                markup: True
+            height: '45dp'
+            padding_x: "10dp"
+            bold: True
+            padding_x: "15dp"

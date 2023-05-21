@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = Hometernet Test
+title = Hometernet
 
 # (str) Package name
-package.name = hometernettest
+package.name = hometernet
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -13,7 +13,7 @@ package.domain = org.test
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,json,wav
+source.include_exts = py,png,jpg,kv,atlas,json,wav,jpeg,gif
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,kivymd,pillow,phonenumbers,pyrebase4,plyer,func_timeout,pycountry,requests,urllib3,certifi,chardet,openssl,charset_normalizer,idna,oauth2client,cachetools,httplib2,pyparsing,uritemplate,protobuf,pyasn1,rsa,proto-plus,msgpack,cachecontrol,pyasn1-modules,gcloud,requests_toolbelt,python_jwt,jwcrypto,cryptography,deprecated,wrapt,Crypto,pycryptodome
+requirements = hostpython3==3.7.0,python3==3.7.0,kivy==2.1.0,requests==2.18.0,kivymd,pillow,phonenumbers,pyrebase4==4.5.0,plyer,func_timeout==4.3.5,pycountry,urllib3==1.21.1,certifi,chardet,openssl,charset_normalizer,idna,oauth2client,cachetools,httplib2,pyparsing,uritemplate,protobuf,pyasn1,rsa,proto-plus,msgpack,cachecontrol,pyasn1-modules,gcloud,requests_toolbelt==0.7.1,python_jwt,jwcrypto,cryptography,deprecated,wrapt,Crypto,pycryptodome
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

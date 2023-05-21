@@ -1,7 +1,7 @@
 <MyProducts>:
    
     RelativeLayout:
-        
+        id: relay
 
         MDBoxLayout:
             orientation: 'vertical'
@@ -18,6 +18,7 @@
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     on_press: app.play()
                     on_release: layout.delete_user_auth()
+                    on_release: app.clear_bk() if layout.has_deleted == True else app.do()
                     id: arrow_right
 
                 MDLabel:
@@ -55,7 +56,7 @@
                         text_color: "black"
                         on_press: self.text_color=app.theme_cls.primary_color
                         on_release: self.text_color="black"
-                        on_release: layout.sign_out_auth()
+                        on_release: app.sign_out_auth()
                         pos_hint: {'center_y': 0.5, 'center_x': 0.5}
                         id: sign_out
                 AnchorLayout:
