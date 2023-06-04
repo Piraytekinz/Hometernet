@@ -25,14 +25,14 @@ from kivymd.uix.label import MDLabel, MDIcon
 
 
 
-from kivymd.utils import asynckivy
-
-from kivymd.effects.stiffscroll import StiffScrollEffect
 
 
 
-# from kivy.effects.scroll import ScrollEffect
-# from kivy.effects.kinetic import KineticEffect
+
+
+
+
+
 from kivy.effects.dampedscroll import DampedScrollEffect
 
 
@@ -128,9 +128,9 @@ firebaseconfig = {
 
 
 
-sound = SoundLoader.load('touch.wav')
+sound = SoundLoader.load('Untitled.wav')
 
-
+touch = SoundLoader.load('touch.wav')
 
 
 
@@ -143,7 +143,7 @@ storage = firebasei.storage()
 
 
 
-Loader.loading_image = 'load-33.gif'
+# Loader.loading_image = 'load-33.gif'
 
 
 
@@ -185,6 +185,7 @@ Builder.load_file('AccountChoice.kv')
 Builder.load_file('AccountItem.kv')
 Builder.load_file('CodeVerifyer.kv')
 Builder.load_file('UpdateScreen.kv')
+Builder.load_file('Privacy.kv')
 
 
 
@@ -377,6 +378,7 @@ class DetailsScreen(Screen):
     description = StringProperty()
     link = StringProperty()
     amenities = ListProperty(['No', 'No', 'No', 'No', 'No', 'No', 'No'])
+    me = ObjectProperty()
 
 
 
@@ -581,15 +583,7 @@ class PropertyCardsLayout(MDBoxLayout):
         self.denied = 0
         self.deleted = False
         self.has_deleted = False
-        # self.account_choice = MDDropdownMenu(
-        #     ver_growth='up',
-            
-        #     width_mult=5,
-        #     position='center',
-            
-        # )
         
-        # self.denied = 0
         
     
     
@@ -772,25 +766,32 @@ class PropertyCardsLayout(MDBoxLayout):
                 server.sendmail("hometernetmanager@gmail.com", "hometernetmanager@gmail.com", message.as_string())
                 server.quit() 
                 # user = authi.sign_in_with_email_and_password(dati['email'], dati['password'])
-                # db.child("People").child(user['localId']).remove()
-                testichiro = db.child("People").child(dati['localid']).child("ids").get(dati['idToken'])
-                # testiroro = db.child("People").child(dati['localid']).child("ids").get(dati['idToken'])
+                
+                # testichiro = db.child("People").child(dati['localid']).child("ids").get(dati['idToken'])
+                
+                # if testichiro.each():
+                #     for i in testichiro.each():
+
+                        
+
+                #         dude = i.val()['prop_keys']
+                #         db.child("Sale").child(dude).remove(dati['idToken'])
+                #         db.child("Rent").child(dude).remove(dati['idToken'])
+                        
+                        
+                testichiro = db.child("Sale").order_by_child('email').equal_to(dati['email']).get()
                 if testichiro.each():
                     for i in testichiro.each():
+                        db.child("Sale").child(i.key()).remove(dati['idToken'])
 
-                        
-
-                        dude = i.val()['prop_keys']
-                        db.child("Sale").child(dude).remove(dati['idToken'])
-                        db.child("Rent").child(dude).remove(dati['idToken'])
-                        
-                        
-                        
+                testichiro = db.child("Rent").order_by_child('email').equal_to(dati['email']).get()
+                if testichiro.each():
+                    for i in testichiro.each():
+                        db.child("Rent").child(i.key()).remove(dati['idToken'])
                 
-                
-                db.child("People").child(dati['localid']).remove(dati['idToken'])
+                # db.child("People").child(dati['localid']).remove(dati['idToken'])
                             
-                
+                db.child("Accounts").child(dati['localid']).remove(dati['idToken'])
                 
 
                         
@@ -812,13 +813,12 @@ class PropertyCardsLayout(MDBoxLayout):
                     if i['email'] == dati['email']:
                         dati['accounts'].remove(i)
 
-                del dati['bookmarks'][dati['email']]
-                del dati['viewed'][dati['email']]
+
                 del dati['sold'][dati['email']]
                 dati['email'] = ''
                 dati['password'] = ''
                 dati['idToken'] = ''
-                dati['house_images'] = []
+                
                 
                 dati['localid'] = ''
                 
@@ -853,178 +853,6 @@ class PropertyCardsLayout(MDBoxLayout):
         
            
        
-        # threading.Thread(target=self.added).start()
-        
-        
-        # house = {
-        #     'Housing': [{
-        #         'Image': 'Brick House.jpg',
-        #         'bedrooms': '1',
-        #         'House_type': 'New House'
-        #     },
-        #     {
-        #         'Image': 'Brick House.jpg',
-        #         'bedrooms': '2',
-        #         'House_type': 'New House'
-        #     },
-        #     {
-        #         'Image': 'Brick House.jpg',
-        #         'bedrooms': '3',
-        #         'House_type': 'New House'
-        #     },
-        #     {
-        #         'Image': 'Brick House.jpg',
-        #         'bedrooms': '4',
-        #         'House_type': 'New House'
-        #     }
-        #     ]
-            
-        # }
-        # for i in house['Housing']:
-        #     self.card = PropertySaleCards()
-        #     self.card.tot= i["House_type"]
-        #     self.card.image = i['Image']
-        #     self.card.bedrooms = i['bedrooms']
-            
-        #     self.add_widget(self.card)
-    
-    # def added(self):
-    
-        
-    #     with open(f'{path}/user.json', 'r') as jsonfile:
-    #         self.curr = json.load(jsonfile)
-        
-        
-
-    
-    #     # if a.key() == 'local_image':
-    
-    #     #     curr['house_images'].append(a.val())
-
-    #     #     with open(f'{path}/user.json', 'w') as jsonfile:
-    #     #         json.dump(curr, jsonfile)
-        
-    
-    
-
-    
-        
-    #     if self.curr['email'] != '':
-    #         if self.curr["sold"][self.curr['email']] > self.last_sold:
-    
-    #             self.testichiro = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
-    #             # self.testiroro = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
-    #             self.last_sold = self.curr["sold"][self.curr['email']]
-    
-
-    #             if self.testichiro.each():
-            
-    #                 for q in self.testichiro.each():
-    #                     self.dude = q.val()['prop_keys']
-    
-    #                     if self.dude not in self.loader:
-    #                         self.yours = db.child("Sale").order_by_key().equal_to(self.dude).get()
-    #                         self.ours = db.child("Rent").order_by_key().equal_to(self.dude).get()
-    #                         self.next_after(self.yours, self.ours)
-    #                     else:
-    
-                            
-    #             # if self.testiroro.each():
-            
-    #             #     for d in self.testiroro.each():    
-    #             #         self.bruv = d.val()['prop_keys']
-    #             #         if self.bruv not in self.loader:
-    #             #             self.ours = db.child("Rent").order_by_key().equal_to(self.bruv).get()
-    #             #             self.next_after(self.ours)
-    #             #         else:
-    
-    
-        
-        
-    
-
-    # @mainthread
-    # def next_after(self, yours, ours):
-    
-        
-    #     if yours:
-    #         for u in yours:
-    #                     # another = person.val()
-                        
-            
-            
-            
-                
-    
-    #             self.card = PropertySaleCards()
-    #             self.card.image = u.val()['url']
-    #             self.card.amenities = u.val()['amenities']
-    #             self.card.tot = u.val()['housetype']
-    #             self.card.country = u.val()['country']
-    #             self.card.province = u.val()['state']
-    #             self.card.town = u.val()['town']
-    #             self.card.street = u.val()['street']
-    #             self.card.bedrooms = u.val()['bedrooms']
-    #             self.card.bathrooms = u.val()['bathrooms']
-    #             self.card.landspace = u.val()['landspace']
-    #             self.card.email = u.val()['email']
-    #             self.card.price = u.val()['price']
-    #             self.card.key = u.key()
-    #             self.card.phonenumber = u.val()['phonenumber']
-    #             self.card.twitter = u.val()['twitter']
-    #             self.card.facebook = u.val()['facebook']
-    #             self.card.description = u.val()['description']
-    #             self.card.views = u.val()['views']
-    #             self.card.local_image = u.val()['local_image']
-                
-    #             self.add_widget(self.card)
-    
-    #             self.loader.append(u.key())
-            
-    
-    
-            
-    
-                    
-    
-                
-
-    #     if ours:
-    #         for u in ours:
-                
-    
-                
-                
-                
-                
-    
-                
-                    
-    
-    #             self.card = PropertyRentCards()
-    #             self.card.image = u.val()['url']
-    #             self.card.amenities = u.val()['amenities']
-    #             self.card.tot = u.val()['housetype']
-    #             self.card.country = u.val()['country']
-    #             self.card.province = u.val()['state']
-    #             self.card.town = u.val()['town']
-    #             self.card.street = u.val()['street']
-    #             self.card.bedrooms = u.val()['bedrooms']
-    #             self.card.bathrooms = u.val()['bathrooms']
-    #             self.card.landspace = u.val()['landspace']
-    #             self.card.email = u.val()['email']
-    #             self.card.price = u.val()['price']
-    #             self.card.key = u.key()
-    #             self.card.phonenumber = u.val()['phonenumber']
-    #             self.card.twitter = u.val()['twitter']
-    #             self.card.facebook = u.val()['facebook']
-    #             self.card.description = u.val()['description']
-    #             self.card.views = u.val()['views']
-    #             self.card.local_image = u.val()['local_image']
-                
-    #             self.add_widget(self.card)
-                
-    #             self.loader.append(u.key())
     
     
     
@@ -1032,18 +860,7 @@ class PropertyCardsLayout(MDBoxLayout):
         
                         
 
-    # def reload(self):
-    #     # self.loader.remove(key)
-        
-        
     
-    
-        
-    #     self.loader.clear()
-    #     self.last_sold = 0
-    
-    #     self.clear_widgets()
-        # self.begin_loading()
         
        
     
@@ -1055,104 +872,9 @@ class PropertyCardsLayout(MDBoxLayout):
         
         
         
-        # try:
-        #     testichiro = db.child("People").child(dato['localid']).child("ids").get(dato['idToken'])
-        #     for q in testichiro.each():
                 
-        #         dude = q.val()['prop_keys']
-                
-        #         them = db.child("Sale").child(dude).child("amenities").get(dato['idToken'])
-        #         them1 = db.child("Sale").child(dude).child("bathrooms").get(dato['idToken'])
-        #         them2 = db.child("Sale").child(dude).child("bedrooms").get(dato['idToken'])
-        #         them3 = db.child("Sale").child(dude).child("country").get(dato['idToken'])
-        #         them4 = db.child("Sale").child(dude).child("description").get(dato['idToken'])
-                
-        #         them7 = db.child("Sale").child(dude).child("housetype").get(dato['idToken'])
-        #         them8 = db.child("Sale").child(dude).child("landspace").get(dato['idToken'])
-        #         them9 = db.child("Sale").child(dude).child("local_image").get(dato['idToken'])
-                
-        #         them11 = db.child("Sale").child(dude).child("price").get(dato['idToken'])
-        #         them12 = db.child("Sale").child(dude).child("street").get(dato['idToken'])
-        #         them13 = db.child("Sale").child(dude).child("state").get(dato['idToken'])
-                
-        #         them14 = db.child("Sale").child(dude).child("town").get(dato['idToken'])
-        #         them15 = db.child("Sale").child(dude).child("url").get(dato['idToken'])
-                
-        #         dato['house_images'].append(them9)
+       
 
-                
-                
-        #         self.card = PropertySaleCards()
-        #         self.card.key = dude
-        #         self.card.amenities = them.val()
-        #         self.card.bathrooms = them1.val()
-        #         self.card.bedrooms = them2.val()
-        #         self.card.country = them3.val()
-        #         self.card.description = them4.val()
-                
-        #         self.card.tot = them7.val()
-        #         self.card.landspace = them8.val()
-        #         self.card.local_image = them9.val()
-                
-        #         self.card.price = them11.val()
-        #         self.card.street = them12.val()
-        #         self.card.province = them13.val()
-                
-        #         self.card.town = them14.val()
-        #         self.card.image = them15.val()
-        #         self.add_widget(self.card)
-        #     # with open(f'{path}/user.json', 'w') as jsonfile:
-        #     #     json.dump(dato, jsonfile)
-        
-        
-                    
-                    
-
-            # againi = db.child("People").child("Sale").child(dato['localid']).child("house").get()
-
-            # for u in againi.each():
-                
-            #     self.card.image = u.val()['url']
-            #     self.card.tot = u.val()['housetype']
-            #     self.card.country = u.val()['country']
-            #     self.card.bedrooms = u.val()['bedrooms']
-            #     self.card.bathrooms = u.val()['bathrooms']
-            #     self.card.landspace = u.val()['landspace']
-            #     self.card.email = u.val()['email']
-            #     self.card.price = u.val()['price']
-            #     self.card.key = u.key()
-            #     self.card.town = u.val()['town']
-            #     self.card.street = u.val()['street']
-            #     self.card.local_image = u.val()['local_image']
-            #     self.card.phonenumber = u.val()['phonenumber']
-            #     self.card.description = u.val()['description']
-            #     self.card.amenities = u.val()['amenities']
-            #     self.add_widget(self.card)
-            #     dato['house_images'].append(u.val()['local_image'])
-            
-
-
-            
-            # again = db.child("People").child("Rent").child(dato['localid']).child("house").get()
-
-            # for u in again.each():
-            #     self.cardi = PropertyRentCards()
-            #     self.cardi.image = u.val()['url']
-            #     self.cardi.tot = u.val()['housetype']
-            #     self.cardi.country = u.val()['country']
-            #     self.cardi.bedrooms = u.val()['bedrooms']
-            #     self.cardi.bathrooms = u.val()['bathrooms']
-            #     self.cardi.landspace = u.val()['landspace']
-            #     self.cardi.email = u.val()['email']
-            #     self.cardi.price = u.val()['price']
-            #     self.cardi.key = u.key()
-            #     self.cardi.town = u.val()['town']
-            #     self.cardi.street = u.val()['street']
-            #     self.cardi.local_image = u.val()['local_image']
-            #     self.cardi.phonenumber = u.val()['phonenumber']
-            #     self.cardi.description = u.val()['description']
-            #     self.add_widget(self.cardi)
-            #     dato['house_images'].append(u.val()['local_image'])
 
            
                 
@@ -1648,7 +1370,7 @@ class HomeCardsLayout(MDGridLayout):
             
             
            
-            time.sleep(1)
+            # time.sleep(1)
             Clock.schedule_once(partial(self.rent_another), 0.5)
 
     def omagaa(self):
@@ -1682,7 +1404,7 @@ class HomeCardsLayout(MDGridLayout):
                     self.people = self.n_temp
             
            
-            time.sleep(1)
+            # time.sleep(1)
             Clock.schedule_once(partial(self.another), 0.5)
                     
             
@@ -1800,11 +1522,13 @@ class BookmarkLayout(MDBoxLayout):
         super().__init__(**kwargs)
         
     
-    
+    @mainthread
+    def toast(self, text):
+        toast(text)
 
     @mainthread
     def show_dialog(self, notice, button=None):
-        self.dialog = MDDialog(text=notice, size_hint=(1, 1), buttons=[MDRaisedButton(text="close", on_release=self.close_dialog), button])
+        self.dialog = MDDialog(title='Bookmarks', text=notice, size_hint=(1, 1), buttons=[MDRaisedButton(text="close", on_release=self.close_dialog), button])
         self.dialog.open()
 
     @mainthread
@@ -1815,30 +1539,85 @@ class BookmarkLayout(MDBoxLayout):
         
         text = 'Are you sure you want to clear all of your bookmarks?'
         
-        agree_button = MDFlatButton(text='Yes', on_press=self.clear_bookmarks, on_release=self.close_dialog)
+        agree_button = MDFlatButton(text='Yes', on_press=self.clear_books, on_release=self.close_dialog)
         self.show_dialog(text,agree_button)   
 
-    def clear_bookmarks(self,obj):
+    def clear_books(self, obj):
+        self.event = Event()
+        bookies = threading.Thread(target=self.clear_books_start).start()
+
+    def clear_books_start(self):
+        try:
+            func_timeout(30, self.clear_bookmarks)
+        except FunctionTimedOut:
+            self.toast('Failed to clear bookmarks')
+        except requests.exceptions.HTTPError as e:
+            error_json = e.args[1]
+            error = json.loads(error_json)['error']
+            
+            
+            if error == 'Permission denied':
+            
+                
+                
+                # try:
+                try:
+                    func_timeout(10, self.denied_signin)
+                    
+                    self.clear_books(True)
+                except FunctionTimedOut:
+                    time.sleep(1)
+                    self.toast('Internet connection limited or unavailable')
+                    self.event.set()
+                    
+                    
+                    
+                except:
+                    time.sleep(1)
+                    self.toast('Internet connection limited or unavailable')
+                    self.event.set()
+        except:
+            self.toast('Failed to clear bookmarks')
+
+        self.close_dialog(True)
+
+    @mainthread
+    def clear_them(self):
+        self.clear_widgets()
+
+    def clear_bookmarks(self):
         with open(f'{path}/user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
-
+        self.close_dialog(True)
         if self.curr['email'] != '':
-            self.curr['bookmarks'][self.curr['email']].clear()
+            
+            self.show_dialog('Clearing bookmarks')
+            db.child("Accounts").child(self.curr['localid']).child('bookmarks').remove(self.curr['idToken'])
+            
 
 
             with open(f'{path}/user.json', 'w') as jsonfile:
                 json.dump(self.curr, jsonfile)
             
-            self.clear_widgets()
+            self.clear_them()
             self.snackbar("Bookmarks cleared successfully")
+            
         else:
             self.snackbar("You're not signed in")
         
         
-    
+    @mainthread
     def snackbar(self, obj):
         self.snack = Snackbar(text=obj, snackbar_x="5dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y=None)
         self.snack.open()
+
+
+    def denied_signin(self):
+        self.user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
+        usero = authi.refresh(self.user['refreshToken'])
+        self.curr['idToken'] = self.user['idToken']
+        with open(f'{path}/user.json', 'w') as jsonfile:
+            json.dump(self.curr, jsonfile)
 
 class DialogEntry(MDBoxLayout):
     pass
@@ -1851,6 +1630,9 @@ class PasswordResetEntry(MDBoxLayout):
     pass
 
 class Warning(MDBoxLayout):
+    pass
+
+class Privacy(MDBoxLayout):
     pass
             
 class Countries(MDBoxLayout):
@@ -1920,6 +1702,8 @@ class MainApp(MDApp):
         self.last_sold = 0
         self.has_pressed = False
         self.has_entered = False
+        self.is_searching = False
+        self.has_failed = False
 
         self.last_rec = 0
         self.loaded = []
@@ -1936,11 +1720,14 @@ class MainApp(MDApp):
         self.has_contact = False
         self.has_congrats = False
         self.has_creator = False
+        self.has_sign_up = False
+        self.has_update_scr = False
+        self.has_switched = False
 
-        self.signup = AccountLoginPage(name="sign-up")
+        
         self.signin = SignInScreen(name="signin")
         self.home = HomeScreen(name="Home")
-        self.update = UpdateScreen(name="update")
+        
         self.loading = LoadingScreen(name="loading")
       
         self.splash()
@@ -2162,12 +1949,15 @@ class MainApp(MDApp):
         self.user = authi.sign_in_with_email_and_password(email, password)
 
         if self.curr['sold'][email] == 0:
-            self.testichiro = db.child("People").child(self.user['localId']).child("ids").get(self.user['idToken'])
-            
+            self.testichiro = db.child("Sale").order_by_child('email').equal_to(email).get()
+            self.testiroro = db.child("Rent").order_by_child('email').equal_to(email).get()
             
             if self.testichiro.each():
-                for i in self.testichiro.each():
-                    count += 1
+                
+                count += len(self.testichiro.each())
+
+            if self.testiroro.each():
+                count += len(self.testiroro.each())
 
             self.curr['sold'][email] = count
 
@@ -2196,14 +1986,15 @@ class MainApp(MDApp):
                 self.loader.clear()
                 self.last_sold = 0
                 self.clear_products()
+                
+                self.clear_bk_widgets()
         
 
 
     def reload_products(self):
-        self.loading.ids.spin.active = True
-        self.switch_loading()
         
-
+        
+        self.products.ids.reload.disabled = True
         self.loader.clear()
         self.last_sold = 0
         self.products.ids.layout.clear_widgets()
@@ -2216,7 +2007,7 @@ class MainApp(MDApp):
 
     def begin_loading(self):
         
-       
+        self.products.ids.spinno.opacity = 1 
         self.event = Event()
         self.th = threading.Thread(target=self.begin_now)
         self.th.start()
@@ -2224,7 +2015,7 @@ class MainApp(MDApp):
 
     def begin_now(self):
         
-        
+        self.products.ids.spinno.active = True
         
         
         
@@ -2234,55 +2025,73 @@ class MainApp(MDApp):
             
             try:
                 func_timeout(100, self.added)
-                time.sleep(1)
-                self.true_switch_products()
+               
             except FunctionTimedOut:
                 
                 
                 self.last_sold = self.curr["sold"][self.curr['email']]
                 self.event.set()
                 time.sleep(1)
-                self.empty_prod('Failed to load properties', icon='cloud')
-                self.true_switch_products()
+                if self.prod_err == True:
+                    self.remove_prod_err()
+                    self.prod_err = False
+                self.empty_prod('Internet connection unavailable', icon='cloud')
+                
             except requests.exceptions.HTTPError as e:
                 error_json = e.args[1]
                 error = json.loads(error_json)['error']
                 
                 
                 if error == 'Permission denied':
-                    
+                
                     
                     
                     # try:
                     try:
                         func_timeout(10, self.denied_signin)
-                        time.sleep(1)
-                        self.switch_products()
+                        if self.prod_err == True:
+            
+                            self.remove_prod_err()
+                            self.prod_err = False
+                        self.begin_loading()
                     except FunctionTimedOut:
-                        
-                        self.empty_prod('Failed to load properties', icon='cloud')
+                        time.sleep(1)
+                        if self.prod_err == True:
+                            self.remove_prod_err()
+                            self.prod_err = False
+                        self.empty_prod('Internet connection unavailable', icon='cloud')
                         self.event.set()
                         self.last_sold = self.curr["sold"][self.curr['email']]
-                        time.sleep(1)
-                        self.true_switch_products()
+                        
                         
                     except:
-                        
-                        self.empty_prod('Failed to load properties', icon='cloud')
+                        time.sleep(1)
+                        if self.prod_err == True:
+                            self.remove_prod_err()
+                            self.prod_err = False
+                        self.empty_prod('Internet connection unavailable', icon='cloud')
                         self.event.set()
                         self.last_sold = self.curr["sold"][self.curr['email']]
-                        time.sleep(1)
-                        self.true_switch_products()
                         
                     
             except:
-                
-                self.empty_prod('Failed to load properties', icon='cloud')
+                time.sleep(1)
+                if self.prod_err == True:
+                    self.remove_prod_err()
+                    self.prod_err = False
+                self.empty_prod('Internet connection unavailable', icon='cloud')
                 self.last_sold = self.curr["sold"][self.curr['email']]
                 self.event.set()
-                time.sleep(1)
-                self.true_switch_products()
-            
+                
+
+        self.products.ids.spinno.active = False
+        
+        self.enabled_reload()
+
+    @mainthread
+    def enabled_reload(self):
+        self.products.ids.reload.disabled = False    
+        self.products.ids.spinno.opacity = 0
             
     @mainthread
     def empty_prod(self, text, color='black', icon='cloud-outline'):
@@ -2334,21 +2143,21 @@ class MainApp(MDApp):
     # @mainthread
     def switch_products(self):
         
-        self.loading.ids.spin.active = True
-        self.switch_loading()
+        # self.loading.ids.spin.active = True
+        # self.switch_loading()
+        self.true_switch_products()
+        
         self.passwrd = ''
         self.mail = ''
         self.sign_in_current = 'products'
-        if self.prod_err == True:
-            
-            self.remove_prod_err()
-            self.prod_err = False
+        
         self.begin_loading()
         
        
     @mainthread
     def remove_prod_err(self):
         self.products.ids.relay.remove_widget(self.bxopi)  
+        
 
 
 
@@ -2371,31 +2180,57 @@ class MainApp(MDApp):
         if self.curr['email'] != '':
             if self.curr["sold"][self.curr['email']] > self.last_sold:
                 
-                self.testichiro = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
+                if self.prod_err == True:
+                    self.remove_prod_err()
+                    self.prod_err = False
+                
+                self.testichiro = db.child("Sale").order_by_child('email').equal_to(self.curr['email']).get()
+
+                # self.testichiro = db.child().child(self.curr['localid']).child("ids").get(self.curr['idToken'])
+
+                self.testiroro = db.child("Rent").order_by_child('email').equal_to(self.curr['email']).get()
                 self.last_sold = self.curr["sold"][self.curr['email']]
                 
+                if self.prod_err == True:
+                    self.remove_prod_err()
+                    self.prod_err = False
 
                 if self.testichiro.each():
                     
-                    for q in self.testichiro.each():
-                        self.dude = q.val()['prop_keys']
+                    # for q in self.testichiro.each():
+                    #     self.dude = q.key()
                         
-                        if self.dude not in self.loader:
-                            self.yours = db.child("Sale").order_by_key().equal_to(self.dude).get()
+                    #     if self.dude not in self.loader:
+                    #         self.yours = db.child("Sale").order_by_key().equal_to(self.dude).get()
                             
                                 
-                            self.ours = db.child("Rent").order_by_key().equal_to(self.dude).get()
+                    #         self.ours = db.child("Rent").order_by_key().equal_to(self.dude).get()
+
+                    
                             
-                            self.next_after(self.yours, self.ours)
-                else:
+                        # self.next_after(self.yours, self.ours)
+                    Clock.schedule_once(partial(self.next_after), 0.3)
+                    
+
+                if self.testiroro.each():
+                    Clock.schedule_once(partial(self.next_after_next), 0.3)
+
+
+                if not self.testiroro.each() and not self.testichiro.each():
                     self.curr["sold"][self.curr['email']] = 0
-                    with open(f'{path}/user.json', 'r') as jsonfile:
+                    with open(f'{path}/user.json', 'w') as jsonfile:
                         json.dump(self.curr, jsonfile)
 
             if self.curr["sold"][self.curr['email']] == 0:
-                self.empty_prod("You have no properties yet")
-                      
+                if self.prod_err == True:
+                    self.remove_prod_err()
+                    self.prod_err = False
+                # self.empty_prod("You have no properties yet")
+                self.toast('You have no properties yet')
         else:
+            if self.prod_err == True:
+                self.remove_prod_err()
+                self.prod_err = False
             self.empty_prod("You're not signed in")
                
         
@@ -2408,20 +2243,22 @@ class MainApp(MDApp):
     
 
     @mainthread
-    def next_after(self, yours, ours):
+    def next_after(self, time):
         
         if self.prod_err == True:
             self.remove_prod_err()
             self.prod_err = False
-        if yours:
-            for u in yours:
-
+        # if yours:
+        for u in self.testichiro.each():
+            self.dude = u.key()
                         
+            if self.dude not in self.loader:
+                    
+        
+        
+        
             
             
-            
-                
-                
                 self.card = PropertySaleCards()
                 self.card.image = u.val()['url']
                 self.card.amenities = u.val()['amenities']
@@ -2451,13 +2288,16 @@ class MainApp(MDApp):
             
         
                     
-                        
-                
-
-        if ours:
-            for u in ours:
-                
-               
+    @mainthread         
+    def next_after_next(self, time):            
+        if self.prod_err == True:
+            
+            self.remove_prod_err()
+            self.prod_err = False
+        
+        for u in self.testiroro.each():
+            if u.key() not in self.loader:
+            
                 self.card = PropertyRentCards()
                 self.card.image = u.val()['url']
                 self.card.amenities = u.val()['amenities']
@@ -2480,7 +2320,7 @@ class MainApp(MDApp):
                 self.card.local_image = u.val()['local_image']
                 
                 self.products.ids.layout.add_widget(self.card)
-                
+                    
                 self.loader.append(u.key())
                 
                 
@@ -2537,16 +2377,46 @@ class MainApp(MDApp):
                 self.curr = json.load(jsonfile)
             try:
                 
-                func_timeout(100, self.starto_bookmarks)
+                func_timeout(40, self.starto_bookmarks)
             except FunctionTimedOut:
                 
                 
                 self.event.set()
-                self.empty_bk('Internet connection limited or unavailable', icon='cloud')
+                self.toast('Internet connection limited or unavailable')
+
+            except requests.exceptions.HTTPError as e:
+                error_json = e.args[1]
+                error = json.loads(error_json)['error']
+                
+                
+                if error == 'Permission denied':
+                
+                    
+                    
+                    # try:
+                    try:
+                        func_timeout(10, self.denied_signin)
+                        if self.prod_err == True:
+            
+                            self.remove_prod_err()
+                            self.prod_err = False
+                        self.begin_thread_bookmarks()
+                    except FunctionTimedOut:
+                        time.sleep(1)
+                        self.toast('Internet connection limited or unavailable')
+                        self.event.set()
+                       
+                        
+                        
+                    except:
+                        time.sleep(1)
+                        self.toast('Internet connection limited or unavailable')
+                        self.event.set()
+                        
         
             except:
        
-                self.empty_bk('Internet connection limited or unavailable', icon='cloud')
+                self.toast('Internet connection limited or unavailable')
                 self.event.set()
 
             time.sleep(1)
@@ -2557,10 +2427,12 @@ class MainApp(MDApp):
         
         
         if self.curr['email'] != '':
-            if len(self.curr['bookmarks'][self.curr['email']]) > 0:
-
-                
-                for i in self.curr['bookmarks'][self.curr['email']]:
+            
+            blokies = db.child("Accounts").child(self.curr['localid']).child('bookmarks').get(self.curr['idToken'])
+            
+          
+            if blokies.val() != None:
+                for i in blokies.val():
                     if not self.event.is_set():
                         
                         if i not in self.loaded:
@@ -2576,15 +2448,20 @@ class MainApp(MDApp):
 
             time.sleep(1)
             if not self.event.is_set():
-                for b in self.curr['bookmarks'][self.curr['email']]:
-                    if b not in self.loaded:
-                        
-                        
-                        self.curr['bookmarks'][self.curr['email']].remove(b)
-                        self.toast("Some Properties may have been sold.")
-                        
-                with open(f'{path}/user.json', 'w') as jsonfile:
-                    json.dump(self.curr, jsonfile) 
+                if blokies.val() != None:
+                    blokies = db.child("Accounts").child(self.curr['localid']).child('bookmarks').get(self.curr['idToken'])
+                    
+            
+                    
+                    for b in blokies.val():
+                        if b not in self.loaded:
+                            
+                            
+                            db.child("Accounts").child(self.curr['localid']).child('bookmarks').child(b).remove(self.curr['idToken'])
+                            self.toast("Some Properties may have been sold.")
+                            
+                    with open(f'{path}/user.json', 'w') as jsonfile:
+                        json.dump(self.curr, jsonfile) 
 
                     
         else:
@@ -2679,10 +2556,16 @@ class MainApp(MDApp):
         self.bk.ids.bk.clear_widgets()
         self.begin_thread_bookmarks()
 
+
     def clear_bk(self):
         self.bk.ids.bk.clear_widgets()
         
         self.products.ids.layout.has_deleted = False
+
+    @mainthread
+    def clear_bk_widgets(self):
+        self.loaded.clear()
+        self.bk.ids.bk.clear_widgets()
         
 
     def thread_reload_sale(self, which, one=None):
@@ -2702,7 +2585,7 @@ class MainApp(MDApp):
             
             self.home.ids.grid.clear_widgets()
             
-            
+            self.home.ids.scroller.scroll_to(self.home.ids.sale_arrow)
             
             
             self.home.ids.grid.add_widget(self.spin)
@@ -2769,7 +2652,7 @@ class MainApp(MDApp):
             
             self.home.ids.grid.clear_widgets()
             # self.home.ids.scroller.do_scroll_y = True
-            
+            self.home.ids.scroller.scroll_to(self.home.ids.sale_arrow)
             if self.home.ids.grid.has_error == True:
                 self.home.ids.grid.remove_err()
                 self.home.ids.grid.has_error = False
@@ -2949,30 +2832,39 @@ class MainApp(MDApp):
         self.new_state = ''
         self.new_city = ''
         self.search_counter = 0
-        self.search_begin = None
+        
+    
         self.new_search_property = ''
         
         
-        if self.has_error:
-            self.search.ids.search.remove_widget(self.bxopo)
-            
+        if self.has_error == True:
+            if self.has_failed == True:
+                
+                self.search.ids.search.remove_widget(self.bxopo)
+                self.has_failed = False
             self.has_error = False
             
+        self.search.ids.check.text = 'Searching...'
         self.search.ids.spin.active = True
         self.search.ids.spin.opacity = 1
-        
+      
+
         self.search.ids.more_card.disabled = True
         self.search.ids.more_card.opacity = 0
         
         self.search.ids.refresh_card.disabled = True
         self.search.ids.refresh_card.opacity = 0
+        self.search.ids.searchido.disabled = True
+        Animation(pos_hint={'center_y': 5}, duration=0.3).start(self.search.ids.searchido)
         
         
-        self.event = Event()
+        self.search_event = Event()
+        self.is_searching = True
         self.thread_search = threading.Thread(target=self.search_it, args=(choice, country, state, city, bedrooms, property_type,))
         self.thread_search.start()
+        
 
-
+    
 
 
     @mainthread
@@ -3006,33 +2898,51 @@ class MainApp(MDApp):
         self.bxopo.add_widget(self.err)
 
         self.search.ids.search.add_widget(self.bxopo)
+        self.has_failed = True
+        self.has_error = True
         
         
 
     def search_it(self, choice, country, state, city, bedrooms, property_type):
         
+        prop_type = property_type.strip().title()
+        if prop_type == 'Pent House':
+            prop_type = 'Penthouse'
+        
+        time.sleep(1)
+        
         try:
-            func_timeout(140, self.search_now, args=(choice, country.title(), state.title(), city.title(), bedrooms, property_type.title(),))
+            func_timeout(140, self.search_now, args=(choice, country.title(), state.title(), city.title(), bedrooms, prop_type.title(),))
             
         except FunctionTimedOut:
             
-            self.search_failed()
-            self.event.set()
+            
+            
             self.has_error = True
             
             
         except:
             
-            self.search_failed()
+            
             self.has_error = True
             
-            self.event.set()
+            
         if self.has_error:
-            self.search_error("Failed")
+            if not self.search_event.is_set():
+                self.search_event.set()
+                self.search_failed()
+                self.search_error("Failed", icon="cancel")
+
+        self.search_event.set()
         
         self.spin_opacity()
-        self.search.ids.spin.active = False
+
+        self.is_searching = False
        
+    @mainthread
+    def search_results(self):
+        self.search.ids.check.text = 'Search Results'
+        self.search.ids.check.opacity = 1
 
     @mainthread
     def search_failed(self):
@@ -3041,15 +2951,16 @@ class MainApp(MDApp):
          
     @mainthread
     def spin_opacity(self):
+        self.search.ids.spin.active = False
         self.search.ids.spin.opacity = 0
+        Animation(pos_hint={'center_y': 0.5}, duration=0.3).start(self.search.ids.searchido)
+        self.search.ids.searchido.disabled = False
 
     @mainthread
     def clear_search(self):
         self.search.ids.search.clear_widgets()
 
-    @mainthread
-    def search_spin_unseen(self):
-        pass
+    
 
     def search_now(self, choice, country, state, city, bedrooms, property_type):
         
@@ -3070,37 +2981,57 @@ class MainApp(MDApp):
             self.new_search_property = property_type
              
             
-            self.clear_search()
+            
         
             
 
         self.search_j = 0
 
-        with open(f'{path}/user.json', 'r') as jsonfile:
-            self.curr = json.load(jsonfile)
+        
             
         
         
         self.clear_search()
         
-        
-        if property_type == '':
-            self.snackbar('Please enter a property type')
-        elif country == '' and state == '' and city == '':
-            self.snackbar("Please enter location details")
-        elif state == '' and city == '':
+        if property_type != '' and country != '' and state =='' and city == '':
             self.search_counter = 0
             self.search_begin = db.child(choice).order_by_child('country').equal_to(country.strip()).get()
             time.sleep(1)
-            if not self.event.is_set():
+            if not self.search_event.is_set():
                 Clock.schedule_once(partial(self.search_added, country.strip(), state.strip(), city.strip(), bedrooms, property_type.strip()), 0.3)
+            
                 
+
+        elif property_type == '' and country != '' and state=='' and city=='':
+            
+            self.search_counter = 0
+            self.search_begin = db.child(choice).order_by_child('country').equal_to(country.strip()).get()
+            time.sleep(1)
+            if not self.search_event.is_set():
+                Clock.schedule_once(partial(self.search_added, country.strip(), state.strip(), city.strip(), bedrooms, property_type.strip()), 0.3)
+            
+                
+
+        elif property_type != '' and country == '' and state == '' and city == '':
+            
+            self.search_counter = 0
+            self.search_begin = db.child(choice).order_by_child('housetype').equal_to(property_type.strip()).get()
+            time.sleep(1)
+            if not self.search_event.is_set():
+                Clock.schedule_once(partial(self.search_added, country.strip(), state.strip(), city.strip(), bedrooms, property_type.strip()), 0.3)
+            
+                
+        elif country == '' and state != '' and city != '':
+            self.search_results()
+            self.snackbar('please enter a country')
+
+        
+        
             
                 
             
                 
-        elif state != '' and city != '' and country == '':
-            self.snackbar('Please enter a country')
+        
 
         elif state != '' and city != '':
             
@@ -3108,8 +3039,9 @@ class MainApp(MDApp):
             self.search_begin = db.child(choice).order_by_child('location').equal_to(country.strip()+state.strip()+city.strip()).get()
             
             time.sleep(1)
-            if not self.event.is_set():
+            if not self.search_event.is_set():
                 Clock.schedule_once(partial(self.search_added, country.strip(), state.strip(), city.strip(), bedrooms, property_type.strip()), 0.3)
+          
                 
            
                 
@@ -3117,25 +3049,37 @@ class MainApp(MDApp):
         
             
         elif state == '' and city != '':
-            
+            self.search_results()
             self.snackbar('Please enter a state')
 
         elif city == '' and state != '':
-            
+            self.search_results()
             self.snackbar('Please enter a city')
 
         
-       
+        elif property_type == '' and country == '' and state=='' and city=='':
+            self.search_results()
 
         
 
     
+    def laaa(self, focus):
         
+        
+        if self.is_searching == True:
+            if focus == True:
+                
+                self.search_event.set()
+                self.search.ids.spin.active = False
+                self.search.ids.spin.opacity = 0
+                self.search.ids.check.text = ''
+                Animation(pos_hint={'center_y': 0.5}, duration=0.3).start(self.search.ids.searchido)
+                self.search.ids.searchido.disabled = False
 
     @mainthread
     def search_added(self, country, state, city, bedrooms, property_type, time=None):
         
-    
+
         if self.search_begin.each():
             for u in self.search_begin.each():
                 
@@ -3146,7 +3090,7 @@ class MainApp(MDApp):
                 #     continue
                 
                 
-                if u.val()['housetype'] == property_type:
+                if u.val()['housetype'] == property_type or property_type == '':
                     if u.val()['bedrooms'] == bedrooms:
                     
                         self.card = HomeCards()
@@ -3278,7 +3222,7 @@ class MainApp(MDApp):
                 
                 self.search_counter += 1
                 
-                if u.val()['housetype'] == self.old_prop.strip():
+                if u.val()['housetype'] == self.old_prop.strip() or self.old_prop == "":
                     if u.val()['bedrooms'] == self.old_bedrooms:
                         self.card = HomeCards()
                         self.card.me = self.card
@@ -3325,7 +3269,7 @@ class MainApp(MDApp):
                 self.search_counter += 1
                 
                 
-                if u.val()['housetype'] == self.old_prop.strip():
+                if u.val()['housetype'] == self.old_prop.strip()  or self.old_prop == "":
                     if u.val()['bedrooms'] == self.old_bedrooms:
                         self.card = HomeCards()
                         self.card.me = self.card
@@ -3362,7 +3306,9 @@ class MainApp(MDApp):
 
     @mainthread
     def switch_update(self):
-        self.wm.switch_to(self.update)
+        if self.has_update_scr == False:
+            self.update = UpdateScreen(name="update")
+            self.wm.switch_to(self.update)
 
 
 
@@ -3381,12 +3327,13 @@ class MainApp(MDApp):
         
 
     def splash(self):
+     
         self.switch_loading()
         first = threading.Thread(target=self.splashi)
         first.start()
         with open(f'{path}/user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
-
+       
         if self.curr['up_date'] != "":
             if datetime.strptime(self.curr['up_date'], '%Y-%m-%d') <= datetime.today():
                 self.curr['updated'] = "No"
@@ -3398,6 +3345,8 @@ class MainApp(MDApp):
             
 
     def splashi(self):
+       
+        
         
         try:
             func_timeout(20, self.start_up)
@@ -3407,8 +3356,8 @@ class MainApp(MDApp):
             self.toast("Network Error")
             if self.curr['first_time'] == "false":
                 
-                
-                self.switch_home()
+                if self.has_switched == False:
+                    self.switch_home()
                 if self.curr['email'] == "":
                     pass
                     
@@ -3425,14 +3374,15 @@ class MainApp(MDApp):
                     except:
                         pass
             else:
-                
-                self.first_time_signin()
+                if self.has_switched == False:
+                    self.first_time_signin()
             
         except:
+
             if self.curr['first_time'] == "false":
                 
-                
-                self.switch_home()
+                if self.has_switched == False:
+                    self.switch_home()
                 if self.curr['email'] == "":
                     pass
                     
@@ -3447,11 +3397,11 @@ class MainApp(MDApp):
                         with open(f'{path}/user.json', 'w') as jsonfile:
                             json.dump(self.curr, jsonfile)
                     except:
-                        pass
+                        self.toast("Network Error")
                     
             else:
-                
-                self.first_time_signin()
+                if self.has_switched == False:
+                    self.first_time_signin()
             
             self.toast("Network Error")
         
@@ -3464,6 +3414,9 @@ class MainApp(MDApp):
         
         
         
+      
+       
+        
         check = db.child("Update").get()
         ia=''
         for i in check.each():
@@ -3474,6 +3427,7 @@ class MainApp(MDApp):
                 
                 
                     self.switch_home()
+                    self.has_switched = True
                     if self.curr['email'] == "":
                         pass
                         
@@ -3491,14 +3445,17 @@ class MainApp(MDApp):
                 else:
                     
                     self.first_time_signin()
+                    self.has_switched = True
             else:
                 self.switch_update()
+                self.has_switched = True
 
         else:
             if self.curr['first_time'] == "false":
                 
                 
                 self.switch_home()
+                self.has_switched = True
                 if self.curr['email'] == "":
                     pass
                     
@@ -3516,9 +3473,11 @@ class MainApp(MDApp):
             else:
                 
                 self.first_time_signin()
+                self.has_switched = True
            
         
-
+  
+    
         
 
 
@@ -3888,11 +3847,11 @@ class MainApp(MDApp):
         
 
     @mainthread
-    def switch_details(self, image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, phonenumber=None, twitter=None, facebook=None, description=None, key=None, amenities=None, link=None):
+    def switch_details(self, image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, phonenumber=None, twitter=None, facebook=None, description=None, key=None, amenities=None, link=None, me=None):
         self.wm.transition = CardTransition()
         self.wm.transition.duration = .1
         self.detail.ids.dude.pos_hint = {'center_y': -1}
-        
+        self.detail.ids.bk_ico.disabled = True
         self.wm.switch_to(self.detail, direction='up')
         # self.switch_loading()
         self.sign_in_current = 'details'
@@ -3916,10 +3875,42 @@ class MainApp(MDApp):
         self.detail.key = key
         self.detail.amenities = amenities
         self.detail.link = link
+        self.detail.me = me
         
-        
-    
-        
+    def check_in_bk(self, key):
+        threading.Thread(target=self.bk_icon_init, args=(key,)).start()
+
+    def bk_icon_init(self, key):
+        try:
+            func_timeout(10, self.bk_icon, args=(key,))
+        except FunctionTimedOut:
+            self.change_bk_ico('No')
+        except:
+            self.change_bk_ico('No')
+
+    def bk_icon(self, key):
+        with open(f'{path}/user.json', 'r') as jsonfile:
+            self.curr = json.load(jsonfile)
+
+        if self.curr['email'] != '':
+            bk_list = db.child("Accounts").child(self.curr['localid']).child("bookmarks").get(self.curr['idToken'])
+            if key in bk_list.val():
+                self.change_bk_ico('yes')
+            else:
+                self.change_bk_ico('No')
+
+        else:
+            
+            self.change_bk_ico('No')
+
+    @mainthread
+    def change_bk_ico(self, quest):
+        if quest == 'yes':
+            self.detail.ids.bk_ico.disabled = False
+            self.detail.ids.bk_ico.icon = 'bookmark'
+        else:
+            self.detail.ids.bk_ico.disabled = False
+            self.detail.ids.bk_ico.icon = 'bookmark-outline'
         
 
     def switch_search(self, direction='down'):
@@ -3929,7 +3920,7 @@ class MainApp(MDApp):
         self.wm.switch_to(self.search, direction=direction)
         self.current_screen = 'search'
         
-
+    
     def switch_sale(self):
         with open(f'{path}/user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
@@ -3954,25 +3945,20 @@ class MainApp(MDApp):
     def switch_signup(self):
         self.passwrd = ''
         self.mail = ''
-        self.signup.ids.email.text = ''
-        self.signup.ids.password.text = ''
-        self.signup.ids.confirm.text = ''
-        self.prev_code = 'sign-up'
-        self.wm.transition = SlideTransition()
-        self.wm.transition.duration = .1
-        self.wm.switch_to(self.signup, direction='left')
+        if self.has_sign_up == False:
+            self.signup = AccountLoginPage(name="sign-up")
+            self.signup.ids.email.text = ''
+            self.signup.ids.password.text = ''
+            self.signup.ids.confirm.text = ''
+            self.prev_code = 'sign-up'
+            self.wm.transition = SlideTransition()
+            self.wm.transition.duration = .1
+            self.wm.switch_to(self.signup, direction='left')
 
     
         
         
-        #     if self.products.ids.layout.done:
-        #         self.products.ids.spinner.active=False
-        #     if self.products.ids.layout.done is False:
-        
-            
-        # self.products.ids.spinner.active=False
-        # self.beg = PropertyCardsLayout()
-        # self.beg.begin_loading()
+       
 
         
 
@@ -4073,12 +4059,30 @@ class MainApp(MDApp):
             with open(f'{path}/user.json', 'r') as jsonfile:
                 self.curr = json.load(jsonfile)
             try:
-                func_timeout(30, self.boooiiii, args=(lockwood, price,))
+                func_timeout(60, self.boooiiii, args=(lockwood, price,))
             except FunctionTimedOut:
                 
-                self.toast('Internet connection limited or unavailable')
+                # self.toast('Internet connection limited or unavailable')
                 self.event.set()
                 self.denied = 0
+            except requests.exceptions.HTTPError as e:
+                error_json = e.args[1]
+                error = json.loads(error_json)['error']
+                
+                if error == 'Permission denied':
+                    
+                    
+                    self.denied += 1
+                    if self.denied < 2:
+                        try:
+                            func_timeout(10, self.denied_signin)
+                            self.call_guy(lockwood,price)
+                        except FunctionTimedOut:
+                            # self.toast("Internet connection limited or unavailable")
+                            self.denied = 0
+                        except:
+                            # self.toast("Network Error")
+                            self.denied = 0
             except:
                 
                 self.event.set()
@@ -4089,14 +4093,108 @@ class MainApp(MDApp):
 
     def play(self):
         sound.play()
+
+    def sound(self):
+        touch.play()
         
 
     def boooiiii(self, figaro,price):
         
         if self.curr['email'] != '':
-            if figaro in self.curr["viewed"][self.curr["email"]]:
-                pass
+            view = db.child("Accounts").child(self.curr['localid']).child('views').get(self.curr['idToken'])
+            
+            
+            if view.val() != None:
+                if figaro in view.val():
+                    
+                    pass
+                else:
+                    x = re.search(r"/mth$", price)
+                    y = re.search(r"/yr$", price)
+                    z = re.search(r"/wk", price)
+                    a = re.search(r"/night", price)
+                    if x or y or a or z:
+                        
+                        # try:
+                            
+                        them14 = db.child("Rent").child(figaro).child("views").get(self.curr['idToken'])
+                        new_val = them14.val()
+                        new_val += 1
+                        
+                        db.child("Rent").child(figaro).update({'views': new_val}, self.curr['idToken'])
+                        db.child("Accounts").child(self.curr['localid']).child('views').update({figaro: ''}, self.curr['idToken'])
+                        self.denied = 0
+                        # except requests.exceptions.HTTPError as e:
+                        #     error_json = e.args[1]
+                        #     error = json.loads(error_json)['error']
+                        
+                        #     if error == 'Permission denied':
+                                
+                                
+                        #         self.denied += 1
+                        #         if self.denied < 2:
+                        #             try:
+                        #                 func_timeout(10, self.denied_signin)
+                        #                 self.call_guy(figaro,price)
+                        #             except FunctionTimedOut:
+                        #                 self.toast("Internet connection limited or unavailable")
+                        #                 self.denied = 0
+                        #             except:
+                        #                 # self.toast("Network Error")
+                        #                 self.denied = 0
+                                        
+                            
+                                # else:
+                                    
+                                #     self.denied = 0
+                                    
+                        
+                    else:
+                        # try:
+                            
+                        them14 = db.child("Sale").child(figaro).child("views").get()
+                        new_val = them14.val()
+                        new_val += 1
+                        
+                        db.child("Sale").child(figaro).update({'views': new_val}, self.curr['idToken'])
+                        db.child("Accounts").child(self.curr['localid']).child('views').update({figaro: ''}, self.curr['idToken'])
+                        
+                        self.denied = 0
+                        # except requests.exceptions.HTTPError as e:
+                        #     error_json = e.args[1]
+                        #     error = json.loads(error_json)['error']
+                        
+                        #     if error == 'Permission denied':
+                                
+                                
+                                
+                        #         self.denied += 1
+                        #         if self.denied < 2:
+                        #             try:
+                        #                 func_timeout(10, self.denied_signin)
+                        #                 self.call_guy(figaro,price)
+                        #             except FunctionTimedOut:
+                        #                 self.toast("Internet connection limited or unavailable")
+                        #                 self.denied = 0
+                        #             except:
+                        #                 # self.toast("Network Error")
+                        #                 self.denied = 0
+                                        
+                            
+                        #         else:
+                                    
+                                    # self.deneid = 0
+                        
+                        #
+                        # try:
+                    
+                        
+                            # except:
+                            
+                    
             else:
+               
+                db.child("Accounts").child(self.curr['localid']).update({'views': ''}, self.curr['idToken'])
                 x = re.search(r"/mth$", price)
                 y = re.search(r"/yr$", price)
                 z = re.search(r"/wk", price)
@@ -4105,12 +4203,12 @@ class MainApp(MDApp):
                     
                     try:
                         
-                        them14 = db.child("Rent").child(figaro).child("views").get()
+                        them14 = db.child("Rent").child(figaro).child("views").get(self.curr['idToken'])
                         new_val = them14.val()
                         new_val += 1
                         
                         db.child("Rent").child(figaro).update({'views': new_val}, self.curr['idToken'])
-                        self.curr["viewed"][self.curr["email"]].append(figaro)
+                        db.child("Accounts").child(self.curr['localid']).child('views').update({figaro: ''}, self.curr['idToken'])
                         self.denied = 0
                     except requests.exceptions.HTTPError as e:
                         error_json = e.args[1]
@@ -4144,7 +4242,7 @@ class MainApp(MDApp):
                         new_val += 1
                         
                         db.child("Sale").child(figaro).update({'views': new_val}, self.curr['idToken'])
-                        self.curr["viewed"][self.curr["email"]].append(figaro)
+                        db.child("Accounts").child(self.curr['localid']).child('views').update({figaro: ''}, self.curr['idToken'])
                         
                         self.denied = 0
                     except requests.exceptions.HTTPError as e:
@@ -4171,16 +4269,6 @@ class MainApp(MDApp):
                             else:
                                 
                                 self.deneid = 0
-                    
-                    #
-                    # try:
-                
-                    
-                        # except:
-                        
-                with open(f'{path}/user.json', 'w') as jsonfile:
-                    json.dump(self.curr, jsonfile)
-       
             
 
     def email(self, texta):
@@ -4276,7 +4364,7 @@ class MainApp(MDApp):
         self.dialog = MDDialog(title=titler, text=notice, size_hint=(1, 1), buttons=[MDRaisedButton(text="close", on_release=self.close_dialog), button])
         self.dialog.open()
 
-    def close_dialog(self, obj):
+    def close_dialog(self, obj=None):
         self.dialog.dismiss()
 
     @mainthread
@@ -4290,6 +4378,26 @@ class MainApp(MDApp):
 
     
     
+    def show_privacy(self):
+        self.dia = MDDialog(
+            # title='Warning!',
+            type='custom',
+            content_cls=Privacy(),
+            size_hint=[None, None],
+            width= Window.size[0] / 1.05 ,
+            
+            
+            buttons=[
+                
+                MDRaisedButton(
+                    text='Agree',
+                    theme_text_color='Custom',
+                    on_release= lambda x:self.dia.dismiss()
+                )
+            ]
+        )
+        self.dia.open()
+
     def show_terms(self):
         
         
@@ -4298,7 +4406,7 @@ class MainApp(MDApp):
             type='custom',
             content_cls=Warning(),
             size_hint=[None, None],
-            width= Window.size[0] / 1.5,
+            width= Window.size[0] / 1.05 ,
             
             
             buttons=[
@@ -4432,7 +4540,7 @@ class MainApp(MDApp):
                         content_cls=Warning(),
                         
                         size_hint=[None, None],
-                        width= Window.size[0] / 1.5,
+                        width= Window.size[0] / 1.05,
                         # height=Window.size[1]
                         
                         
@@ -4666,7 +4774,7 @@ class MainApp(MDApp):
 
     def create_account_now(self):
         # self.loading.ids.labe.opacity = 0
-        # self.loading.ids.spinner.active= True
+
        
     
         try:
@@ -4715,6 +4823,7 @@ class MainApp(MDApp):
         count = 0
         user = authi.create_user_with_email_and_password(email, password)
         useri = authi.send_email_verification(user['idToken'])
+        
         # self.sign_in()
         time.sleep(1)
         if not self.event.is_set():
@@ -4741,6 +4850,9 @@ class MainApp(MDApp):
                 self.switch_home()
 
         self.clear_products()
+        
+                
+        self.clear_bk_widgets()
         self.loader.clear()
         self.last_sold = 0
         self.curr['sold'][email] = count
@@ -4833,34 +4945,34 @@ class MainApp(MDApp):
                         
                         
                         db.child("Sale").child(name).remove(self.curr['idToken'])
-                        remove_people = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
-                        if remove_people.each():
-                            for u in remove_people.each():
+                        # remove_people = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
+                        # if remove_people.each():
+                        #     for u in remove_people.each():
                                 
                                 
-                                if str(u.val()['prop_keys']) == name:
+                        #         if str(u.val()['prop_keys']) == name:
                                     
                                     
-                                    db.child("People").child(self.curr['localid']).child("ids").child(u.key()).remove(self.curr['idToken'])
+                        #             db.child("People").child(self.curr['localid']).child("ids").child(u.key()).remove(self.curr['idToken'])
                                     
-                                    break
-                        else:
+                        #             break
+                        # else:
                             
-                            self.toast("Not found")
+                        #     self.toast("Not found")
 
                     else:
                         
                         db.child("Rent").child(name).remove(self.curr['idToken'])
-                        remove_people = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
-                        if remove_people.each():
-                            for u in remove_people.each():
+                        # remove_people = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
+                        # if remove_people.each():
+                        #     for u in remove_people.each():
                                 
-                                if u.val()['prop_keys'] == name:
-                                    db.child("People").child(self.curr['localid']).child("ids").child(u.key()).remove(self.curr['idToken'])
+                        #         if u.val()['prop_keys'] == name:
+                        #             db.child("People").child(self.curr['localid']).child("ids").child(u.key()).remove(self.curr['idToken'])
                                     
-                        else:
+                        # else:
                             
-                            self.toast("Not found")
+                        #     self.toast("Not found")
 
                     deletion = self.curr['localid'] + '/' + local_image
                     storage.delete(deletion, self.curr['idToken'])
@@ -5126,8 +5238,9 @@ class MainApp(MDApp):
     
     def actual_password_reset(self):
         
-        self.snackbar("Sending password reset link to your email")
+        
         if self.passwrd == self.curr['password']:
+            self.snackbar("Sending password reset link to your email")
             authi.send_password_reset_email(self.curr['email'])
             text = "A password reset email has been sent to your mail"
             
@@ -5219,7 +5332,7 @@ class MainApp(MDApp):
             self.first_time_signin()
             self.event.set()
             
-            # self.switch_from_signin()
+     
         except:
             self.toast('Authentication failed')
             
@@ -5227,7 +5340,7 @@ class MainApp(MDApp):
             self.first_time_signin()
             self.event.set()
         
-        # self.switch_from_signin()
+
         self.spin_false()
             
             
@@ -5263,18 +5376,18 @@ class MainApp(MDApp):
                     
                     
                     
-                    self.testichiro = db.child("People").child(self.user['localId']).child("ids").get(self.user['idToken'])
-                    # self.testiroro = db.child("People").child(self.user['localId']).child("ids").get(self.user['idToken'])
+                    self.testichiro = db.child("Sale").order_by_child('email').equal_to(email).get()
+                    self.testiroro = db.child("Rent").order_by_child('email').equal_to(email).get()
                     
                     if self.testichiro.each():
-                        for i in self.testichiro.each():
-                            count += 1
-                            if self.event.is_set():
-                                break
+                        
+                        count += len(self.testichiro.each())
+                            
 
-                    # if self.testiroro.each():
-                    #     for u in self.testiroro.each():
-                    #         count += 1
+                    if self.testiroro.each():
+                        
+                        count += len(self.testiroro.each())
+
                     time.sleep(1)
                     if not self.event.is_set():
                         self.curr['sold'][email] = count
@@ -5285,17 +5398,17 @@ class MainApp(MDApp):
                 else:
                     if email not in self.curr['bookmarks']:
                         
-                        self.testichiro = db.child("People").child(self.user['localId']).child("ids").get(self.user['idToken'])
-                        # self.testiroro = db.child("People").child(self.user['localId']).child("ids").get(self.user['idToken'])
+                        self.testichiro = db.child("Sale").order_by_child('email').equal_to(email).get()
+                        self.testiroro = db.child("Rent").order_by_child('email').equal_to(email).get()
                         
                         if self.testichiro.each():
-                            for i in self.testichiro.each():
-                                count += 1
-                                if self.event.is_set():
-                                    break
-                        # if self.testiroro.each():
-                        #     for u in self.testiroro.each():
-                        #         count += 1
+                            
+                            count += len(self.testichiro.each())
+                                
+
+                        if self.testiroro.each():
+                            count += len(self.testichiro.each())
+                            
                         time.sleep(1)
                         if not self.event.is_set():
                             self.curr['sold'][email] = count
@@ -5304,14 +5417,16 @@ class MainApp(MDApp):
                             self.curr['accounts'].append({'email': email, 'password': password})
 
                     if self.curr['sold'][email] == 0:
-                        self.testichiro = db.child("People").child(self.user['localId']).child("ids").get(self.user['idToken'])
-                        # self.testiroro = db.child("People").child(self.user['localId']).child("ids").get(self.user['idToken'])
+                        self.testichiro = db.child("Sale").order_by_child('email').equal_to(email).get()
+                        self.testiroro = db.child("Rent").order_by_child('email').equal_to(email).get()
                         
                         if self.testichiro.each():
-                            for i in self.testichiro.each():
-                                count += 1
-                                if self.event.is_set():
-                                    break
+                            
+                            count += len(self.testichiro.each())
+                                
+
+                        if self.testiroro.each():
+                            count += len(self.testiroro.each())
 
                         self.curr['sold'][email] = count
 
@@ -5332,11 +5447,14 @@ class MainApp(MDApp):
                 self.last_sold = 0
                 self.loader.clear()
                 self.clear_products()
+                self.clear_bk_widgets()
 
                 if self.curr['first_time'] == "true":
+                    
                     self.switch_home()
                     self.curr['first_time'] = "false"
                 else:
+                  
                     self.switch_from_signin()
 
                 with open(f'{path}/user.json', 'w') as jsonfile:
@@ -5509,16 +5627,10 @@ class MainApp(MDApp):
         new_street = street.title()
         new_desc = description.capitalize()
         
-        if '$' in pricing:
-            self.amt = pricing
-        else:
-            self.amt = "$" + pricing
         
         
-        if landspace.endswith('sq.ft'):
-            self.landspace = landspace
-        else:
-            self.landspace = landspace + 'sq.ft'
+        
+        
 
         self.key = key
         self.local_image = local_image
@@ -5547,34 +5659,60 @@ class MainApp(MDApp):
 
                     if len(new_street) >= 3 and len(new_street) < 25:
                         if len(pricing) > 1:
-                            if len(new_desc) > 20 and len(new_desc) < 255:
-                                self.thread_dialog(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description, titler="Updating Property")
-
+                            if '$' in pricing:
+                                self.amt = pricing
                             else:
-                                text = 'description must be between 20 and 255 characters long'
-                                self.show_dialog(text)
-                                self.edit.ids.description.error = True
+                                self.amt = "$" + pricing
+
+                            if len(landspace) > 2:
+                                if landspace.endswith('sq.ft'):
+                                    self.landspace = landspace
+                                else:
+                                    self.landspace = landspace + 'sq.ft'
+
+                                if len(new_desc) > 20 and len(new_desc) < 255:
+                                    self.thread_dialog(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description, titler="Updating Property")
+
+                                else:
+                                    text = 'description must be between 20 and 255 characters long'
+                                    self.show_dialog(text)
+                                    self.edit.ids.description.error = True
+                                    self.edit.ids.description.focused = True
+                                    self.edit.ids.edit_scroll.scroll_to(self.edit.ids.description)
+                            else:
+                                self.show_dialog('Invalid input for land area')
                         else:
                             text = "Invalid Input for price"
                             self.show_dialog(text)
-                            self.edit.ids.street.error = True
+                            # self.edit.ids.street.error = True
+                            self.edit.ids.price.error = True
+                            self.edit.ids.price.focused = True
+                            self.edit.ids.edit_scroll.scroll_to(self.edit.ids.price)
                     else:
                         text = "street must be between 3 and 25 characeters"
                         self.show_dialog(text)
                         self.edit.ids.street.error = True
+                        self.edit.ids.street.focused = True
+                        self.edit.ids.edit_scroll.scroll_to(self.edit.ids.street)
                 else:
                     text = "town must be between 2 and 25 characters"
                     self.show_dialog(text)
                     self.edit.ids.town.error = True
+                    self.edit.ids.town.focused = True
+                    self.edit.ids.edit_scroll.scroll_to(self.edit.ids.town)
             else:
                 text = "State must be between 2 and 25 characters"
                 self.show_dialog(text)
                 self.edit.ids.state.error = True
+                self.edit.ids.state.focused = True
+                self.edit.ids.edit_scroll.scroll_to(self.edit.ids.state)
             
         else:
             text = "House type must be between 5 and 21 characters characeters"
             self.show_dialog(text)
             self.edit.ids.housetype.error = True
+            self.edit.ids.housetpe.focused = True
+            self.edit.ids.edit_scroll.scroll_to(self.edit.ids.housetype)
 
        
     # @mainthread
@@ -5712,15 +5850,9 @@ class MainApp(MDApp):
         amenities = self.amenities
 
         
-        if pricing[0] == '$':
-            self.amt = pricing + self.edit_rent.ids.pay_item.text if not pricing.endswith('/mth') or pricing.endswith('/yr') or pricing.endswith('/wk') or pricing.endswith('/night') else pricing
-        else:
-            self.amt = '$' + pricing + self.edit_rent.ids.pay_item.text if not pricing.endswith('/mth') or pricing.endswith('/yr') or pricing.endswith('/wk') or pricing.endswith('/night') else '$' + pricing
+        
 
-        if landspace[-1] == 't':
-            self.landspace = landspace
-        else:
-            self.landspace = landspace + 'sq.ft'
+        
         # pp = int(pricing)
         
         
@@ -5735,35 +5867,66 @@ class MainApp(MDApp):
                 if len(town) >= 3 and len(town) < 25:
 
                     if len(street) >= 3 and len(street) < 25:
-                        if len(pricing) > 2:
-                            if len(description) > 20 and len(description) < 255:
-
-                                self.thread_rent_dialog(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description)
-                                
-
-                                
+                        if len(pricing) > 1:
+                            if pricing[0] == '$':
+                                self.amt = pricing + self.edit_rent.ids.pay_item.text if not pricing.endswith('/mth') or pricing.endswith('/yr') or pricing.endswith('/wk') or pricing.endswith('/night') else pricing
                             else:
-                                text = 'Description must be between 20 and 255 characters'
-                                self.show_dialog(text)
+                                self.amt = '$' + pricing + self.edit_rent.ids.pay_item.text if not pricing.endswith('/mth') or pricing.endswith('/yr') or pricing.endswith('/wk') or pricing.endswith('/night') else '$' + pricing
+
+                            if len(landspace) > 2:
+                                if landspace[-1] == 't':
+                                    self.landspace = landspace
+                                else:
+                                    self.landspace = landspace + 'sq.ft'
+
+                                if len(description) > 20 and len(description) < 255:
+
+                                    self.thread_rent_dialog(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description)
+
+                                else:
+                                    text = 'Description must be between 20 and 255 characters'
+                                    self.show_dialog(text)
+                                    self.edit_rent.ids.description.error = True
+                                    self.edit_rent.ids.description.focused = True
+                                    self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.description)
+                               
+                            else:
+                                self.show_dialog('Invalid input for landspace')
+                                self.edit_rent.ids.land_area.error =True
+                                self.edit_rent.ids.land_area.focused = True
+                                self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.land_area)
+                                
+                                
                         else:
                             text = "Invalid Input for price"
                             self.show_dialog(text)
+                            self.edit_rent.ids.price.focused = True
+                            self.edit_rent.ids.price.error = True
+                            self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.price)
                     else:
                         text = "street must be between 3 and 25 characeters"
                         self.show_dialog(text)
                         self.edit_rent.ids.street.error = True
+                        self.edit_rent.ids.street.focused = True
+                        self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.street)
                 else:
                     text = "town must be between 2 and 25 characters"
                     self.show_dialog(text)
                     self.edit_rent.ids.town.error = True
+                    self.edit_rent.ids.town.focused =True
+                    self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.town)
             else:
                 text = "State must be between 2 and 25 characters"
                 self.show_dialog(text)
                 self.edit_rent.ids.state.error = True
+                self.edit_rent.ids.state.focused = True
+                self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.state)
         else:
             text = "House type must be between 5 and 21 characters"
             self.show_dialog(text)
             self.edit_rent.ids.housetype.error = True
+            self.edit_rent.ids.housetype.focused = True
+            self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.housetype)
 
     def actual_rent_update(self, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description):
         try:
@@ -5835,12 +5998,7 @@ class MainApp(MDApp):
         self.show_dialog(info,button=agree_button)
         
 
-    # def call_separate_function(self,obj):
-    #     try:
-    #         func_timeout(40, self.separate_function)
-    #     except FunctionTimedOut:
-    #         p = 'Failed to update Image'
-    #         self.snackbar(p)
+    
         
     def separate_function(self,obj):
         # boy = []
@@ -6012,41 +6170,94 @@ class MainApp(MDApp):
     
 
 
-    
-    
-        
-
     def bookmark(self, lola, wid='p'):
+        self.snackbar('Processing...')
+        bk_th = threading.Thread(target=self.bookmark_prop, args=(lola, wid,))
+        bk_th.start()
+        
+    
+    def bookmark_prop(self, lola, wid):
+        
+        try:
+            func_timeout(40, self.bookmark_now, args=(lola, wid,))
+        except FunctionTimedOut:
+            self.toast("Failed to add to bookmarks")
+        except requests.exceptions.HTTPError as e:
+            error_json = e.args[1]
+            error = json.loads(error_json)['error']
+            
+            
+            if error == 'Permission denied':
+            
+                
+                
+                # try:
+                try:
+                    func_timeout(10, self.denied_signin)
+                    
+                    self.bookmark(lola, wid)
+                except FunctionTimedOut:
+                    time.sleep(1)
+                    self.toast('Internet connection limited or unavailable')
+                    self.event.set()
+                    
+                    
+                    
+                except:
+                    time.sleep(1)
+                    self.toast('Internet connection limited or unavailable')
+                    self.event.set()
+        
+        except:
+            self.toast("Failed to add to bookmarks")
+
+    def bookmark_now(self, lola, wid):
         
         
         with open(f'{path}/user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
             mail = data['email']
-        if mail != '':
-            if lola not in data['bookmarks'][mail]:
-                
-                
-                if len(data['bookmarks'][mail]) < 24:
-                    data['bookmarks'][mail].append(lola)
-                    with open(f'{path}/user.json', 'w') as jsonfile:
-                        json.dump(data, jsonfile)
-                    notice = 'Successfully added to bookmarks'
-                    self.snackbar(notice)
-                else:
-                    
-                    info = "Bookmarks full. You can only bookmark 24 properties."
-                    self.show_dialog(info)
-            else:
-                
-                self.bk.ids.bk.remove_widget(wid)
-                data['bookmarks'][mail].remove(lola)
-                with open(f'{path}/user.json', 'w') as jsonfile:
-                    json.dump(data, jsonfile)
-                notice = 'Successfully removed from bookmarks'
-                self.snackbar(notice)
-
-            
         
+        if mail != '':
+            bks = db.child("Accounts").child(data['localid']).child('bookmarks').get(data['idToken'])
+            
+            if bks.val() != None:
+                
+                if lola not in bks.val():
+                    
+                    
+                    if len(bks.val()) < 24:
+                        self.show_dialog(titler='Bookmarks', notice='Adding....')
+                        db.child("Accounts").child(data['localid']).child('bookmarks').update({lola: ''}, data['idToken'])
+
+                        
+
+                        self.close_dialog(None)
+                        notice = 'Successfully added to bookmarks'
+                        self.toast(notice)
+                    else:
+                        
+                        info = "Bookmarks full. You can only bookmark 24 properties."
+                        self.show_dialog(info)
+                else:
+                    self.show_dialog(titler='Bookmarks', notice='Removing....')
+                    self.remove_bookie(wid)
+                    db.child("Accounts").child(self.curr['localid']).child('bookmarks').child(lola).remove(data['idToken'])
+                    
+                    notice = 'Successfully removed from bookmarks'
+                    self.toast(notice)
+            else:
+                db.child("Accounts").child(data['localid']).update({'bookmarks': ''}, data['idToken'])
+                db.child("Accounts").child(data['localid']).child('bookmarks').update({lola: ''}, data['idToken'])
+                
+                notice = 'Successfully added to bookmarks'
+                self.toast(notice)
+        else:
+            self.snackbar("You're not signed in.")
+
+    @mainthread
+    def remove_bookie(self, wid):
+        self.bk.ids.bk.remove_widget(wid)
 
     def selected(self):
         self.denied = 0
@@ -6074,38 +6285,70 @@ class MainApp(MDApp):
                                                 else:
                                                     info = "description must be between 20 and 255 characters"
                                                     self.show_dialog(info)
+                                                    self.sale.ids.sale_scroll.scroll_to(self.sale.ids.desci)
+                                                    self.sale.ids.description.focused = True
+                                                    self.sale.ids.description.error = True
                                             else:
                                                 info = "Invalid input for price"
                                                 self.show_dialog(info)
+                                                self.sale.ids.sale_scroll.scroll_to(self.sale.ids.costy)
+                                                self.sale.ids.price.focused = True
+                                                self.sale.ids.price.error = True
                                         else:
                                             info = "Invalid input for landspace"
                                             self.show_dialog(info)
+                                            self.sale.ids.sale_scroll.scroll_to(self.sale.ids.landi)
+                                            self.sale.ids.land_space.focused = True
+                                            self.sale.ids.land_space.error = True
                                     else:
                                         info = "Street must be between 3 and 25 characters"
                                         self.show_dialog(info)
+                                        self.sale.ids.sale_scroll.scroll_to(self.sale.ids.streeti)
+                                        self.sale.ids.location.focused = True
+                                        self.sale.ids.location.error = True
 
                                 else:
                                     info = "Town must be between 2 and 25 characters"
                                     self.show_dialog(info)
+                                    self.sale.ids.sale_scroll.scroll_to(self.sale.ids.towni)
+                                    self.sale.ids.location_city.focused = True
+                                    self.sale.ids.location_city.error = True
                             else:
                                 info = "State must be between 2 and 25 characters"
                                 self.show_dialog(info)
+                                self.sale.ids.sale_scroll.scroll_to(self.sale.ids.statey)
+                                self.sale.ids.state.focused = True
+                                self.sale.ids.state.error = True
                         else:
                             info = "Please select your country"
                             self.show_dialog(info)
+                            self.sale.ids.sale_scroll.scroll_to(self.sale.ids.island)
+                            
                     else:
                         info = "Property type must be between 5 and 21 characters"
                         self.show_dialog(info)
+                        self.sale.ids.sale_scroll.scroll_to(self.sale.ids.prop_type)
+                        self.sale.ids.housetype.focused = True
+                        self.sale.ids.houstype.error = True
                 else:
                     info = "Invalid phonenumber"
                     self.show_dialog(info)
+                    self.sale.ids.sale_scroll.scroll_to(self.sale.ids.number)
+                    self.sale.ids.phonenumber.focused = True
+                    self.sale.ids.phonenumber.error = True
             
             else:
                 info = "Please enter a phonenumber"
                 self.show_dialog(info)
+                self.sale.ids.sale_scroll.scroll_to(self.sale.ids.number)
+                self.sale.ids.phonenumber.focused = True
+                self.sale.ids.phonenumber.error = True
         else:
             text = "Invalid email"
             self.show_dialog(text)
+            self.sale.ids.sale_scroll.scroll_to(self.sale.ids.email)
+            self.sale.ids.email.focused = True
+            self.sale.ids.email.error = True
 
     def real_house_sale(self, selection):
         self.loading.ids.spin.active=True
@@ -6303,7 +6546,7 @@ class MainApp(MDApp):
                     "prop_keys": "",
                 }
                 key_data['prop_keys'] = results['name']
-                db.child("People").child(self.curr['localid']).child("ids").push(key_data, self.curr['idToken'])
+                
                 
                 
                 
@@ -6431,38 +6674,70 @@ class MainApp(MDApp):
                                                 else:
                                                     info = "description must be between 20 and 255 characters"
                                                     self.show_dialog(info)
+                                                    self.rent.ids.rent_scroll.scroll_to(self.rent.ids.description)
+                                                    self.rent.ids.description.focused = True
+                                                    self.rent.ids.description.error = True
                                             else:
                                                 info = "Invalid input for price"
                                                 self.show_dialog(info)
+                                                self.rent.ids.rent_scroll.scroll_to(self.rent.ids.price)
+                                                self.rent.ids.price.focused = True
+                                                self.rent.ids.price.error = True
                                         else:
                                             info = "Invalid input for landspace"
                                             self.show_dialog(info)
+                                            self.rent.ids.rent_scroll.scroll_to(self.rent.ids.land_space)
+                                            self.rent.ids.land_space.focused = True
+                                            self.rent.ids.land_space.error = True
                                     else:
                                         info = "Street must be between 3 and 25 characters"
                                         self.show_dialog(info)
+                                        self.rent.ids.rent_scroll.scroll_to(self.rent.ids.location_street)
+                                        self.rent.ids.location_street.focused = True
 
                                 else:
                                     info = "Town must be between 2 and 25 characters"
                                     self.show_dialog(info)
+                                    self.rent.ids.rent_scroll.scroll_to(self.rent.ids.location)
+                                    self.rent.ids.location.focused = True
+                                    self.rent.ids.location.error = True
                             else:
                                 info = "State must be between 2 and 25 characters"
                                 self.show_dialog(info)
+                                self.rent.ids.rent_scroll.scroll_to(self.rent.ids.state)
+                                self.rent.ids.state.focused = True
+                                self.rent.ids.state.error = True
                         else:
                             info = "Please select your country"
                             self.show_dialog(info)
+                            self.rent.ids.rent_scroll.scroll_to(self.rent.ids.country)
+                            
                     else:
                         info = "Property type must be between 5 and 21 characters"
                         self.show_dialog(info)
+                        self.rent.ids.rent_scroll.scroll_to(self.rent.ids.housetype)
+                        self.rent.ids.housetype.focused = True
+                        self.rent.ids.housetype.error = True
+
                 else:
                     info = "Invalid phonenumber"
                     self.show_dialog(info)
+                    self.rent.ids.rent_scroll.scroll_to(self.rent.ids.number)
+                    self.rent.ids.phonenumber.focused = True
+                    self.rent.ids.phonenumber.error = True
             
             else:
                 info = "Please enter a phonenumber"
                 self.show_dialog(info)
+                self.rent.ids.rent_scroll.scroll_to(self.rent.ids.number)
+                self.rent.ids.phonenumber.focused = True
+                self.rent.ids.phonenumber.error = True
         else:
             text = "Invalid email"
             self.show_dialog(text)
+            self.rent.ids.rent_scroll.scroll_to(self.rent.ids.email)
+            self.rent.ids.email.focused = True
+            self.rent.ids.email.error = True
 
     @mainthread
     def true_switch_rent(self):
@@ -6615,8 +6890,7 @@ class MainApp(MDApp):
                 data['location'] = self.rent_country.strip()+self.rent_state.strip()+self.rent_town.strip()
                 data['link'] = self.rent_link.strip()
                 data['date'] = string_of_time
-                # db.child("People").child(key).child("house").push(data)
-                # results = db.child("People").child("Rent").child(self.user['localId']).child("house").push(data)
+                
                 results = db.child("Rent").push(data, self.curr['idToken'])
                 self.tot = ''
                 self.country = ''
@@ -6642,7 +6916,7 @@ class MainApp(MDApp):
                     "prop_keys": "",
                 }
                 key_data['prop_keys'] = results['name']
-                db.child("People").child(self.curr['localid']).child("ids").push(key_data, self.curr['idToken'])
+                
                 
                 
                 self.curr["sold"][self.curr['email']] += 1
@@ -6759,9 +7033,15 @@ class MainApp(MDApp):
         Animation(md_bg_color=[0,0,0,1], duration=0.3).start(self.home.ids.sale_btn)
         Animation(md_bg_color=self.theme_cls.primary_color, duration=0.3).start(self.home.ids.rent_btn)
 
+        Animation(pos_hint={'center_y': 0.2}, duration=0.3).start(self.home.ids.sale_btn)
+        Animation(pos_hint={'center_y': 0.3}, duration=0.3).start(self.home.ids.rent_btn)
+
     def change_rent_color(self):
         Animation(md_bg_color=[0,0,0,1], duration=0.3).start(self.home.ids.rent_btn)
         Animation(md_bg_color=self.theme_cls.primary_color, duration=0.3).start(self.home.ids.sale_btn)
+
+        Animation(pos_hint={'center_y': 0.2}, duration=0.3).start(self.home.ids.rent_btn)
+        Animation(pos_hint={'center_y': 0.3}, duration=0.3).start(self.home.ids.sale_btn)
 
     def regulate(self):
         self.change_color()
@@ -6794,14 +7074,16 @@ class MainApp(MDApp):
         if self.detail.ids.refresh.scroll_y > 1.2:
             
             self.detail.ids.house_image.reload()
-        
-   
-    def show_image(self):
-        print(self.detail.house_image.image)
 
-    def show_view(self):
+    def check_time(self):
+        self.timer = datetime.time(datetime.now())
         
-        print('scroll_y: ' + str(self.home.ids.scroller.scroll_y))
+        if self.timer.hour > 18:
+            self.account.ids.profile.source = '3d-house.jpg'
+        elif self.timer.hour > 6 and self.timer.hour < 18:
+            self.account.ids.profile.source = '3d-morning-house.jpg'
+   
+    
     
 MainApp().run()
 

@@ -35,10 +35,11 @@
             do_scroll_x: False
             scroll_distance: 10
             effect_cls: "ScrollEffect"
+            id: rent_scroll
             MDBoxLayout:
                 orientation: 'vertical'
                 spacing: "30dp"
-                padding: [10, 10, 10, 30]
+                padding: ["10dp", "10dp", "10dp", "30dp"]
                 size_hint_y: None
                 adaptive_height: True
                 
@@ -47,9 +48,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -81,9 +82,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -111,9 +112,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -175,9 +176,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -205,9 +206,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -234,9 +235,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -263,15 +264,16 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
                     spacing: "20dp"
                     md_bg_color: 255/255, 255/255, 255/255, 0.8
                     padding: [0,self.height/2.5,0,self.height/3]
+                    id: country
                     MDBoxLayout:
                         orientation: 'vertical'
                         padding: [20,0,20,0]
@@ -309,9 +311,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -338,9 +340,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -367,9 +369,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -386,7 +388,7 @@
                             size_hint_y: None
                             adaptive_height: True
                         MDTextField:
-                            id: location
+                            id: location_street
                             hint_text: "street/address"
                             font_size: '15dp'
                             on_text: app.streeti(self.text)
@@ -396,9 +398,9 @@
                 MDBoxLayout: 
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -514,9 +516,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -631,9 +633,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -682,9 +684,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 10
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -733,9 +735,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: price_card.height + landspace_text.height * 20
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'
@@ -767,9 +769,9 @@
                 MDBoxLayout:
                     opacity: 0.9
                     radius: [5]
-                    size_hint: None, None
+                    size_hint_y: None
                     height: Window.size[1] / 1.5 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 50
-                    width: Window.size[0] / 1.2
+                    
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
                     orientation: 'vertical'

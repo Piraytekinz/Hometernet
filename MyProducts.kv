@@ -100,8 +100,10 @@
                 scroll_distance: 1
                 
                     
-                    
-                            
+                MDBoxLayout:
+                    size_hint_y: None
+                    adaptive_height: True
+                    orientation: 'vertical'
                         
                                 
 
@@ -112,49 +114,61 @@
             
                     
 
-                PropertyCardsLayout:
-                    size_hint_y: None
-                    adaptive_height: True
-                    spacing: "20dp"
-                    orientation: 'vertical'
-                    padding: ["0dp","10dp","0dp","5dp"]
-                    id: layout
+                    PropertyCardsLayout:
+                        size_hint_y: None
+                        adaptive_height: True
+                        spacing: "20dp"
+                        orientation: 'vertical'
+                        padding: ["0dp","10dp","0dp","5dp"]
+                        id: layout
+                 
+                    MDSpinner:
+                        active: False
+                        size_hint: None, None
+                        width: '30dp'
+                        height: '30dp'
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        id: spinno
                         
 
                     
         
             
-            
-
-        Reload:
-            
-            size_hint: None, None
-            height: "46dp"
-            width: "46dp"
-            radius: ["23dp"]
-            pos_hint: {'center_x': 0.5}
-            padding: ["23dp"]
-            ripple_behavior: True
-            id: reload
-            elevation: 0
+        MDIconButton:
+            icon: 'refresh'
+            icon_size: '24dp'
             on_press: app.play()
             on_press: app.reload_products()
             pos_hint: {'center_x': 0.9, 'center_y': 0.2}
-            MDIcon:
-                icon: 'refresh'
-                font_size: "16dp"
+            id: reload
+            md_bg_color: 1,1,1,1
+            disabled_color: 0,0,0,1
+            elevation: 1
+
+        # Reload:
+            
+        #     size_hint: None, None
+        #     height: "46dp"
+        #     width: "46dp"
+        #     radius: ["23dp"]
+        #     pos_hint: {'center_x': 0.5}
+        #     padding: ["23dp"]
+        #     ripple_behavior: True
+        #     id: reload
+        #     elevation: 0
+        #     on_press: app.play()
+        #     on_press: app.reload_products()
+        #     pos_hint: {'center_x': 0.9, 'center_y': 0.2}
+        #     MDIcon:
+        #         icon: 'refresh'
+        #         font_size: "16dp"
 
            
 
             
 
-        MDSpinner:
-            active: False
-            size_hint: None, None
-            width: '30dp'
-            height: '30dp'
-            pos_hint: {'center_x': 0.5, 'center_y': 0.4}
-            id: spinner
+        
+
                 
 
             

@@ -1,6 +1,6 @@
 <DetailsScreen>:
     # on_pre_enter: app.set_it_out()
-    on_enter: bk_ico.icon="bookmark" if app.curr['email'] != '' and root.key in app.curr['bookmarks'][app.curr['email']] else "bookmark-outline"
+    
 
     MDBoxLayout:
         id: dude
@@ -56,7 +56,7 @@
                                 id: bk_ico
                                 on_press: app.play()
                                 on_release: self.icon='bookmark' if self.icon == 'bookmark-outline' else 'bookmark-outline'
-                                on_release: app.bookmark(root.key)
+                                on_release: app.bookmark(root.key, root.me)
                                 ripple_behavior: True
                                 icon_size: "20sp"
                                 md_bg_color: 1,1,1,1
@@ -487,7 +487,7 @@
                 id: biye
                 pos_hint: {'center_y': 0.5}
                 on_release: app.send_thread_email(root.email, root.phonenumber, root.twitter, root.facebook, root.link, root.type, root.price, root.country, root.bedrooms)
-                on_press: app.play()
+                on_press: app.sound()
                 RelativeLayout:
                     MDLabel:
                         text: "Offer"

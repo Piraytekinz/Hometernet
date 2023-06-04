@@ -84,7 +84,9 @@
                         text: 'Sale'
                         size_hint_y: None
                         adaptive_height: True
-                        on_press: app.play()
+                        on_press: 
+                            app.play()
+                            app.laaa(True)
                         on_release: 
                             app.choice.open()
                             app.choice.check_position_caller(None, None, None)
@@ -111,10 +113,13 @@
                         text: '1'
                         size_hint_x: None
                         width: '2dp'
-                        on_press: app.play()
+                        on_press: 
+                            app.play()
+                            app.laaa(True)
                         on_release: app.bedrooms_choice()
                         pos_hint: {'center_y': 0.5}
                         font_size: '14dp'
+                        
                     
                 
                             
@@ -134,9 +139,12 @@
                     text_color: "black"
                     id: prop
                     input_type: "text"
-                    on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
+                    on_text_validate: 
+                        
+                        app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
                     cursor_color: app.theme_cls.primary_color
-                    icon_left: 'bed'
+               
+                    on_focus: app.laaa(self.focused)
 
             CountryCard:
                 radius: ["10dp"]
@@ -157,6 +165,7 @@
                     active_line: True
                     on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
                     cursor_color: app.theme_cls.primary_color
+                    on_focus: app.laaa(self.focused)
 
             MDBoxLayout:
                 size_hint_y: None
@@ -181,6 +190,7 @@
                         input_type: "text"
                         on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
                         cursor_color: app.theme_cls.primary_color
+                        on_focus: app.laaa(self.focused)
 
                 StreetCard:
                     radius: ["10dp"]
@@ -200,6 +210,7 @@
                         input_type: "text"
                         on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
                         cursor_color: app.theme_cls.primary_color
+                        on_focus: app.laaa(self.focused)
 
                 
                 
@@ -220,7 +231,7 @@
                 
             MDIconButton:
                 icon: 'refresh'
-                icon_size: '25sp'
+                icon_size: '25dp'
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 id: refresh_card
                 md_bg_color: 1,1,1,1
@@ -228,7 +239,8 @@
                 opacity: 0
                 on_press: app.play()
                 on_release: app.reverser_next()
-                ripple_scale: 0
+            
+                disabled_color: 0,0,0,1
                 
 
             SearchLayout:
@@ -252,7 +264,7 @@
                 
             MDIconButton:
                 icon: 'arrow-down'
-                icon_size: '25sp'
+                icon_size: '25dp'
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 on_release: app.next_thread(bed_item.text)
                 md_bg_color: 1,1,1,1
@@ -260,7 +272,8 @@
                 disabled: True
                 opacity: 0
                 on_press: app.play()
-                ripple_scale: 0
+        
+                disabled_color: 0,0,0,1
                                 
             
 

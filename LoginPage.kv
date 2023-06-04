@@ -122,7 +122,7 @@
                         ripple_behavior: True
                         size_hint_y: None
                         height: passwrd.height
-                        on_press: app.play()
+                        on_press: app.sound()
                         # on_press: 
                             # app.switch_loading()
                         # app.loading.ids.labe.opacity=1
@@ -168,6 +168,8 @@
                                 adaptive_size: True
                                 font_size: '15dp'
                                 color: app.theme_cls.primary_color
+                                on_press: app.play()
+                                on_release: app.show_privacy()
                                 
                                 
                                 id: sign_up

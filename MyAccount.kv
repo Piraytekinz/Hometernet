@@ -1,4 +1,5 @@
 <MyAccount>:
+    on_pre_enter: app.check_time()
     MDBoxLayout:
         orientation: 'vertical'
         spacing: "5dp"
@@ -30,26 +31,37 @@
                     padding: [20]
                     MDCard:
                         size_hint: None, None
-                        height: icon.height + 30
+                        height: '150dp'
                         width: self.height
                         radius: [self.height/2]
                         pos_hint: {'center_x':0.5, 'center_y':0.5}
-                        padding: [self.width/2]
+                        # padding: [self.width/2]
                         elevation: 0
-                        MDIcon:
-                            id: icon
-                            icon: 'account'
-                            font_size: '150dp'
-                            size_hint_y: None
-                            adaptive_height: True
-                            pos_hint: {'center_x':0.5, 'center_y':0.5}
+                        # MDIcon:
+                        #     id: icon
+                        #     icon: 'account'
+                        #     font_size: '150dp'
+                        #     size_hint_y: None
+                        #     adaptive_height: True
+                        #     pos_hint: {'center_x':0.5, 'center_y':0.5}
+                        FitImage:
+                            source: '3d-house.jpg'
+                            # size_hint: None, None
+                            # width: '150dp'
+                            # height: '150dp'
+                            pos_hint: {'center_x': 0.1, 'center_y': 0.5}
+                            allow_stretch: True
+                            radius: [self.height/2]
+                            id: profile
+                
+                            
 
                     MDLabel:
                         text: root.text
                         size_hint_y: None
                         height: '20dp'
                         halign: 'center'                       
-                        font_style: 'Overline'
+                        
                         font_size: '20dp'
                         bold: True
                         id: user
@@ -109,6 +121,18 @@
                             divider: None
                             on_press: app.play()
                             on_release: app.show_terms()
+                            radius: [10]
+                            IconLeftWidget:
+                                icon: 'book-open-outline'         
+                                                
+                                icon_size: '20dp'
+                                pos_hint:{'center_y': 0.5}
+
+                        OneLineIconListItem:
+                            text: "[size=16dp]Privacy Policy[/size]"
+                            divider: None
+                            on_press: app.play()
+                            on_release: app.show_privacy()
                             radius: [10]
                             IconLeftWidget:
                                 icon: 'book-open-outline'         
