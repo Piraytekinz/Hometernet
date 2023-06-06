@@ -98,6 +98,8 @@
                             on_press: app.play()
                             on_release: app.sign_out_auth()
                             radius: [10]
+                            id: sign_out
+                            disabled: True if app.products.ids.spinno.opacity == 1 else False
                             IconLeftWidget:
                                 icon: 'account-arrow-left-outline'         
                                                 
@@ -110,6 +112,8 @@
                             on_press: app.play()
                             on_release: app.remove_user_auth()
                             radius: [10]
+                            disabled: True if app.products.ids.spinno.opacity == 1 else False
+                            id: remove_acc
                             IconLeftWidget:
                                 icon: 'trash-can-outline'         
                                                 

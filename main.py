@@ -143,7 +143,7 @@ storage = firebasei.storage()
 
 
 
-# Loader.loading_image = 'load-33.gif'
+Loader.loading_image = 'load.gif'
 
 
 
@@ -1596,8 +1596,7 @@ class BookmarkLayout(MDBoxLayout):
             
 
 
-            with open(f'{path}/user.json', 'w') as jsonfile:
-                json.dump(self.curr, jsonfile)
+            
             
             self.clear_them()
             self.snackbar("Bookmarks cleared successfully")
@@ -1981,19 +1980,22 @@ class MainApp(MDApp):
 
                 with open(f'{path}/user.json', 'w') as jsonfile:
                     json.dump(self.curr, jsonfile)
-                self.snackbar('Successfully signed in loading properties')
+                self.snackbar('Successfully signed in')
                 
                 self.loader.clear()
                 self.last_sold = 0
                 self.clear_products()
                 
                 self.clear_bk_widgets()
+                if self.prod_err == True:
+                    self.remove_prod_err()
+                    self.prod_err = False
         
 
 
     def reload_products(self):
         
-        
+        self.products_spin_opacity() 
         self.products.ids.reload.disabled = True
         self.loader.clear()
         self.last_sold = 0
@@ -2007,7 +2009,7 @@ class MainApp(MDApp):
 
     def begin_loading(self):
         
-        self.products.ids.spinno.opacity = 1 
+        
         self.event = Event()
         self.th = threading.Thread(target=self.begin_now)
         self.th.start()
@@ -2092,6 +2094,13 @@ class MainApp(MDApp):
     def enabled_reload(self):
         self.products.ids.reload.disabled = False    
         self.products.ids.spinno.opacity = 0
+        self.products.ids.sign_out.disabled = False
+        self.products.ids.switch.disabled = False
+        self.products.ids.trash.disabled = False
+        if self.has_account == True:
+            self.account.ids.sign_out.disabled = False
+            self.account.ids.remove_acc.disabled = False
+       
             
     @mainthread
     def empty_prod(self, text, color='black', icon='cloud-outline'):
@@ -2134,7 +2143,12 @@ class MainApp(MDApp):
         self.wm.switch_to(self.products)
 
 
-
+    @mainthread
+    def products_spin_opacity(self):
+        self.products.ids.sign_out.disabled = True
+        self.products.ids.switch.disabled = True
+        self.products.ids.trash.disabled = True
+        self.products.ids.spinno.opacity = 1
 
     @mainthread
     def clear_products(self):
@@ -2145,6 +2159,7 @@ class MainApp(MDApp):
         
         # self.loading.ids.spin.active = True
         # self.switch_loading()
+        self.products_spin_opacity() 
         self.true_switch_products()
         
         self.passwrd = ''
@@ -2191,9 +2206,7 @@ class MainApp(MDApp):
                 self.testiroro = db.child("Rent").order_by_child('email').equal_to(self.curr['email']).get()
                 self.last_sold = self.curr["sold"][self.curr['email']]
                 
-                if self.prod_err == True:
-                    self.remove_prod_err()
-                    self.prod_err = False
+                
 
                 if self.testichiro.each():
                     
@@ -3790,7 +3803,7 @@ class MainApp(MDApp):
             self.account = MyAccount(name='acc')
             self.has_account = True
         self.wm.switch_to(self.account, direction='right')
-        
+
         self.passwrd = ''
         self.mail = ''
         self.sign_in_current = 'acc'
@@ -4521,7 +4534,7 @@ class MainApp(MDApp):
             type='custom',
             content_cls=Countries(),
             size_hint=[None, None],
-            width= Window.size[0] / 1.2,
+            width= Window.size[0] / 1.05,
             
         )
         self.dia.open()
@@ -5103,6 +5116,7 @@ class MainApp(MDApp):
         
         self.curr['localid'] = ''
         self.clear_products()
+        self.clear_bk()
         self.loader.clear()
         self.last_sold = 0
 
@@ -5286,6 +5300,9 @@ class MainApp(MDApp):
         self.last_sold = 0
         self.products.ids.layout.clear_widgets()
         self.bk.ids.bk.clear_widgets()
+        if self.prod_err == True:
+            self.remove_prod_err()
+            self.prod_err = False
         p = 'Successfully signed out'
         self.snackbar(p)
 
@@ -7042,6 +7059,8 @@ class MainApp(MDApp):
 
         Animation(pos_hint={'center_y': 0.2}, duration=0.3).start(self.home.ids.rent_btn)
         Animation(pos_hint={'center_y': 0.3}, duration=0.3).start(self.home.ids.sale_btn)
+
+    
 
     def regulate(self):
         self.change_color()
