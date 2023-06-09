@@ -38,7 +38,7 @@
                     pos_hint: {'center_y': 0.5}
                     icon_size: "24dp"
                     bold: True
-                    on_press: app.play()
+                    on_press: app.sound()
                     on_release: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
                     id: searchido
                     md_bg_color: 1,1,1,1
@@ -88,8 +88,7 @@
                             app.play()
                             app.laaa(True)
                         on_release: 
-                            app.choice.open()
-                            app.choice.check_position_caller(None, None, None)
+                            app.sale_rent_choice()
                         pos_hint: {'center_y': 0.5}
                         font_size: '14dp'
                 BedCard:

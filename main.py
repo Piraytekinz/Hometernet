@@ -6,7 +6,7 @@ from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.loader import Loader
 
-from kivy.uix.screenmanager import ScreenManager, Screen,NoTransition, WipeTransition, SlideTransition,CardTransition
+from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition, SlideTransition
 from kivy.core.window import Window
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.card import MDCard
@@ -33,10 +33,10 @@ from kivymd.uix.label import MDLabel, MDIcon
 
 
 
-from kivy.effects.dampedscroll import DampedScrollEffect
 
 
-# from kivymd.effects.roulettescroll import RouletteScrollEffect
+
+
 
 import pyrebase
 import re
@@ -49,7 +49,7 @@ from kivy.core.audio import SoundLoader
 from kivy.base import EventLoop
 from kivy.config import Config
 
-from kivy.uix.textinput import TextInput
+
 
 
 
@@ -100,6 +100,7 @@ Config.set('kivy', 'exit_on_escape', 0)
 
 
 
+
 path = os.getcwd()
 
 
@@ -143,7 +144,7 @@ storage = firebasei.storage()
 
 
 
-Loader.loading_image = 'load.gif'
+# Loader.loading_image = 'load.gif'
 
 
 
@@ -196,6 +197,7 @@ class WindowManager(ScreenManager):
 
 class MainLayout(MDBoxLayout):
     pass
+        
 
 class AccountLoginPage(Screen):
     pass
@@ -664,8 +666,7 @@ class PropertyCardsLayout(MDBoxLayout):
         self.show_thread_dialog(titler='Deleting Account', notice="Please wait...")
 
         
-        # self.delete_thread = threading.Thread(target=self.delete_user)
-        # self.delete_thread.start()
+        
         
         
 
@@ -765,18 +766,7 @@ class PropertyCardsLayout(MDBoxLayout):
                 server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
                 server.sendmail("hometernetmanager@gmail.com", "hometernetmanager@gmail.com", message.as_string())
                 server.quit() 
-                # user = authi.sign_in_with_email_and_password(dati['email'], dati['password'])
                 
-                # testichiro = db.child("People").child(dati['localid']).child("ids").get(dati['idToken'])
-                
-                # if testichiro.each():
-                #     for i in testichiro.each():
-
-                        
-
-                #         dude = i.val()['prop_keys']
-                #         db.child("Sale").child(dude).remove(dati['idToken'])
-                #         db.child("Rent").child(dude).remove(dati['idToken'])
                         
                         
                 testichiro = db.child("Sale").order_by_child('email').equal_to(dati['email']).get()
@@ -789,7 +779,7 @@ class PropertyCardsLayout(MDBoxLayout):
                     for i in testichiro.each():
                         db.child("Rent").child(i.key()).remove(dati['idToken'])
                 
-                # db.child("People").child(dati['localid']).remove(dati['idToken'])
+                
                             
                 db.child("Accounts").child(dati['localid']).remove(dati['idToken'])
                 
@@ -1130,7 +1120,7 @@ class HomeCardsLayout(MDGridLayout):
             
             self.peopler = db.child("Rent").order_by_child('housetype').limit_to_first(8).get()
 
-        # self.peopler = db.child("Rent").order_by_key().limit_to_last(6).get()
+        
         if self.peopler.each():
             # if len(self.people.each()) < 1:
             #     self.thread_added()
@@ -1139,9 +1129,9 @@ class HomeCardsLayout(MDGridLayout):
             Clock.schedule_once(partial(self.rent_done), 0.3)
             
             
-        else:
+        # else:
             
-            self.thread_rent_added()
+        #     self.thread_rent_added()
         
     def added(self):
         
@@ -1190,15 +1180,15 @@ class HomeCardsLayout(MDGridLayout):
             
             self.people = db.child("Sale").order_by_child('housetype').limit_to_first(8).get()
         
-        # self.people = db.child("Sale").order_by_child('price').limit_lo_last(1).get()
+        
         if self.people.each():
             self.sale_found = True
             Clock.schedule_once(partial(self.done), 0.3)
            
             
-        else:
+        # else:
             
-            self.thread_added()
+        #     self.thread_added()
         
 
             
@@ -1211,9 +1201,8 @@ class HomeCardsLayout(MDGridLayout):
             self.remove_err()
         if self.sale_found:
             for u in self.people.each()[self.j:self.j+4]:
-                if u.key() == self.something:
-                    
-                    continue
+                
+                
                 self.something = u.key()
                 self.card = HomeCards()
                 
@@ -1238,7 +1227,7 @@ class HomeCardsLayout(MDGridLayout):
                 self.card.amenities = u.val()['amenities']
                 self.card.link = u.val()['link']
                 self.card.opacity = 0
-                Animation(opacity=1, duration=0.5).start(self.card)
+                Animation(opacity=1, duration=0.2).start(self.card)
                 self.add_widget(self.card)
                 
                 self.last = u.key()
@@ -1260,9 +1249,8 @@ class HomeCardsLayout(MDGridLayout):
             self.remove_err()
         if self.rent_found:
             for u in self.peopler.each()[self.j:self.j+4]:
-                if u.key() == self.rent_something:
-                    
-                    continue
+                
+                
                 self.rent_something = u.key()
                 self.card = HomeCards()
                 
@@ -1287,7 +1275,7 @@ class HomeCardsLayout(MDGridLayout):
                 self.card.amenities = u.val()['amenities']
                 self.card.link = u.val()['link']
                 self.card.opacity = 0
-                Animation(opacity=1, duration=0.5).start(self.card)
+                Animation(opacity=1, duration=0.2).start(self.card)
                 self.add_widget(self.card)
                 
                 self.last = u.key()
@@ -1415,7 +1403,7 @@ class HomeCardsLayout(MDGridLayout):
             for u in self.peopler.each()[self.j:self.j+4]:
                 
                 
-                    
+                
                 if u.key() == self.rent_something:
                     
                     continue
@@ -1441,7 +1429,7 @@ class HomeCardsLayout(MDGridLayout):
                 self.card.amenities = u.val()['amenities']
                 self.card.link = u.val()['link']
                 self.card.opacity = 0
-                Animation(opacity=1, duration=1).start(self.card)
+                Animation(opacity=1, duration=0.2).start(self.card)
                 self.add_widget(self.card)
                 
                 self.last = u.key()
@@ -1460,8 +1448,9 @@ class HomeCardsLayout(MDGridLayout):
             for u in self.people.each()[self.j:self.j+4]:
                 
                 
-                    
+                
                 if u.key() == self.something:
+                    
                     continue
                 
                 self.card = HomeCards()
@@ -1485,7 +1474,7 @@ class HomeCardsLayout(MDGridLayout):
                 self.card.amenities = u.val()['amenities']
                 self.card.link = u.val()['link']
                 self.card.opacity = 0
-                Animation(opacity=1, duration=1).start(self.card)
+                Animation(opacity=1, duration=0.2).start(self.card)
                 self.add_widget(self.card)
                 
                 self.last = u.key()
@@ -1672,7 +1661,7 @@ class Listings(MDList):
                 
                 
 
-# princekofasiedu
+
 
 
 
@@ -1722,6 +1711,8 @@ class MainApp(MDApp):
         self.has_sign_up = False
         self.has_update_scr = False
         self.has_switched = False
+        self.has_open_search = False
+        self.has_about = False
 
         
         self.signin = SignInScreen(name="signin")
@@ -1748,12 +1739,13 @@ class MainApp(MDApp):
         
         
         
-        self.about = AboutScreen(name="about")
+        
         
         self.detail = DetailsScreen(name="details")
+
+        self.congrats = Congrats(name='congrats')
         
         
-        self.search = SearchScreen(name="search")
         
         
         
@@ -1769,36 +1761,10 @@ class MainApp(MDApp):
         self.current_screen = ''
         self.sign_in_current = ''
 
-        # self.wm.current = 'starter'
-        # self.wm.switch_to(self.starter)
+        
         
 
-        choice_items = [
-            {
-                "viewclass": "OneLineListItem",
-                "text": "Sale",
-                
-                "on_release": lambda x="Sale": self.set_item(x)
-            },
-            {
-                "viewclass": "OneLineListItem",
-                "text": "Rent",
-                
-                "on_release": lambda x="Rent": self.set_item(x)
-            }
-        ]
-
-        self.choice = MDDropdownMenu(
-            caller=self.search.ids.drop_item,
-            
-            ver_growth='down',
-            width_mult=3
-        )
-
         
-
-        for i in choice_items:
-            self.choice.items.append(i)
         
         
         
@@ -2017,7 +1983,7 @@ class MainApp(MDApp):
 
     def begin_now(self):
         
-        self.products.ids.spinno.active = True
+        
         
         
         
@@ -2086,13 +2052,14 @@ class MainApp(MDApp):
                 self.event.set()
                 
 
-        self.products.ids.spinno.active = False
+       
         
         self.enabled_reload()
 
     @mainthread
     def enabled_reload(self):
-        self.products.ids.reload.disabled = False    
+        self.products.ids.reload.disabled = False  
+        self.products.ids.spinno.active = False  
         self.products.ids.spinno.opacity = 0
         self.products.ids.sign_out.disabled = False
         self.products.ids.switch.disabled = False
@@ -2148,6 +2115,7 @@ class MainApp(MDApp):
         self.products.ids.sign_out.disabled = True
         self.products.ids.switch.disabled = True
         self.products.ids.trash.disabled = True
+        self.products.ids.spinno.active = True
         self.products.ids.spinno.opacity = 1
 
     @mainthread
@@ -2159,7 +2127,10 @@ class MainApp(MDApp):
         
         # self.loading.ids.spin.active = True
         # self.switch_loading()
-        self.products_spin_opacity() 
+        self.products_spin_opacity()
+        if self.prod_err == True:
+            self.remove_prod_err()
+            self.prod_err = False 
         self.true_switch_products()
         
         self.passwrd = ''
@@ -2457,12 +2428,15 @@ class MainApp(MDApp):
                     else:
                         
                         break
+
+            else:
+                self.empty_bk("You have no bookmarks")
             
 
             time.sleep(1)
             if not self.event.is_set():
                 if blokies.val() != None:
-                    blokies = db.child("Accounts").child(self.curr['localid']).child('bookmarks').get(self.curr['idToken'])
+                    # blokies = db.child("Accounts").child(self.curr['localid']).child('bookmarks').get(self.curr['idToken'])
                     
             
                     
@@ -2723,8 +2697,7 @@ class MainApp(MDApp):
                     break
 
     def more_sale(self):
-        
-        time.sleep(1)
+    
         self.home.ids.grid.other()
         
         self.remove_reload_spin()
@@ -2733,8 +2706,7 @@ class MainApp(MDApp):
         
         
     def more_rent(self):
-        
-        time.sleep(1)
+ 
         self.home.ids.grid.rent_other()
         
         self.remove_reload_spin()
@@ -2742,7 +2714,7 @@ class MainApp(MDApp):
     @mainthread
     def remove_reload_spin(self):
         self.home.ids.grid.remove_widget(self.spin)
-        
+        time.sleep(0.5)
         self.home.ids.sale_arrow.disabled = False
         self.home.ids.refresh_sale.disabled = False
         self.has_pressed = False
@@ -3128,7 +3100,7 @@ class MainApp(MDApp):
                         self.card.amenities = u.val()['amenities']
                         self.card.link = u.val()['link']
                         self.card.opacity = 0
-                        Animation(opacity=1,duration=0.5).start(self.card)
+                        Animation(opacity=1,duration=0.2).start(self.card)
                         self.search.ids.search.add_widget(self.card)
                         self.last = u.key()
                         self.search_something = u.key()
@@ -3258,7 +3230,7 @@ class MainApp(MDApp):
                         self.card.amenities = u.val()['amenities']
                         self.card.link = u.val()['link']
                         self.card.opacity = 0
-                        Animation(opacity=1, duration=0.5).start(self.card)
+                        Animation(opacity=1, duration=0.2).start(self.card)
                         self.search.ids.search.add_widget(self.card)
                         self.last = u.key()
                         self.something = u.key()
@@ -3642,6 +3614,36 @@ class MainApp(MDApp):
 
         self.bed_choice.open()
 
+    def sale_rent_choice(self):
+        choice_items = [
+            {
+                "viewclass": "OneLineListItem",
+                "text": "Sale",
+                
+                "on_release": lambda x="Sale": self.set_item(x)
+            },
+            {
+                "viewclass": "OneLineListItem",
+                "text": "Rent",
+                
+                "on_release": lambda x="Rent": self.set_item(x)
+            }
+        ]
+
+        self.choice = MDDropdownMenu(
+            caller=self.search.ids.drop_item,
+            
+            ver_growth='down',
+            width_mult=3
+        )
+
+        
+
+        for i in choice_items:
+            self.choice.items.append(i)
+
+        self.choice.open()
+
     def discard_auth(self):
         self.dia = MDDialog(
             
@@ -3844,6 +3846,9 @@ class MainApp(MDApp):
     def switch_about(self):
         self.wm.transition = SlideTransition()
         self.wm.transition.duration = .1
+        if self.has_about == False:
+            self.about = AboutScreen(name="about")
+            self.has_about = True
         self.wm.switch_to(self.about, direction='right')
 
             
@@ -3861,7 +3866,7 @@ class MainApp(MDApp):
 
     @mainthread
     def switch_details(self, image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, phonenumber=None, twitter=None, facebook=None, description=None, key=None, amenities=None, link=None, me=None):
-        self.wm.transition = CardTransition()
+        self.wm.transition = SlideTransition()
         self.wm.transition.duration = .1
         self.detail.ids.dude.pos_hint = {'center_y': -1}
         self.detail.ids.bk_ico.disabled = True
@@ -3927,9 +3932,11 @@ class MainApp(MDApp):
         
 
     def switch_search(self, direction='down'):
-        self.wm.transition = CardTransition()
+        self.wm.transition = SlideTransition()
         self.wm.transition.duration = .1
-        
+        if self.has_open_search == False:
+            self.search = SearchScreen(name="search")
+            self.has_open_search = True
         self.wm.switch_to(self.search, direction=direction)
         self.current_screen = 'search'
         
@@ -4025,9 +4032,7 @@ class MainApp(MDApp):
 
     @mainthread
     def switch_congrats(self):
-        if not self.has_congrats:
-            self.congrats = Congrats(name='congrats')
-            self.has_congrats = True
+        
         self.wm.switch_to(self.congrats)
     
     @mainthread
@@ -4626,16 +4631,10 @@ class MainApp(MDApp):
         
         
         
-        # while self.kill is False:
-            # if self.event.is_set():
-            
-                
-            #     self.switch_signup()
-            #     break
+        
         
         self.evaluating_email = email
-        # 
-        # try:
+        
         self.validator_status = re.search(r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$',email)
         
         
@@ -5465,6 +5464,9 @@ class MainApp(MDApp):
                 self.loader.clear()
                 self.clear_products()
                 self.clear_bk_widgets()
+                if self.prod_err == True:
+                    self.remove_prod_err()
+                    self.prod_err = False
 
                 if self.curr['first_time'] == "true":
                     
@@ -5728,7 +5730,7 @@ class MainApp(MDApp):
             text = "House type must be between 5 and 21 characters characeters"
             self.show_dialog(text)
             self.edit.ids.housetype.error = True
-            self.edit.ids.housetpe.focused = True
+            self.edit.ids.housetype.focused = True
             self.edit.ids.edit_scroll.scroll_to(self.edit.ids.housetype)
 
        
