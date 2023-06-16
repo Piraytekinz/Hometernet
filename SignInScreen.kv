@@ -24,7 +24,7 @@
                         icon_size: "20dp"
                 MDBoxLayout:
                     orientation: 'vertical'
-                    padding: [25,50,25,35]
+                    padding: ["25dp","25dp","25dp","35dp"]
                     spacing: "23dp"
                     size_hint_y: None
                     adaptive_height: True
@@ -58,12 +58,15 @@
                             size_hint_y: None
                             adaptive_height: True
                             id: notice
-                        Email:
+                            bold: True
+                            markup: True
+                
+                        MDBoxLayout:
                             size_hint_y: None
                             height: '45dp'
-                            radius: [10,]
+                            radius: ["10dp",]
                             id: mail_box
-                            
+                            md_bg_color: 1,1,1,1
                             TextInput:
                                 hint_text: 'email'
                                 multiline: False
@@ -79,12 +82,12 @@
                                 input_type: 'mail'
                                 cursor_color: app.theme_cls.primary_color
 
-                        Password:
+                        MDBoxLayout:
                             size_hint_y: None
                             height: '45dp'
-                            radius: [10,]
+                            radius: ["10dp",]
                             id: passwrd
-                            
+                            md_bg_color: 1,1,1,1
                             TextInput:
                                 hint_text: 'password'
                                 multiline: False
@@ -96,7 +99,6 @@
                                 height: self.minimum_height
                                 background_color: 0,0,0,0
                                 password: True
-                                # on_text: app.password(self.text)
                                 cursor_color: app.theme_cls.primary_color
                                 id: password
 
@@ -114,16 +116,16 @@
                             
 
                     MDCard:
-                        radius: [10]
+                        radius: ["10dp"]
                         md_bg_color: app.theme_cls.primary_color
                         ripple_behavior: True
                         size_hint_y: None
                         height: passwrd.height
-                        # on_release: app.box_loader()
+                        
                         on_release: app.sign_in()
 
                         on_press: app.sound()
-                        # on_release: app.pt.clear_widgets()
+                        
                         MDLabel:
                             text: 'Login'
                             halign: 'center'

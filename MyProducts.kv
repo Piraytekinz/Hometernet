@@ -1,35 +1,64 @@
 <MyProducts>:
    
-    RelativeLayout:
+    FloatLayout:
         id: relay
 
         MDBoxLayout:
             orientation: 'vertical'
             
-            PropTitle:
+            MDBoxLayout:
                 size_hint_y: None
                 height: "70dp"
-                
+                md_bg_color: 1,1,1,1
                 id: prop_title
-
-                MDIconButton:
-                    icon: 'trash-can-outline'
-                    icon_size: "20dp"
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_press: app.play()
-                    on_release: layout.delete_user_auth()
-                    on_release: app.clear_bk() if layout.has_deleted == True else app.do()
-                    id: arrow_right
-                    id: trash
+                padding: [10,0,0,0]
+                
 
                 MDLabel:
                     text: "My Properties"
                     font_size: '16dp'
                     bold: True
                     theme_font_style: 'Overline'
-                    halign: 'center'
+                    
+                    
+                MDIconButton:
+                    icon: 'trash-can-outline'
+                    icon_size: "20dp"
+                    theme_text_color: 'Custom'
+                    text_color: "black"
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_press: 
+                        app.play()
+                        self.text_color=app.theme_cls.primary_color
+                    on_release: 
+                        layout.delete_user_auth()
+                        app.clear_bk() if layout.has_deleted == True else app.do()
+                        self.text_color="black"
+                  
+                    id: arrow_right
+                    id: trash
+                    padding_x: "10dp"
 
-                
+                MDIconButton:
+                    icon: 'refresh'
+                    icon_size: '20dp'
+                    theme_text_color: 'Custom'
+                    text_color: "black"
+                    on_press: 
+                        app.play()
+                        self.text_color=app.theme_cls.primary_color
+                        
+                    on_release: 
+                        self.text_color="black"
+                        app.reload_products()
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    id: reload
+                    
+                    
+                    disabled_color: 0,0,0,1
+                    elevation: 1
+                   
+
                 MDIconButton:
                     icon: 'arrow-right'
                     icon_size: "20dp"
@@ -39,7 +68,7 @@
                     id: arrow_right
             MDBoxLayout:
                 size_hint_y: None
-                adaptive_height: True
+                height: "50dp"
                
                 md_bg_color: 1,1,1,0.5
                 
@@ -99,14 +128,15 @@
                 
                 effect_cls: "ScrollEffect"
                 scroll_distance: 1
-                
+                scroll_wheel_distance: 50
+                smooth_scroll_end: 30
+ 
                     
                 MDBoxLayout:
                     size_hint_y: None
                     adaptive_height: True
                     orientation: 'vertical'
-                        
-                                
+                    
 
                 
                     
@@ -136,35 +166,9 @@
                     
         
             
-        MDIconButton:
-            icon: 'refresh'
-            icon_size: '24dp'
-            on_press: app.play()
-            on_press: app.reload_products()
-            pos_hint: {'center_x': 0.9, 'center_y': 0.2}
-            id: reload
-            md_bg_color: 1,1,1,1
-            disabled_color: 0,0,0,1
-            elevation: 1
+        
 
-        # Reload:
-            
-        #     size_hint: None, None
-        #     height: "46dp"
-        #     width: "46dp"
-        #     radius: ["23dp"]
-        #     pos_hint: {'center_x': 0.5}
-        #     padding: ["23dp"]
-        #     ripple_behavior: True
-        #     id: reload
-        #     elevation: 0
-        #     on_press: app.play()
-        #     on_press: app.reload_products()
-        #     pos_hint: {'center_x': 0.9, 'center_y': 0.2}
-        #     MDIcon:
-        #         icon: 'refresh'
-        #         font_size: "16dp"
-
+        
            
 
             
@@ -176,9 +180,8 @@
             
                         
 <PropTitle@MDCard+CommonElevationBehavior>
-<SignOut@MDCard+CommonElevationBehavior>
-<SwitchAccount@MDCard+CommonElevationBehavior>
-<Reload@MDCard+CommonElevationBehavior>
+
+
 
 
     

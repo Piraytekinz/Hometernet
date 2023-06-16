@@ -3,11 +3,12 @@
     MDBoxLayout:
         orientation: 'vertical'
         spacing: "5dp"
-        AccCard:
+        MDBoxLayout:
             size_hint_y: None
             height: "70dp"
-            padding: [10,]
-            elevation: 0
+            padding: [10,0,0,0]
+            # elevation: 0
+            md_bg_color: 1,1,1,1
             MDLabel:
                 text: 'My Account'
                 font_size: '16dp'
@@ -20,140 +21,143 @@
                 pos_hint: {'center_y': 0.5}
                 id: arrow_right
 
-        MDBoxLayout:
-            ScrollView:
-                effect_cls: 'ScrollEffect'
-                MDBoxLayout:
-                    size_hint_y: None
-                    adaptive_height: True
-                    spacing: "30dp"
-                    orientation: 'vertical'
-                    padding: [20]
-                    MDCard:
-                        size_hint: None, None
-                        height: '180dp'
-                        width: self.height
+   
+        ScrollView:
+            effect_cls: 'ScrollEffect'
+            smooth_scroll_end: 30
+            scroll_distance: 1
+            do_scroll_x: False
+            MDBoxLayout:
+                size_hint_y: None
+                adaptive_height: True
+                spacing: "30dp"
+                orientation: 'vertical'
+                padding: [20]
+                MDCard:
+                    size_hint: None, None
+                    height: '180dp'
+                    width: self.height
+                    radius: [self.height/2]
+                    pos_hint: {'center_x':0.5, 'center_y':0.5}
+                    # padding: [self.width/2]
+                    elevation: 0
+                    # MDIcon:
+                    #     id: icon
+                    #     icon: 'account'
+                    #     font_size: '150dp'
+                    #     size_hint_y: None
+                    #     adaptive_height: True
+                    #     pos_hint: {'center_x':0.5, 'center_y':0.5}
+                    FitImage:
+                        source: '3d-house.jpg'
+                        # size_hint: None, None
+                        # width: '150dp'
+                        # height: '150dp'
+                        pos_hint: {'center_x': 0.1, 'center_y': 0.5}
+                        allow_stretch: True
                         radius: [self.height/2]
-                        pos_hint: {'center_x':0.5, 'center_y':0.5}
-                        # padding: [self.width/2]
-                        elevation: 0
-                        # MDIcon:
-                        #     id: icon
-                        #     icon: 'account'
-                        #     font_size: '150dp'
-                        #     size_hint_y: None
-                        #     adaptive_height: True
-                        #     pos_hint: {'center_x':0.5, 'center_y':0.5}
-                        FitImage:
-                            source: '3d-house.jpg'
-                            # size_hint: None, None
-                            # width: '150dp'
-                            # height: '150dp'
-                            pos_hint: {'center_x': 0.1, 'center_y': 0.5}
-                            allow_stretch: True
-                            radius: [self.height/2]
-                            id: profile
-                
-                            
-
-                    MDLabel:
-                        text: root.text
-                        size_hint_y: None
-                        height: '20dp'
-                        halign: 'center'                       
+                        id: profile
+            
                         
-                        font_size: '20dp'
-                        bold: True
-                        id: user
-                        
-                    MDList:
-                        OneLineIconListItem:
-                            text: "[size=16dp]Sign in[/size]"
-                            divider: None
-                            on_press: app.play()
-                            on_release: app.switch_signin()
-                            radius: [10]
-                            IconLeftWidget:
-                                icon: 'account-arrow-right-outline'         
-                                                
-                                icon_size: '20dp'
-                                pos_hint:{'center_y': 0.5}
 
-                        OneLineIconListItem:
-                            text: "[size=16dp]Password[/size]"
-                            divider: None
-                            on_press: app.play()
-                            on_release: app.password_reset_auth()
-                            radius: [10]
-                            IconLeftWidget:
-                                icon: 'key-outline'         
-                                                
-                                icon_size: '20dp'
-                                pos_hint:{'center_y': 0.5}
+                MDLabel:
+                    text: root.text
+                    size_hint_y: None
+                    height: '20dp'
+                    halign: 'center'                       
+                    markup: True
+                    font_size: '20dp'
+                    bold: True
+                    id: user
+                    
+                MDList:
+                    OneLineIconListItem:
+                        text: "[size=16dp]Sign in[/size]"
+                        divider: None
+                        on_press: app.play()
+                        on_release: app.switch_signin()
+                        radius: [10]
+                        IconLeftWidget:
+                            icon: 'account-arrow-right-outline'         
+                                            
+                            icon_size: '20dp'
+                            pos_hint:{'center_y': 0.5}
 
-                        
-                        OneLineIconListItem:
-                            text: "[size=16dp]Sign out[/size]"
-                            divider: None
-                            on_press: app.play()
-                            on_release: app.sign_out_auth()
-                            radius: [10]
-                            id: sign_out
-                            disabled: True if app.products.ids.spinno.opacity == 1 else False
-                            IconLeftWidget:
-                                icon: 'account-arrow-left-outline'         
-                                                
-                                icon_size: '20dp'
-                                pos_hint:{'center_y': 0.5}
-                        
-                        OneLineIconListItem:
-                            text: "[size=16dp]Remove Account[/size]"
-                            divider: None
-                            on_press: app.play()
-                            on_release: app.remove_user_auth()
-                            radius: [10]
-                            disabled: True if app.products.ids.spinno.opacity == 1 else False
-                            id: remove_acc
-                            IconLeftWidget:
-                                icon: 'trash-can-outline'         
-                                                
-                                icon_size: '20dp'
-                                pos_hint:{'center_y': 0.5}
+                    OneLineIconListItem:
+                        text: "[size=16dp]Password[/size]"
+                        divider: None
+                        on_press: app.play()
+                        on_release: app.password_reset_auth()
+                        radius: [10]
+                        IconLeftWidget:
+                            icon: 'key-outline'         
+                                            
+                            icon_size: '20dp'
+                            pos_hint:{'center_y': 0.5}
 
-                        OneLineIconListItem:
-                            text: "[size=16dp]Terms and conditions[/size]"
-                            divider: None
-                            on_press: app.play()
-                            on_release: app.show_terms()
-                            radius: [10]
-                            IconLeftWidget:
-                                icon: 'book-open-outline'         
-                                                
-                                icon_size: '20dp'
-                                pos_hint:{'center_y': 0.5}
+                    
+                    OneLineIconListItem:
+                        text: "[size=16dp]Sign out[/size]"
+                        divider: None
+                        on_press: app.play()
+                        on_release: app.sign_out_auth()
+                        radius: [10]
+                        id: sign_out
+                        disabled: True if app.products.ids.spinno.opacity == 1 else False
+                        IconLeftWidget:
+                            icon: 'account-arrow-left-outline'         
+                                            
+                            icon_size: '20dp'
+                            pos_hint:{'center_y': 0.5}
+                    
+                    OneLineIconListItem:
+                        text: "[size=16dp]Remove Account[/size]"
+                        divider: None
+                        on_press: app.play()
+                        on_release: app.remove_user_auth()
+                        radius: [10]
+                        disabled: True if app.products.ids.spinno.opacity == 1 else False
+                        id: remove_acc
+                        IconLeftWidget:
+                            icon: 'trash-can-outline'         
+                                            
+                            icon_size: '20dp'
+                            pos_hint:{'center_y': 0.5}
 
-                        OneLineIconListItem:
-                            text: "[size=16dp]Privacy Policy[/size]"
-                            divider: None
-                            on_press: app.play()
-                            on_release: app.show_privacy()
-                            radius: [10]
-                            IconLeftWidget:
-                                icon: 'book-open-outline'         
-                                                
-                                icon_size: '20dp'
-                                pos_hint:{'center_y': 0.5}
-                        
-                        OneLineIconListItem:
-                            text: "[size=16dp]My Properties[/size]"
-                            divider: None
-                            on_press: app.play()
-                            on_release: app.switch_products()
-                            radius: [10]
-                            IconLeftWidget:
-                                icon: 'bed-outline'         
-                                                
-                                icon_size: '20dp'
-                                pos_hint:{'center_y': 0.5}
+                    OneLineIconListItem:
+                        text: "[size=16dp]Terms and conditions[/size]"
+                        divider: None
+                        on_press: app.play()
+                        on_release: app.show_terms()
+                        radius: [10]
+                        IconLeftWidget:
+                            icon: 'book-open-outline'         
+                                            
+                            icon_size: '20dp'
+                            pos_hint:{'center_y': 0.5}
+
+                    OneLineIconListItem:
+                        text: "[size=16dp]Privacy Policy[/size]"
+                        divider: None
+                        on_press: app.play()
+                        on_release: app.show_privacy()
+                        radius: [10]
+                        IconLeftWidget:
+                            icon: 'book-open-outline'         
+                                            
+                            icon_size: '20dp'
+                            pos_hint:{'center_y': 0.5}
+                    
+                    OneLineIconListItem:
+                        text: "[size=16dp]My Properties[/size]"
+                        divider: None
+                        on_press: app.play()
+                        on_release: app.switch_products()
+                        radius: [10]
+                        IconLeftWidget:
+                            icon: 'bed-outline'         
+                                            
+                            icon_size: '20dp'
+                            pos_hint:{'center_y': 0.5}
 
 <AccCard@MDCard+CommonElevationBehavior>

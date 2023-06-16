@@ -10,90 +10,94 @@
     on_press: app.play()
     on_release: app.editscreen(root.image, root.local_image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)
     radius: ["5dp", ]
-    MDBoxLayout:
-        orientation: 'vertical'
-        padding: ["10dp",]
-        spacing: "20dp"
+    md_bg_color: 1,1,1,1
+    orientation: 'vertical'
+    padding: ["10dp",]
+    spacing: "20dp"
+    
         
-        RelativeLayout:
-            FitImage:
-                source: str(root.image)
-                radius: [5, ]
-
-            
-            MDLabel:
-                text: root.price
-                halign: 'center'
-                font_size: "14dp"
-                md_bg_color: 1,1,1,1
-                font_color: "black"
-                bold: True
-                size_hint_y: None
-                height: dp(30)
-                size_hint_max_x: dp(100)
-                pos_hint: {'center_x': 0.75, 'center_y': 0.89}
-                    
-                # MDBoxLayout:
-                #     size_hint: None, None
-                #     adaptive_size: True
-                #     md_bg_color: 1,1,1,1
-                #     padding: [10]
-                #     pos_hint: {'center_x': 0.25, 'center_y': 0.89}
-            MDLabel:
-                text: str(root.views) + " " + "views"
-                halign: 'center'
-                font_size: "14dp"
-                pos_hint: {'center_x': 0.25, 'center_y': 0.89}
-                
-                bold: True
-                
-                size_hint_y: None
-                height: dp(30)
-                size_hint_max_x: dp(100)
-                md_bg_color: 1,1,1,1
-                        
-                        
-                        
-                        
+        
+    RelativeLayout:
+        AsyncImage:
+            source: str(root.image)
+            radius: [5, ]
+            keep_ratio: False
+            allow_stretch: True
 
         
-            
-            
-        Label:
-            text: root.tot
-            bold: True
-            size_hint_y: None
-            height: self.texture_size[1]
-            font_size: '16dp'
-            color: "black"
-            text_size: self.size
-            padding_x: "15dp"
-            
-            
         MDLabel:
-            text: root.country + ',' + ' ' + root.province + ',' + ' ' + root.town + ',' + ' ' + root.street
-            color: "gray"
+            text: root.price
+            halign: 'center'
             font_size: "14dp"
-            size_hint_y: None
-            adaptive_height: True
-            text_size: self.size
-            markup: True
-            shorten: True
-            ellipsis_options: {'color':(0,0,0,0.5), 'underline':False}
-            padding_x: "15dp"
-                        
-            
-
-        MDSeparator:
-
-        MDLabel:
-            text: root.bedrooms + ' rooms' + ' - ' + root.bathrooms + ' baths' + ' - ' + root.landspace 
-            font_size: '14dp'
-            size_hint_y: None
-            height: '45dp'
-            padding_x: "10dp"
+            md_bg_color: 1,1,1,1
+            font_color: "black"
             bold: True
-            padding_x: "15dp"
+            size_hint_y: None
+            height: dp(30)
+            size_hint_max_x: dp(100)
+            pos_hint: {'center_x': 0.75, 'center_y': 0.89}
+                
+            # MDBoxLayout:
+            #     size_hint: None, None
+            #     adaptive_size: True
+            #     md_bg_color: 1,1,1,1
+            #     padding: [10]
+            #     pos_hint: {'center_x': 0.25, 'center_y': 0.89}
+        MDLabel:
+            text: str(root.views) + " " + "views"
+            halign: 'center'
+            font_size: "14dp"
+            pos_hint: {'center_x': 0.25, 'center_y': 0.89}
+            
+            bold: True
+            
+            size_hint_y: None
+            height: dp(30)
+            size_hint_max_x: dp(100)
+            md_bg_color: 1,1,1,1
+                    
+                    
+                    
+                    
+
+    
+        
+        
+    Label:
+        text: root.tot
+        bold: True
+        size_hint_y: None
+        height: self.texture_size[1]
+        font_size: '16dp'
+        color: "black"
+        text_size: self.size
+        padding_x: "15dp"
+        
+        
+    MDLabel:
+        text: root.country + ',' + ' ' + root.province + ',' + ' ' + root.town + ',' + ' ' + root.street
+        color: "gray"
+        font_size: "14dp"
+        size_hint_y: None
+        adaptive_height: True
+        text_size: self.size
+        markup: True
+        shorten: True
+        ellipsis_options: {'color':(0,0,0,0.5), 'underline':False}
+        padding_x: "15dp"
+                    
+        
+
+    MDSeparator:
+
+    MDLabel:
+        text: root.bedrooms + ' rooms' + ' - ' + root.bathrooms + ' baths' + ' - ' + root.landspace 
+        font_size: '14dp'
+        size_hint_y: None
+        height: '45dp'
+        padding_x: "10dp"
+        bold: True
+        padding_x: "15dp"
 
 
 

@@ -1,11 +1,11 @@
 <AboutScreen>:
     MDBoxLayout:
         orientation: 'vertical'
-        AboutCard:
+        MDBoxLayout:
             size_hint_y: None
             height: "70dp"
-            padding: [10,]
-            elevation: 0
+            padding: [10,0,0,0]
+            md_bg_color: 1,1,1,1
             id: about
             MDLabel:
                 text: 'About'
@@ -23,26 +23,26 @@
                 on_release: app.switch_home()
                 pos_hint: {'center_y': 0.5}
                 id: icon
-        MDBoxLayout:
-            ScrollView:
-                MDBoxLayout:
+    
+        ScrollView:
+            MDBoxLayout:
+                size_hint_y: None
+                adaptive_height: True
+                spacing: "30dp"
+                padding: [20,]
+                orientation: 'vertical'
+                MDLabel:
+                    text: "About Hometernet"
+                    bold: True
+                    font_size: '30dp'
+                    size_hint_y: None
+                    height: about.height
+                    halign: 'center'
+                MDLabel:
+                    text: "Hometernet is a global platform for real estate. \n Providing you with services to advertise your properties across the globe to striving to make the world integrated. Help build this community by co-operating with us through your use of Hometernet."
                     size_hint_y: None
                     adaptive_height: True
-                    spacing: "30dp"
-                    padding: [20,]
-                    orientation: 'vertical'
-                    MDLabel:
-                        text: "About Hometernet"
-                        bold: True
-                        font_size: '30dp'
-                        size_hint_y: None
-                        height: about.height
-                        halign: 'center'
-                    MDLabel:
-                        text: "Hometernet is a global platform for real estate. \n Providing you with services to advertise your properties across the globe to striving to make the world integrated. Help build this community by co-operating with us through your use of Hometernet."
-                        size_hint_y: None
-                        adaptive_height: True
-                        font_size: '17dp'
-                        halign: 'center'
+                    font_size: '17dp'
+                    halign: 'center'
 
 <AboutCard@MDCard+CommonElevationBehavior>

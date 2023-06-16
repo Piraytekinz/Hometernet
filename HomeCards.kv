@@ -3,7 +3,7 @@
     
     
     
-    padding: [0]
+    
     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
     size_hint: None, None
     height: Window.size[1] / 1.96 if Window.size[1] > Window.size[0] else Window.size[1] / 1.1
@@ -16,84 +16,86 @@
     id: home_card
     ripple_behavior: True
     radius: ["5dp", ]
+    orientation: 'vertical'
+    padding: ["10dp",]
+    spacing: "20dp"
     
-    MDBoxLayout:
-        orientation: 'vertical'
-        padding: ["10dp",]
-        spacing: "20dp"
+ 
+        
         
             
-        RelativeLayout:
-            FitImage:
-                source: str(root.image)
-                radius: [5, ]
-                keep_ratio: False
-                allow_stretch: True
-                
+    RelativeLayout:
+        AsyncImage:
+            source: str(root.image)
+            radius: [5, ]
+            keep_ratio: False
+            allow_stretch: True
+            mipmap: True
 
-            MDLabel:
-                text: root.price
-                halign: 'center'
-                font_size: "14dp"
-                md_bg_color: 1,1,1,1
-                font_color: "black"
-                bold: True
-                size_hint_y: None
-                height: dp(30)
-                size_hint_max_x: dp(100)
-                pos_hint: {'center_x': 0.75, 'center_y': 0.89}
-
-            MDIconButton:
-                icon: 'bookmark'
-                theme_text_color: "Custom"
-                text_color: 'black'
-                on_press: app.bookmark(root.key, root.me)
-                pos_hint: {'center_x': 0.1, 'center_y': 1.04}
-                icon_size: "20dp"
-                id: bookmark_icon
-                on_press: app.sound()
-
-        
-        Label:
-            text: root.tot
-            bold: True
-            size_hint_y: None
-            height: self.texture_size[1]
-            font_size: '16dp'
-            color: "black"
-            text_size: self.size
-            padding_x: "15dp"
-        
-        
         MDLabel:
-            text: root.country + ',' + ' ' + root.province + ',' + ' ' + root.town + ',' + ' ' + root.street
-            color: "gray"
+            text: root.price
+            halign: 'center'
             font_size: "14dp"
-            size_hint_y: None
-            adaptive_height: True
-            text_size: self.size
-            markup: True
-            shorten: True
-            ellipsis_options: {'color':(0,0,0,0.5), 'underline':False}
-            padding_x: "15dp"
-                    
-                    
-                
-                    
-
-        MDSeparator:
-            padding: ['15dp', '0dp', '15dp', '0dp']
-
-
-        MDLabel:
-            text: root.bedrooms + ' rooms' + ' - ' + root.bathrooms + ' baths' + ' - ' + root.landspace 
-            font_size: '14dp'
-            # color: 'gray'
-            size_hint_y: None
-            height: '45dp'
-            padding_x: "10dp"
+            md_bg_color: 1,1,1,1
+            font_color: "black"
             bold: True
-            padding_x: "15dp"
+            size_hint_y: None
+            height: dp(30)
+            size_hint_max_x: dp(100)
+            pos_hint: {'center_x': 0.75, 'center_y': 0.89}
+
+        MDIconButton:
+            icon: 'flag-variant'
+            theme_text_color: "Custom"
+            text_color: 'black'
+            on_press: app.bookmark(root.key, root.me)
+            pos_hint: {'center_x': 0.1, 'center_y': 1.04}
+            icon_size: "23dp"
+            id: bookmark_icon
+            on_press: app.sound()
+
+    
+    Label:
+        text: root.tot
+        bold: True
+        size_hint_y: None
+        height: self.texture_size[1]
+        font_size: '16dp'
+        color: "black"
+        text_size: self.size
+        padding_x: "15dp"
+    
+    
+    Label:
+        text: root.country + ',' + ' ' + root.province + ',' + ' ' + root.town + ',' + ' ' + root.street
+        color: "gray"
+        font_size: "14dp"
+        size_hint_y: None
+        height: self.texture_size[1]
+        text_size: self.size
+        markup: True
+        shorten: True
+        ellipsis_options: {'color':(0,0,0,0.5), 'underline':False}
+        padding_x: "15dp"
+                
+                
+            
                 
 
+    MDSeparator:
+        padding: ['15dp', '0dp', '15dp', '0dp']
+
+
+    MDLabel:
+        text: root.bedrooms + ' rooms' + ' - ' + root.bathrooms + ' baths' + ' - ' + root.landspace 
+        font_size: '14dp'
+   
+        size_hint_y: None
+        height: '45dp'
+        
+        bold: True
+        padding_x: "15dp"
+        
             
+
+        

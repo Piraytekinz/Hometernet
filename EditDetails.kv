@@ -3,10 +3,11 @@
 
     MDBoxLayout:
         orientation: 'vertical'
-        MDCard:
+        MDBoxLayout:
             size_hint_y: None
             height: "70dp"
             radius: [0]
+            md_bg_color: 1,1,1,1
             MDIconButton:
                 icon: 'arrow-left'
                 icon_size: "20dp"
@@ -32,9 +33,11 @@
         
         
         ScrollView:
-            scroll_distance: 10
+            scroll_distance: 1
             effect_cls: "ScrollEffect"
             id: edit_scroll
+            scroll_wheel_distance: 50
+            smooth_scroll_end: 30
             MDBoxLayout:
                 orientation: 'vertical'
                 spacing: "30dp"
@@ -651,6 +654,15 @@
                     pos_hint: {'center_x': 0.5}
                     on_release: app.update_property(root.local_image, housetype.text, price.text, country_text.text, state.text, town.text, street.text, bedrooms.text, bathrooms.text, land_area.text, root.key, description.text)
                     font_size: '15dp'
+
+                MDFlatButton:
+                    text: "Edit image"
+                    # on_press: self.submit()
+                    on_press: app.play()
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.separate_function(None)
+                    font_size: '15dp'
+                    line_color: 0,0,0,1
                     
 <EditPrice@MDCard+CommonElevationBehavior>
 <EditLandspace@MDCard+CommonElevationBehavior>

@@ -7,12 +7,12 @@
         orientation: 'vertical'
         
         ScrollView:
-            # effect_cls: 'ScrollEffect'
+            effect_cls: 'ScrollEffect'
             id: refresh
             scroll_distance: 1
             bar_width: 0
             
-            on_scroll_stop: app.set_it_out()
+         
            
             MDBoxLayout:
                 orientation: 'vertical'
@@ -21,9 +21,9 @@
                 size_hint_y: None
                 
                     
-                ImageCard:
+                MDBoxLayout:
                     padding: [0]
-                    md_bg_color: 0,0,0,1
+                    md_bg_color: 0,0,0,0.3
                     radius: [0]
                     size_hint_y: None
                     height: Window.size[1] / 2
@@ -34,6 +34,7 @@
                             id: house_image
                             keep_ratio: False if Window.size[1] > Window.size[0] else True
                             allow_stretch: True
+                            # mipmap: True
                         AnchorLayout:
                             anchor_x: 'left'
                             anchor_y: 'top'
@@ -44,7 +45,7 @@
                                 on_press: app.play()
                                 on_release: app.switch_from_details()
                                 ripple_behavior: True
-                                icon_size: "20sp"
+                                icon_size: "24sp"
                                 md_bg_color: 1,1,1,1
                         
                         AnchorLayout:
@@ -52,13 +53,13 @@
                             anchor_y: 'top'
                             padding: ["20dp"]
                             MDIconButton:
-                                icon: "bookmark-outline"
+                                icon: "flag-variant-outline"
                                 id: bk_ico
                                 on_press: app.play()
-                                on_release: self.icon='bookmark' if self.icon == 'bookmark-outline' else 'bookmark-outline'
+                                on_release: self.icon='flag-variant' if self.icon == 'flag-variant-outline' else 'flag-variant-outline'
                                 on_release: app.bookmark(root.key, root.me)
                                 ripple_behavior: True
-                                icon_size: "20sp"
+                                icon_size: "24sp"
                                 md_bg_color: 1,1,1,1
 
                         AnchorLayout:
@@ -96,7 +97,7 @@
                         adaptive_height: True
                         
                         MDIcon:
-                            icon: 'google-maps'
+                            icon: 'map-marker-outline'
                             size_hint: None, None
                             adaptive_size: True
                             font_size: '18dp'
@@ -480,7 +481,7 @@
             md_bg_color: 1,1,1,1
             Buy:
                 md_bg_color: app.theme_cls.primary_color
-                radius: [5,]
+                radius: ["5dp",]
                 ripple_behavior: True
                 size_hint_y: None
                 height: buy.height * 3

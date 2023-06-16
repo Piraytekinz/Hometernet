@@ -2,10 +2,11 @@
     
     MDBoxLayout:
         orientation: 'vertical'
-        MDCard:
+        MDBoxLayout:
             size_hint_y: None
             height: "70dp"
             radius: [0]
+            md_bg_color: 1,1,1,1
             MDIconButton:
                 icon: 'arrow-left'
                 icon_size: "20dp"
@@ -33,9 +34,11 @@
         
         ScrollView:
             do_scroll_x: False
-            scroll_distance: 10
+            scroll_distance: 1
             effect_cls: "ScrollEffect"
             id: rent_scroll
+            scroll_wheel_distance: 50
+            smooth_scroll_end: 30
             MDBoxLayout:
                 orientation: 'vertical'
                 spacing: "30dp"
@@ -196,7 +199,7 @@
                             size_hint_y: None
                             adaptive_height: True
                         MDTextField:
-                            id: housetype
+                            id: twitter
                             hint_text: "Twitter Handle"
                             on_text: app.tg(self.text)
                             padding: [20, ]
@@ -225,7 +228,7 @@
                             size_hint_y: None
                             adaptive_height: True
                         MDTextField:
-                            id: housetype
+                            id: facebook
                             hint_text: "Facebook-messenger Handle"
                             on_text: app.fb(self.text)
                             padding: [20, ]
