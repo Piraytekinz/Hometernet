@@ -44,63 +44,7 @@
                 padding: ["10dp", "10dp", "10dp", "30dp"]
                 size_hint_y: None
                 adaptive_height: True
-                # MDLabel:
-                #     halign: 'center'
-                #     text: "Fill in house details"
-                #     font_size: "20sp"
-                #     size_hint_y: None
-                #     adaptive_height: True
-                # MDCard:
-                #     opacity: 0.9
-                #     radius: [5]
-                #     size_hint_y: None
-                #     height: 150
-                    
-                #     elevation: 0
-                #     orientation: 'vertical'
-                #     spacing: "20dp"
-                #     md_bg_color: 255/255, 255/255, 255/255, 0.8
-                #     MDBoxLayout:
-                #         orientation: 'vertical'
-                #         padding: [20,0,20,10]
-                #         MDLabel:
-                #             text: "email"
-                #             valign: 'top'
-                #             font_size: "15sp"
-                #         MDTextField:
-                #             id: email
-                #             hint_text: "email"
-                            
-
-                # MDCard:
-                #     opacity: 0.9
-                #     radius: [5]
-                #     size_hint_y: None
-                #     height: 150
-                    
-                #     elevation: 0
-                #     orientation: 'vertical'
-                #     spacing: "20dp"
-                #     md_bg_color: 255/255, 255/255, 255/255, 0.8
-                #     MDBoxLayout:
-                #         orientation: 'vertical'
-                #         padding: [20,0,20,10]
-                #         MDLabel:
-                #             text: "phone number"
-                #             valign: 'top'
-                #             font_size: "15sp"
-                #         MDBoxLayout:
-                #             spacing: "30dp"
-                #             MDTextField:
-                #                 id: code
-                #                 text: '+1'
-                #                 size_hint_x: .3
-                                
-                #             MDTextField:
-                #                 id: phonenumber
-                #                 hint_text: 'phonenumber'
-                #                 padding: [20, ]
-                #                 # on_text: app.phone(code.text + self.text)
+                
                         
                             
                 MDBoxLayout:
@@ -460,6 +404,7 @@
                             height: landspace_text.height * 2
                             id: land_card
                             radius: [5,]
+                            line_color: 0,0,0,1
                             TextInput:
                                 id: land_area
                                 height: self.minimum_height
@@ -500,6 +445,7 @@
                             height: landspace_text.height * 2
                             id: price_card
                             radius: [5,]
+                            line_color: 0,0,0,1
                             TextInput:
                                 id: price
                                 height: self.minimum_height

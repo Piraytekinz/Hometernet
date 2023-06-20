@@ -147,7 +147,7 @@
                             Code_rent:
                                 
                                 radius: [5,]
-                                
+                                line_color: 0,0,0,1
                                 
                                 MDLabel:
                                     size_hint: None, None
@@ -157,7 +157,7 @@
                                     
                                     valign: 'top'
                                     pos_hint: {'center_y': 0.5}
-                                    font_size: '15dp'
+                    
                                 
                             
                                 
@@ -662,6 +662,7 @@
                             height: landspace_text.height * 2
                             id: land_card
                             radius: [5,]
+                            line_color: 0,0,0,1
                             TextInput:
                                 id: land_space
                                 height: self.minimum_height
@@ -720,6 +721,7 @@
                             height: landspace_text.height * 2
                             id: price_card
                             radius: [5,]
+                            line_color: 0,0,0,1
                             TextInput:
                                 id: price
                                 height: self.minimum_height
@@ -815,7 +817,7 @@
                             font_size: '15dp'
                         MDCheckbox:
                             on_active: app.on_checkbox_active(*args, 0)
-                            id: 0
+                            id: check_zero
                             font_size: '16dp'
 
                         MDLabel:
@@ -823,7 +825,7 @@
                             font_size: '15dp'
                         MDCheckbox:
                             on_active: app.on_checkbox_active(*args, 1)
-                            id: 1
+                            id: check_one
                             font_size: '16dp'
 
                         MDLabel:
@@ -831,7 +833,7 @@
                             font_size: '15dp'
                         MDCheckbox:
                             on_active: app.on_checkbox_active(*args, 2)
-                            id: 2
+                            id: check_two
                             font_size: '16dp'
 
                         MDLabel:
@@ -839,7 +841,7 @@
                             font_size: '15dp'
                         MDCheckbox:
                             on_active: app.on_checkbox_active(*args, 3)
-                            id: 3
+                            id: check_three
                             font_size: '16dp'
 
                         MDLabel:
@@ -847,7 +849,7 @@
                             font_size: '15dp'
                         MDCheckbox:
                             on_active: app.on_checkbox_active(*args, 4)
-                            id: 4
+                            id: check_four
                             font_size: '16dp'
 
                         MDLabel:
@@ -855,7 +857,7 @@
                             font_size: '15dp'
                         MDCheckbox:
                             on_active: app.on_checkbox_active(*args, 5)
-                            id: 5
+                            id: check_five
                             font_size: '16dp'
 
                         MDLabel:
@@ -863,15 +865,16 @@
                             font_size: '15dp'
                         MDCheckbox:
                             on_active: app.on_checkbox_active(*args, 6)
-                            id: 6
+                            id: check_six
                             font_size: '16dp'
                     
-                MDRaisedButton:
+                MDFlatButton:
                     text: "Submit"
                     on_press: app.play()
                     on_release: app.rent_property()
                     pos_hint: {'center_x': 0.5}
                     font_size: '15dp'
+                    line_color: 0,0,0,1
 
 <Price_rent@MDCard+CommonElevationBehavior>
 <Landspace_rent@MDCard+CommonElevationBehavior>

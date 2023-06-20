@@ -2742,7 +2742,7 @@ class MainApp(MDApp):
     
     def send_contact_message(self):
         
-        message = MIMEText(self.contact.ids.mail.text + '\nSender:' + f'\n{self.contact.ids.firstname.text}' + " " + f'{self.contact.ids.lastname.text}')
+        message = MIMEText(self.contact.ids.mail.text + '\nSender:' + f'\n{self.contact.ids.firstname.text}' + " " + f'{self.contact.ids.lastname.text}' + '\n' + f'{self.contact.ids.message.text}')
         message['Subject'] = "Contact Us Hometernet Notice"
         message["From"] = self.contact.ids.mail.text
         message["To"] = "anangjosh8@gmail.com"
@@ -2785,6 +2785,7 @@ class MainApp(MDApp):
             self.has_error = False
             
         self.search.ids.check.text = 'Searching...'
+        self.search.ids.check.opacity = 1
         self.search.ids.spin.active = True
         self.search.ids.spin.opacity = 1
       
@@ -2848,6 +2849,28 @@ class MainApp(MDApp):
         prop_type = property_type.strip().title()
         if prop_type == 'Pent House':
             prop_type = 'Penthouse'
+
+        
+        
+        elif prop_type == 'Hotels':
+            prop_type = 'Hotel'
+
+        elif prop_type == 'Apartments':
+            prop_type = 'Apartment'
+
+        elif prop_type == 'Houses':
+            prop_type = 'House'
+
+        countryl = country.strip().title()
+        
+        if countryl == 'USA' or countryl == 'Usa':
+
+            country = 'United States'
+        if countryl == 'UK' or countryl == 'uk' or countryl == 'Uk':
+            
+            country = 'United Kingdom'
+
+
         
         time.sleep(1)
         
@@ -3026,7 +3049,9 @@ class MainApp(MDApp):
                 #     continue
                 
                 
-                if u.val()['housetype'] == property_type or property_type == '':
+                
+                
+                if u.val()['housetype'] == property_type or property_type == '' or (len(property_type) > 4 and property_type in u.val()['housetype']):
                     if u.val()['bedrooms'] == bedrooms:
                     
                         self.card = HomeCards()
@@ -3156,7 +3181,7 @@ class MainApp(MDApp):
                 
                 self.search_counter += 1
                 
-                if u.val()['housetype'] == self.old_prop.strip() or self.old_prop == "":
+                if u.val()['housetype'] == self.old_prop.strip() or self.old_prop == "" or (len(self.old_prop.strip()) > 4 and self.old_prop.strip() in u.val()['housetype']):
                     if u.val()['bedrooms'] == self.old_bedrooms:
                         self.card = HomeCards()
                         self.card.me = self.card
@@ -3203,7 +3228,7 @@ class MainApp(MDApp):
                 self.search_counter += 1
                 
                 
-                if u.val()['housetype'] == self.old_prop.strip()  or self.old_prop == "":
+                if u.val()['housetype'] == self.old_prop.strip()  or self.old_prop == "" or (len(self.old_prop.strip()) > 4 and self.old_prop.strip() in u.val()['housetype']):
                     if u.val()['bedrooms'] == self.old_bedrooms:
                         self.card = HomeCards()
                         self.card.me = self.card
@@ -3626,6 +3651,10 @@ class MainApp(MDApp):
         self.twitter = ''
         self.facebook = ''
         self.link = ''
+        try:
+            self.dia.dismiss()
+        except:
+            pass
         
     
     def discard_mail(self):
@@ -3908,6 +3937,15 @@ class MainApp(MDApp):
         self.sale.ids.land_space.text = ''
         self.sale.ids.price.text = ''
         self.sale.ids.description.text = ''
+        self.sale.ids.bedrooms = 0
+        self.sale.ids.bathrooms = 0
+        self.sale.ids.check_zero.active = False
+        self.sale.ids.check_one.active = False
+        self.sale.ids.check_two.active = False
+        self.sale.ids.check_three.active = False
+        self.sale.ids.check_four.active = False
+        self.sale.ids.check_five.active = False
+        self.sale.ids.check_six.active = False
         self.wm.switch_to(self.sale)
 
     @mainthread
@@ -3935,6 +3973,15 @@ class MainApp(MDApp):
         self.rent.ids.land_space.text = ''
         self.rent.ids.price.text = ''
         self.rent.ids.description.text = ''
+        self.rent.ids.bedrooms = 0
+        self.rent.ids.bathrooms = 0
+        self.rent.ids.check_zero.active = False
+        self.rent.ids.check_one.active = False
+        self.rent.ids.check_two.active = False
+        self.rent.ids.check_three.active = False
+        self.rent.ids.check_four.active = False
+        self.rent.ids.check_five.active = False
+        self.rent.ids.check_six.active = False
         self.wm.switch_to(self.rent)
 
     @mainthread
@@ -5568,7 +5615,7 @@ class MainApp(MDApp):
         
        
 
-        if len(house_type) > 5 and len(house_type) < 21:
+        if len(house_type) > 4 and len(house_type) < 21:
             
             
             if len(new_state) >= 3 and len(new_state) < 25:
@@ -5625,7 +5672,7 @@ class MainApp(MDApp):
                 self.edit.ids.edit_scroll.scroll_to(self.edit.ids.state)
             
         else:
-            text = "House type must be between 5 and 21 characters characeters"
+            text = "Property type must be between 4 and 21 characters characeters"
             self.show_dialog(text)
             self.edit.ids.housetype.error = True
             self.edit.ids.housetype.focused = True
@@ -5761,7 +5808,7 @@ class MainApp(MDApp):
         
         
 
-        if len(House_type) > 5 and len(House_type) < 21:
+        if len(House_type) > 4 and len(House_type) < 21:
             
             if len(state) >= 3 and len(state) < 25:
 
@@ -5825,7 +5872,7 @@ class MainApp(MDApp):
                 self.edit_rent.ids.state.focused = True
                 self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.state)
         else:
-            text = "House type must be between 5 and 21 characters"
+            text = "Property type must be between 4 and 21 characters"
             self.show_dialog(text)
             self.edit_rent.ids.housetype.error = True
             self.edit_rent.ids.housetype.focused = True
@@ -5956,7 +6003,7 @@ class MainApp(MDApp):
             if x or y or z:
 
                 size = os.path.getsize(self.new_file)
-                if size < 8000000:
+                if size < 25000000:
 
                     image = Image.open(self.new_file)
 
@@ -6059,7 +6106,7 @@ class MainApp(MDApp):
                             pass
                 else:
                     self.close_image_dialog()
-                    self.show_dialog('Image size should be less than 8MB')  
+                    self.show_dialog('Image size should be less than 25MB')  
                 
                 
             else:
@@ -6182,7 +6229,7 @@ class MainApp(MDApp):
                 valid = phonenumbers.is_valid_number(phone_number)
                 
                 if valid == True:
-                    if len(self.tot) > 5 and len(self.tot) < 21:
+                    if len(self.tot) > 4 and len(self.tot) < 21:
                         
                         if len(self.country) > 0:
                             
@@ -6238,7 +6285,7 @@ class MainApp(MDApp):
                             self.sale.ids.sale_scroll.scroll_to(self.sale.ids.island)
                             
                     else:
-                        info = "Property type must be between 5 and 21 characters"
+                        info = "Property type must be between 4 and 21 characters"
                         self.show_dialog(info)
                         self.sale.ids.sale_scroll.scroll_to(self.sale.ids.prop_type)
                         self.sale.ids.housetype.focused = True
@@ -6304,9 +6351,7 @@ class MainApp(MDApp):
         if len(selected_image) > 0:
             if selected_image[0] != None:
                 
-                    # self.switch_loading()
-                    # size = os.path.getsize(selected_image[0])
-                    # if size < 8000000:
+                    
                         
                 try:
                     
@@ -6359,7 +6404,7 @@ class MainApp(MDApp):
         z = re.search(r".jpeg$", self.file)
         if x or y or z:
             size = os.path.getsize(self.file)
-            if size < 8000000:
+            if size < 25000000:
 
                 image = Image.open(self.file)
 
@@ -6555,7 +6600,7 @@ class MainApp(MDApp):
                         pass
 
             else:
-                self.show_dialog('Image size should be less than 8MB')
+                self.show_dialog('Image size should be less than 25MB')
                 time.sleep(1)
                 self.true_switch_sale()
 
@@ -6580,7 +6625,7 @@ class MainApp(MDApp):
                 valid = phonenumbers.is_valid_number(phone_number)
                 
                 if valid == True:
-                    if len(self.tot) > 5 and len(self.tot) < 21:
+                    if len(self.tot) > 4 and len(self.tot) < 21:
                         
                         if len(self.country) > 0:
                             # phone = '+2332222222222'
@@ -6635,7 +6680,7 @@ class MainApp(MDApp):
                             self.rent.ids.rent_scroll.scroll_to(self.rent.ids.country)
                             
                     else:
-                        info = "Property type must be between 5 and 21 characters"
+                        info = "Property type must be between 4 and 21 characters"
                         self.show_dialog(info)
                         self.rent.ids.rent_scroll.scroll_to(self.rent.ids.housetype)
                         self.rent.ids.housetype.focused = True
@@ -6753,7 +6798,7 @@ class MainApp(MDApp):
         z = re.search(r".jpeg$", self.file)
         if x or y or z:
             size = os.path.getsize(self.file)
-            if size < 8000000:
+            if size < 25000000:
 
                 image = Image.open(self.file)
 
@@ -6937,7 +6982,7 @@ class MainApp(MDApp):
                         pass
 
             else:
-                self.show_dialog('Image size should be less than 8MB')
+                self.show_dialog('Image size should be less than 25MB')
                 time.sleep(1)
                 self.true_switch_rent()
 

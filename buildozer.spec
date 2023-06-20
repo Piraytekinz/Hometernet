@@ -4,7 +4,7 @@
 title = Hometernet
 
 # (str) Package name
-package.name = hometernet
+package.name = com.browser.hometernet
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test

@@ -501,52 +501,12 @@ print(time.hour)
 # +44 7926690084
 # 0244233534
 
-# list = [1,3,1,5,5,2,1,5,3]
-# print(list[11:0+30])
-
-# print(f"hello \n world")
 
 
 
-# img = cv.imread('Hometernet-icon.png')
-
-# img1 = cv.resize(img, (120, 120))
-
-# cv.imwrite('Hometernet-icon.png', img1)
-
-# cv.imshow('img1', img1)
-# cv.imshow('img', img)
-# cv.waitKey(0)
-
-from kivymd.app import MDApp
-from kivy.lang import Builder
-from kivy.config import Config
 
 
-Config.set('kivy', 'exit_on_escape', 0)
 
-screenis = """
-Screen:
-    BoxLayout:
-        Label:
-            text: 'hello'
-            radius: [10,]
-            halign: 'center'
-            size_hint: None, None
-            adaptive_size: True
-            md_bg_color: 1,1,1,1
-            pos_hint: {'center_x':0.5, 'center_y':0.5}
-        
-
-"""
-
-class MainApp(MDApp):
-    def build(self):
-        screen = Builder.load_string(screenis)
-
-        return screen
-
-MainApp().run()
 
 
 
