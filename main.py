@@ -3051,7 +3051,7 @@ class MainApp(MDApp):
                 
                 
                 
-                if u.val()['housetype'] == property_type or property_type == '' or (len(property_type) > 4 and property_type in u.val()['housetype']):
+                if u.val()['housetype'] == property_type or property_type == '' or (len(property_type) > 3 and property_type in u.val()['housetype']):
                     if u.val()['bedrooms'] == bedrooms:
                     
                         self.card = HomeCards()
@@ -3181,7 +3181,7 @@ class MainApp(MDApp):
                 
                 self.search_counter += 1
                 
-                if u.val()['housetype'] == self.old_prop.strip() or self.old_prop == "" or (len(self.old_prop.strip()) > 4 and self.old_prop.strip() in u.val()['housetype']):
+                if u.val()['housetype'] == self.old_prop.strip() or self.old_prop == "" or (len(self.old_prop.strip()) > 3 and self.old_prop.strip() in u.val()['housetype']):
                     if u.val()['bedrooms'] == self.old_bedrooms:
                         self.card = HomeCards()
                         self.card.me = self.card
@@ -3228,7 +3228,7 @@ class MainApp(MDApp):
                 self.search_counter += 1
                 
                 
-                if u.val()['housetype'] == self.old_prop.strip()  or self.old_prop == "" or (len(self.old_prop.strip()) > 4 and self.old_prop.strip() in u.val()['housetype']):
+                if u.val()['housetype'] == self.old_prop.strip()  or self.old_prop == "" or (len(self.old_prop.strip()) > 3 and self.old_prop.strip() in u.val()['housetype']):
                     if u.val()['bedrooms'] == self.old_bedrooms:
                         self.card = HomeCards()
                         self.card.me = self.card
@@ -5615,7 +5615,7 @@ class MainApp(MDApp):
         
        
 
-        if len(house_type) > 4 and len(house_type) < 21:
+        if len(house_type) > 3 and len(house_type) < 21:
             
             
             if len(new_state) >= 3 and len(new_state) < 25:
@@ -5672,7 +5672,7 @@ class MainApp(MDApp):
                 self.edit.ids.edit_scroll.scroll_to(self.edit.ids.state)
             
         else:
-            text = "Property type must be between 4 and 21 characters characeters"
+            text = "Property type must be between 3 and 21 characters characeters"
             self.show_dialog(text)
             self.edit.ids.housetype.error = True
             self.edit.ids.housetype.focused = True
@@ -5808,7 +5808,7 @@ class MainApp(MDApp):
         
         
 
-        if len(House_type) > 4 and len(House_type) < 21:
+        if len(House_type) > 3 and len(House_type) < 21:
             
             if len(state) >= 3 and len(state) < 25:
 
@@ -5872,7 +5872,7 @@ class MainApp(MDApp):
                 self.edit_rent.ids.state.focused = True
                 self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.state)
         else:
-            text = "Property type must be between 4 and 21 characters"
+            text = "Property type must be between 3 and 21 characters"
             self.show_dialog(text)
             self.edit_rent.ids.housetype.error = True
             self.edit_rent.ids.housetype.focused = True
@@ -5949,7 +5949,7 @@ class MainApp(MDApp):
     def separate_function(self,obj):
         
         
-        filechooser.open_file(open = '/storage/emmc/DCIM', on_selection=self.change_image_dialog,)
+        filechooser.open_file(open = '/storage/emulator/0', on_selection=self.change_image_dialog,)
         
         
         
@@ -6018,6 +6018,10 @@ class MainApp(MDApp):
                         
                         saved = img.save(self.new_file)
                         self.saved_image = True
+                    else:
+                        pathnum = self.new_file.rfind('/')
+
+                        self.new_file = self.new_file[pathnum+1: ]
                       
                     
                     try:
@@ -6045,7 +6049,11 @@ class MainApp(MDApp):
                         else:
                             db.child("Rent").child(self.edit_rent.key).update({'local_image': self.new_file}, self.curr['idToken'])
                             db.child("Rent").child(self.edit_rent.key).update({'url': url}, self.curr['idToken'])
-                        storage.delete(self.curr['localid'] + '/' + self.local_image, self.curr['idToken'])
+                            
+
+                        
+                        if self.local_image != self.new_file:
+                            storage.delete(self.curr['localid'] + '/' + self.local_image, self.curr['idToken'])
                         
                         p = 'Updated image successfully'
                         self.toast(p)
@@ -6229,7 +6237,7 @@ class MainApp(MDApp):
                 valid = phonenumbers.is_valid_number(phone_number)
                 
                 if valid == True:
-                    if len(self.tot) > 4 and len(self.tot) < 21:
+                    if len(self.tot) > 3 and len(self.tot) < 21:
                         
                         if len(self.country) > 0:
                             
@@ -6241,7 +6249,7 @@ class MainApp(MDApp):
                                         if len(self.landspace) > 1:
                                             if len(self.price) > 1:
                                                 if len(self.desc) > 20 and len(self.desc) < 255:
-                                                    filechooser.open_file(open='/storage/emmc/DCIM', on_selection=self.real_house_sale)
+                                                    filechooser.open_file(open='/storage/emulator/0', on_selection=self.real_house_sale)
                                                 else:
                                                     info = "description must be between 20 and 255 characters"
                                                     self.show_dialog(info)
@@ -6285,7 +6293,7 @@ class MainApp(MDApp):
                             self.sale.ids.sale_scroll.scroll_to(self.sale.ids.island)
                             
                     else:
-                        info = "Property type must be between 4 and 21 characters"
+                        info = "Property type must be between 3 and 21 characters"
                         self.show_dialog(info)
                         self.sale.ids.sale_scroll.scroll_to(self.sale.ids.prop_type)
                         self.sale.ids.housetype.focused = True
@@ -6419,6 +6427,12 @@ class MainApp(MDApp):
                     
                     save = img.save(self.file)
                     self.saved_image = True
+
+                else:
+                    
+                    pathnum = self.file.rfind('/')
+
+                    self.file = self.file[pathnum+1: ]
 
                 try:
                     
@@ -6625,7 +6639,7 @@ class MainApp(MDApp):
                 valid = phonenumbers.is_valid_number(phone_number)
                 
                 if valid == True:
-                    if len(self.tot) > 4 and len(self.tot) < 21:
+                    if len(self.tot) > 3 and len(self.tot) < 21:
                         
                         if len(self.country) > 0:
                             # phone = '+2332222222222'
@@ -6637,7 +6651,7 @@ class MainApp(MDApp):
                                         if len(self.landspace) > 1:
                                             if len(self.price) > 1:
                                                 if len(self.desc) > 20 and len(self.desc) < 255:
-                                                    filechooser.open_file(open='/storage/emmc/DCIM', on_selection=self.real_house_rent)
+                                                    filechooser.open_file(open='/storage/emulator/0', on_selection=self.real_house_rent)
                                                 else:
                                                     info = "description must be between 20 and 255 characters"
                                                     self.show_dialog(info)
@@ -6680,7 +6694,7 @@ class MainApp(MDApp):
                             self.rent.ids.rent_scroll.scroll_to(self.rent.ids.country)
                             
                     else:
-                        info = "Property type must be between 4 and 21 characters"
+                        info = "Property type must be between 3 and 21 characters"
                         self.show_dialog(info)
                         self.rent.ids.rent_scroll.scroll_to(self.rent.ids.housetype)
                         self.rent.ids.housetype.focused = True
@@ -6813,6 +6827,13 @@ class MainApp(MDApp):
                     
                     save = img.save(self.file)
                     self.saved_image = True
+                
+                else:
+                    
+                    
+                    pathnum = self.file.rfind('/')
+
+                    self.file = self.file[pathnum+1: ]
 
                 try:
                     
