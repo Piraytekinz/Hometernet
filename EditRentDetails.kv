@@ -524,10 +524,11 @@
                             size_hint_y: None
                             height: landspace_text.height * 2
                             id: land_card
-                            radius: [5,]
+                            radius: ["5dp",]
                             line_color: 0,0,0,1
                             TextInput:
                                 id: land_area
+                                size_hint_y: None
                                 height: self.minimum_height
                                 # on_text: app.land_space(self.text)
                                 font_size: "15dp"
@@ -577,10 +578,11 @@
                             size_hint_y: None
                             height: landspace_text.height * 2
                             id: price_card
-                            radius: [5,]
+                            radius: ["5dp",]
                             line_color: 0,0,0,1
                             TextInput:
                                 id: price
+                                size_hint_y: None
                                 height: self.minimum_height
                                 # on_text: app.pricing(self.text)
                                 font_size: "15dp"

@@ -146,9 +146,9 @@
                             height: landspace_text.height * 2
                             Code_rent:
                                 
-                                radius: [5,]
+                                radius: ["5dp",]
                                 line_color: 0,0,0,1
-                                
+                                padding: "5dp"
                                 MDLabel:
                                     size_hint: None, None
                                     adaptive_size: True
@@ -157,6 +157,7 @@
                                     
                                     valign: 'top'
                                     pos_hint: {'center_y': 0.5}
+                                    
                     
                                 
                             
@@ -166,6 +167,7 @@
                                     id: phonenumber
                                     hint_text: 'phonenumber'
                                     pos_hint: {'center_y': 0.5}
+                                    size_hint_y: None
                                     height: self.minimum_height
                                     on_text: app.phone(plus.text + self.text)
                                     input_type: 'number'
@@ -661,11 +663,12 @@
                             size_hint_y: None
                             height: landspace_text.height * 2
                             id: land_card
-                            radius: [5,]
+                            radius: ["5dp",]
                             line_color: 0,0,0,1
+                            padding: "5dp"
                             TextInput:
                                 id: land_space
-                                height: self.minimum_height
+                                size_hint_y: None
                                 on_text: app.land_space(self.text)
                                 hint_text: 'landspace' 
                                 input_type: 'number'
@@ -720,11 +723,12 @@
                             size_hint_y: None
                             height: landspace_text.height * 2
                             id: price_card
-                            radius: [5,]
+                            radius: ["5dp",]
                             line_color: 0,0,0,1
+                            padding: "5dp"
                             TextInput:
                                 id: price
-                                height: self.minimum_height
+                                size_hint_y: None
                                 on_text: app.pricing(self.text)
                                 height: self.minimum_height
                                 input_type: 'number'

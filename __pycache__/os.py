@@ -1,31 +1,14 @@
-from PIL import Image
-import cv2 as cv
-import os
+import re
+regex = re.compile(
+        r'^(?:http|ftp)s?://' # http:// or https://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
+        r'localhost|' #localhost...
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
+        r'(?::\d+)?' # optional port
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
-path = '__pycache__/Empty.jpg'
+print(re.match(regex, "http://www.example.com") is not None) # True
+print(re.match(regex, "example.com") is not None)   
 
-image = Image.open(path)
-
-
-if image.size[0] > 1200 and image.size[1] > 600:
-
-
-    resize = image.resize((1200,600))
-
-pathnum = path.rfind("/")
-print(pathnum)
-path = path[pathnum+1: ]
-print(path)
-
-saved = resize.save(str(path))
-
-
-img = cv.imread(path)
-
-cv.imshow('resize', img)
-
-
-cv.waitKey(0)
-
-os.remove(path)
-
+chck = re.match(regex, "https://11.something.kuyg/library/downloads") is not None
+print(chck)

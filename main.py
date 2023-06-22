@@ -1320,6 +1320,8 @@ class HomeCardsLayout(MDGridLayout):
         else:
             
             self.temp = self.peopler
+
+            
             
             if self.j >= len(self.peopler.each()):
                 if self.full_rent == True:
@@ -1329,7 +1331,7 @@ class HomeCardsLayout(MDGridLayout):
                     
                     self.rent_something = self.peopler.each()[num].key()
                     self.full_rent = False
-                self.peopler = db.child("Rent").order_by_key().start_at(self.rent_something).limit_to_first(8).get()
+                self.peopler = db.child("Rent").order_by_key().start_at(self.rent_something).limit_to_first(9).get()
                 
                     
                 
@@ -1365,7 +1367,7 @@ class HomeCardsLayout(MDGridLayout):
                     self.something = self.people.each()[num].key()
                     
                     self.full = False
-                self.people = db.child("Sale").order_by_key().start_at(self.something).limit_to_first(8).get()
+                self.people = db.child("Sale").order_by_key().start_at(self.something).limit_to_first(9).get()
                 
                     
                 
@@ -1391,6 +1393,7 @@ class HomeCardsLayout(MDGridLayout):
                 
                 if u.key() == self.rent_something:
                     
+                    self.j += 1
                     continue
                 
                 self.card = HomeCards()
@@ -1421,7 +1424,7 @@ class HomeCardsLayout(MDGridLayout):
                 self.rent_something = u.key()
                 self.j += 1
                 if self.j == 8:
-                    self.full_rent = True
+                    
                     break
                  
                 
@@ -1435,7 +1438,7 @@ class HomeCardsLayout(MDGridLayout):
                 
                 
                 if u.key() == self.something:
-                    
+                    self.j += 1
                     continue
                 
                 self.card = HomeCards()
@@ -1466,7 +1469,7 @@ class HomeCardsLayout(MDGridLayout):
                 self.something = u.key()
                 self.j += 1
                 if self.j == 8:
-                    self.full = True
+                    
                     break
                 
             
@@ -2537,9 +2540,9 @@ class MainApp(MDApp):
             self.home.ids.grid.add_widget(self.spin)
             
             if one == "change":
-                
+                self.home.ids.grid.j = 0
                 self.event = Event()
-                self.thread_reload = threading.Thread(target=self.reload_sale)
+                self.thread_reload = threading.Thread(target=self.more_sale)
                 self.thread_reload.start()
                 
             else:
@@ -2608,9 +2611,9 @@ class MainApp(MDApp):
             
             if one == "change":
                 
-                
+                self.home.ids.grid.j = 0
                 self.event = Event()
-                self.thread_reload = threading.Thread(target=self.new_rent)
+                self.thread_reload = threading.Thread(target=self.more_rent)
                 self.thread_reload.start()
                 
             else:
@@ -2865,18 +2868,21 @@ class MainApp(MDApp):
         
         if countryl == 'USA' or countryl == 'Usa':
 
-            country = 'United States'
+            countryl = 'United States'
         if countryl == 'UK' or countryl == 'uk' or countryl == 'Uk':
             
-            country = 'United Kingdom'
+            countryl = 'United Kingdom'
 
-
+        if 'Of' in countryl:
+           
+            countryl = countryl.replace('Of', 'of')
+        
         
         time.sleep(1)
         
         try:
             
-            self.search_now(choice, country.title(), state.title(), city.title(), bedrooms, prop_type.title())
+            self.search_now(choice, countryl, state.title(), city.title(), bedrooms, prop_type.title())
         
             
             
@@ -3337,6 +3343,7 @@ class MainApp(MDApp):
             else:
                 if self.has_switched == False:
                     self.switch_signup()
+                    
 
             
             self.toast("Network Error")
@@ -3407,7 +3414,7 @@ class MainApp(MDApp):
                         json.dump(self.curr, jsonfile)
                     
             else:
-                
+                # self.switch_rent()
                 self.switch_signup()
                 self.has_switched = True
            
@@ -4303,17 +4310,36 @@ class MainApp(MDApp):
         
         
         if self.screeni[0] == "Sale":
+            
+
+            if ',' in texta and 'of' in texta:
+                idx = texta.rfind(',')
+                texta = texta[idx+2:] + " " + texta[0:idx]
+
             self.sale.ids.country_text.text = texta
             self.country = texta
             
+            
         elif self.screeni[0] == "Rent":
+            if ',' in texta and 'of' in texta:
+                idx = texta.rfind(',')
+                texta = texta[idx+2:] + " " + texta[0:idx]
+
             self.rent.ids.country_text.text = texta
             self.country = texta
             
         elif self.screeni[0] == "EditSale":
+            if ',' in texta and 'of' in texta:
+                idx = texta.rfind(',')
+                texta = texta[idx+2:] + " " + texta[0:idx]
+
             self.edit.ids.country_text.text = texta
             self.country = texta
         elif self.screeni[0] == "EditRent":
+            if ',' in texta and 'of' in texta:
+                idx = texta.rfind(',')
+                texta = texta[idx+2:] + " " + texta[0:idx]
+
             self.edit_rent.ids.country_text.text = texta
             self.country = texta
 
@@ -6022,7 +6048,9 @@ class MainApp(MDApp):
                         pathnum = self.new_file.rfind('/')
 
                         self.new_file = self.new_file[pathnum+1: ]
-                      
+                        saved = image.save(self.new_file)
+                        
+                        self.saved_image = True
                     
                     try:
                         
@@ -6232,7 +6260,7 @@ class MainApp(MDApp):
         
         
         if self.mail == self.curr['email']:
-            if self.phonenumber != '':
+            if self.phonenumber != '+' and self.phonenumber != '':
                 phone_number  = phonenumbers.parse(self.phonenumber)
                 valid = phonenumbers.is_valid_number(phone_number)
                 
@@ -6434,6 +6462,9 @@ class MainApp(MDApp):
 
                     self.file = self.file[pathnum+1: ]
 
+                    saved = image.save(self.file)
+                    self.saved_image = True
+
                 try:
                     
                     
@@ -6634,7 +6665,8 @@ class MainApp(MDApp):
     def rent_property(self):
         self.denied = 0
         if self.mail == self.curr['email']:
-            if self.phonenumber != '':
+            if self.phonenumber != '+' and self.phonenumber != '':
+                
                 phone_number  = phonenumbers.parse(self.phonenumber)
                 valid = phonenumbers.is_valid_number(phone_number)
                 
@@ -6834,6 +6866,8 @@ class MainApp(MDApp):
                     pathnum = self.file.rfind('/')
 
                     self.file = self.file[pathnum+1: ]
+                    saved = image.save(self.file)
+                    self.saved_image = True
 
                 try:
                     
