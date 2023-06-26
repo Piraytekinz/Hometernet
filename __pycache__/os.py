@@ -1,14 +1,13 @@
-import re
-regex = re.compile(
-        r'^(?:http|ftp)s?://' # http:// or https://
-        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
-        r'localhost|' #localhost...
-        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
-        r'(?::\d+)?' # optional port
-        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+import cv2 as cv
+from PIL import Image
 
-print(re.match(regex, "http://www.example.com") is not None) # True
-print(re.match(regex, "example.com") is not None)   
+img = Image.open('Hometernet-icon.png')
 
-chck = re.match(regex, "https://11.something.kuyg/library/downloads") is not None
-print(chck)
+new = img.resize((120, 120))
+
+saved = img.save('Hometernet-icon1.png')
+
+image = cv.imread('Hometernet-icon1.png')
+
+cv.imshow('img', image)
+cv.waitKey(0)

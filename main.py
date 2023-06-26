@@ -1066,47 +1066,47 @@ class HomeCardsLayout(MDGridLayout):
         self.remove()
 
     def rent_added(self):
-        bath_or_bed = ['bedrooms', 'bathrooms', 'price', 'country', 'views', 'state', 'town', 'street', 'housetype']
-        self.first_choice = random.choice(bath_or_bed)
+        # bath_or_bed = ['bedrooms', 'bathrooms', 'price', 'country', 'views', 'state', 'town', 'street', 'housetype']
+        # self.first_choice = random.choice(bath_or_bed)
         
         
-       
+        self.peopler = db.child("Rent").order_by_key().limit_to_first(8).get()
         
-        if self.first_choice == 'bedrooms':
+        # if self.first_choice == 'bedrooms':
             
-            self.peopler = db.child("Rent").order_by_child('bedrooms').limit_to_first(8).get()
+        #     self.peopler = db.child("Rent").order_by_child('bedrooms').limit_to_first(8).get()
 
-        elif self.first_choice == 'bathrooms':
+        # elif self.first_choice == 'bathrooms':
             
-            self.peopler = db.child("Rent").order_by_child('bathrooms').limit_to_first(8).get()
+        #     self.peopler = db.child("Rent").order_by_child('bathrooms').limit_to_first(8).get()
 
-        elif self.first_choice == 'price':
+        # elif self.first_choice == 'price':
             
-            self.peopler = db.child("Rent").order_by_child('price').limit_to_first(8).get()
+        #     self.peopler = db.child("Rent").order_by_child('price').limit_to_first(8).get()
 
-        elif self.first_choice == 'country':
+        # elif self.first_choice == 'country':
             
-            self.peopler = db.child("Rent").order_by_child('country').limit_to_first(8).get()
+        #     self.peopler = db.child("Rent").order_by_child('country').limit_to_first(8).get()
 
-        elif self.first_choice == 'views':
+        # elif self.first_choice == 'views':
             
-            self.peopler = db.child("Rent").order_by_child('views').limit_to_first(8).get()
+        #     self.peopler = db.child("Rent").order_by_child('views').limit_to_first(8).get()
 
-        elif self.first_choice == 'state':
+        # elif self.first_choice == 'state':
             
-            self.peopler = db.child("Rent").order_by_child('state').limit_to_first(8).get()
+        #     self.peopler = db.child("Rent").order_by_child('state').limit_to_first(8).get()
 
-        elif self.first_choice == 'town':
+        # elif self.first_choice == 'town':
             
-            self.peopler = db.child("Rent").order_by_child('town').limit_to_first(8).get()
+        #     self.peopler = db.child("Rent").order_by_child('town').limit_to_first(8).get()
 
-        elif self.first_choice == 'street':
+        # elif self.first_choice == 'street':
             
-            self.peopler = db.child("Rent").order_by_child('street').limit_to_first(8).get()
+        #     self.peopler = db.child("Rent").order_by_child('street').limit_to_first(8).get()
 
-        elif self.first_choice == 'housetype':
+        # elif self.first_choice == 'housetype':
             
-            self.peopler = db.child("Rent").order_by_child('housetype').limit_to_first(8).get()
+        #     self.peopler = db.child("Rent").order_by_child('housetype').limit_to_first(8).get()
 
         
         if self.peopler.each():
@@ -1124,46 +1124,46 @@ class HomeCardsLayout(MDGridLayout):
         
                 
         
-        bath_or_bed = ['bedrooms', 'bathrooms', 'price', 'country', 'views', 'state', 'town', 'street', 'housetype']
-        self.first_choice = random.choice(bath_or_bed)
+        # bath_or_bed = ['bedrooms', 'bathrooms', 'price', 'country', 'views', 'state', 'town', 'street', 'housetype']
+        # self.first_choice = random.choice(bath_or_bed)
         
-        
+        self.people = db.child("Sale").order_by_key().limit_to_first(8).get()
 
-        if self.first_choice == 'bedrooms':
+        # if self.first_choice == 'bedrooms':
             
-            self.people = db.child("Sale").order_by_child('bedrooms').limit_to_first(8).get()
+        #     self.people = db.child("Sale").order_by_child('bedrooms').limit_to_first(8).get()
 
-        elif self.first_choice == 'bathrooms':
+        # elif self.first_choice == 'bathrooms':
             
-            self.people = db.child("Sale").order_by_child('bathrooms').limit_to_first(8).get()
+        #     self.people = db.child("Sale").order_by_child('bathrooms').limit_to_first(8).get()
 
-        elif self.first_choice == 'price':
+        # elif self.first_choice == 'price':
             
-            self.people = db.child("Sale").order_by_child('price').limit_to_first(8).get()
+        #     self.people = db.child("Sale").order_by_child('price').limit_to_first(8).get()
 
-        elif self.first_choice == 'country':
+        # elif self.first_choice == 'country':
             
-            self.people = db.child("Sale").order_by_child('country').limit_to_first(8).get()
+        #     self.people = db.child("Sale").order_by_child('country').limit_to_first(8).get()
 
-        elif self.first_choice == 'views':
+        # elif self.first_choice == 'views':
             
-            self.people = db.child("Sale").order_by_child('views').limit_to_first(8).get()
+        #     self.people = db.child("Sale").order_by_child('views').limit_to_first(8).get()
 
-        elif self.first_choice == 'state':
+        # elif self.first_choice == 'state':
             
-            self.people = db.child("Sale").order_by_child('state').limit_to_first(8).get()
+        #     self.people = db.child("Sale").order_by_child('state').limit_to_first(8).get()
 
-        elif self.first_choice == 'town':
+        # elif self.first_choice == 'town':
             
-            self.people = db.child("Sale").order_by_child('town').limit_to_first(8).get()
+        #     self.people = db.child("Sale").order_by_child('town').limit_to_first(8).get()
 
-        elif self.first_choice == 'street':
+        # elif self.first_choice == 'street':
             
-            self.people = db.child("Sale").order_by_child('street').limit_to_first(8).get()
+        #     self.people = db.child("Sale").order_by_child('street').limit_to_first(8).get()
 
-        elif self.first_choice == 'housetype':
+        # elif self.first_choice == 'housetype':
             
-            self.people = db.child("Sale").order_by_child('housetype').limit_to_first(8).get()
+        #     self.people = db.child("Sale").order_by_child('housetype').limit_to_first(8).get()
         
         
         if self.people.each():
@@ -1210,7 +1210,7 @@ class HomeCardsLayout(MDGridLayout):
                 self.card.amenities = u.val()['amenities']
                 self.card.link = u.val()['link']
                 self.card.opacity = 0
-                Animation(opacity=1, duration=0.2).start(self.card)
+                Animation(opacity=1, duration=0.5).start(self.card)
                 self.add_widget(self.card)
                 
                 self.last = u.key()
@@ -1258,7 +1258,7 @@ class HomeCardsLayout(MDGridLayout):
                 self.card.amenities = u.val()['amenities']
                 self.card.link = u.val()['link']
                 self.card.opacity = 0
-                Animation(opacity=1, duration=0.2).start(self.card)
+                Animation(opacity=1, duration=0.5).start(self.card)
                 self.add_widget(self.card)
                 
                 self.last = u.key()
@@ -1344,7 +1344,7 @@ class HomeCardsLayout(MDGridLayout):
 
             
             
-           
+            
             # time.sleep(1)
             Clock.schedule_once(partial(self.rent_another), 0.5)
 
@@ -1387,7 +1387,7 @@ class HomeCardsLayout(MDGridLayout):
     @mainthread
     def rent_another(self, time):
         if self.peopler.each():
-            for u in self.peopler.each()[self.j:self.j+4]:
+            for u in self.peopler.each()[self.j:self.j+5]:
                 
                 
                 
@@ -1417,15 +1417,17 @@ class HomeCardsLayout(MDGridLayout):
                 self.card.amenities = u.val()['amenities']
                 self.card.link = u.val()['link']
                 self.card.opacity = 0
-                Animation(opacity=1, duration=0.2).start(self.card)
+                Animation(opacity=1, duration=0.5).start(self.card)
                 self.add_widget(self.card)
                 
                 self.last = u.key()
                 self.rent_something = u.key()
                 self.j += 1
-                if self.j == 8:
+                if self.j == 9:
                     
                     break
+
+       
                  
                 
     @mainthread
@@ -1433,7 +1435,7 @@ class HomeCardsLayout(MDGridLayout):
             
         
         if self.people.each():
-            for u in self.people.each()[self.j:self.j+4]:
+            for u in self.people.each()[self.j:self.j+5]:
                 
                 
                 
@@ -1462,13 +1464,13 @@ class HomeCardsLayout(MDGridLayout):
                 self.card.amenities = u.val()['amenities']
                 self.card.link = u.val()['link']
                 self.card.opacity = 0
-                Animation(opacity=1, duration=0.2).start(self.card)
+                Animation(opacity=1, duration=0.5).start(self.card)
                 self.add_widget(self.card)
                 
                 self.last = u.key()
                 self.something = u.key()
                 self.j += 1
-                if self.j == 8:
+                if self.j == 9:
                     
                     break
                 
@@ -2522,7 +2524,7 @@ class MainApp(MDApp):
         self.spin.size_hint = [None, None]
         self.spin.height = '30dp'
         self.spin.width = '30dp'
-        self.spin.pos_hint = {'center_x': 1, 'center_y': 0.5}
+        self.spin.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
         self.spin.active = True
         
         
@@ -3343,6 +3345,7 @@ class MainApp(MDApp):
             else:
                 if self.has_switched == False:
                     self.switch_signup()
+
                     
 
             
@@ -6260,85 +6263,88 @@ class MainApp(MDApp):
         
         
         if self.mail == self.curr['email']:
-            if self.phonenumber != '+' and self.phonenumber != '':
-                phone_number  = phonenumbers.parse(self.phonenumber)
-                valid = phonenumbers.is_valid_number(phone_number)
-                
-                if valid == True:
-                    if len(self.tot) > 3 and len(self.tot) < 21:
-                        
-                        if len(self.country) > 0:
+            try:
+                if len(self.phonenumber) > 6:
+                    phone_number  = phonenumbers.parse(self.phonenumber)
+                    valid = phonenumbers.is_valid_number(phone_number)
+                    
+                    if valid == True:
+                        if len(self.tot) > 3 and len(self.tot) < 21:
                             
-                            
-                            if len(self.state) >= 3 and len(self.state) < 25:
-                                if len(self.town) >= 3 and len(self.town) < 25:
+                            if len(self.country) > 0:
+                                
+                                
+                                if len(self.state) >= 3 and len(self.state) < 25:
+                                    if len(self.town) >= 3 and len(self.town) < 25:
 
-                                    if len(self.street) >= 3 and len(self.street) < 25:
-                                        if len(self.landspace) > 1:
-                                            if len(self.price) > 1:
-                                                if len(self.desc) > 20 and len(self.desc) < 255:
-                                                    filechooser.open_file(open='/storage/emulator/0', on_selection=self.real_house_sale)
+                                        if len(self.street) >= 3 and len(self.street) < 25:
+                                            if len(self.landspace) > 1:
+                                                if len(self.price) > 1:
+                                                    if len(self.desc) > 20 and len(self.desc) < 255:
+                                                        filechooser.open_file(open='/storage/emulator/0', on_selection=self.real_house_sale)
+                                                    else:
+                                                        info = "description must be between 20 and 255 characters"
+                                                        self.show_dialog(info)
+                                                        self.sale.ids.sale_scroll.scroll_to(self.sale.ids.desci)
+                                                        self.sale.ids.description.focused = True
+                                                        self.sale.ids.description.error = True
                                                 else:
-                                                    info = "description must be between 20 and 255 characters"
+                                                    info = "Invalid input for price"
                                                     self.show_dialog(info)
-                                                    self.sale.ids.sale_scroll.scroll_to(self.sale.ids.desci)
-                                                    self.sale.ids.description.focused = True
-                                                    self.sale.ids.description.error = True
+                                                    self.sale.ids.sale_scroll.scroll_to(self.sale.ids.costy)
+                                                    self.sale.ids.price.focused = True
+                                                    self.sale.ids.price.error = True
                                             else:
-                                                info = "Invalid input for price"
+                                                info = "Invalid input for landspace"
                                                 self.show_dialog(info)
-                                                self.sale.ids.sale_scroll.scroll_to(self.sale.ids.costy)
-                                                self.sale.ids.price.focused = True
-                                                self.sale.ids.price.error = True
+                                                self.sale.ids.sale_scroll.scroll_to(self.sale.ids.landi)
+                                                self.sale.ids.land_space.focused = True
+                                                self.sale.ids.land_space.error = True
                                         else:
-                                            info = "Invalid input for landspace"
+                                            info = "Street must be between 3 and 25 characters"
                                             self.show_dialog(info)
-                                            self.sale.ids.sale_scroll.scroll_to(self.sale.ids.landi)
-                                            self.sale.ids.land_space.focused = True
-                                            self.sale.ids.land_space.error = True
-                                    else:
-                                        info = "Street must be between 3 and 25 characters"
-                                        self.show_dialog(info)
-                                        self.sale.ids.sale_scroll.scroll_to(self.sale.ids.streeti)
-                                        self.sale.ids.location.focused = True
-                                        self.sale.ids.location.error = True
+                                            self.sale.ids.sale_scroll.scroll_to(self.sale.ids.streeti)
+                                            self.sale.ids.location.focused = True
+                                            self.sale.ids.location.error = True
 
+                                    else:
+                                        info = "Town must be between 2 and 25 characters"
+                                        self.show_dialog(info)
+                                        self.sale.ids.sale_scroll.scroll_to(self.sale.ids.towni)
+                                        self.sale.ids.location_city.focused = True
+                                        self.sale.ids.location_city.error = True
                                 else:
-                                    info = "Town must be between 2 and 25 characters"
+                                    info = "State must be between 2 and 25 characters"
                                     self.show_dialog(info)
-                                    self.sale.ids.sale_scroll.scroll_to(self.sale.ids.towni)
-                                    self.sale.ids.location_city.focused = True
-                                    self.sale.ids.location_city.error = True
+                                    self.sale.ids.sale_scroll.scroll_to(self.sale.ids.statey)
+                                    self.sale.ids.state.focused = True
+                                    self.sale.ids.state.error = True
                             else:
-                                info = "State must be between 2 and 25 characters"
+                                info = "Please select your country"
                                 self.show_dialog(info)
-                                self.sale.ids.sale_scroll.scroll_to(self.sale.ids.statey)
-                                self.sale.ids.state.focused = True
-                                self.sale.ids.state.error = True
+                                self.sale.ids.sale_scroll.scroll_to(self.sale.ids.island)
+                                
                         else:
-                            info = "Please select your country"
+                            info = "Property type must be between 3 and 21 characters"
                             self.show_dialog(info)
-                            self.sale.ids.sale_scroll.scroll_to(self.sale.ids.island)
-                            
+                            self.sale.ids.sale_scroll.scroll_to(self.sale.ids.prop_type)
+                            self.sale.ids.housetype.focused = True
+                            self.sale.ids.housetype.error = True
                     else:
-                        info = "Property type must be between 3 and 21 characters"
+                        info = "Invalid phonenumber"
                         self.show_dialog(info)
-                        self.sale.ids.sale_scroll.scroll_to(self.sale.ids.prop_type)
-                        self.sale.ids.housetype.focused = True
-                        self.sale.ids.houstype.error = True
+                        self.sale.ids.sale_scroll.scroll_to(self.sale.ids.number)
+                        self.sale.ids.phonenumber.focused = True
+                        self.sale.ids.phonenumber.error = True
+                
                 else:
-                    info = "Invalid phonenumber"
+                    info = "Please enter a valid phonenumber"
                     self.show_dialog(info)
                     self.sale.ids.sale_scroll.scroll_to(self.sale.ids.number)
                     self.sale.ids.phonenumber.focused = True
                     self.sale.ids.phonenumber.error = True
-            
-            else:
-                info = "Please enter a phonenumber"
-                self.show_dialog(info)
-                self.sale.ids.sale_scroll.scroll_to(self.sale.ids.number)
-                self.sale.ids.phonenumber.focused = True
-                self.sale.ids.phonenumber.error = True
+            except:
+                self.toast('An unknown error occured')
         else:
             text = "Invalid email"
             self.show_dialog(text)
@@ -6665,86 +6671,89 @@ class MainApp(MDApp):
     def rent_property(self):
         self.denied = 0
         if self.mail == self.curr['email']:
-            if self.phonenumber != '+' and self.phonenumber != '':
-                
-                phone_number  = phonenumbers.parse(self.phonenumber)
-                valid = phonenumbers.is_valid_number(phone_number)
-                
-                if valid == True:
-                    if len(self.tot) > 3 and len(self.tot) < 21:
-                        
-                        if len(self.country) > 0:
-                            # phone = '+2332222222222'
+            try:
+                if len(self.phonenumber) > 6:
+                    
+                    phone_number  = phonenumbers.parse(self.phonenumber)
+                    valid = phonenumbers.is_valid_number(phone_number)
+                    
+                    if valid == True:
+                        if len(self.tot) > 3 and len(self.tot) < 21:
                             
-                            if len(self.state) >= 3 and len(self.state) < 25:
-                                if len(self.town) >= 3 and len(self.town) < 25:
+                            if len(self.country) > 0:
+                                # phone = '+2332222222222'
+                                
+                                if len(self.state) >= 3 and len(self.state) < 25:
+                                    if len(self.town) >= 3 and len(self.town) < 25:
 
-                                    if len(self.street) >= 6 and len(self.street) < 25:
-                                        if len(self.landspace) > 1:
-                                            if len(self.price) > 1:
-                                                if len(self.desc) > 20 and len(self.desc) < 255:
-                                                    filechooser.open_file(open='/storage/emulator/0', on_selection=self.real_house_rent)
+                                        if len(self.street) >= 6 and len(self.street) < 25:
+                                            if len(self.landspace) > 1:
+                                                if len(self.price) > 1:
+                                                    if len(self.desc) > 20 and len(self.desc) < 255:
+                                                        filechooser.open_file(open='/storage/emulator/0', on_selection=self.real_house_rent)
+                                                    else:
+                                                        info = "description must be between 20 and 255 characters"
+                                                        self.show_dialog(info)
+                                                        self.rent.ids.rent_scroll.scroll_to(self.rent.ids.description)
+                                                        self.rent.ids.description.focused = True
+                                                        self.rent.ids.description.error = True
                                                 else:
-                                                    info = "description must be between 20 and 255 characters"
+                                                    info = "Invalid input for price"
                                                     self.show_dialog(info)
-                                                    self.rent.ids.rent_scroll.scroll_to(self.rent.ids.description)
-                                                    self.rent.ids.description.focused = True
-                                                    self.rent.ids.description.error = True
+                                                    self.rent.ids.rent_scroll.scroll_to(self.rent.ids.price)
+                                                    self.rent.ids.price.focused = True
+                                                    self.rent.ids.price.error = True
                                             else:
-                                                info = "Invalid input for price"
+                                                info = "Invalid input for landspace"
                                                 self.show_dialog(info)
-                                                self.rent.ids.rent_scroll.scroll_to(self.rent.ids.price)
-                                                self.rent.ids.price.focused = True
-                                                self.rent.ids.price.error = True
+                                                self.rent.ids.rent_scroll.scroll_to(self.rent.ids.land_space)
+                                                self.rent.ids.land_space.focused = True
+                                                self.rent.ids.land_space.error = True
                                         else:
-                                            info = "Invalid input for landspace"
+                                            info = "Street must be between 3 and 25 characters"
                                             self.show_dialog(info)
-                                            self.rent.ids.rent_scroll.scroll_to(self.rent.ids.land_space)
-                                            self.rent.ids.land_space.focused = True
-                                            self.rent.ids.land_space.error = True
+                                            self.rent.ids.rent_scroll.scroll_to(self.rent.ids.location_street)
+                                            self.rent.ids.location_street.focused = True
+
                                     else:
-                                        info = "Street must be between 3 and 25 characters"
+                                        info = "Town must be between 2 and 25 characters"
                                         self.show_dialog(info)
-                                        self.rent.ids.rent_scroll.scroll_to(self.rent.ids.location_street)
-                                        self.rent.ids.location_street.focused = True
-
+                                        self.rent.ids.rent_scroll.scroll_to(self.rent.ids.location)
+                                        self.rent.ids.location.focused = True
+                                        self.rent.ids.location.error = True
                                 else:
-                                    info = "Town must be between 2 and 25 characters"
+                                    info = "State must be between 2 and 25 characters"
                                     self.show_dialog(info)
-                                    self.rent.ids.rent_scroll.scroll_to(self.rent.ids.location)
-                                    self.rent.ids.location.focused = True
-                                    self.rent.ids.location.error = True
+                                    self.rent.ids.rent_scroll.scroll_to(self.rent.ids.state)
+                                    self.rent.ids.state.focused = True
+                                    self.rent.ids.state.error = True
                             else:
-                                info = "State must be between 2 and 25 characters"
+                                info = "Please select your country"
                                 self.show_dialog(info)
-                                self.rent.ids.rent_scroll.scroll_to(self.rent.ids.state)
-                                self.rent.ids.state.focused = True
-                                self.rent.ids.state.error = True
+                                self.rent.ids.rent_scroll.scroll_to(self.rent.ids.country)
+                                
                         else:
-                            info = "Please select your country"
+                            info = "Property type must be between 3 and 21 characters"
                             self.show_dialog(info)
-                            self.rent.ids.rent_scroll.scroll_to(self.rent.ids.country)
-                            
-                    else:
-                        info = "Property type must be between 3 and 21 characters"
-                        self.show_dialog(info)
-                        self.rent.ids.rent_scroll.scroll_to(self.rent.ids.housetype)
-                        self.rent.ids.housetype.focused = True
-                        self.rent.ids.housetype.error = True
+                            self.rent.ids.rent_scroll.scroll_to(self.rent.ids.housetype)
+                            self.rent.ids.housetype.focused = True
+                            self.rent.ids.housetype.error = True
 
+                    else:
+                        info = "Invalid phonenumber"
+                        self.show_dialog(info)
+                        self.rent.ids.rent_scroll.scroll_to(self.rent.ids.number)
+                        self.rent.ids.phonenumber.focused = True
+                        self.rent.ids.phonenumber.error = True
+                
                 else:
-                    info = "Invalid phonenumber"
+                    info = "Please enter a valid phonenumber"
                     self.show_dialog(info)
                     self.rent.ids.rent_scroll.scroll_to(self.rent.ids.number)
                     self.rent.ids.phonenumber.focused = True
                     self.rent.ids.phonenumber.error = True
-            
-            else:
-                info = "Please enter a phonenumber"
-                self.show_dialog(info)
-                self.rent.ids.rent_scroll.scroll_to(self.rent.ids.number)
-                self.rent.ids.phonenumber.focused = True
-                self.rent.ids.phonenumber.error = True
+            except:
+                self.toast("An unknown error occured")
         else:
             text = "Invalid email"
             self.show_dialog(text)
