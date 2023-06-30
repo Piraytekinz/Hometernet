@@ -1,166 +1,166 @@
 <MyProducts>:
    
-    FloatLayout:
-        id: relay
+    
 
+    MDBoxLayout:
+        orientation: 'vertical'
+        
         MDBoxLayout:
-            orientation: 'vertical'
+            size_hint_y: None
+            height: "70dp"
+            md_bg_color: 1,1,1,1
+            id: prop_title
+            padding: [10,0,0,0]
             
-            MDBoxLayout:
-                size_hint_y: None
-                height: "70dp"
-                md_bg_color: 1,1,1,1
-                id: prop_title
-                padding: [10,0,0,0]
+
+            MDLabel:
+                text: "My Properties"
+                font_size: '16dp'
+                bold: True
+                theme_font_style: 'Overline'
+                
+                
+            MDIconButton:
+                icon: 'trash-can-outline'
+                icon_size: "20dp"
+                theme_text_color: 'Custom'
+                text_color: "black"
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                on_press: 
+                    app.play()
+                    self.text_color=app.theme_cls.primary_color
+                on_release: 
+                    layout.delete_user_auth()
+                    app.clear_bk() if layout.has_deleted == True else app.do()
+                    self.text_color="black"
+                
+                id: arrow_right
+                id: trash
+                padding_x: "10dp"
+
+            MDIconButton:
+                icon: 'refresh'
+                icon_size: '20dp'
+                theme_text_color: 'Custom'
+                text_color: "black"
+                on_press: 
+                    app.play()
+                    self.text_color=app.theme_cls.primary_color
+                    
+                on_release: 
+                    self.text_color="black"
+                    app.reload_products()
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                id: reload
+                
+                
+                disabled_color: 0,0,0,1
+                elevation: 1
                 
 
-                MDLabel:
-                    text: "My Properties"
-                    font_size: '16dp'
-                    bold: True
-                    theme_font_style: 'Overline'
-                    
-                    
+            MDIconButton:
+                icon: 'arrow-right'
+                icon_size: "20dp"
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                on_press: app.play()
+                on_release: app.switch_home()
+                id: arrow_right
+        MDBoxLayout:
+            size_hint_y: None
+            height: "50dp"
+            
+            md_bg_color: 1,1,1,0.5
+            
+            AnchorLayout:
+                anchor_x: 'left'
+                anchor_y: 'center'
+                size_hint_y: None
+                height: switch.height
+                
                 MDIconButton:
-                    icon: 'trash-can-outline'
-                    icon_size: "20dp"
-                    theme_text_color: 'Custom'
-                    text_color: "black"
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    on_press: 
-                        app.play()
-                        self.text_color=app.theme_cls.primary_color
-                    on_release: 
-                        layout.delete_user_auth()
-                        app.clear_bk() if layout.has_deleted == True else app.do()
-                        self.text_color="black"
-                  
-                    id: arrow_right
-                    id: trash
-                    padding_x: "10dp"
-
-                MDIconButton:
-                    icon: 'refresh'
-                    icon_size: '20dp'
-                    theme_text_color: 'Custom'
-                    text_color: "black"
-                    on_press: 
-                        app.play()
-                        self.text_color=app.theme_cls.primary_color
-                        
-                    on_release: 
-                        self.text_color="black"
-                        app.reload_products()
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    id: reload
-                    
-                    
-                    disabled_color: 0,0,0,1
-                    elevation: 1
-                   
-
-                MDIconButton:
-                    icon: 'arrow-right'
-                    icon_size: "20dp"
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    icon: "account-arrow-left-outline"
+                    icon_size: "22dp"
                     on_press: app.play()
-                    on_release: app.switch_home()
-                    id: arrow_right
+                    theme_text_color: 'Custom'
+                    text_color: "black"
+                    on_press: self.text_color=app.theme_cls.primary_color
+                    on_release: self.text_color="black"
+                    on_release: app.sign_out_auth()
+                    pos_hint: {'center_y': 0.5, 'center_x': 0.5}
+                    id: sign_out
+            AnchorLayout:
+                anchor_x: 'center'
+                anchor_y: 'center'
+                # md_bg_color: 1,0,0,1
+                MDIconButton:
+                    icon: "account-switch-outline"
+                    icon_size: "22dp"
+                    on_press: app.play()
+                    theme_text_color: 'Custom'
+                    text_color: "black"
+                    on_press: self.text_color=app.theme_cls.primary_color
+                    on_release: self.text_color="black"
+                    on_release: app.switch_choice()
+                    pos_hint: {'center_y': 0.5, 'center_x': 0.5}
+                    id: switch
+            AnchorLayout:
+                anchor_x: 'right'
+                anchor_y: 'center'
+                MDIconButton:
+                    icon: "home-plus-outline"
+                    icon_size: "22dp"
+                    on_press: app.play()
+                    theme_text_color: 'Custom'
+                    text_color: "black"
+                    on_press: self.text_color=app.theme_cls.primary_color
+                    on_release: self.text_color="black"
+                    on_release: app.switch_saleorrent()
+                    pos_hint: {'center_y': 0.5, 'center_x': 0.9}
+                    id: sell
+        
+        
+        MDSeparator:
+            color: 0.9,0.9,0.9,0.4
+
+        
+            
+        ScrollView:
+            
+            effect_cls: "ScrollEffect"
+            scroll_distance: 1
+            scroll_wheel_distance: 50
+            smooth_scroll_end: 30
+
+                
             MDBoxLayout:
                 size_hint_y: None
-                height: "50dp"
-               
-                md_bg_color: 1,1,1,0.5
+                adaptive_height: True
+                orientation: 'vertical'
+                id: relay
                 
-                AnchorLayout:
-                    anchor_x: 'left'
-                    anchor_y: 'center'
-                    size_hint_y: None
-                    height: switch.height
-                    
-                    MDIconButton:
-                        icon: "account-arrow-left-outline"
-                        icon_size: "22dp"
-                        on_press: app.play()
-                        theme_text_color: 'Custom'
-                        text_color: "black"
-                        on_press: self.text_color=app.theme_cls.primary_color
-                        on_release: self.text_color="black"
-                        on_release: app.sign_out_auth()
-                        pos_hint: {'center_y': 0.5, 'center_x': 0.5}
-                        id: sign_out
-                AnchorLayout:
-                    anchor_x: 'center'
-                    anchor_y: 'center'
-                    # md_bg_color: 1,0,0,1
-                    MDIconButton:
-                        icon: "account-switch-outline"
-                        icon_size: "22dp"
-                        on_press: app.play()
-                        theme_text_color: 'Custom'
-                        text_color: "black"
-                        on_press: self.text_color=app.theme_cls.primary_color
-                        on_release: self.text_color="black"
-                        on_release: app.switch_choice()
-                        pos_hint: {'center_y': 0.5, 'center_x': 0.5}
-                        id: switch
-                AnchorLayout:
-                    anchor_x: 'right'
-                    anchor_y: 'center'
-                    MDIconButton:
-                        icon: "home-plus-outline"
-                        icon_size: "22dp"
-                        on_press: app.play()
-                        theme_text_color: 'Custom'
-                        text_color: "black"
-                        on_press: self.text_color=app.theme_cls.primary_color
-                        on_release: self.text_color="black"
-                        on_release: app.switch_saleorrent()
-                        pos_hint: {'center_y': 0.5, 'center_x': 0.9}
-                        id: sell
             
-            
-            
+                
 
             
+        
                 
-            ScrollView:
-                
-                effect_cls: "ScrollEffect"
-                scroll_distance: 1
-                scroll_wheel_distance: 50
-                smooth_scroll_end: 30
- 
-                    
-                MDBoxLayout:
+
+                PropertyCardsLayout:
                     size_hint_y: None
                     adaptive_height: True
+                    spacing: "20dp"
                     orientation: 'vertical'
-                    
-
+                    padding: ["0dp","10dp","0dp","5dp"]
+                    id: layout
                 
-                    
-
-                
-            
-                    
-
-                    PropertyCardsLayout:
-                        size_hint_y: None
-                        adaptive_height: True
-                        spacing: "20dp"
-                        orientation: 'vertical'
-                        padding: ["0dp","10dp","0dp","5dp"]
-                        id: layout
-                 
-                    MDSpinner:
-                        active: False
-                        size_hint: None, None
-                        width: '30dp'
-                        height: '30dp'
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        id: spinno
-                        opacity: 0
+                MDSpinner:
+                    active: False
+                    size_hint: None, None
+                    width: '30dp'
+                    height: '30dp'
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    id: spinno
+                    opacity: 0
                         
 
                     

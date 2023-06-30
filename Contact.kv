@@ -1,7 +1,7 @@
 <ContactScreen>:
     MDBoxLayout:
         orientation: 'vertical'
-        spacing: "20dp"
+        
         MDCard:
             size_hint_y: None
             height: "70dp"
@@ -25,11 +25,14 @@
                 on_release: app.switch_home()
                 pos_hint: {'center_y': 0.5}
                 id: icon
+
+        MDSeparator:
+            color: 0.9,0.9,0.9,0.4
         
         ScrollView:
             effect_cls: "ScrollEffect"
             MDBoxLayout:
-                padding: [15,0,15,18]
+                padding: [15,'20dp',15,18]
                 spacing: "35dp"
                 orientation: 'vertical'
                 size_hint_y: None
@@ -175,7 +178,7 @@
                 SendCard:
                     size_hint_y: None
                     height: send.height * 3
-                    radius: [10]
+                    radius: ['5dp']
                     ripple_behavior: True
                     md_bg_color: app.theme_cls.primary_color
                     on_press: app.sound()

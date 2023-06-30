@@ -1,5 +1,5 @@
 <SearchScreen>:
-    on_enter: prop.focused = True if check.opacity == 0 else False
+    on_enter: prop_type.focused = True if check.opacity == 0 else False
     ScrollView:
         bar_width: 0
         effect_cls: "ScrollEffect"
@@ -7,6 +7,8 @@
         smooth_scroll_end: 30
         scroll_wheel_distance: 50
         do_scroll_x: False
+        id: searcher
+        on_scroll_move: app.scroll_searcher()
         MDBoxLayout:
             orientation: 'vertical'
             size_hint_y: None
@@ -42,7 +44,7 @@
                     icon_size: "25dp"
                     bold: True
                     on_press: app.play()
-                    on_release: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
+                    on_release: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop_type.text)
                     id: searchido
                     md_bg_color: 1,1,1,1
 
@@ -127,11 +129,11 @@
                     background_color: 0,0,0,0
                     font_size: "15dp"
                     text_color: "black"
-                    id: prop
+                    id: prop_type
                     input_type: "text"
                     on_text_validate: 
                         
-                        app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
+                        app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop_type.text)
                     cursor_color: app.theme_cls.primary_color
                
                     on_focus: app.laaa(self.focused)
@@ -153,7 +155,7 @@
                     id: country
                     input_type: "text"
                     active_line: True
-                    on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
+                    on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop_type.text)
                     cursor_color: app.theme_cls.primary_color
                     on_focus: app.laaa(self.focused)
 
@@ -178,7 +180,7 @@
                         text_color: "black"
                         id: state
                         input_type: "text"
-                        on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
+                        on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop_type.text)
                         cursor_color: app.theme_cls.primary_color
                         on_focus: app.laaa(self.focused)
 
@@ -198,7 +200,7 @@
                         text_color: "black"
                         id: town
                         input_type: "text"
-                        on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop.text)
+                        on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop_type.text)
                         cursor_color: app.theme_cls.primary_color
                         on_focus: app.laaa(self.focused)
 
@@ -229,7 +231,8 @@
                 opacity: 0
                 on_press: app.play()
                 on_release: app.reverser_next()
-            
+                line_width: 1.1
+                line_color: 0,0,0,1
                 disabled_color: 0,0,0,1
                 
 
@@ -253,8 +256,11 @@
                 id: spin
                 
             MDIconButton:
-                icon: 'arrow-down'
+                icon: 'arrow-right'
+                bold: True
+                
                 icon_size: '25dp'
+                
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 on_release: app.next_thread(bed_item.text)
                 md_bg_color: 1,1,1,1
@@ -264,6 +270,8 @@
                 on_press: app.play()
         
                 disabled_color: 0,0,0,1
+                line_width: 1.1
+                line_color: 0,0,0,1
                                 
             
 

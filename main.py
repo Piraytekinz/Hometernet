@@ -48,6 +48,7 @@ import json
 from kivy.core.audio import SoundLoader
 from kivy.base import EventLoop
 from kivy.config import Config
+from kivymd.utils.set_bars_colors import set_bars_colors
 
 
 
@@ -64,7 +65,7 @@ from kivy.config import Config
 from plyer import filechooser
 
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.button import MDFlatButton, MDRaisedButton
+from kivymd.uix.button import MDFlatButton, MDRaisedButton, MDFillRoundFlatButton
 import smtplib
 from email.mime.text import MIMEText
 
@@ -91,6 +92,7 @@ from threading import Event
 import certifi
 import os
 import ssl
+
 
 
 
@@ -216,8 +218,7 @@ class MyAccount(Screen):
 
         
     
-    
-        
+
 
 class ContactScreen(Screen):
     def __init__(self, **kw):
@@ -933,9 +934,11 @@ class HomeCardsLayout(MDGridLayout):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-    
+        
         self.j = 0
         self.last = ''
+        self.last_one = []
+        self.last_rent_one = []
         self.something = ''
         self.rent_something = ''
         self.counter = 0
@@ -946,6 +949,7 @@ class HomeCardsLayout(MDGridLayout):
         self.full = False
         self.full_rent = False
         self.has_error = False
+        
 
         self.spin = MDSpinner()
         self.spin.size_hint = [None, None]
@@ -972,7 +976,7 @@ class HomeCardsLayout(MDGridLayout):
         self.bxopo.orientation = 'vertical'
         
         self.bxopo.size_hint_y=None
-        self.bxopo.adaptive_height = True
+        self.bxopo.height = '250dp'
         self.bxopo.spacing = "20dp"
         
         self.err = MDLabel()
@@ -981,9 +985,10 @@ class HomeCardsLayout(MDGridLayout):
         self.err.halign="center"
         self.err.size_hint=[None, None]
         self.err.adaptive_size=True
-        self.err.pos_hint = {'center_y':0.5, 'center_x':0.5}
+        self.err.pos_hint = {'center_y':0.4, 'center_x':0.5}
         self.err.halign='center'
-        self.err.color="gray"
+        self.err.color="black"
+        
         
            
         self.ico_err = MDIcon()
@@ -991,10 +996,21 @@ class HomeCardsLayout(MDGridLayout):
         self.ico_err.font_size="70dp"
         self.ico_err.size_hint=[None, None]
         self.ico_err.adaptive_size=True
-        self.ico_err.pos_hint = {'center_y':0.6, 'center_x': 0.5}
-        self.ico_err.color="gray"
+        self.ico_err.pos_hint = {'center_y':0.5, 'center_x': 0.5}
+        self.ico_err.color="black"
+        
+
+        self.ico_btn = MDFillRoundFlatButton(on_release=lambda x:self.re_connect())
+        self.ico_btn.text = 'try again'
+        self.ico_btn.font_size = '15dp'
+        self.ico_btn.theme_text_color = 'Custom'
+        self.ico_btn.text_color = 'black'
+        self.ico_btn.pos_hint = {'center_y':0.6, 'center_x': 0.5}
+        self.ico_btn.md_bg_color = [0.9,0.9,0.9,0.7]
+
         self.bxopo.add_widget(self.ico_err)
         self.bxopo.add_widget(self.err)
+        self.bxopo.add_widget(self.ico_btn)
 
         self.add_widget(self.bxopo)
         self.has_error = True
@@ -1004,9 +1020,29 @@ class HomeCardsLayout(MDGridLayout):
         self.thread_adding.start()
         
 
+    def re_connect(self):
+        sound.play()
+        self.spin = MDSpinner()
+        self.spin.size_hint = [None, None]
+        self.spin.height = '30dp'
+        self.spin.width = '30dp'
+        self.spin.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        self.spin.active = True
+        self.add_widget(self.spin)
+        if self.op_choice == "Rent":
+            self.thread_rent_other()
+        else:
+            self.thread_other()
+
     def thread_other(self):
+        
         self.event=Event()
         self.threa = threading.Thread(target=self.other).start()
+
+    def thread_rent_other(self):
+        
+        self.event=Event()
+        self.threa = threading.Thread(target=self.rent_other).start()
 
     
     def timing_added(self):
@@ -1039,8 +1075,13 @@ class HomeCardsLayout(MDGridLayout):
         toast(text)
     @mainthread
     def remove_err(self):
-        self.remove_widget(self.bxopo)
+        Clock.schedule_once(partial(self.remove_wid), 0.3)
+        
 
+    def remove_wid(self, time):
+        
+        self.remove_widget(self.bxopo)
+        
 
     def thread_rent_added(self):
         self.event=Event()
@@ -1179,12 +1220,14 @@ class HomeCardsLayout(MDGridLayout):
     @mainthread
     def done(self, time):
         self.j = 0
-       
+        
+
         if self.has_error:
             self.remove_err()
         if self.sale_found:
             for u in self.people.each()[self.j:self.j+4]:
-                
+                if self.j == 0:
+                    self.last_one.append(u.key())
                 
                 self.something = u.key()
                 self.card = HomeCards()
@@ -1219,6 +1262,7 @@ class HomeCardsLayout(MDGridLayout):
             self.full = True
                     
             self.loaded = True
+            
         
         
         
@@ -1232,7 +1276,8 @@ class HomeCardsLayout(MDGridLayout):
             self.remove_err()
         if self.rent_found:
             for u in self.peopler.each()[self.j:self.j+4]:
-                
+                if self.j == 0:
+                    self.last_rent_one.append(u.key())
                 
                 self.rent_something = u.key()
                 self.card = HomeCards()
@@ -1268,6 +1313,7 @@ class HomeCardsLayout(MDGridLayout):
                     
             self.full_rent = True
             self.rent_loaded = True
+            
         
             
                     
@@ -1286,6 +1332,8 @@ class HomeCardsLayout(MDGridLayout):
         except:
             time.sleep(1)
             self.connection()
+
+        self.remove()
             
 
     def other(self):
@@ -1301,6 +1349,8 @@ class HomeCardsLayout(MDGridLayout):
         except:
             time.sleep(1)
             self.connection()
+
+        self.remove()
             
             
         
@@ -1324,13 +1374,7 @@ class HomeCardsLayout(MDGridLayout):
             
             
             if self.j >= len(self.peopler.each()):
-                if self.full_rent == True:
-                    self.peopler = db.child("Rent").order_by_key().limit_to_first(8).get()
-                    num = len(self.peopler.each())-1
-                    
-                    
-                    self.rent_something = self.peopler.each()[num].key()
-                    self.full_rent = False
+                
                 self.peopler = db.child("Rent").order_by_key().start_at(self.rent_something).limit_to_first(9).get()
                 
                     
@@ -1361,12 +1405,7 @@ class HomeCardsLayout(MDGridLayout):
             self.n_temp = self.people
             
             if self.j >= len(self.people.each()):
-                if self.full == True:
-                    self.people = db.child("Sale").order_by_key().limit_to_first(8).get()
-                    num = len(self.people.each())-1
-                    self.something = self.people.each()[num].key()
-                    
-                    self.full = False
+                
                 self.people = db.child("Sale").order_by_key().start_at(self.something).limit_to_first(9).get()
                 
                     
@@ -1392,7 +1431,8 @@ class HomeCardsLayout(MDGridLayout):
                 
                 
                 if u.key() == self.rent_something:
-                    
+                    if u.key() not in self.last_rent_one:
+                        self.last_rent_one.append(u.key())
                     self.j += 1
                     continue
                 
@@ -1440,6 +1480,8 @@ class HomeCardsLayout(MDGridLayout):
                 
                 
                 if u.key() == self.something:
+                    if u.key() not in self.last_one:
+                        self.last_one.append(u.key())
                     self.j += 1
                     continue
                 
@@ -1475,8 +1517,45 @@ class HomeCardsLayout(MDGridLayout):
                     break
                 
             
+    def rent_back(self):
         
         
+        try:
+            self.rent_back_back()
+        except:
+            self.connection()
+
+    def rent_back_back(self):
+        if len(self.last_rent_one) > 1:
+            self.j = 0
+            l = len(self.last_rent_one) - 1
+            key = self.last_rent_one[l-1]
+            self.peopler = db.child("Rent").order_by_key().start_at(key).limit_to_first(8).get() 
+
+            self.clear()
+            self.last_rent_one.pop()
+            self.rent_another(None)
+
+
+    def back(self):
+        
+        
+        try:
+            self.sale_back_back()
+        except:
+            self.connection()
+
+    def sale_back_back(self):
+        if len(self.last_one) > 1:
+            self.j = 0
+            l = len(self.last_one) - 1
+            key = self.last_one[l-1]
+            self.people = db.child("Sale").order_by_key().start_at(key).limit_to_first(8).get() 
+
+            self.clear()
+            self.last_one.pop()
+            self.another(None)
+
         
         
     
@@ -1672,14 +1751,20 @@ class MainApp(MDApp):
         self.theme_cls.primary_hue = "900"
         self.wm.transition = NoTransition()
 
+        self.set_bar_color()
+
         self.kill = False
         self.has_error = False
         self.loader = []
         self.last_sold = 0
+        self.last_booked = 0
         self.has_pressed = False
         self.has_entered = False
         self.is_searching = False
         self.has_failed = False
+        self.search_j = 0
+        self.thread_prod_started = False
+        self.thread_bk_started = False
        
 
         self.last_rec = 0
@@ -1805,8 +1890,11 @@ class MainApp(MDApp):
         self.facebook = ''
         return self.wm
         
-    def load_screens(self):
-        self.signin = SignInScreen
+    
+
+    def set_bar_color(self):
+        set_bars_colors([1,1,1,1], None, 'Dark')
+        
     
     
     def switch_choice(self):
@@ -1943,6 +2031,7 @@ class MainApp(MDApp):
                 
                 self.loader.clear()
                 self.last_sold = 0
+                self.last_booked = 0
                 self.clear_products()
                 
                 self.clear_bk_widgets()
@@ -1968,10 +2057,14 @@ class MainApp(MDApp):
 
     def begin_loading(self):
         
+        if self.thread_prod_started == False:
+            self.event = Event()
+            self.th = threading.Thread(target=self.begin_now)
+            self.th.start()
+            self.thread_prod_started = True
+
         
-        self.event = Event()
-        self.th = threading.Thread(target=self.begin_now)
-        self.th.start()
+            
         
 
     def begin_now(self):
@@ -2032,7 +2125,7 @@ class MainApp(MDApp):
                 
 
        
-        
+        self.thread_prod_started = False
         self.enabled_reload()
 
     @mainthread
@@ -2056,6 +2149,10 @@ class MainApp(MDApp):
         self.bxopi.size_hint_y=None
         self.bxopi.adaptive_height = True
         self.bxopi.spacing = "20dp"
+        
+        top = Window.size[1] / 3 - self.products.ids.prop_title.height - self.products.ids.spinno.height if len(self.loader) < 1 else 50
+        
+        self.bxopi.padding = [0, int(top), 0, int(top)]
         
         self.err_prod = MDLabel()
         self.err_prod.text=text
@@ -2096,6 +2193,7 @@ class MainApp(MDApp):
         self.products.ids.trash.disabled = True
         self.products.ids.spinno.active = True
         self.products.ids.spinno.opacity = 1
+        self.products.ids.reload.disabled = True
 
     @mainthread
     def clear_products(self):
@@ -2104,8 +2202,7 @@ class MainApp(MDApp):
     # @mainthread
     def switch_products(self):
         
-        # self.loading.ids.spin.active = True
-        # self.switch_loading()
+        
         self.products_spin_opacity()
         if self.prod_err == True:
             self.remove_prod_err()
@@ -2173,12 +2270,15 @@ class MainApp(MDApp):
                     with open(f'{path}/user.json', 'w') as jsonfile:
                         json.dump(self.curr, jsonfile)
 
+            
+                
+
             if self.curr["sold"][self.curr['email']] == 0:
                 if self.prod_err == True:
                     self.remove_prod_err()
                     self.prod_err = False
                 
-                self.empty_prod('You have not properties yet', icon='cloud-outline')
+                self.empty_prod('You have no properties yet', icon='cloud-outline')
                 
         else:
             if self.prod_err == True:
@@ -2239,6 +2339,7 @@ class MainApp(MDApp):
                 self.loader.append(u.key())
             
             
+                
             
         
                     
@@ -2277,6 +2378,9 @@ class MainApp(MDApp):
                 self.products.ids.layout.add_widget(self.card)
                     
                 self.loader.append(u.key())
+
+           
+                
                 
                 
     @mainthread
@@ -2288,6 +2392,9 @@ class MainApp(MDApp):
         self.bxopu.size_hint_y=None
         self.bxopu.adaptive_height = True
         self.bxopu.spacing = "20dp"
+        top = Window.size[1] / 2.4 - self.bk.ids.relayer.height - self.bk.ids.book_title.height if len(self.loaded) < 1 else 50
+        
+        self.bxopu.padding = [0, int(top), 0, int(top)]
         
         self.err_bk = MDLabel()
         self.err_bk.text=text
@@ -2297,6 +2404,7 @@ class MainApp(MDApp):
         self.err_bk.adaptive_size=True
         self.err_bk.pos_hint = {'center_y':0.5, 'center_x':0.5}
         self.err_bk.halign='center'
+        self.err_bk.color = 'black'
       
         
         self.ico_err_bk = MDIcon()
@@ -2305,6 +2413,7 @@ class MainApp(MDApp):
         self.ico_err_bk.size_hint=[None, None]
         self.ico_err_bk.adaptive_size=True
         self.ico_err_bk.pos_hint = {'center_y':0.6, 'center_x': 0.5}
+        self.ico_err_bk.color = 'black'
  
         self.bxopu.add_widget(self.ico_err_bk)
         self.bxopu.add_widget(self.err_bk)
@@ -2314,16 +2423,21 @@ class MainApp(MDApp):
         
     @mainthread
     def true_switch_bookmarks(self):
-        self.wm.transition=NoTransition()
+        self.wm.transition=SlideTransition(direction='right')
+        self.wm.transition.duration = .1
         if self.products.ids.layout.has_deleted == True:
             self.clear_bk()
         self.wm.switch_to(self.bk)
 
 
     def begin_thread_bookmarks(self):
-        self.event = Event()
-        self.thread_bookmarks = threading.Thread(target=self.begin_bookmarks)
-        self.thread_bookmarks.start()
+        if self.thread_bk_started == False:
+            self.event = Event()
+            self.thread_bookmarks = threading.Thread(target=self.begin_bookmarks)
+            self.thread_bookmarks.start()
+            self.thread_bk_started = True
+        
+            
 
 
     def begin_bookmarks(self):
@@ -2347,79 +2461,102 @@ class MainApp(MDApp):
               
                     try:
                         self.denied_signin()
-                        if self.prod_err == True:
-            
-                            self.remove_prod_err()
-                            self.prod_err = False
+                        if self.bk_err == True:
+                            self.remove_bk_error()
+                            self.bk_err = False
                         self.begin_thread_bookmarks()
                     
                        
                         
                         
                     except:
-                        time.sleep(1)
-                        self.toast('Internet connection limited or unavailable')
+                        
+                        if self.bk_err == True:
+                            self.remove_bk_error()
+                            self.bk_err = False
+                        self.empty_bk("Hometernet connection unavailable", icon='cloud')
+                        
                         self.event.set()
                         
         
             except:
-       
-                self.toast('Internet connection limited or unavailable')
+                if self.bk_err == True:
+                    self.remove_bk_error()
+                    self.bk_err = False
+                self.empty_bk("Hometernet connection unavailable", icon='cloud')
+                
                 self.event.set()
 
-            time.sleep(1)
-            self.true_switch_bookmarks()
+            
+            self.bk_spin_inactive()
+
+        self.thread_bk_started = False
 
     def starto_bookmarks(self):
         
         
         
         if self.curr['email'] != '':
+            if self.curr['bookmarks'][self.curr['email']] > self.last_booked:
             
-            blokies = db.child("Accounts").child(self.curr['localid']).child('bookmarks').get(self.curr['idToken'])
+                blokies = db.child("Accounts").child(self.curr['localid']).child('bookmarks').get(self.curr['idToken'])
+                
+                
+                
             
-          
-            if blokies.val() != None:
-                for i in blokies.val():
-                    if not self.event.is_set():
-                        
-                        if i not in self.loaded:
-                            
-                            
-                            self.yours = db.child("Sale").order_by_key().equal_to(i).get()
-                            self.mine = db.child("Rent").order_by_key().equal_to(i).get()
-                            self.starti_bookmarks(self.yours, self.mine)  
-                    else:
-                        
-                        break
-
-            else:
-                self.empty_bk("You have no bookmarks")
-            
-
-            time.sleep(1)
-            if not self.event.is_set():
                 if blokies.val() != None:
-                    # blokies = db.child("Accounts").child(self.curr['localid']).child('bookmarks').get(self.curr['idToken'])
-                    
-            
-                    
-                    for b in blokies.val():
-                        if b not in self.loaded:
+                    self.curr['bookmarks'][self.curr['email']] = len(blokies.each())
+                    self.last_booked = self.curr['bookmarks'][self.curr['email']]
+                    for i in blokies.val():
+                        if not self.event.is_set():
                             
+                            if i not in self.loaded:
+                                
+                                
+                                self.yours = db.child("Sale").order_by_key().equal_to(i).get()
+                                self.mine = db.child("Rent").order_by_key().equal_to(i).get()
+                                self.starti_bookmarks(self.yours, self.mine)  
+                        else:
                             
-                            db.child("Accounts").child(self.curr['localid']).child('bookmarks').child(b).remove(self.curr['idToken'])
-                            self.toast("Some Properties may have been sold.")
-                            
-                    with open(f'{path}/user.json', 'w') as jsonfile:
-                        json.dump(self.curr, jsonfile) 
+                            break
 
-                    
+                else:
+                    if self.bk_err == True:
+                        self.remove_bk_error()
+                        self.bk_err = False
+                    self.empty_bk("You have no bookmarks")
+            
+
+                time.sleep(1)
+                if not self.event.is_set():
+                    if blokies.val() != None:
+                        # blokies = db.child("Accounts").child(self.curr['localid']).child('bookmarks').get(self.curr['idToken'])
+                        
+                
+                        
+                        for b in blokies.val():
+                            
+                            if b not in self.loaded:
+                                
+                                
+                                db.child("Accounts").child(self.curr['localid']).child('bookmarks').child(b).remove(self.curr['idToken'])
+                                self.toast("Some Properties may have been sold.")
+                                
+                                
+                with open(f'{path}/user.json', 'w') as jsonfile:
+                    json.dump(self.curr, jsonfile) 
+
+            
+                
         else:
+            if self.bk_err == True:
+                self.remove_bk_error()
+                self.bk_err = False
             self.empty_bk("You're not signed in")
                 
-
-                
+    @mainthread
+    def remove_bk_error(self):
+        self.bk.ids.relayer.remove_widget(self.bxopu)
 
             
         
@@ -2454,6 +2591,7 @@ class MainApp(MDApp):
                 self.card.description = u.val()['description']
                 self.card.link = u.val()['link']
                 self.bk.ids.bk.add_widget(self.card)
+                
                 self.loaded.append(u.key())
                 
                 
@@ -2489,16 +2627,16 @@ class MainApp(MDApp):
                 self.card.description = u.val()['description']
                 self.card.link = u.val()['link']
                 self.bk.ids.bk.add_widget(self.card)
+                
                 self.loaded.append(u.key())
                 
         
 
         
     def reload_bookmarks(self):
-        self.loading.ids.spin.active = True
-        self.wm.switch_to(self.loading)
+        self.bk_spin_opacity()
        
-        
+        self.last_booked = 0
         self.loaded.clear()
         if self.bk_err == True:
             self.bk.ids.relayer.remove_widget(self.bxopu)
@@ -2534,14 +2672,16 @@ class MainApp(MDApp):
         if which == 'reload':
             
             
-            self.home.ids.grid.clear_widgets()
+           
             
             self.home.ids.scroller.scroll_to(self.home.ids.sale_arrow)
             
             
-            self.home.ids.grid.add_widget(self.spin)
+            
             
             if one == "change":
+                self.home.ids.grid.clear_widgets()
+                self.home.ids.grid.add_widget(self.spin)
                 self.home.ids.grid.j = 0
                 self.event = Event()
                 self.thread_reload = threading.Thread(target=self.more_sale)
@@ -2550,6 +2690,7 @@ class MainApp(MDApp):
             else:
                 
                 # preload sale here
+                self.home.ids.grid.add_widget(self.spin)
                 if self.home.ids.grid.op_choice == "Sale":
                     self.home.ids.grid.loaded = False
                     self.event = Event()
@@ -2601,7 +2742,7 @@ class MainApp(MDApp):
         if which == 'reload':
             
             
-            self.home.ids.grid.clear_widgets()
+            
             # self.home.ids.scroller.do_scroll_y = True
             self.home.ids.scroller.scroll_to(self.home.ids.sale_arrow)
             if self.home.ids.grid.has_error == True:
@@ -2609,49 +2750,44 @@ class MainApp(MDApp):
                 self.home.ids.grid.has_error = False
             
             
-            self.home.ids.grid.add_widget(self.spin)
+            
             
             if one == "change":
-                
+                self.home.ids.grid.clear_widgets()
+                self.home.ids.grid.add_widget(self.spin)
                 self.home.ids.grid.j = 0
                 self.event = Event()
                 self.thread_reload = threading.Thread(target=self.more_rent)
                 self.thread_reload.start()
                 
-            else:
-                
-                # preload sale here
-                
-                self.event = Event()
-                self.thread_reload = threading.Thread(target=self.new_rent)
-                self.thread_reload.start()
+            
 
 
 
 
     def reload_sale(self):
         time.sleep(1)
-        if self.home.ids.grid.loaded == True:
+        # if self.home.ids.grid.loaded == True:
             
-            Clock.schedule_once(partial(self.home.ids.grid.done), 0.3)
-            self.remove_reload_spin()
+        #     Clock.schedule_once(partial(self.home.ids.grid.done), 0.3)
+        #     self.remove_reload_spin()
             
-        else:
-            self.home.ids.grid.timing_added()
-            self.remove_reload_spin()
+        # else:
+        self.home.ids.grid.back()
+        self.remove_reload_spin()
             
 
     def new_rent(self):
         time.sleep(1)
-        if self.home.ids.grid.rent_loaded == True:
+        # if self.home.ids.grid.rent_loaded == True:
             
-            Clock.schedule_once(partial(self.home.ids.grid.rent_done), 0.3)
-            self.remove_reload_spin()
+        #     Clock.schedule_once(partial(self.home.ids.grid.rent_done), 0.3)
+        #     self.remove_reload_spin()
             
-        else:
+        # else:
             
-            self.home.ids.grid.rent_timing_added()
-            self.remove_reload_spin()
+        self.home.ids.grid.rent_back()
+        self.remove_reload_spin()
             
 
     def more_sale(self):
@@ -2671,6 +2807,19 @@ class MainApp(MDApp):
         self.remove_reload_spin()
         
         
+
+    def scroll_more(self):
+        self.event = Event()
+        self.thread_reload = threading.Thread(target=self.scroll_add)
+        self.thread_reload.start()
+
+    def scroll_add(self):
+        if self.home.ids.scroller.scroll_y < 0.2:
+            if self.home.ids.grid.j >= 4:
+                if self.home.ids.grid.op_choice == "Sale":
+                    self.home.ids.grid.another(None)
+                else:
+                    self.home.ids.grid.rent_another(None)
         
     @mainthread
     def remove_reload_spin(self):
@@ -2840,8 +2989,22 @@ class MainApp(MDApp):
         self.ico_err.adaptive_size=True
         self.ico_err.pos_hint = {'center_y':0.6, 'center_x': 0.5}
         self.ico_err.color="gray"
+
+        
+
         self.bxopo.add_widget(self.ico_err)
         self.bxopo.add_widget(self.err)
+        
+        if text != 'Nothing found':
+            self.ico_btn = MDFillRoundFlatButton(on_press=lambda x:self.play(), on_release=lambda x:self.search_thread(self.search.ids.drop_item.text, self.search.ids.country.text, self.search.ids.state.text, self.search.ids.town.text, self.search.ids.bed_item.text, self.search.ids.prop_type.text))
+            self.ico_btn.text = 'try again'
+            self.ico_btn.font_size = '15dp'
+            self.ico_btn.theme_text_color = 'Custom'
+            self.ico_btn.text_color = 'black'
+            self.ico_btn.pos_hint = {'center_y':0.6, 'center_x': 0.5}
+            self.ico_btn.md_bg_color = [0.9,0.9,0.9,0.7]
+            self.bxopo.add_widget(self.ico_btn)
+        
 
         self.search.ids.search.add_widget(self.bxopo)
         self.has_failed = True
@@ -3105,6 +3268,7 @@ class MainApp(MDApp):
                 self.search.ids.check.text = 'Search results'
                 self.search.ids.more_card.disabled = False
                 
+                
                 anim = Animation(opacity=1, duration=1)
                 anim.start(self.search.ids.more_card)
 
@@ -3222,7 +3386,15 @@ class MainApp(MDApp):
                             
                             break
 
-            
+    def scroll_searcher(self):
+        self.event = Event()
+        self.thread_next = threading.Thread(target=self.scroll_search)
+        self.thread_next.start()                         
+
+    def scroll_search(self):
+        if self.search.ids.searcher.scroll_y < 0.5:
+            if self.search_j >= 1:
+                self.real_next(None, None)
     
     def reverser_next(self):
         self.search.ids.search.clear_widgets()
@@ -3464,10 +3636,14 @@ class MainApp(MDApp):
             elif self.wm.current == "details":
                 if self.current_screen == "bookmarks":
                     self.switch_bookmarks()
+                    return False
                 elif self.current_screen == "search":
                     self.switch_search()
+                    return False
                 elif self.current_screen == "home":
                     self.switch_home()
+                    return False
+                return False
                     
             elif self.wm.current == "bookmarks":
                 self.switch_home() 
@@ -3478,13 +3654,14 @@ class MainApp(MDApp):
                 self.switch_products()
             elif self.wm.current == "signin":
                 self.switch_from_signin()
-                
+                return False
                 
                 
                     
             elif self.wm.current == "sign-up":
                 self.discard_mail()
                 self.first_time_signin()
+                return False
 
             elif self.wm.current == "SaleOrRent":
                 self.switch_products()
@@ -3493,6 +3670,7 @@ class MainApp(MDApp):
             elif self.wm.current == "search":
                 
                 self.switch_home()
+                return False
             elif self.wm.current == 'acc':
                 self.switch_home()
             elif self.wm.current == "creator":
@@ -3506,13 +3684,15 @@ class MainApp(MDApp):
             elif self.wm.current == "congrats":
                 self.switch_products()
             elif self.wm.current == "code":
+                
                 if self.prev_code == 'sign-in':
                     self.first_time_signin()
+                    return False
                 else:
                     self.switch_signup()
-
+                    return False
             else:
-                Window.minimize()
+                return False
 
                 
                 
@@ -3915,12 +4095,14 @@ class MainApp(MDApp):
 
     def switch_search(self, direction='down'):
         self.wm.transition = SlideTransition()
-        self.wm.transition.duration = .1
+        self.wm.transition.duration = .2
         if self.has_open_search == False:
             self.search = SearchScreen(name="search")
             self.has_open_search = True
         self.wm.switch_to(self.search, direction=direction)
         self.current_screen = 'search'
+
+    
         
     @mainthread
     def switch_sale(self):
@@ -3957,6 +4139,7 @@ class MainApp(MDApp):
         self.sale.ids.check_five.active = False
         self.sale.ids.check_six.active = False
         self.wm.switch_to(self.sale)
+        self.loading.ids.labe.opacity = 0
 
     @mainthread
     def switch_rent(self):
@@ -4010,22 +4193,31 @@ class MainApp(MDApp):
         self.wm.switch_to(self.signup, direction='left')
 
     
-        
-        
+    @mainthread
+    def bk_spin_opacity(self):
+        self.bk.ids.reload.disabled = True
+        self.bk.ids.spin_bk.opacity = 1   
+        self.bk.ids.spin_bk.active = True
        
-
+    @mainthread
+    def bk_spin_inactive(self):
+        self.bk.ids.spin_bk.opacity = 0
+        self.bk.ids.spin_bk.active = False
+        self.bk.ids.reload.disabled = False
         
 
     def switch_bookmarks(self):
-        self.current_screen = 'bookmarks'    
-        self.loading.ids.spin.active = True
-        self.switch_loading()
+        self.current_screen = 'bookmarks' 
+        self.bk_spin_opacity()
+        
+        self.true_switch_bookmarks()
         self.passwrd = ''
         self.mail = ''
         
         if self.bk_err == True:
             self.bk.ids.relayer.remove_widget(self.bxopu)
             self.bk_err = False
+            
         self.begin_thread_bookmarks()    
         
 
@@ -4064,6 +4256,7 @@ class MainApp(MDApp):
             self.switch_acc()
         else:
             self.switch_home()
+        
 
     @mainthread
     def switch_congrats(self):
@@ -4386,6 +4579,7 @@ class MainApp(MDApp):
     @mainthread
     def snackbar(self, obj):
         self.snack = Snackbar(text=obj, snackbar_x="5dp", snackbar_y="70dp", size_hint_x=(Window.width - ((10) * 2)) / Window.width, size_hint_y=None)
+        self.snack.font_size = '15dp'
         self.snack.open()
 
     def open_maps(self, location):
@@ -4849,8 +5043,9 @@ class MainApp(MDApp):
         self.clear_bk_widgets()
         self.loader.clear()
         self.last_sold = 0
+        self.last_booked = 0
         self.curr['sold'][email] = count
-        self.curr['bookmarks'][email] = []
+        self.curr['bookmarks'][email] = 0
         self.curr['viewed'][email] = []
         self.curr['accounts'].append({'email': email, 'password': password})
 
@@ -5091,6 +5286,7 @@ class MainApp(MDApp):
         self.clear_bk()
         self.loader.clear()
         self.last_sold = 0
+        self.last_booked = 0
 
         with open(f'{path}/user.json', 'w') as jsonfile:
             json.dump(self.curr, jsonfile)
@@ -5269,6 +5465,7 @@ class MainApp(MDApp):
             json.dump(self.curr, jsonfile)
         self.loader.clear()
         self.last_sold = 0
+        self.last_booked = 0
         self.products.ids.layout.clear_widgets()
         self.bk.ids.bk.clear_widgets()
         
@@ -5372,7 +5569,7 @@ class MainApp(MDApp):
                     time.sleep(1)
                     if not self.event.is_set():
                         self.curr['sold'][email] = count
-                        self.curr['bookmarks'][email] = []
+                        self.curr['bookmarks'][email] = 0
                         self.curr['viewed'][email] = []
                         self.curr['accounts'].append({'email': email, 'password': password})
                     
@@ -5393,7 +5590,7 @@ class MainApp(MDApp):
                         time.sleep(1)
                         if not self.event.is_set():
                             self.curr['sold'][email] = count
-                            self.curr['bookmarks'][email] = []
+                            self.curr['bookmarks'][email] = 0
                             self.curr['viewed'][email] = []
                             self.curr['accounts'].append({'email': email, 'password': password})
 
@@ -5433,6 +5630,7 @@ class MainApp(MDApp):
                 
 
                 self.last_sold = 0
+                self.last_booked = 0
                 self.loader.clear()
                 self.clear_products()
                 self.clear_bk_widgets()
@@ -6230,10 +6428,13 @@ class MainApp(MDApp):
                         db.child("Accounts").child(data['localid']).child('bookmarks').update({lola: ''}, data['idToken'])
 
                         
-
+                        data['bookmarks'][data['email']] += 1
+                        with open(f'{path}/user.json', 'w') as jsonfile:
+                            json.dump(data, jsonfile)
                         self.close_dialog(None)
                         notice = 'Successfully added to bookmarks'
                         self.toast(notice)
+                        
                     else:
                         
                         info = "Bookmarks full. You can only bookmark 24 properties."
@@ -7073,18 +7274,24 @@ class MainApp(MDApp):
     
 
     def change_color(self):
-        Animation(md_bg_color=[0,0,0,1], duration=0.3).start(self.home.ids.sale_btn)
-        Animation(md_bg_color=self.theme_cls.primary_color, duration=0.3).start(self.home.ids.rent_btn)
+        Animation(md_bg_color=[0.9,0.9,0.9,0.7], duration=0.2).start(self.home.ids.rent_btn)
+        
+        self.home.ids.rent_btn.text_color = 'black'
+        Animation(md_bg_color=self.theme_cls.primary_color, duration=0.2).start(self.home.ids.sale_btn)
+        
+        self.home.ids.sale_btn.text_color = 'white'
 
-        Animation(pos_hint={'center_y': 0.2}, duration=0.3).start(self.home.ids.sale_btn)
-        Animation(pos_hint={'center_y': 0.35}, duration=0.3).start(self.home.ids.rent_btn)
+        Animation(pos_hint={'center_y': 0.2}, duration=0.2).start(self.home.ids.sale_btn)
+        Animation(pos_hint={'center_y': 0.35}, duration=0.2).start(self.home.ids.rent_btn)
 
     def change_rent_color(self):
-        Animation(md_bg_color=[0,0,0,1], duration=0.3).start(self.home.ids.rent_btn)
-        Animation(md_bg_color=self.theme_cls.primary_color, duration=0.3).start(self.home.ids.sale_btn)
+        Animation(md_bg_color=[0.9,0.9,0.9,0.7], duration=0.2).start(self.home.ids.sale_btn)
+        self.home.ids.sale_btn.text_color = 'black'
+        Animation(md_bg_color=self.theme_cls.primary_color, duration=0.2).start(self.home.ids.rent_btn)
+        self.home.ids.rent_btn.text_color = 'white'
 
-        Animation(pos_hint={'center_y': 0.2}, duration=0.3).start(self.home.ids.rent_btn)
-        Animation(pos_hint={'center_y': 0.35}, duration=0.3).start(self.home.ids.sale_btn)
+        Animation(pos_hint={'center_y': 0.2}, duration=0.2).start(self.home.ids.rent_btn)
+        Animation(pos_hint={'center_y': 0.35}, duration=0.2).start(self.home.ids.sale_btn)
 
     
 

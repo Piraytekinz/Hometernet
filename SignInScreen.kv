@@ -66,7 +66,7 @@
                             height: '45dp'
                             radius: ["10dp",]
                             id: mail_box
-                            md_bg_color: 1,1,1,1
+                            md_bg_color: 0.9,0.9,0.9,0.6
                             TextInput:
                                 hint_text: 'email'
                                 multiline: False
@@ -87,7 +87,7 @@
                             height: '45dp'
                             radius: ["10dp",]
                             id: passwrd
-                            md_bg_color: 1,1,1,1
+                            md_bg_color: 0.9,0.9,0.9,0.6
                             TextInput:
                                 hint_text: 'password'
                                 multiline: False
@@ -116,7 +116,7 @@
                             
 
                     MDCard:
-                        radius: ["10dp"]
+                        radius: ["5dp"]
                         md_bg_color: app.theme_cls.primary_color
                         ripple_behavior: True
                         size_hint_y: None
@@ -133,17 +133,19 @@
                             color: 'white'
 
                     MDBoxLayout:
-                        size_hint_y: None
-                        adaptive_height: True
+                        size_hint: None, None
+                        adaptive_size: True
+                        pos_hint: {'center_x': 0.5}
+                        spacing: "10dp"
                         MDLabel:
                             text: "Don't have an account?"
-                            size_hint_y: None
-                            adaptive_height: True
+                            size_hint: None, None
+                            adaptive_size: True
                             font_size: '15dp'
                         MDTextButton:
                             text: 'sign up'
-                            size_hint_y: None
-                            adaptive_height: True
+                            size_hint: None, None
+                            adaptive_size: True
                             font_size: '15dp'
                             color: app.theme_cls.primary_color
                             size_hint_y: None

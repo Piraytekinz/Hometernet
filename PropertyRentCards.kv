@@ -19,8 +19,7 @@
     FitImage:
         source: str(root.image)
         radius: ["5dp","5dp", "0dp", "0dp"]
-        keep_ratio: False
-        allow_stretch: True
+        
         
         
         
@@ -67,32 +66,43 @@
 
     MDSeparator:
         
+    MDLabel:
+        text: root.price + " " + " " + " " + f"[size=14dp]{root.views} views[/size]"
+        
+        font_size: "20dp"
 
-
-    MDBoxLayout:
+        font_color: "black"
+        bold: True
         size_hint_y: None
-        adaptive_height: True
-        MDLabel:
-            text: root.price
+        height: dp(40)
+        padding_x: "25dp"
+        pos_hint: {'center_x': 0.75, 'center_y': 0.5}
+        markup: True
+
+    # MDBoxLayout:
+    #     size_hint_y: None
+    #     adaptive_height: True
+    #     MDLabel:
+    #         text: root.price
             
-            font_size: "20dp"
+    #         font_size: "20dp"
             
-            font_color: "black"
-            bold: True
-            size_hint_y: None
-            height: dp(40)
-            padding_x: "25dp"
-            pos_hint: {'center_x': 0.75, 'center_y': 0.5}
+    #         font_color: "black"
+    #         bold: True
+    #         size_hint_y: None
+    #         height: dp(40)
+    #         padding_x: "25dp"
+    #         pos_hint: {'center_x': 0.75, 'center_y': 0.5}
             
-        MDLabel:
-            text: str(root.views) + " " + "views"
+    #     MDLabel:
+    #         text: str(root.views) + " " + "views"
             
-            font_size: "14dp"
-            pos_hint: {'center_x': 0.25, 'center_y': 0.5}
-            padding_x: "25dp"
-            bold: True
-            line_color: 0.9,0.9,0.9,0.5
-            size_hint_y: None
-            height: dp(40)
+    #         font_size: "14dp"
+    #         pos_hint: {'center_x': 0.25, 'center_y': 0.5}
+    #         padding_x: "25dp"
+    #         bold: True
+    #         line_color: 0.9,0.9,0.9,0.5
+    #         size_hint_y: None
+    #         # height: dp(40)
             
            
