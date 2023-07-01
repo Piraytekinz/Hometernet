@@ -1007,6 +1007,7 @@ class HomeCardsLayout(MDGridLayout):
         self.ico_btn.text_color = 'black'
         self.ico_btn.pos_hint = {'center_y':0.6, 'center_x': 0.5}
         self.ico_btn.md_bg_color = [0.9,0.9,0.9,0.7]
+        self.ico_btn.ripple_scale = 0
 
         self.bxopo.add_widget(self.ico_err)
         self.bxopo.add_widget(self.err)
@@ -1390,7 +1391,7 @@ class HomeCardsLayout(MDGridLayout):
             
             
             # time.sleep(1)
-            Clock.schedule_once(partial(self.rent_another), 0.5)
+            Clock.schedule_once(partial(self.rent_another), 0.3)
 
     def omagaa(self):
         
@@ -1419,7 +1420,7 @@ class HomeCardsLayout(MDGridLayout):
             
            
             
-            Clock.schedule_once(partial(self.another), 0.5)
+            Clock.schedule_once(partial(self.another), 0.3)
                     
             
 
@@ -4095,7 +4096,7 @@ class MainApp(MDApp):
 
     def switch_search(self, direction='down'):
         self.wm.transition = SlideTransition()
-        self.wm.transition.duration = .2
+        self.wm.transition.duration = .1
         if self.has_open_search == False:
             self.search = SearchScreen(name="search")
             self.has_open_search = True
@@ -4236,11 +4237,12 @@ class MainApp(MDApp):
             if self.has_signin == False:
                 self.signin = SignInScreen(name="signin")
                 self.prev_code = 'sign-in'
-                self.signin.ids.email.text = ''
-                self.signin.ids.password.text = ''
+                
                 self.wm.transition = SlideTransition()
                 self.wm.transition.duration = .1
                 self.has_signin = True
+            self.signin.ids.email.text = ''
+            self.signin.ids.password.text = ''
             self.wm.switch_to(self.signin, direction=direction)
             
 
@@ -7331,6 +7333,7 @@ class MainApp(MDApp):
         else:
             self.account.ids.profile.source = 'grad.png'
    
+    
     
     
 MainApp().run()

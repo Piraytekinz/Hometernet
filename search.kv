@@ -6,6 +6,7 @@
         scroll_distance: 1
         smooth_scroll_end: 30
         scroll_wheel_distance: 50
+        scroll_timeout: 1000
         do_scroll_x: False
         id: searcher
         on_scroll_move: app.scroll_searcher()
@@ -119,6 +120,8 @@
                 radius: ["10dp"]
                 size_hint_y: None
                 height: "55dp"
+                on_release: prop_type.focused=True
+                
                 TextInput:
                     hint_text: 'property type'
                     size_hint: 1, None
@@ -142,6 +145,7 @@
                 radius: ["10dp"]
                 size_hint_y: None
                 height: "55dp"
+                on_release: country.focused=True
                 TextInput:
                     hint_text: 'country'
                     size_hint: 1, None
@@ -168,6 +172,7 @@
                     radius: ["10dp"]
                     size_hint_y: None
                     height: "55dp"
+                    on_release: state.focused=True
                     TextInput:
                         hint_text: 'State/Province'
                         size_hint: 1, None
@@ -188,6 +193,7 @@
                     radius: ["10dp"]
                     size_hint_y: None
                     height: "55dp"
+                    on_release: town.focused=True
                     TextInput:
                         hint_text: 'town/city'
                         size_hint: 1, None

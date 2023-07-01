@@ -79,6 +79,7 @@
                                 height: "45dp"
                                 radius: ["10dp",]
                                 id: name_box
+                                on_release: firstname.focused=True
                                 TextInput:
                                     hint_text: 'First name'
                                     multiline: False
@@ -108,6 +109,7 @@
                                 height: "45dp"
                                 radius: ["10dp",]
                                 id: last_name_box
+                                on_release: lastname.focused=True
                                 TextInput:
                                     hint_text: 'Last name'
                                     multiline: False
@@ -136,6 +138,7 @@
                             height: "45dp"
                             radius: ["10dp",]
                             id: mail_box
+                            on_release: mail.focused=True
                             TextInput:
                                 hint_text: 'Email'
                                 multiline: False
@@ -164,6 +167,7 @@
                             height: notice.height * 5
                             radius: ["10dp",]
                             id: story_box
+                            on_release: message.focused=True
                             TextInput:
                                 hint_text: 'Input Message'
                                 multiline: True

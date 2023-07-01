@@ -1,158 +1,193 @@
 <SignInScreen>:
-    MDBoxLayout:
-        orientation: 'vertical'
+    on_enter: 
+        eye.icon='eye-off'
+        password.password=True
         
-        ScrollView:
-            effect_cls: "ScrollEffect"
-            MDBoxLayout:
+    ScrollView:
+        effect_cls: "ScrollEffect"
+        MDBoxLayout:
+            size_hint_y: None
+            adaptive_height: True
+            orientation: 'vertical'
+            spacing: '30dp'
+            AnchorLayout:
+                anchor_x: 'left'
+                anchor_y: 'top'
                 size_hint_y: None
-                adaptive_height: True
-                orientation: 'vertical'
-                AnchorLayout:
-                    anchor_x: 'left'
-                    anchor_y: 'top'
-                    size_hint_y: None
-                    height: home.height
-                    
-                    MDIconButton:
-                        icon: 'arrow-left'
-                        on_press: app.play()
-                        on_release: app.switch_from_signin()
-                        id: home
-                        size_hint_y: None
-                        adaptive_height: True
-                        icon_size: "20dp"
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    padding: ["20dp","20dp","20dp","35dp"]
-                    spacing: "23dp"
+                height: home.height
+                
+                MDIconButton:
+                    icon: 'arrow-left'
+                    on_press: app.play()
+                    on_release: app.switch_from_signin()
+                    id: home
                     size_hint_y: None
                     adaptive_height: True
-                    MDBoxLayout:
-                        size_hint: None, None
-                        height: '140dp'
-                        width: '140dp'
-                       
+                    icon_size: "20dp"
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: ["20dp","20dp","20dp","35dp"]
+                spacing: "30dp"
+                size_hint_y: None
+                adaptive_height: True
+                MDBoxLayout:
+                    size_hint_y: None
+                    adaptive_size: True
+                    orientation: 'vertical'
+                    pos_hint: {'center_x': 0.5}
+                    spacing: '20dp'
+                    padding: ["20dp","0dp","20dp","35dp"]
+                    MDLabel:
+                        text: 'Welcome back!'
+                        font_size: "20dp"
                         
-                        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-                        FitImage:
-                            source: 'Hometernet-Transparent.png'
-                            id: pirate
-                            # font_size: '130dp'
-                            # pos_hint: {'center_x': 0.5}
-                            # halign: 'center'
-                            
-                    
-                    
-                        
-
-                    MDBoxLayout:
-                        orientation: 'vertical'
-                        spacing: "20dp"
-                        size_hint_y: None
-                        adaptive_height: True
-                        MDLabel:
-                            font_size: "20dp"
-                            text: 'Sign in to Hometernet'
-                            halign: 'center'
-                            size_hint_y: None
-                            adaptive_height: True
-                            id: notice
-                            bold: True
-                            markup: True
-                
-                        MDBoxLayout:
-                            size_hint_y: None
-                            height: '45dp'
-                            radius: ["10dp",]
-                            id: mail_box
-                            md_bg_color: 0.9,0.9,0.9,0.6
-                            TextInput:
-                                hint_text: 'email'
-                                multiline: False
-                                foreground_color: 0/255, 0/255, 0/255, 1
-                                size_hint_y: None
-                                font_size: "15dp"
-                                text_color: "black"
-                                pos_hint: {'center_y': 0.5}
-                                height: self.minimum_height
-                                background_color: 0,0,0,0
-                                # on_text: app.email(self.text)
-                                id: email
-                                input_type: 'mail'
-                                cursor_color: app.theme_cls.primary_color
-
-                        MDBoxLayout:
-                            size_hint_y: None
-                            height: '45dp'
-                            radius: ["10dp",]
-                            id: passwrd
-                            md_bg_color: 0.9,0.9,0.9,0.6
-                            TextInput:
-                                hint_text: 'password'
-                                multiline: False
-                                foreground_color: 0/255, 0/255, 0/255, 1
-                                size_hint_y: None
-                                font_size: "15dp"
-                                text_color: "black"
-                                pos_hint: {'center_y': 0.5}
-                                height: self.minimum_height
-                                background_color: 0,0,0,0
-                                password: True
-                                cursor_color: app.theme_cls.primary_color
-                                id: password
-
-                    MDBoxLayout:
-                        size_hint_y: None
-                        adaptive_height: True
-                        MDTextButton:
-                            text: 'Forgot password?'
-                            size_hint_y: None
-                            adaptive_height: True
-                            font_size: '15dp'
-                            color: app.theme_cls.primary_color
-                            on_release: app.forgot_password_auth()
-                            on_press: app.play()
-                            
-
-                    MDCard:
-                        radius: ["5dp"]
-                        md_bg_color: app.theme_cls.primary_color
-                        ripple_behavior: True
-                        size_hint_y: None
-                        height: passwrd.height
-                        
-                        on_release: app.sign_in()
-
-                        on_press: app.sound()
-                        
-                        MDLabel:
-                            text: 'Login'
-                            halign: 'center'
-                            font_size: '15dp'
-                            color: 'white'
-
-                    MDBoxLayout:
+                        halign: 'center'
                         size_hint: None, None
                         adaptive_size: True
+                        
+                       
+                        
+                        bold: True
+                        markup: True
                         pos_hint: {'center_x': 0.5}
-                        spacing: "10dp"
-                        MDLabel:
-                            text: "Don't have an account?"
-                            size_hint: None, None
-                            adaptive_size: True
-                            font_size: '15dp'
-                        MDTextButton:
-                            text: 'sign up'
-                            size_hint: None, None
-                            adaptive_size: True
-                            font_size: '15dp'
-                            color: app.theme_cls.primary_color
+                
+                    MDLabel:
+                        font_size: "15dp"
+                        text: 'Login'
+                        halign: 'center'
+                        size_hint: None, None
+                        adaptive_size: True
+                        id: notice
+                        
+                        markup: True
+                        pos_hint: {'center_x': 0.5}
+                        
+                    
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    size_hint_y: None
+                    adaptive_height: True
+                    
+            
+                    MDCard:
+                        size_hint_y: None
+                        height: '50dp'
+                        radius: ["25dp",]
+                        padding: ['20dp']
+                        id: mail_box
+                        md_bg_color: 0,0,0,0
+                        ripple_behavior: False
+                        line_color: app.theme_cls.primary_color
+                        on_release:
+                            email.focused=True
+                        TextInput:
+                            hint_text: 'email'
+                            multiline: False
+                            foreground_color: 0/255, 0/255, 0/255, 1
                             size_hint_y: None
-                            adaptive_height: True
-                            on_press: app.play()
-                            on_release: app.switch_signup()
-                            id: sign_up
+                            font_size: "15dp"
+                            text_color: "black"
+                            pos_hint: {'center_y': 0.5}
+                            height: self.minimum_height
+                            background_color: 0,0,0,0
+                            # on_text: app.email(self.text)
+                            id: email
+                            input_type: 'mail'
+                            cursor_color: app.theme_cls.primary_color
+
+                    MDCard:
+                        size_hint_y: None
+                        height: '50dp'
+                        radius: ["25dp",]
+                        padding: ['20dp']
+                        id: passwrd
+                        md_bg_color: 0,0,0,0
+                        ripple_behavior: False
+                        line_color: app.theme_cls.primary_color
+                        on_release: 
+                            password.focused=True
+                        TextInput:
+                            hint_text: 'password'
+                            multiline: False
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            size_hint_y: None
+                            font_size: "15dp"
+                            text_color: "black"
+                            pos_hint: {'center_y': 0.5}
+                            height: self.minimum_height
+                            background_color: 0,0,0,0
+                            password: True
+                            cursor_color: app.theme_cls.primary_color
+                            id: password
+
+                        MDIconButton:
+                            icon_size: '20dp'
+                            icon: 'eye-off'
+                            pos_hint: {'center_y': 0.5}
+                            id: eye
+                            on_press: 
+                                password.focused=True
+                                app.play()
+                                self.icon='eye-off' if self.icon=='eye' else 'eye'
+                                
+                            on_release:
+                                password.focused=True
+                                password.password=False if password.password == True else True
+                            
+
+                
+                    
+                MDTextButton:
+                    text: 'Forgot password?'
+                    size_hint_y: None
+                    adaptive_height: True
+                    font_size: '15dp'
+                    color: app.theme_cls.primary_color
+                    on_release: app.forgot_password_auth()
+                    on_press: app.play()
+                    
+
+                MDCard:
+                    
+                    radius: ["25dp"]
+                    md_bg_color: app.theme_cls.primary_color
+                    ripple_behavior: True
+                    size_hint_y: None
+                    height: passwrd.height
+                    
+                    on_release: app.sign_in()
+
+                    on_press: app.sound()
+                    
+                    MDLabel:
+                        text: 'Login'
+                        halign: 'center'
+                        font_size: '15dp'
+                        color: 'white'
+
+            MDBoxLayout:
+                size_hint: None, None
+                adaptive_size: True
+                pos_hint: {'center_x': 0.5}
+                spacing: "10dp"
+                MDLabel:
+                    text: "Don't have an account?"
+                    size_hint: None, None
+                    adaptive_size: True
+                    font_size: '15dp'
+                MDTextButton:
+                    text: 'sign up'
+                    size_hint: None, None
+                    adaptive_size: True
+                    font_size: '15dp'
+                    color: app.theme_cls.primary_color
+                    size_hint_y: None
+                    adaptive_height: True
+                    on_press: app.play()
+                    on_release: app.switch_signup()
+                    id: sign_up
 
 
 <Email@MDCard+CommonElevationBehavior>
