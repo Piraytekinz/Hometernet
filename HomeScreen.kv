@@ -242,20 +242,20 @@
                 spacing: "30dp"
                
                 MDFillRoundFlatButton:
-                    ripple_effect: False
-                    ripple_behavior: False
+                    
+                    
                     text: "     Sale     "
                     theme_text_color: "Custom"
                     text_color: "white" if grid.op_choice=="Sale" else "black"
                     md_bg_color: app.theme_cls.primary_color if grid.op_choice=="Sale" else [0.9,0.9,0.9,0.7]
                     id: sale_btn
-                    ripple_behavior: False
+                    
                     on_press: app.regulate() if app.has_pressed == False and grid.starter == False else app.do()
                     pos_hint: {'center_y': .2} if grid.op_choice=="Sale" else {'center_y': .35}
                     ripple_scale: 0
                     font_size: '15dp'
-                    size_hint_x: None
-                    width: '200dp'
+                    
+                    
                         
                         
                     
@@ -264,20 +264,19 @@
                         
 
                 MDFillRoundFlatButton:
-                    ripple_effect: False
-                    ripple_behavior: False
+                    
+                    
                     text: "     Rent     "
                     theme_text_color: "Custom"
                     text_color: "white" if grid.op_choice=="Rent" else "black"
                     md_bg_color: app.theme_cls.primary_color if grid.op_choice=="Rent" else [0.9,0.9,0.9,0.7]
                     id: rent_btn
-                    ripple_behavior: False
+                    
                     pos_hint: {'center_y': .2} if grid.op_choice=="Rent" else {'center_y': .35}
                     on_press: app.rent_regulate() if app.has_pressed == False and grid.starter == False else app.do()
                     ripple_scale: 0
                     font_size: '15dp'
-                    size_hint_x: None
-                    width: '200dp'
+                    
                         
                     
                         

@@ -1519,7 +1519,9 @@ class HomeCardsLayout(MDGridLayout):
                 
             
     def rent_back(self):
-        
+        if self.has_error:
+            self.remove_err()
+            self.has_error = False
         
         try:
             self.rent_back_back()
@@ -1528,18 +1530,21 @@ class HomeCardsLayout(MDGridLayout):
 
     def rent_back_back(self):
         if len(self.last_rent_one) > 1:
-            self.j = 0
+            
             l = len(self.last_rent_one) - 1
             key = self.last_rent_one[l-1]
             self.peopler = db.child("Rent").order_by_key().start_at(key).limit_to_first(8).get() 
 
+            self.j = 0
             self.clear()
             self.last_rent_one.pop()
             self.rent_another(None)
 
 
     def back(self):
-        
+        if self.has_error:
+            self.remove_err()
+            self.has_error = False
         
         try:
             self.sale_back_back()
@@ -1548,11 +1553,11 @@ class HomeCardsLayout(MDGridLayout):
 
     def sale_back_back(self):
         if len(self.last_one) > 1:
-            self.j = 0
+            
             l = len(self.last_one) - 1
             key = self.last_one[l-1]
             self.people = db.child("Sale").order_by_key().start_at(key).limit_to_first(8).get() 
-
+            self.j = 0
             self.clear()
             self.last_one.pop()
             self.another(None)
@@ -3590,8 +3595,9 @@ class MainApp(MDApp):
                         json.dump(self.curr, jsonfile)
                     
             else:
-                # self.switch_rent()
+                
                 self.switch_signup()
+                
                 self.has_switched = True
            
         
@@ -4100,8 +4106,12 @@ class MainApp(MDApp):
         if self.has_open_search == False:
             self.search = SearchScreen(name="search")
             self.has_open_search = True
+        
+            
         self.wm.switch_to(self.search, direction=direction)
         self.current_screen = 'search'
+
+    
 
     
         
@@ -6781,12 +6791,10 @@ class MainApp(MDApp):
                     with open(f'{path}/user.json', 'w') as jsonfile:
                         json.dump(self.curr, jsonfile)
                     
-                    time.sleep(1)
-                    if not self.event.is_set():
-                        self.switch_congrats()
-                        self.show_dialog('Your property will expire in three months.')
-                    else:
-                        self.show_dialog("Your Property was submitted in the background. Expires in three months.")
+                    
+                    self.switch_congrats()
+                        
+                    
                 
                     self.denied = 0
                 except requests.exceptions.HTTPError as e:
@@ -7174,11 +7182,10 @@ class MainApp(MDApp):
                     self.curr["sold"][self.curr['email']] += 1
                     with open(f'{path}/user.json', 'w') as jsonfile:
                         json.dump(self.curr, jsonfile)
-                    if not self.event.is_set():
-                        self.switch_congrats()
-                        self.show_dialog("Your property will expire in three months.")
-                    else:
-                        self.show_dialog("Your Property was submitted in the background. Expires in three months.")
+
+                    self.switch_congrats()
+                    
+                    
                     self.denied = 0
                 # for i in results.each():
                     
