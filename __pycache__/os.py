@@ -1,15 +1,15 @@
 import cv2 as cv
 from PIL import Image
 
-img = Image.open('__pycache__/blue-white-balls-shoot-out-open-door-into-large-bright-room.jpg')
+img = Image.open('Hometernet-new-icon.png')
 
-new = img.resize((2000, 1200))
+new = img.resize((150, 150))
 
-saved = new.save('congrats-pic.jpg')
+saved = new.save('Hometernet-new-icon-1.png')
 
-img = cv.imread('__pycache__/blue-white-balls-shoot-out-open-door-into-large-bright-room.jpg')
+img = cv.imread('Hometernet-new-icon.png')
 
-imga = cv.imread('congrats-pic.jpg')
+imga = cv.imread('Hometernet-new-icon-1.png')
 
 cv.imshow('img', img)
 cv.imshow('imga', imga)

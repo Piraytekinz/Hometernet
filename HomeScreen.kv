@@ -4,14 +4,14 @@
     
     
     
-    ScrollView:
+    RecycleView:
         effect_cls: 'ScrollEffect'
         
         
         scroll_wheel_distance: 50
         smooth_scroll_end: 30
-        scroll_timeout: 1000
-        scroll_distance: 0.5
+        
+        scroll_distance: 1
         id: scroller
         do_scroll_x: False
         on_scroll_move: app.scroll_more()
@@ -329,6 +329,7 @@
                 padding: ["10dp", "0dp", "10dp", "10dp"]
                 
                 
+                
             MDBoxLayout:
                 height: '130dp'
                 size_hint: None, None
@@ -520,7 +521,7 @@
         
             
         
-        ScrollView:
+        RecycleView:
             bar_width: 0
             effect_cls: "ScrollEffect"
             smooth_scroll_end: 30

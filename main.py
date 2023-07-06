@@ -262,15 +262,9 @@ class CodeVerifyer(Screen):
         
 
 
-class MainScroll(ScrollView):
-    pass
 
    
-        
-class HomeSaleScroll(ScrollView):
-    def on_scroll_move(self, touch):
-        super().on_scroll_move(touch)
-        touch.ud['sv.handled']['y'] = False
+
         
 
     
@@ -2503,7 +2497,7 @@ class MainApp(MDApp):
         
         
         if self.curr['email'] != '':
-            if self.curr['bookmarks'][self.curr['email']] > self.last_booked:
+            if self.curr['bookmarks'][self.curr['email']] > self.last_booked or self.curr['bookmarks'][self.curr['email']] == 0:
             
                 blokies = db.child("Accounts").child(self.curr['localid']).child('bookmarks').get(self.curr['idToken'])
                 
@@ -3134,7 +3128,7 @@ class MainApp(MDApp):
             self.search_begin = db.child(choice).order_by_child('country').equal_to(country.strip()).get()
             time.sleep(1)
             if not self.search_event.is_set():
-                Clock.schedule_once(partial(self.search_added, country.strip(), state.strip(), city.strip(), bedrooms, property_type.strip()), 0.3)
+                self.search_added(country.strip(), state.strip(), city.strip(), bedrooms, property_type.strip())
             
                 
 
@@ -3144,7 +3138,8 @@ class MainApp(MDApp):
             self.search_begin = db.child(choice).order_by_child('country').equal_to(country.strip()).get()
             time.sleep(1)
             if not self.search_event.is_set():
-                Clock.schedule_once(partial(self.search_added, country.strip(), state.strip(), city.strip(), bedrooms, property_type.strip()), 0.3)
+                self.search_added(country.strip(), state.strip(), city.strip(), bedrooms, property_type.strip())
+               
             
                 
 
@@ -3154,7 +3149,7 @@ class MainApp(MDApp):
             self.search_begin = db.child(choice).order_by_child('housetype').equal_to(property_type.strip()).get()
             time.sleep(1)
             if not self.search_event.is_set():
-                Clock.schedule_once(partial(self.search_added, country.strip(), state.strip(), city.strip(), bedrooms, property_type.strip()), 0.3)
+                self.search_added(country.strip(), state.strip(), city.strip(), bedrooms, property_type.strip())
             
                 
         elif country == '' and state != '' and city != '':
@@ -3176,7 +3171,7 @@ class MainApp(MDApp):
             
             time.sleep(1)
             if not self.search_event.is_set():
-                Clock.schedule_once(partial(self.search_added, country.strip(), state.strip(), city.strip(), bedrooms, property_type.strip()), 0.3)
+                self.search_added(country.strip(), state.strip(), city.strip(), bedrooms, property_type.strip())
           
                 
            
@@ -3212,8 +3207,9 @@ class MainApp(MDApp):
                 Animation(pos_hint={'center_y': 0.5}, duration=0.3).start(self.search.ids.searchido)
                 self.search.ids.searchido.disabled = False
 
-    @mainthread
+    
     def search_added(self, country, state, city, bedrooms, property_type, time=None):
+        
         
 
         if self.search_begin.each():
@@ -3230,31 +3226,13 @@ class MainApp(MDApp):
                 
                 if u.val()['housetype'] == property_type or property_type == '' or (len(property_type) > 3 and property_type in u.val()['housetype']):
                     if u.val()['bedrooms'] == bedrooms:
+
+                        self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
+                                      u.val()['bathrooms'], u.val()['landspace'], u.val()['email'], u.val()['price'], u.key(), u.val()['phonenumber'], u.val()['twitter'],
+                                      u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'])
                     
-                        self.card = HomeCards()
-                        self.card.me = self.card
-                        self.card.image = u.val()['url']
-                    
-                        self.card.tot = u.val()['housetype']
-                        self.card.country = u.val()['country']
-                        self.card.province = u.val()['state']
-                        self.card.town = u.val()['town']
-                        self.card.street = u.val()['street']
-                        self.card.bedrooms = u.val()['bedrooms']
-                        self.card.bathrooms = u.val()['bathrooms']
-                        self.card.landspace = u.val()['landspace']
-                        self.card.email = u.val()['email']
-                        self.card.price = u.val()['price']
-                        self.card.key = u.key()
-                        self.card.phonenumber = u.val()['phonenumber']
-                        self.card.twitter = u.val()['twitter']
-                        self.card.facebook = u.val()['facebook']
-                        self.card.description = u.val()['description']
-                        self.card.amenities = u.val()['amenities']
-                        self.card.link = u.val()['link']
-                        self.card.opacity = 0
-                        Animation(opacity=1,duration=0.2).start(self.card)
-                        self.search.ids.search.add_widget(self.card)
+                        
+                        
                         self.last = u.key()
                         self.search_something = u.key()
                         self.search_j += 1 
@@ -3265,7 +3243,7 @@ class MainApp(MDApp):
                 self.search.ids.check.opacity = 1
                 
                 self.snackbar("Not found please check provided number of bedrooms or property type")
-                self.search.ids.spin.active = False
+                
                 
                 self.search_error("Nothing found", icon="map-search-outline")
                 self.spin_opacity()
@@ -3281,7 +3259,7 @@ class MainApp(MDApp):
                 self.search.ids.refresh_card.disabled = False
                 anim = Animation(opacity=1, duration=1)
                 anim.start(self.search.ids.refresh_card)
-                self.search.ids.spin.active = False
+                
                 self.spin_opacity()
 
                 
@@ -3289,16 +3267,20 @@ class MainApp(MDApp):
         else:
             
             
-            self.search.ids.spin.active = False
+            
             self.search.ids.check.opacity = 1
             self.search.ids.check.text = 'Search results'
             self.search_error("Nothing found", icon="map-search-outline")
             self.spin_opacity()
         
+    @mainthread
+    def spin_visible(self):
+        self.search.ids.spin.opacity = 1
+        self.search.ids.spin.active = True
 
     def next_thread(self, bedrooms):
-        self.search.ids.spin.active = True
         
+        self.spin_visible()
         self.search.ids.refresh_card.disabled = True
         self.search.ids.more_card.disabled = True
         
@@ -3321,8 +3303,8 @@ class MainApp(MDApp):
         self.search.ids.refresh_card.disabled = False
         self.search.ids.more_card.disabled = False
         
-
-        self.search.ids.spin.active = False
+        
+        
         self.spin_opacity()
 
     def next_next(self, bedrooms):
@@ -3340,13 +3322,14 @@ class MainApp(MDApp):
             
             
         if self.search_something != '':
-            Clock.schedule_once(partial(self.real_next, bedrooms), 0.3)
             
-            self.search.ids.spin.active = False
+            self.real_next(bedrooms, 0.3)
+            
+            
             
         
 
-    @mainthread
+    
     def real_next(self, bedrooms, time):
         
         
@@ -3361,36 +3344,41 @@ class MainApp(MDApp):
                 
                 if u.val()['housetype'] == self.old_prop.strip() or self.old_prop == "" or (len(self.old_prop.strip()) > 3 and self.old_prop.strip() in u.val()['housetype']):
                     if u.val()['bedrooms'] == self.old_bedrooms:
-                        self.card = HomeCards()
-                        self.card.me = self.card
-                        self.card.image = u.val()['url']
-                        self.card.tot = u.val()['housetype']
-                        self.card.country = u.val()['country']
-                        self.card.province = u.val()['state']
-                        self.card.town = u.val()['town']
-                        self.card.street = u.val()['street']
-                        self.card.bedrooms = u.val()['bedrooms']
-                        self.card.bathrooms = u.val()['bathrooms']
-                        self.card.landspace = u.val()['landspace']
-                        self.card.email = u.val()['email']
-                        self.card.price = u.val()['price']
-                        self.card.key = u.key()
-                        self.card.phonenumber = u.val()['phonenumber']
-                        self.card.twitter = u.val()['twitter']
-                        self.card.facebook = u.val()['facebook']
-                        self.card.description = u.val()['description']
-                        self.card.amenities = u.val()['amenities']
-                        self.card.link = u.val()['link']
-                        self.card.opacity = 0
-                        Animation(opacity=1, duration=0.2).start(self.card)
-                        self.search.ids.search.add_widget(self.card)
+                        self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
+                                      u.val()['bathrooms'], u.val()['landspace'], u.val()['email'], u.val()['price'], u.key(), u.val()['phonenumber'], u.val()['twitter'],
+                                      u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'])
+                        self.search_j += 1
                         self.last = u.key()
                         self.something = u.key()
-                        self.search_j += 1
-                        
                         if self.search_j / 5 == 1:
                             
                             break
+    @mainthread
+    def add_card(self, url, housetype, country, state, town, street, beds, baths, land, email, price, key, phone, twitter, facebook, desc, amenities, link, time=None):
+        self.card = HomeCards()
+        self.card.me = self.card
+        self.card.image = url
+        self.card.tot = housetype
+        self.card.country = country
+        self.card.province = state
+        self.card.town = town
+        self.card.street = street
+        self.card.bedrooms = beds
+        self.card.bathrooms = baths
+        self.card.landspace = land
+        self.card.email = email
+        self.card.price = price
+        self.card.key = key
+        self.card.phonenumber = phone
+        self.card.twitter = twitter
+        self.card.facebook = facebook
+        self.card.description = desc
+        self.card.amenities = amenities
+        self.card.link = link
+        self.card.opacity = 0
+        Animation(opacity=1, duration=0.2).start(self.card)
+        self.search.ids.search.add_widget(self.card)
+        
 
     def scroll_searcher(self):
         self.event = Event()
@@ -3400,10 +3388,18 @@ class MainApp(MDApp):
     def scroll_search(self):
         if self.search.ids.searcher.scroll_y < 0.5:
             if self.search_j >= 1:
-                self.real_next(None, None)
+                self.next_thread(None)
+                
     
     def reverser_next(self):
         self.search.ids.search.clear_widgets()
+        self.spin_visible()
+        self.event = Event()
+        self.thread_next = threading.Thread(target=self.reverser_next_next)
+        self.thread_next.start()
+
+    def reverser_next_next(self):
+        
         
         self.search_counter = 0
         self.search_j = 0
@@ -3416,33 +3412,17 @@ class MainApp(MDApp):
                 
                 if u.val()['housetype'] == self.old_prop.strip()  or self.old_prop == "" or (len(self.old_prop.strip()) > 3 and self.old_prop.strip() in u.val()['housetype']):
                     if u.val()['bedrooms'] == self.old_bedrooms:
-                        self.card = HomeCards()
-                        self.card.me = self.card
-                        self.card.image = u.val()['url']
-                        self.card.tot = u.val()['housetype']
-                        self.card.country = u.val()['country']
-                        self.card.province = u.val()['state']
-                        self.card.town = u.val()['town']
-                        self.card.street = u.val()['street']
-                        self.card.bedrooms = u.val()['bedrooms']
-                        self.card.bathrooms = u.val()['bathrooms']
-                        self.card.landspace = u.val()['landspace']
-                        self.card.email = u.val()['email']
-                        self.card.price = u.val()['price']
-                        self.card.key = u.key()
-                        self.card.phonenumber = u.val()['phonenumber']
-                        self.card.twitter = u.val()['twitter']
-                        self.card.facebook = u.val()['facebook']
-                        self.card.description = u.val()['description']
-                        self.card.amenities = u.val()['amenities']
-                        self.card.link = u.val()['link']
-                        self.search.ids.search.add_widget(self.card)
+                        self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
+                                      u.val()['bathrooms'], u.val()['landspace'], u.val()['email'], u.val()['price'], u.key(), u.val()['phonenumber'], u.val()['twitter'],
+                                      u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'])
+
+                        
                         self.last = u.key()
                         self.something = u.key()
                         self.search_j += 1
                         
                         if self.search_j == 5:
-                            
+                            self.spin_opacity()
                             break
 
 
@@ -3918,7 +3898,7 @@ class MainApp(MDApp):
     def show_bottom(self, email, phonenumber, twitter, facebook, link):
         bottom_sheet_menu = MDListBottomSheet()
 
-        
+       
         datop = {
             email: "email",
             phonenumber: "whatsapp",
@@ -3931,7 +3911,7 @@ class MainApp(MDApp):
             datop[twitter] = "twitter"
         
         if link != "":
-            datop[link] = "link"
+            datop[link] = "earth"
 
         
         for item in datop.items():
@@ -3940,6 +3920,8 @@ class MainApp(MDApp):
                 item[0],
                 lambda x, y=item[0], z=item[1]: self.call(y, z),
                 icon = item[1],
+                
+                
                 
             )
         
@@ -5135,7 +5117,7 @@ class MainApp(MDApp):
             if self.passwrd == self.curr['password']:
                 
                 
-                # user = authi.sign_in_with_email_and_password(self.curr['email'], self.curr['password'])
+                
                 try:
                     
                     
@@ -5143,34 +5125,12 @@ class MainApp(MDApp):
                         
                         
                         db.child("Sale").child(name).remove(self.curr['idToken'])
-                        # remove_people = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
-                        # if remove_people.each():
-                        #     for u in remove_people.each():
-                                
-                                
-                        #         if str(u.val()['prop_keys']) == name:
-                                    
-                                    
-                        #             db.child("People").child(self.curr['localid']).child("ids").child(u.key()).remove(self.curr['idToken'])
-                                    
-                        #             break
-                        # else:
-                            
-                        #     self.toast("Not found")
+                        
 
                     else:
                         
                         db.child("Rent").child(name).remove(self.curr['idToken'])
-                        # remove_people = db.child("People").child(self.curr['localid']).child("ids").get(self.curr['idToken'])
-                        # if remove_people.each():
-                        #     for u in remove_people.each():
-                                
-                        #         if u.val()['prop_keys'] == name:
-                        #             db.child("People").child(self.curr['localid']).child("ids").child(u.key()).remove(self.curr['idToken'])
-                                    
-                        # else:
-                            
-                        #     self.toast("Not found")
+                       
 
                     deletion = self.curr['localid'] + '/' + local_image
                     storage.delete(deletion, self.curr['idToken'])

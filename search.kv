@@ -1,12 +1,12 @@
 <SearchScreen>:
     on_enter: prop_type.focused = True if check.opacity == 0 else False
-    ScrollView:
+    RecycleView:
         bar_width: 0
         effect_cls: "ScrollEffect"
         scroll_distance: 1
         smooth_scroll_end: 30
         scroll_wheel_distance: 50
-        scroll_timeout: 1000
+        
         do_scroll_x: False
         id: searcher
         on_scroll_move: app.scroll_searcher()
@@ -268,7 +268,8 @@
                 icon_size: '25dp'
                 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                on_release: app.next_thread(bed_item.text)
+                on_release: 
+                    app.next_thread(bed_item.text)
                 md_bg_color: 1,1,1,1
                 id: more_card
                 disabled: True
