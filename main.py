@@ -3088,6 +3088,7 @@ class MainApp(MDApp):
 
     @mainthread
     def clear_search(self):
+        self.search.ids.searcher.scroll_to(self.search.ids.refresh_card)
         self.search.ids.search.clear_widgets()
 
     
@@ -3316,7 +3317,8 @@ class MainApp(MDApp):
             
             if self.search_counter < len(self.search_begin.each()):
                 
-                if self.search_j / 10 == 1:
+                if self.search_j % 10 == 0:
+                    
                     self.clear_search()
         
             
@@ -3350,7 +3352,7 @@ class MainApp(MDApp):
                         self.search_j += 1
                         self.last = u.key()
                         self.something = u.key()
-                        if self.search_j / 5 == 1:
+                        if self.search_j % 5 == 0:
                             
                             break
     @mainthread
@@ -3387,7 +3389,7 @@ class MainApp(MDApp):
 
     def scroll_search(self):
         if self.search.ids.searcher.scroll_y < 0.5:
-            if self.search_j >= 1:
+            if self.search_j >= 1 and self.search_j % 10 != 0:
                 self.next_thread(None)
                 
     
