@@ -792,6 +792,9 @@ class PropertyCardsLayout(MDBoxLayout):
 
 
             del dati['sold'][dati['email']]
+            del dati['bookmarks'][dati['email']]
+            del dati['viewed'][dati['email']]
+            
             dati['email'] = ''
             dati['password'] = ''
             dati['idToken'] = ''
@@ -3088,7 +3091,7 @@ class MainApp(MDApp):
 
     @mainthread
     def clear_search(self):
-        self.search.ids.searcher.scroll_to(self.search.ids.refresh_card)
+        
         self.search.ids.search.clear_widgets()
 
     
@@ -3318,7 +3321,7 @@ class MainApp(MDApp):
             if self.search_counter < len(self.search_begin.each()):
                 
                 if self.search_j % 10 == 0:
-                    
+                    self.scroll_back()
                     self.clear_search()
         
             
@@ -3327,8 +3330,9 @@ class MainApp(MDApp):
             
             self.real_next(bedrooms, 0.3)
             
-            
-            
+    @mainthread
+    def scroll_back(self):
+        self.search.ids.searcher.scroll_to(self.search.ids.refresh_card)
         
 
     
@@ -4964,7 +4968,7 @@ class MainApp(MDApp):
     def create_account_now(self):
         # self.loading.ids.labe.opacity = 0
 
-       
+        error = False
     
         try:
             
@@ -4982,20 +4986,25 @@ class MainApp(MDApp):
                 try:
                     
                     if error['message'] == 'EMAIL_EXISTS':
+                        
                         self.show_dialog('Email Exists')
                         
                 except:
+                    
                     self.toast("An unknown error occured")
                 time.sleep(1)
                 self.switch_signup()
                 self.spin_false()
+            error = True
         except:
-            
+            error = True
             self.toast("Authentication failed")
             self.event.set()
             time.sleep(1)
             self.switch_signup()
         
+        if error == False:
+            self.create_account_congrats()
             
             
         
@@ -5054,8 +5063,26 @@ class MainApp(MDApp):
             json.dump(self.curr, jsonfile)
         self.spin_false()
         
-        
-        
+    
+    def create_account_congrats(self):
+
+        self.thread_create_account = threading.Thread(target=self.send_create_message)
+        self.thread_create_account.start()
+
+    def send_create_message(self):
+        try:
+            message = MIMEText("Congratulations you successfully created your account. \n \n Welcome to the Hometernet.")
+            message['Subject'] = "Your account has been successfully created..."
+            message["From"] = "hometernetmanager@gmail.com"
+            message["To"] = self.curr['email']
+            server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+            server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
+            server.sendmail("hometernetmanager@gmail.com", self.curr['email'], message.as_string())
+            server.quit()
+        except:
+            pass
+
+
     def delete_property_auth(self, key, local_image, sale_or_rent):
         
         self.passwrd = ''
@@ -6543,7 +6570,7 @@ class MainApp(MDApp):
         self.wm.switch_to(self.sale)
 
     def real_sale(self, selection):
-        
+        error = False
         self.sale_tot = self.tot.title()
         self.sale_country=self.country
         self.sale_state = self.state.title()
@@ -6582,12 +6609,16 @@ class MainApp(MDApp):
                     self.true_switch_sale()
                     self.denied = 0
                     self.denied_image = 0
+                    error = True
             
                 if self.saved_image == True:
                     try:
                         os.remove(self.file)
                     except:
                         pass
+
+                if error == False:
+                    self.submit_congrats()
                     
                     #     p="No intenet connection"
                     #     self.snackbar(p)
@@ -6950,7 +6981,7 @@ class MainApp(MDApp):
 
     def real_rent(self, selection):
         
-        
+        error = False
 
         self.rent_tot = self.tot.title()
         self.rent_country=self.country
@@ -6991,7 +7022,7 @@ class MainApp(MDApp):
                     time.sleep(1)
                     self.true_switch_rent()
                     
-                    
+                    error = True
                     self.denied = 0
                     self.denied_image = 0
                 
@@ -7000,6 +7031,10 @@ class MainApp(MDApp):
                         os.remove(self.file)
                     except:
                         pass   
+
+                if error == False:
+                    self.submit_congrats()
+
             else:
                 self.show_dialog("Please select an image from any folder or directly from your gallery")
                 time.sleep(1)
@@ -7241,8 +7276,25 @@ class MainApp(MDApp):
             json.dump(self.curr, jsonfile)
 
 
+    def submit_congrats(self):
+        submit_thread = threading.Thread(target=self.send_congrats_message)
+        submit_thread.start()
 
     
+        
+
+    def send_congrats_message(self):
+        try:
+            message = MIMEText("Your property was successfully published on the Hometernet.")
+            message['Subject'] = "Congratulations your property is now on Hometernet"
+            message["From"] = "hometernetmanager@gmail.com"
+            message["To"] = self.curr['email']
+            server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+            server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
+            server.sendmail("hometernetmanager@gmail.com", self.curr['email'], message.as_string())
+            server.quit()
+        except:
+            pass
 
     def change_color(self):
         Animation(md_bg_color=[0.9,0.9,0.9,0.7], duration=0.2).start(self.home.ids.rent_btn)
