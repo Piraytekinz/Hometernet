@@ -29,7 +29,7 @@
         MDSeparator:
             color: 0.9,0.9,0.9,0.4
         
-        ScrollView:
+        RecycleView:
             effect_cls: "ScrollEffect"
             MDBoxLayout:
                 padding: [15,'20dp',15,18]
@@ -76,10 +76,12 @@
                                 font_size: '14dp'
                             Firstname:
                                 size_hint_y: None
-                                height: "45dp"
+                                height: "50dp"
                                 radius: ["10dp",]
                                 id: name_box
                                 on_release: firstname.focused=True
+                                line_color: 1,1,1,1
+                                line_width: '1.3dp'
                                 TextInput:
                                     hint_text: 'First name'
                                     multiline: False
@@ -93,6 +95,8 @@
                                     id: firstname
                                     input_type: 'text'
                                     cursor_color: 0,0,1,1
+                                    on_focus:
+                                        app.animate_contact_bar('first')
 
                         MDBoxLayout:
                             orientation: 'vertical'
@@ -106,10 +110,12 @@
                                 adaptive_height: True
                             Lastname:
                                 size_hint_y: None
-                                height: "45dp"
+                                height: "50dp"
                                 radius: ["10dp",]
                                 id: last_name_box
                                 on_release: lastname.focused=True
+                                line_color: 1,1,1,1
+                                line_width: '1.3dp'
                                 TextInput:
                                     hint_text: 'Last name'
                                     multiline: False
@@ -123,6 +129,8 @@
                                     id: lastname
                                     input_type: 'text'
                                     cursor_color: 0,0,1,1
+                                    on_focus:
+                                        app.animate_contact_bar('last')
                     MDBoxLayout:
                         orientation: 'vertical'
                         spacing: "10dp"
@@ -135,10 +143,12 @@
                             adaptive_height: True
                         MailCard:
                             size_hint_y: None
-                            height: "45dp"
+                            height: "50dp"
                             radius: ["10dp",]
                             id: mail_box
                             on_release: mail.focused=True
+                            line_color: 1,1,1,1
+                            line_width: '1.3dp'
                             TextInput:
                                 hint_text: 'Email'
                                 multiline: False
@@ -152,6 +162,8 @@
                                 id: mail
                                 input_type: 'mail'
                                 cursor_color: 0,0,1,1
+                                on_focus:
+                                    app.animate_contact_bar('mail')
                     MDBoxLayout:
                         orientation: 'vertical'
                         spacing: "10dp"
@@ -164,10 +176,12 @@
                             adaptive_height: True
                         MessageCard:
                             size_hint_y: None
-                            height: notice.height * 5
+                            height: notice.height * 5.5
                             radius: ["10dp",]
                             id: story_box
                             on_release: message.focused=True
+                            line_color: 1,1,1,1
+                            line_width: '1.3dp'
                             TextInput:
                                 hint_text: 'Input Message'
                                 multiline: True
@@ -179,6 +193,8 @@
                                 cursor_color: 0,0,1,1
                                 background_color: 0,0,0,0
                                 id: message
+                                on_focus:
+                                    app.animate_contact_bar('message')
                 SendCard:
                     size_hint_y: None
                     height: send.height * 3

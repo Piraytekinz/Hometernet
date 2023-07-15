@@ -420,25 +420,25 @@ class EditRentDetailsScreen(Screen):
             {
                 "viewclass": "OneLineListItem",
                 "text": "/yr",
-                
+                "divider": None,
                 "on_release": lambda x="/yr": self.set_payment(x)
             },
             {
                 "viewclass": "OneLineListItem",
                 "text": "/mth",
-                
+                "divider": None,
                 "on_release": lambda x="/mth": self.set_payment(x)
             },
             {
                 "viewclass": "OneLineListItem",
                 "text": "/wk",
-                
+                "divider": None,
                 "on_release": lambda x="/wk": self.set_payment(x)
             },
             {
                 "viewclass": "OneLineListItem",
                 "text": "/night",
-                
+                "divider": None,
                 "on_release": lambda x="/night": self.set_payment(x)
             }
         ]
@@ -449,7 +449,9 @@ class EditRentDetailsScreen(Screen):
             items=payment_items,
             position='center',
             ver_growth='up',
-            width_mult=3
+            width_mult=3,
+            background_color='white',
+            elevation=1
         )
 
         
@@ -500,25 +502,25 @@ class RentSubmit(Screen):
             {
                 "viewclass": "OneLineListItem",
                 "text": "/yr",
-                
+                "divider": None,
                 "on_release": lambda x="/yr": self.set_payment(x)
             },
             {
                 "viewclass": "OneLineListItem",
                 "text": "/mth",
-                
+                "divider": None,
                 "on_release": lambda x="/mth": self.set_payment(x)
             },
             {
                 "viewclass": "OneLineListItem",
                 "text": "/wk",
-                
+                "divider": None,
                 "on_release": lambda x="/wk": self.set_payment(x)
             },
             {
                 "viewclass": "OneLineListItem",
                 "text": "/night",
-                
+                "divider": None,
                 "on_release": lambda x="/night": self.set_payment(x)
             }
         ]
@@ -529,7 +531,9 @@ class RentSubmit(Screen):
             items=payment_items,
             position='center',
             ver_growth='up',
-            width_mult=3
+            width_mult=3,
+            background_color='white',
+            elevation=1
         )
 
         
@@ -946,8 +950,13 @@ class HomeCardsLayout(MDGridLayout):
         self.full = False
         self.full_rent = False
         self.has_error = False
+        sale_or_rent = ["Sale", "Rent"]
+        self.op_choice = random.choice(sale_or_rent)
+        self.rent_back_error = False
+        self.back_error = False
         
-
+    @mainthread
+    def begin_spin(self):
         self.spin = MDSpinner()
         self.spin.size_hint = [None, None]
         self.spin.height = '30dp'
@@ -956,81 +965,29 @@ class HomeCardsLayout(MDGridLayout):
         self.spin.active = True
         self.add_widget(self.spin)
 
-        self.event=Event()
+    def begin_first(self):    
+
+        
+        self.begin_spin()
+        
         self.starter = True
-        sale_or_rent = ["Sale", "Rent"]
-        self.op_choice = random.choice(sale_or_rent)
+        
         if self.op_choice == 'Sale':
-            self.thread_added()
+            self.timing_added()
         else:
-            self.thread_rent_added()
+            self.rent_timing_added()
         self.loaded = False
         self.rent_loaded = False
 
-    @mainthread
-    def connection(self):
-        self.bxopo = MDBoxLayout()
-        self.bxopo.orientation = 'vertical'
+    
         
-        self.bxopo.size_hint_y=None
-        self.bxopo.height = '250dp'
-        self.bxopo.spacing = "20dp"
-        
-        self.err = MDLabel()
-        self.err.text='No hometernet connection'
-        self.err.font_size="16dp"
-        self.err.halign="center"
-        self.err.size_hint=[None, None]
-        self.err.adaptive_size=True
-        self.err.pos_hint = {'center_y':0.4, 'center_x':0.5}
-        self.err.halign='center'
-        self.err.color="black"
-        
-        
-           
-        self.ico_err = MDIcon()
-        self.ico_err.icon='cloud'
-        self.ico_err.font_size="70dp"
-        self.ico_err.size_hint=[None, None]
-        self.ico_err.adaptive_size=True
-        self.ico_err.pos_hint = {'center_y':0.5, 'center_x': 0.5}
-        self.ico_err.color="black"
-        
-
-        self.ico_btn = MDFillRoundFlatButton(on_release=lambda x:self.re_connect())
-        self.ico_btn.text = 'try again'
-        self.ico_btn.font_size = '15dp'
-        self.ico_btn.theme_text_color = 'Custom'
-        self.ico_btn.text_color = 'black'
-        self.ico_btn.pos_hint = {'center_y':0.6, 'center_x': 0.5}
-        self.ico_btn.md_bg_color = [0.9,0.9,0.9,0.7]
-        self.ico_btn.ripple_scale = 0
-
-        self.bxopo.add_widget(self.ico_err)
-        self.bxopo.add_widget(self.err)
-        self.bxopo.add_widget(self.ico_btn)
-
-        self.add_widget(self.bxopo)
-        self.has_error = True
     def thread_added(self):
         self.event=Event()
         self.thread_adding = threading.Thread(target=self.timing_added)
         self.thread_adding.start()
         
 
-    def re_connect(self):
-        sound.play()
-        self.spin = MDSpinner()
-        self.spin.size_hint = [None, None]
-        self.spin.height = '30dp'
-        self.spin.width = '30dp'
-        self.spin.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
-        self.spin.active = True
-        self.add_widget(self.spin)
-        if self.op_choice == "Rent":
-            self.thread_rent_other()
-        else:
-            self.thread_other()
+    
 
     def thread_other(self):
         
@@ -1045,7 +1002,7 @@ class HomeCardsLayout(MDGridLayout):
     
     def timing_added(self):
         if self.has_error:
-            self.remove_err()
+            
             self.has_error = False
         # if not self.event.is_set():
         try:
@@ -1055,7 +1012,8 @@ class HomeCardsLayout(MDGridLayout):
            
             
         except:
-            self.connection()
+            self.has_error = True
+            
             self.not_loaded = True
             
 
@@ -1065,20 +1023,14 @@ class HomeCardsLayout(MDGridLayout):
             
     @mainthread
     def remove(self):
-        
+        # Animation(size_hint_y=0.01, duration=0.3).start(self.spin)
         self.remove_widget(self.spin)
 
     @mainthread
     def toast(self, text):
         toast(text)
-    @mainthread
-    def remove_err(self):
-        Clock.schedule_once(partial(self.remove_wid), 0.3)
-        
 
-    def remove_wid(self, time):
-        
-        self.remove_widget(self.bxopo)
+    
         
 
     def thread_rent_added(self):
@@ -1088,7 +1040,7 @@ class HomeCardsLayout(MDGridLayout):
 
     def rent_timing_added(self):
         if self.has_error:
-            self.remove_err()
+            
             self.has_error = False
         try:
             
@@ -1097,7 +1049,8 @@ class HomeCardsLayout(MDGridLayout):
     
             
         except:
-            self.connection()
+            self.has_error = True
+            
             self.not_rent_loaded = True
             
         self.starter = False
@@ -1220,8 +1173,8 @@ class HomeCardsLayout(MDGridLayout):
         self.j = 0
         
 
-        if self.has_error:
-            self.remove_err()
+        
+            
         if self.sale_found:
             for u in self.people.each()[self.j:self.j+4]:
                 if self.j == 0:
@@ -1270,8 +1223,8 @@ class HomeCardsLayout(MDGridLayout):
     def rent_done(self, time):
         self.j = 0
         
-        if self.has_error:
-            self.remove_err()
+        
+            
         if self.rent_found:
             for u in self.peopler.each()[self.j:self.j+4]:
                 if self.j == 0:
@@ -1319,7 +1272,7 @@ class HomeCardsLayout(MDGridLayout):
 
     def rent_other(self):
         if self.has_error:
-            self.remove_err()
+            
             self.has_error = False
         try:
             
@@ -1329,14 +1282,15 @@ class HomeCardsLayout(MDGridLayout):
             
         except:
             time.sleep(1)
-            self.connection()
+            self.has_error = True
+            
 
         self.remove()
             
 
     def other(self):
         if self.has_error:
-            self.remove_err()
+            
             self.has_error = False
         try:
             
@@ -1346,7 +1300,8 @@ class HomeCardsLayout(MDGridLayout):
             
         except:
             time.sleep(1)
-            self.connection()
+            self.has_error = True
+            
 
         self.remove()
             
@@ -1517,13 +1472,15 @@ class HomeCardsLayout(MDGridLayout):
             
     def rent_back(self):
         if self.has_error:
-            self.remove_err()
+            
             self.has_error = False
-        
+        self.rent_back_error = False
         try:
             self.rent_back_back()
         except:
-            self.connection()
+            self.rent_back_error = True
+            self.has_error = True
+            
 
     def rent_back_back(self):
         if len(self.last_rent_one) > 1:
@@ -1540,13 +1497,17 @@ class HomeCardsLayout(MDGridLayout):
 
     def back(self):
         if self.has_error:
-            self.remove_err()
+            
             self.has_error = False
-        
+        self.back_error = False
         try:
             self.sale_back_back()
         except:
-            self.connection()
+            
+            self.back_error = True
+            
+            self.has_error = True
+            
 
     def sale_back_back(self):
         if len(self.last_one) > 1:
@@ -1805,7 +1766,8 @@ class MainApp(MDApp):
       
         self.splash()
         
-        
+        first = threading.Thread(target=self.begin_it)
+        first.start()
        
         
         
@@ -1893,7 +1855,21 @@ class MainApp(MDApp):
         self.facebook = ''
         return self.wm
         
-    
+    def begin_it(self):
+        try:
+            self.home.ids.grid.begin_first()
+        except:
+            self.connection()
+
+        time.sleep(0.5)
+        self.first_err()
+        
+    @mainthread
+    def first_err(self):
+        
+        
+        if self.home.ids.grid.has_error:
+            self.connection()
 
     def set_bar_color(self):
         set_bars_colors([1,1,1,1], None, 'Dark')
@@ -2693,6 +2669,10 @@ class MainApp(MDApp):
             else:
                 
                 # preload sale here
+                if self.home.ids.grid.has_error == True:
+                    self.remove_err()
+                    self.home.ids.grid.has_error = False
+
                 self.home.ids.grid.add_widget(self.spin)
                 if self.home.ids.grid.op_choice == "Sale":
                     self.home.ids.grid.loaded = False
@@ -2708,7 +2688,7 @@ class MainApp(MDApp):
 
         elif which == 'more':   
             if self.home.ids.grid.has_error == True:
-                self.home.ids.grid.remove_err()
+                self.remove_err()
                 self.home.ids.grid.has_error = False
 
             
@@ -2749,7 +2729,7 @@ class MainApp(MDApp):
             # self.home.ids.scroller.do_scroll_y = True
             self.home.ids.scroller.scroll_to(self.home.ids.sale_arrow)
             if self.home.ids.grid.has_error == True:
-                self.home.ids.grid.remove_err()
+                self.remove_err()
                 self.home.ids.grid.has_error = False
             
             
@@ -2826,10 +2806,14 @@ class MainApp(MDApp):
         
     @mainthread
     def remove_reload_spin(self):
+        Animation(height=10, duration=1).start(self.spin)
         self.home.ids.grid.remove_widget(self.spin)
         self.home.ids.sale_arrow.disabled = False
         self.home.ids.refresh_sale.disabled = False
         self.has_pressed = False
+        if self.home.ids.grid.has_error == True:
+            
+            self.connection()
         
 
     
@@ -3240,7 +3224,8 @@ class MainApp(MDApp):
                         self.last = u.key()
                         self.search_something = u.key()
                         self.search_j += 1 
-                        break
+                        if self.search_j == 5:
+                            break
                    
             if self.search_j == 0:
                 self.search.ids.check.text = 'Search results'
@@ -3431,7 +3416,7 @@ class MainApp(MDApp):
                             self.spin_opacity()
                             break
 
-
+    
 
 
 
@@ -3460,6 +3445,7 @@ class MainApp(MDApp):
     def splash(self):
      
         self.switch_loading()
+        
         first = threading.Thread(target=self.splashi)
         first.start()
         with open(f'{path}/user.json', 'r') as jsonfile:
@@ -3700,49 +3686,49 @@ class MainApp(MDApp):
                 {
                     "viewclass": "OneLineListItem",
                     "text": "1",
-                    
+                    "divider": None,
                     "on_release": lambda x='1': self.set_bed(x)
                 },
                 {
                     "viewclass": "OneLineListItem",
                     "text": "2",
-                    
+                    "divider": None,
                     "on_release": lambda x='2': self.set_bed(x)
                 },
                 {
                     "viewclass": "OneLineListItem",
                     "text": "3",
-                    
+                    "divider": None,
                     "on_release": lambda x='3': self.set_bed(x)
                 },
                 {
                     "viewclass": "OneLineListItem",
                     "text": "4",
-                    
+                    "divider": None,
                     "on_release": lambda x='4': self.set_bed(x)
                 },
                 {
                     "viewclass": "OneLineListItem",
                     "text": "5",
-                    
+                    "divider": None,
                     "on_release": lambda x='5': self.set_bed(x)
                 },
                 {
                     "viewclass": "OneLineListItem",
                     "text": "6",
-                    
+                    "divider": None,
                     "on_release": lambda x='6': self.set_bed(x)
                 },
                 {
                     "viewclass": "OneLineListItem",
                     "text": "7",
-                    
+                    "divider": None,
                     "on_release": lambda x='7': self.set_bed(x)
                 },
                 {
                     "viewclass": "OneLineListItem",
                     "text": "7+",
-                    
+                    "divider": None,
                     "on_release": lambda x='7+': self.set_bed(x)
                 },
             ]
@@ -3752,7 +3738,9 @@ class MainApp(MDApp):
                 ver_growth='down',
                 
                 width_mult=3,
-                elevation=0
+                elevation=1,
+                background_color='white',
+                
             )
 
             for i in bedrooms_items:
@@ -3761,6 +3749,8 @@ class MainApp(MDApp):
             self.has_bed_choice = True
 
         self.bed_choice.open()
+        
+        
 
     def sale_rent_choice(self):
         if self.has_sale_rent_choice == False:
@@ -3768,13 +3758,13 @@ class MainApp(MDApp):
                 {
                     "viewclass": "OneLineListItem",
                     "text": "Sale",
-                    
+                    "divider": None,
                     "on_release": lambda x="Sale": self.set_item(x)
                 },
                 {
                     "viewclass": "OneLineListItem",
                     "text": "Rent",
-                    
+                    "divider": None,
                     "on_release": lambda x="Rent": self.set_item(x)
                 }
             ]
@@ -3784,7 +3774,8 @@ class MainApp(MDApp):
                 
                 ver_growth='down',
                 width_mult=3,
-                elevation=0
+                elevation=1,
+                background_color='white'
             )
 
             
@@ -4630,12 +4621,12 @@ class MainApp(MDApp):
         )
         self.dia.open()
 
-    def send_thread_email(self, email, phonenumber, twitter, facebook, link, type, price, country, bedrooms):
+    def send_thread_email(self, email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street):
         self.detail.ids.buy.opacity = 0
         self.detail.ids.spin.active=True
         self.detail.ids.biye.disabled = True
         self.event = Event()
-        self.thread_email = threading.Thread(target=self.send_email, args=(email, phonenumber, twitter, facebook, link, type, price, country, bedrooms,))
+        self.thread_email = threading.Thread(target=self.send_email, args=(email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street,))
         self.thread_email.start()
 
     @mainthread
@@ -4644,11 +4635,11 @@ class MainApp(MDApp):
         self.detail.ids.buy.opacity = 1
         self.detail.ids.biye.disabled = False
 
-    def send_email(self, email, phonenumber, twitter, facebook, link, type, price, country, bedrooms):
+    def send_email(self, email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street):
         if not self.event.is_set():
             try:
                 
-                self.send_email_now(email, phonenumber, twitter, facebook, link, type, price, country, bedrooms)
+                self.send_email_now(email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street)
             
             except requests.exceptions.HTTPError as e:
                 error_json = e.args[1]
@@ -4659,7 +4650,7 @@ class MainApp(MDApp):
                         try:
                             
                             self.denied_signin()
-                            self.send_thread_email(email, phonenumber, twitter, facebook, link, type, price, country, bedrooms,)
+                            self.send_thread_email(email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street,)
                         
                         except:
                             self.toast("Network error")
@@ -4675,7 +4666,7 @@ class MainApp(MDApp):
                 self.event.set()
         self.detail_spin_false()    
             
-    def send_email_now(self, email, phonenumber, twitter, facebook, link, type, price, country, bedrooms,):
+    def send_email_now(self, email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street,):
         with open(f'{path}/user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
             
@@ -4694,15 +4685,15 @@ class MainApp(MDApp):
                 
                 
                 
-                message = MIMEText(f"Someone just viewed your contact information for \n {type} \n {country} \n{price} \n{bedrooms} bedrooms.")
-                message['Subject'] = "Hometernet Offer Notice"
+                message = MIMEText(f"Someone just viewed your contact information for \n \n Property type: {type} \n Country: {country} \n State\Province: {province} \n Town\City: {town} \n Street address: {street} \n bedrooms: {bedrooms} \n bathrooms: {bathrooms} \n land area: {landspace}  \n Price: {price}")
+                message['Subject'] = "Your property contact information was viewed..."
                 message["From"] = "hometernetmanager@gmail.com"
                 message["To"] = email
                 server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
                 server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
                 server.sendmail("hometernetmanager@gmail.com", email, message.as_string())
                 
-                message = MIMEText("An offer has been made to buy property belonging to" + " " + email + " " + phonenumber)
+                message = MIMEText(f"An offer has been made to buy property belonging to \n Details: {email}, {phonenumber} \n \n Property type: {type} \n Country: {country} \n State\Province: {province} \n Town\City: {town} \n Street address: {street} \n bedrooms: {bedrooms} \n bathrooms: {bathrooms} \n land area: {landspace}  \n Price: {price}")
                 server.sendmail("hometernetmanager@gmail.com", "anangjosh8@gmail.com", message.as_string())
                 server.quit()
                 
@@ -7354,8 +7345,169 @@ class MainApp(MDApp):
         else:
             self.account.ids.profile.source = 'grad.png'
    
-    
-    
+    def do_something(self, some):
+        print('did something')
+        print(self.search.ids.prop_type.focus)
+        
+
+    def animate_bar(self, card):
+        if card == 'prop':
+            if self.search.ids.prop_type.focus:
+                Animation(elevation=1, duration=0.2).start(self.search.ids.prop_card)
+            else:
+                Animation(elevation=0, duration=0.2).start(self.search.ids.prop_card)
+        elif card == 'country':
+            if self.search.ids.country.focus:
+                Animation(elevation=1, duration=0.2).start(self.search.ids.country_card)
+            else:
+                Animation(elevation=0, duration=0.2).start(self.search.ids.country_card)
+        elif card == 'state':
+            if self.search.ids.state.focus:
+                Animation(elevation=1, duration=0.2).start(self.search.ids.state_card)
+            else:
+                Animation(elevation=0, duration=0.2).start(self.search.ids.state_card)
+        elif card == 'city':
+            if self.search.ids.town.focus:
+                Animation(elevation=1, duration=0.2).start(self.search.ids.city_card)
+            else:
+                Animation(elevation=0, duration=0.2).start(self.search.ids.city_card)
+
+
+    def animate_contact_bar(self, card):
+        if card == 'first':
+            if self.contact.ids.firstname.focus:
+                
+                Animation(line_color=self.theme_cls.primary_color, duration=0.2).start(self.contact.ids.name_box)
+            else:
+                
+                Animation(line_color=[1,1,1,1], duration=0.2).start(self.contact.ids.name_box)
+        elif card == 'last':
+            if self.contact.ids.lastname.focus:
+                
+                Animation(line_color=self.theme_cls.primary_color, duration=0.2).start(self.contact.ids.last_name_box)
+            else:
+                
+                Animation(line_color=[1,1,1,1], duration=0.2).start(self.contact.ids.last_name_box)
+        elif card == 'mail':
+            if self.contact.ids.mail.focus:
+                
+                Animation(line_color=self.theme_cls.primary_color, duration=0.2).start(self.contact.ids.mail_box)
+            else:
+                
+                Animation(line_color=[1,1,1,1], duration=0.2).start(self.contact.ids.mail_box)
+        elif card == 'message':
+            if self.contact.ids.message.focus:
+                
+                Animation(line_color=self.theme_cls.primary_color, duration=0.2).start(self.contact.ids.story_box)
+            else:
+                
+                Animation(line_color=[1,1,1,1], duration=0.2).start(self.contact.ids.story_box)
+
+
+
+
+
+
+
+    @mainthread
+    def connection(self):
+        self.bxopo = MDBoxLayout()
+        self.bxopo.orientation = 'vertical'
+        h = Window.size[1] / 2.5 if Window.size[1] > Window.size[0] else Window.size[1] / 2
+        self.bxopo.size_hint_y=None
+        self.bxopo.height = "200dp"
+        self.bxopo.spacing = "20dp"
+        self.bxopo.pos_hint = {'center_y': 0.5}
+        
+        self.bxopo.opacity = 0
+        
+        self.err = MDLabel()
+        self.err.text='No hometernet connection'
+        self.err.font_size="16dp"
+        self.err.halign="center"
+        self.err.size_hint=[None, None]
+        self.err.adaptive_size=True
+        self.err.pos_hint = {'center_y':0.4, 'center_x':0.5}
+        self.err.halign='center'
+        self.err.color="black"
+        
+        
+           
+        self.ico_err = MDIcon()
+        self.ico_err.icon='cloud'
+        self.ico_err.font_size="70dp"
+        self.ico_err.size_hint=[None, None]
+        self.ico_err.adaptive_size=True
+        self.ico_err.pos_hint = {'center_y':0.5, 'center_x': 0.5}
+        self.ico_err.color="black"
+        
+
+        self.ico_btn = MDFillRoundFlatButton(on_release=lambda x:self.re_connect())
+        self.ico_btn.text = 'try again'
+        self.ico_btn.font_size = '15dp'
+        self.ico_btn.theme_text_color = 'Custom'
+        self.ico_btn.text_color = 'black'
+        self.ico_btn.pos_hint = {'center_y':0.6, 'center_x': 0.5}
+        self.ico_btn.md_bg_color = [0.9,0.9,0.9,0.7]
+        self.ico_btn.ripple_scale = 0
+
+        self.bxopo.add_widget(self.ico_err)
+        self.bxopo.add_widget(self.err)
+        self.bxopo.add_widget(self.ico_btn)
+
+        
+        self.home.ids.grid.add_widget(self.bxopo)
+        Animation(opacity=1, duration=0.5).start(self.bxopo)
+        Animation(height=h, duration=0.2).start(self.bxopo)
+
+
+    def re_connect(self):
+        self.home.ids.sale_arrow.disabled = True
+        self.home.ids.refresh_sale.disabled = True
+        self.has_pressed = True
+        
+        if self.home.ids.grid.has_error == True:
+            self.remove_err()
+            self.home.ids.grid.has_error = False
+        sound.play()
+        self.spin = MDSpinner()
+        self.spin.size_hint = [None, None]
+        self.spin.height = '30dp'
+        self.spin.width = '30dp'
+        self.spin.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        self.spin.active = True
+        self.home.ids.grid.add_widget(self.spin)
+        if not self.home.ids.grid.back_error and not self.home.ids.grid.rent_back_error:
+            if self.home.ids.grid.op_choice == "Rent":
+                
+                self.event = Event()
+                self.thread_reload = threading.Thread(target=self.more_rent)
+                self.thread_reload.start()
+            else:
+                self.event = Event()
+                self.thread_reload = threading.Thread(target=self.more_sale)
+                self.thread_reload.start()
+        else:
+            if self.home.ids.grid.back_error:
+                self.event = Event()
+                self.thread_reload = threading.Thread(target=self.reload_sale)
+                self.thread_reload.start()
+
+            elif self.home.ids.grid.rent_back_error:
+                self.event = Event()
+                self.thread_reload = threading.Thread(target=self.new_rent)
+                self.thread_reload.start()
+
+
+    @mainthread
+    def remove_err(self):
+        
+        Clock.schedule_once(partial(self.remove_wid), 0.3)
+        
+
+    def remove_wid(self, time):
+        Animation(height=0, duration=0.3).start(self.bxopo)
+        self.home.ids.grid.remove_widget(self.bxopo)
     
 MainApp().run()
 

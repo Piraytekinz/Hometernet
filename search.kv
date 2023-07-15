@@ -3,10 +3,10 @@
     RecycleView:
         bar_width: 0
         effect_cls: "ScrollEffect"
-        scroll_distance: 1
+       
         smooth_scroll_end: 30
         scroll_wheel_distance: 50
-        
+        scroll_distance: 1
         do_scroll_x: False
         id: searcher
         on_scroll_move: app.scroll_searcher()
@@ -122,8 +122,10 @@
                 radius: ["10dp"]
                 size_hint_y: None
                 height: "55dp"
-                on_release: prop_type.focused=True
-                
+                on_release: 
+                    prop_type.focused=True
+                    
+                id: prop_card
                 TextInput:
                     hint_text: 'property type'
                     size_hint: 1, None
@@ -141,13 +143,16 @@
                         app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop_type.text)
                     cursor_color: app.theme_cls.primary_color
                
-                    on_focus: app.laaa(self.focused)
+                    on_focus: 
+                        app.laaa(self.focused)
+                        app.animate_bar('prop')
 
             CountryCard:
                 radius: ["10dp"]
                 size_hint_y: None
                 height: "55dp"
                 on_release: country.focused=True
+                id: country_card
                 TextInput:
                     hint_text: 'country'
                     size_hint: 1, None
@@ -163,7 +168,9 @@
                     active_line: True
                     on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop_type.text)
                     cursor_color: app.theme_cls.primary_color
-                    on_focus: app.laaa(self.focused)
+                    on_focus: 
+                        app.laaa(self.focused)
+                        app.animate_bar('country')
 
             MDBoxLayout:
                 size_hint_y: None
@@ -175,6 +182,7 @@
                     size_hint_y: None
                     height: "55dp"
                     on_release: state.focused=True
+                    id: state_card
                     TextInput:
                         hint_text: 'State/Province'
                         size_hint: 1, None
@@ -189,13 +197,16 @@
                         input_type: "text"
                         on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop_type.text)
                         cursor_color: app.theme_cls.primary_color
-                        on_focus: app.laaa(self.focused)
+                        on_focus: 
+                            app.laaa(self.focused)
+                            app.animate_bar('state')
 
                 StreetCard:
                     radius: ["10dp"]
                     size_hint_y: None
                     height: "55dp"
                     on_release: town.focused=True
+                    id: city_card
                     TextInput:
                         hint_text: 'town/city'
                         size_hint: 1, None
@@ -210,7 +221,9 @@
                         input_type: "text"
                         on_text_validate: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop_type.text)
                         cursor_color: app.theme_cls.primary_color
-                        on_focus: app.laaa(self.focused)
+                        on_focus: 
+                            app.laaa(self.focused)
+                            app.animate_bar('city')
 
                 
                 

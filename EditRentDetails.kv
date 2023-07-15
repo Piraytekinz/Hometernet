@@ -409,7 +409,7 @@
                             text: root.bathrooms
                             font_size: "15dp"
                             id: bathrooms
-                        ScrollView:
+                        RecycleView:
                             do_scroll_y: False
                             do_scroll_x: True
                             bar_width: 0
@@ -540,6 +540,7 @@
                                 id: land_area
                                 size_hint_y: None
                                 height: self.minimum_height
+                                pos_hint: {'center_y': 0.5}
                                 # on_text: app.land_space(self.text)
                                 font_size: "15dp"
                                 text: root.landspace
@@ -595,6 +596,7 @@
                                 id: price
                                 size_hint_y: None
                                 height: self.minimum_height
+                                pos_hint: {'center_y': 0.5}
                                 # on_text: app.pricing(self.text)
                                 font_size: "15dp"
                                 text: root.price

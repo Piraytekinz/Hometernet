@@ -487,7 +487,7 @@
                 height: buy.height * 3
                 id: biye
                 pos_hint: {'center_y': 0.5}
-                on_release: app.send_thread_email(root.email, root.phonenumber, root.twitter, root.facebook, root.link, root.type, root.price, root.country, root.bedrooms)
+                on_release: app.send_thread_email(root.email, root.phonenumber, root.twitter, root.facebook, root.link, root.type, root.price, root.country, root.bedrooms, root.bathrooms, root.landspace, root.town, root.province, root.street)
                 on_press: app.sound()
                 RelativeLayout:
                     MDLabel:
