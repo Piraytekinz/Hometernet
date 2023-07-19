@@ -1,80 +1,86 @@
 <SaleOrRent>:
-    MDFloatLayout:
-        MDBoxLayout:
+    
             
-            RelativeLayout:
-                FitImage:
-                    source: 'financial.jpg'
+    RelativeLayout:
+        FitImage:
+            source: 'financial.jpg'
 
-                AnchorLayout:
-                    anchor_x: 'left'
-                    anchor_y: 'top'
-                    MDIconButton:
-                        icon: 'arrow-left'
-                        on_press: app.play()
-                        on_release: app.switch_products()
-                        icon_size: "20dp"
-                        theme_text_color: "Custom"
-                        text_color: 'white'
-                
-                MDBoxLayout:
+        MDBoxLayout:
+            orientation: 'vertical'
+            md_bg_color: 0,0,0,0.5
+            AnchorLayout:
+                anchor_x: 'left'
+                anchor_y: 'top'
+                size_hint_y: None
+                height: Window.size[1] / 2.5
+                MDIconButton:
+                    icon: 'arrow-left'
+                    on_press: app.play()
+                    on_release: app.switch_products()
+                    user_font_size: '20dp'
+                    theme_text_color: "Custom"
+                    text_color: 'white'
+            
+            MDBoxLayout:
+                # size_hint_y: None
+                # adaptive_height: True
+                spacing: "30dp"
+                orientation: 'vertical'
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                padding: ["30dp", 0, "30dp", 0]
+                MDLabel:
+                    text: "Are you selling or renting?"
+                    color: "white"
+                    bold: True
+                    font_size: "25dp"
                     size_hint_y: None
                     adaptive_height: True
-                    spacing: "30dp"
-                    orientation: 'vertical'
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    MDLabel:
-                        text: "Are you selling or renting?"
-                        color: "white"
-                        bold: True
-                        font_size: "25dp"
-                        
-                        padding_x: '20dp'
-                        size_hint_y: None
-                        adaptive_height: True
-                        halign: 'center'
+                    
+                    
+                    # md_bg_color: 1,0,0,1
+                    halign: 'center'
 
-                    MDBoxLayout:
-                        spacing: "20dp"
+                MDBoxLayout:
+                    spacing: "20dp"
+                    # size_hint_y: None
+                    # adaptive_height: True
+                    
+                    # padding: [30, 0, 30, 0]
+                    Sell:
+                        ripple_behavior: True
+                        pos_hint: {'center_y': 0.9}
                         size_hint_y: None
-                        adaptive_height: True
-                        
-                        padding: [30, 0, 30, 0]
-                        Sell:
-                            ripple_behavior: True
-                       
+                        height: sell.height * 3
+                        radius: ["15dp",]
+                        on_press: app.play()
+                        on_release: app.switch_sale()
+                        MDLabel:
+                            halign: 'center'
+                            bold: True
+                            text: "sell"
+                            font_size: "16dp"
+                            id: sell
                             size_hint_y: None
-                            height: sell.height * 3
-                            radius: ["15dp",]
-                            on_press: app.play()
-                            on_release: app.switch_sale()
-                            MDLabel:
-                                halign: 'center'
-                                bold: True
-                                text: "sell"
-                                font_size: "16dp"
-                                id: sell
-                                size_hint_y: None
-                                adaptive_height: True
-                                pos_hint: {'center_y': 0.5}
+                            adaptive_height: True
+                            pos_hint: {'center_y': 0.5}
 
-                        Rent:
-                            ripple_behavior: True
-              
+                    Rent:
+                        ripple_behavior: True
+                        pos_hint: {'center_y': 0.9}
+                        size_hint_y: None
+                        height: rent.height * 3
+                        radius: ["15dp",]
+                        on_press: app.play()
+                        on_release: app.switch_rent()
+                        MDLabel:
+                            halign: 'center'
+                            bold: True
+                            text: "rent"
+                            font_size: "16dp"
+                            id: rent
                             size_hint_y: None
-                            height: rent.height * 3
-                            radius: ["15dp",]
-                            on_press: app.play()
-                            on_release: app.switch_rent()
-                            MDLabel:
-                                halign: 'center'
-                                bold: True
-                                text: "rent"
-                                font_size: "16dp"
-                                id: rent
-                                size_hint_y: None
-                                adaptive_height: True
-                                pos_hint: {'center_y': 0.5}
+                            adaptive_height: True
+                            pos_hint: {'center_y': 0.5}
                             
 <Sell@MDCard+CommonElevationBehavior>
 <Rent@MDCard+CommonElevationBehavior>

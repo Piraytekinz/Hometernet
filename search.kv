@@ -23,7 +23,7 @@
                 spacing: "10dp"
                 MDIconButton:
                     icon: 'arrow-left'
-                    icon_size: "25dp"
+                    user_font_size: '25dp'
                     pos_hint: {'center_y': 0.5}
                     on_press: app.play()
                     on_release: app.switch_home()
@@ -44,7 +44,7 @@
                 MDIconButton:
                     icon: 'magnify'
                     pos_hint: {'center_y': 0.5}
-                    icon_size: "25dp"
+                    user_font_size: '25dp'
                     bold: True
                     on_press: app.play()
                     on_release: app.search_thread(drop_item.text, country.text, state.text, town.text, bed_item.text, prop_type.text)
@@ -124,7 +124,7 @@
                 height: "55dp"
                 on_release: 
                     prop_type.focused=True
-                    
+                
                 id: prop_card
                 TextInput:
                     hint_text: 'property type'
@@ -244,7 +244,7 @@
                 
             MDIconButton:
                 icon: 'refresh'
-                icon_size: '25dp'
+                user_font_size: '25dp'
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 id: refresh_card
                 md_bg_color: 1,1,1,1
@@ -258,14 +258,17 @@
                 
 
             SearchLayout:
-                size_hint: None, None
-                adaptive_size: True
+                size_hint_y: None
+                height: self.minimum_height
                 id: search
                 spacing: "20dp"
                 # orientation: 'vertical'
                 cols: 1 if Window.size[1] > Window.size[0] else 2
                 
                 pos_hint: {'center_x': 0.5}
+                
+                
+
                 
 
             MDSpinner:
@@ -280,7 +283,7 @@
                 icon: 'arrow-right'
                 bold: True
                 
-                icon_size: '25dp'
+                user_font_size: '25dp'
                 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 on_release: 
@@ -298,11 +301,19 @@
             
 
 <TopTitle@MDCard+CommonElevationBehavior>
-<MoreCard@MDCard+CommonElevationBehavior>
-<ChooseCard@MDCard+CommonElevationBehavior>
-<StreetCard@MDCard+CommonElevationBehavior>
-<TownCard@MDCard+CommonElevationBehavior>
-<CountryCard@MDCard+CommonElevationBehavior>
-<BedCard@MDCard+CommonElevationBehavior>
-<PropCard@MDCard+CommonElevationBehavior>
+<MoreCard@MDCard+CommonElevationBehavior>:
+    elevation: 5
+<ChooseCard@MDCard+CommonElevationBehavior>:
+    elevation: 5
+
+<StreetCard@MDCard+CommonElevationBehavior>:
+    elevation: 5
+<TownCard@MDCard+CommonElevationBehavior>:
+    elevation: 5
+<CountryCard@MDCard+CommonElevationBehavior>:
+    elevation: 5
+<BedCard@MDCard+CommonElevationBehavior>:
+    elevation: 5
+<PropCard@MDCard+CommonElevationBehavior>:
+    elevation:5
 

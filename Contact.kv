@@ -5,7 +5,7 @@
         MDCard:
             size_hint_y: None
             height: "70dp"
-            padding: [10,0,0,0]
+            padding: ["10dp",0,0,0]
             elevation: 0
             id: about
             radius: [0]
@@ -19,7 +19,7 @@
                 pos_hint: {'center_y': 0.5}
                 
             MDIconButton:
-                icon_size: "20dp"
+                user_font_size: '20dp'
                 icon: 'arrow-right'
                 on_press: app.play()
                 on_release: app.switch_home()
@@ -81,7 +81,8 @@
                                 id: name_box
                                 on_release: firstname.focused=True
                                 line_color: 1,1,1,1
-                                line_width: '1.3dp'
+                                line_width: '1.05dp'
+                                padding: ['5dp']
                                 TextInput:
                                     hint_text: 'First name'
                                     multiline: False
@@ -115,7 +116,8 @@
                                 id: last_name_box
                                 on_release: lastname.focused=True
                                 line_color: 1,1,1,1
-                                line_width: '1.3dp'
+                                line_width: '1.05dp'
+                                padding: ['5dp']
                                 TextInput:
                                     hint_text: 'Last name'
                                     multiline: False
@@ -148,7 +150,8 @@
                             id: mail_box
                             on_release: mail.focused=True
                             line_color: 1,1,1,1
-                            line_width: '1.3dp'
+                            line_width: '1.05dp'
+                            padding: ['5dp']
                             TextInput:
                                 hint_text: 'Email'
                                 multiline: False
@@ -181,7 +184,8 @@
                             id: story_box
                             on_release: message.focused=True
                             line_color: 1,1,1,1
-                            line_width: '1.3dp'
+                            line_width: '1.05dp'
+                            padding: ['5dp']
                             TextInput:
                                 hint_text: 'Input Message'
                                 multiline: True

@@ -838,3 +838,9 @@ Recommended foods:
     edamame
     green teas, iced matcha hojicha
     natto
+
+
+
+
+
+requirements = hostpython3==3.10.10,python3==3.10.10,kivy==2.2.0,requests,kivymd,pillow,phonenumbers,pyrebase4lite,plyer,pycountry,urllib3,certifi,chardet,openssl,charset_normalizer,idna,oauth2client,cachetools,httplib2,pyparsing,uritemplate,protobuf,pyasn1,rsa,proto-plus,msgpack,cachecontrol,pyasn1-modules,gcloud,requests_toolbelt==0.7.1,python_jwt,jwcrypto,cryptography,deprecated,wrapt,Crypto,pycryptodome

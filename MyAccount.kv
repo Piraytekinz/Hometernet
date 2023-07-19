@@ -6,7 +6,7 @@
         MDBoxLayout:
             size_hint_y: None
             height: "70dp"
-            padding: [10,0,0,0]
+            padding: ["10dp",0,0,0]
             # elevation: 0
             md_bg_color: 1,1,1,1
             MDLabel:
@@ -14,7 +14,7 @@
                 font_size: '16dp'
                 bold: True
             MDIconButton:
-                icon_size: "20dp"
+                user_font_size: '20dp'
                 icon: 'arrow-right'
                 on_press: app.play()
                 on_release: app.switch_home()
@@ -24,7 +24,7 @@
         MDSeparator:
             color: 0.9,0.9,0.9,0.4
    
-        ScrollView:
+        RecycleView:
             effect_cls: 'ScrollEffect'
             smooth_scroll_end: 30
             scroll_distance: 1
@@ -82,7 +82,7 @@
                         IconLeftWidget:
                             icon: 'account-arrow-right-outline'         
                                             
-                            icon_size: '20dp'
+                            # user_font_size: '22dp'
                             pos_hint:{'center_y': 0.5}
 
                     OneLineIconListItem:
@@ -94,7 +94,7 @@
                         IconLeftWidget:
                             icon: 'key-outline'         
                                             
-                            icon_size: '20dp'
+                            # user_font_size: '22dp'
                             pos_hint:{'center_y': 0.5}
 
                     
@@ -109,7 +109,7 @@
                         IconLeftWidget:
                             icon: 'account-arrow-left-outline'         
                                             
-                            icon_size: '20dp'
+                            # user_font_size: '22dp'
                             pos_hint:{'center_y': 0.5}
                     
                     OneLineIconListItem:
@@ -123,7 +123,7 @@
                         IconLeftWidget:
                             icon: 'trash-can-outline'         
                                             
-                            icon_size: '20dp'
+                            # user_font_size: '22dp'
                             pos_hint:{'center_y': 0.5}
 
                     OneLineIconListItem:
@@ -135,7 +135,7 @@
                         IconLeftWidget:
                             icon: 'book-open-outline'         
                                             
-                            icon_size: '20dp'
+                            # user_font_size: '22dp'
                             pos_hint:{'center_y': 0.5}
 
                     OneLineIconListItem:
@@ -147,19 +147,19 @@
                         IconLeftWidget:
                             icon: 'book-open-outline'         
                                             
-                            icon_size: '20dp'
+                            # user_font_size: '22dp'
                             pos_hint:{'center_y': 0.5}
                     
                     OneLineIconListItem:
                         text: "[size=16dp]My Properties[/size]"
                         divider: None
                         on_press: app.play()
-                        on_release: app.switch_products()
+                        on_release: app.switch_check()
                         radius: [10]
                         IconLeftWidget:
                             icon: 'bed-outline'         
                                             
-                            icon_size: '20dp'
+                            # user_font_size: '22dp'
                             pos_hint:{'center_y': 0.5}
 
 <AccCard@MDCard+CommonElevationBehavior>

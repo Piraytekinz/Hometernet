@@ -1,5 +1,4 @@
-<BookmarkScreen>:
-    # on_enter: bk.begin()
+<Recents>:
     
     MDBoxLayout:
         orientation: 'vertical'
@@ -8,7 +7,7 @@
             size_hint_y: None
             height: "90dp"
             md_bg_color: 1,1,1,1
-            id: book_title
+            id: rec_title
             padding: ["10dp","30dp",0,0]
 
             
@@ -16,25 +15,13 @@
             
 
             MDLabel:
-                text: "Bookmarks"
+                text: "History"
                 font_size: '25dp'
                 bold: True
                 theme_font_style: 'Overline'
-                padding: ["10dp","0dp", "10dp", "0dp"]
+                padding: ["10dp", "0dp", "10dp", "0dp"]
 
-            MDIconButton:
-                icon: 'trash-can-outline'
-                user_font_size: '20dp'
-                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                theme_text_color: 'Custom'
-                text_color: "black"
-                on_press: 
-                    app.play()
-                    self.text_color=app.theme_cls.primary_color
-                on_release: 
-                    bk.clear_bookmarks_auth()
-                    self.text_color="black"
-                id: arrow_right 
+            
 
 
             MDIconButton:
@@ -48,11 +35,11 @@
                     
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                id: reload
+                id: reload_rec
                 md_bg_color_disabled: 1,1,1,1
         
                 on_release: 
-                    app.reload_bookmarks()
+                    app.reload_recents()
                     self.text_color="black"
 
             MDIconButton:
@@ -62,39 +49,32 @@
                 on_press: app.play()
                 on_release: app.switch_home()
                 id: arrow_right
-
         MDSeparator:
             color: 0.9,0.9,0.9,0.4
-            
 
         Scroller:
             scroll_distance: 1
-            # effect_cls: "ScrollEffect"
+            # # effect_cls: "ScrollEffect"
+            
             scroll_wheel_distance: 50
             smooth_scroll_end: 30
-            on_scroll_move: app.reload_bookmarks() if self.scroll_y > 1.02 and app.thread_bk_started == False else app.do()
-            id: bk_scroller
+            id: scroller
+            # on_overscroll: app.do()
+            on_scroll_move: app.reload_recents() if self.scroll_y > 1.02 and app.thread_recent_started == False else app.do()
             
             MDBoxLayout:
                 orientation: 'vertical'
                 size_hint_y: None
                 adaptive_height: True
-                id: relayer
+                id: re
                 spacing: "10dp"
-                BookmarkLayout:
+                RecentsLayout:
                     orientation: 'vertical'
                     size_hint_y: None
                     adaptive_height: True
                     spacing: "20dp"
                     padding: ["10dp", "15dp", "10dp", "5dp"]
-                    id: bk
-                    
-                    
-                    
-                    
-                    
-                    
-
+                    id: rec
 
                 MDSpinner:
                     active: False
@@ -102,13 +82,4 @@
                     width: '30dp'
                     height: '30dp'
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    id: spin_bk
-
-        
-
-        
-            
-
-<BooksTitle@MDCard+CommonElevationBehavior>
-<Reloadbk@MDCard+CommonElevationBehavior>
-        
+                    id: spin_rec

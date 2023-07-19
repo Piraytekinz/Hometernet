@@ -1,21 +1,22 @@
 <CodeVerifyer>:
-    MDBoxLayout:
-        
-        size_hint_x: None
-        width: card.width
-        pos_hint: {'center_x': 0.5}
-        MDCard:
-            size_hint: None, None
-            height: Window.size[1] / 1.2
-            width: Window.size[0] / 1.2
-            line_color: 0.9,0.9,0.9,0.5
-            radius: [15]
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-            id: card
-            ScrollView:
-                bar_width: 0
+    RecycleView:
+        bar_width: 0
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        effect_cls: "ScrollEffect"
+        MDBoxLayout:
+            size_hint_y: None
+            adaptive_height: True
+            padding: ["20dp",]
+            pos_hint: {'center_x': 0.5}
+            MDCard:
+                size_hint_y: None
+                height: verify.height
+                line_color: 0.9,0.9,0.9,0.5
+                radius: ["15dp"]
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                effect_cls: "ScrollEffect"
+                id: card
+                
+                    
                 MDBoxLayout:
                     spacing: "30dp"
                     orientation: 'vertical'

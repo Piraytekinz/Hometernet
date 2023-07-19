@@ -23,7 +23,7 @@
                     id: home
                     size_hint_y: None
                     adaptive_height: True
-                    icon_size: "20dp"
+                    user_font_size: '20dp'
             MDBoxLayout:
                 orientation: 'vertical'
                 padding: ["20dp","20dp","20dp","35dp"]
@@ -80,6 +80,7 @@
                         md_bg_color: 0,0,0,0
                         ripple_behavior: False
                         line_color: app.theme_cls.primary_color
+                        elevation: 0
                         on_release:
                             email.focused=True
                         TextInput:
@@ -102,6 +103,7 @@
                         height: '50dp'
                         radius: ["25dp",]
                         padding: ['20dp']
+                        elevation: 0
                         id: passwrd
                         md_bg_color: 0,0,0,0
                         ripple_behavior: False
@@ -123,7 +125,7 @@
                             id: password
 
                         MDIconButton:
-                            icon_size: '20dp'
+                            user_font_size: '20dp'
                             icon: 'eye-off'
                             pos_hint: {'center_y': 0.5}
                             id: eye

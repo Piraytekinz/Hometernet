@@ -1,46 +1,29 @@
-<PropertyRentCards>:
-    
-    padding: [0]
+<BookCards>:
     size_hint_y: None
-    
-    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-    height: '180dp'
-    id: main_card
-    on_press: app.play()
-    on_release: app.editrentscreen(root.image, root.local_image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.key, root.description, root.amenities)    
-    md_bg_color: 1,1,1,1
-    # orientation: 'vertical'
-    padding: ['0dp', '0dp', '0dp', '10dp']
-    spacing: "20dp"
-    radius: ["20dp"]
+    height: '140dp'
+    elevation: 0
     ripple_behavior: True
-    # line_color: 0.9,0.9,0.9,0.5
+    radius: ['25dp',]
+    # radius: [20,20,20,20]
+    spacing: '30dp'
+    on_press: app.play()
+    on_press: app.switch_details(root.image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.phonenumber, root.twitter, root.facebook, root.description, root.key, root.amenities, root.link, root.me)
+    on_release: 
+        app.call_guy(root.key, root.price)
+        app.check_in_bk(root.key)
+    # padding: ['10dp']
     id: ma
-        
-        
+
     
     FitImage:
-        source: str(root.image)
+        source: root.image
+        # source: 'New Test\Log Cabin.jpg'
         mipmap: True
+        
         radius: ma.radius
-        keep_ratio: False
-        allow_stretch: True
         size_hint_x: None
-        width: '150dp'
-        
+        width: self.height
 
-        
-        
-                
-            
-        
-                    
-                    
-                    
-                    
-
-    
-   
     MDBoxLayout:
         orientation: 'vertical'
         spacing: '15dp'
@@ -73,7 +56,7 @@
             
 
         MDLabel:
-            text: root.bedrooms + ' rooms' + ' - ' + root.bathrooms + ' baths' + ' - ' + root.landspace + "  " + f"\n \n[color=#000000][b]{root.price}       {root.views} views[/b][/color]"
+            text: root.bedrooms + ' rooms' + ' - ' + root.bathrooms + ' baths' + ' - ' + root.landspace + "  " + f"\n \n[color=#000000][b]{root.price}[/b][/color]"
             # text: "5 rooms - 3 baths - 542sq.ft  \n \n[color=#000000][b]$120000[/b][/color]"
             font_size: '14dp'
             markup: True
@@ -82,10 +65,3 @@
             
             color: "gray"
             
-            
-            
-            
-        
-            
-           
-
