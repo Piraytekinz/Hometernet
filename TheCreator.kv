@@ -20,12 +20,12 @@
                 on_release: app.switch_home()
                 pos_hint: {'center_y': 0.5}
                 id: arrow_right
-                user_font_size: '20dp'
+                icon_size: '20dp'
 
         MDSeparator:
             color: 0.9,0.9,0.9,0.4
         
-        ScrollView:
+        RecycleView:
             MDBoxLayout:
                 size_hint_y: None
                 adaptive_height: True

@@ -19,14 +19,15 @@
                 font_size: '25dp'
                 bold: True
                 theme_font_style: 'Overline'
-                padding: ["10dp", "0dp", "10dp", "0dp"]
+                # padding: ["10dp", "0dp", "10dp", "0dp"]
+                padding_x: "10dp"
 
             
 
 
             MDIconButton:
                 icon: 'refresh'
-                user_font_size: '20dp'
+                icon_size: '20dp'
                 theme_text_color: 'Custom'
                 text_color: "black"
                 on_press: 
@@ -36,7 +37,7 @@
 
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 id: reload_rec
-                md_bg_color_disabled: 1,1,1,1
+                disabled_color: 0,0,0,1
         
                 on_release: 
                     app.reload_recents()
@@ -44,7 +45,7 @@
 
             MDIconButton:
                 icon: 'arrow-right'
-                user_font_size: '20dp'
+                icon_size: '20dp'
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 on_press: app.play()
                 on_release: app.switch_home()
@@ -60,7 +61,7 @@
             smooth_scroll_end: 30
             id: scroller
             # on_overscroll: app.do()
-            on_scroll_move: app.reload_recents() if self.scroll_y > 1.02 and app.thread_recent_started == False else app.do()
+            on_scroll_move: app.reload_recents() if self.scroll_y > 1.05 and app.thread_recent_started == False else app.do()
             
             MDBoxLayout:
                 orientation: 'vertical'

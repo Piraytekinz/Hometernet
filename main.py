@@ -485,7 +485,7 @@ class EditRentDetailsScreen(Screen):
             ver_growth='up',
             width_mult=3,
             background_color='white',
-            # elevation=1
+            elevation=1
         )
 
         
@@ -567,7 +567,7 @@ class RentSubmit(Screen):
             ver_growth='up',
             width_mult=3,
             background_color='white',
-            # elevation=1
+            elevation=1
         )
 
         
@@ -1107,7 +1107,7 @@ class HomeCardsLayout(MDGridLayout):
         # self.first_choice = random.choice(bath_or_bed)
         
         
-        self.peopler = db.child("Rent").order_by_key().limit_to_first(20).get()
+        self.peopler = db.child("Rent").order_by_key().limit_to_first(10).get()
         
         # if self.first_choice == 'bedrooms':
             
@@ -1153,6 +1153,7 @@ class HomeCardsLayout(MDGridLayout):
             Clock.schedule_once(partial(self.rent_done), 0.3)
             
             
+            
         
         
     def added(self):
@@ -1164,7 +1165,7 @@ class HomeCardsLayout(MDGridLayout):
         # bath_or_bed = ['bedrooms', 'bathrooms', 'price', 'country', 'views', 'state', 'town', 'street', 'housetype']
         # self.first_choice = random.choice(bath_or_bed)
         
-        self.people = db.child("Sale").order_by_key().limit_to_first(20).get()
+        self.people = db.child("Sale").order_by_key().limit_to_first(10).get()
 
         # if self.first_choice == 'bedrooms':
             
@@ -1213,7 +1214,7 @@ class HomeCardsLayout(MDGridLayout):
 
             
         
-    @mainthread
+    # @mainthread
     def done(self, time):
         self.j = 0
         
@@ -1227,10 +1228,8 @@ class HomeCardsLayout(MDGridLayout):
                 
                 self.something = u.key()
                 self.card = HomeCards()
-                
                 self.card.me = self.card
                 self.card.image = u.val()['url']
-                
                 self.card.tot = u.val()['housetype']
                 self.card.country = u.val()['country']
                 self.card.province = u.val()['state']
@@ -1264,7 +1263,7 @@ class HomeCardsLayout(MDGridLayout):
         
 
         
-    @mainthread
+    # @mainthread
     def rent_done(self, time):
         self.j = 0
         
@@ -1277,10 +1276,8 @@ class HomeCardsLayout(MDGridLayout):
                 
                 self.rent_something = u.key()
                 self.card = HomeCards()
-                
                 self.card.me = self.card
                 self.card.image = u.val()['url']
-                
                 self.card.tot = u.val()['housetype']
                 self.card.country = u.val()['country']
                 self.card.province = u.val()['state']
@@ -1373,7 +1370,7 @@ class HomeCardsLayout(MDGridLayout):
             
             if self.j >= len(self.peopler.each()):
                 
-                self.peopler = db.child("Rent").order_by_key().start_at(self.rent_something).limit_to_first(21).get()
+                self.peopler = db.child("Rent").order_by_key().start_at(self.rent_something).limit_to_first(11).get()
                 
                     
                 
@@ -1388,8 +1385,8 @@ class HomeCardsLayout(MDGridLayout):
             
             
             # time.sleep(1)
-            # Clock.schedule_once(partial(self.rent_another), 0.3)
-            self.rent_another()
+            Clock.schedule_once(partial(self.rent_another), 0.3)
+            
 
     def omagaa(self):
         
@@ -1405,7 +1402,7 @@ class HomeCardsLayout(MDGridLayout):
             
             if self.j >= len(self.people.each()):
                 
-                self.people = db.child("Sale").order_by_key().start_at(self.something).limit_to_first(21).get()
+                self.people = db.child("Sale").order_by_key().start_at(self.something).limit_to_first(11).get()
                 
                     
                 
@@ -1418,11 +1415,12 @@ class HomeCardsLayout(MDGridLayout):
             
            
             
-            # Clock.schedule_once(partial(self.another))
-            self.another()
+            Clock.schedule_once(partial(self.another), 0.3)
+            
+    
     
     @mainthread
-    def add_carda(self, url, housetype,country,state,town,street,bedrooms,bathrooms,landspace,email,price,key,phone,twitter,facebook,desc,amenities,link):
+    def add_card(self, url, housetype,country, state, town, street, beds, baths, land, email, price, key, phone, twitter, facebook, desc, amenities, link):
         self.card = HomeCards()
         self.card.me = self.card
         self.card.image = url
@@ -1431,9 +1429,9 @@ class HomeCardsLayout(MDGridLayout):
         self.card.province = state
         self.card.town = town
         self.card.street = street
-        self.card.bedrooms = bedrooms
-        self.card.bathrooms = bathrooms
-        self.card.landspace = landspace
+        self.card.bedrooms = beds
+        self.card.bathrooms = baths
+        self.card.landspace = land
         self.card.email = email
         self.card.price = price
         self.card.key = key
@@ -1446,13 +1444,11 @@ class HomeCardsLayout(MDGridLayout):
         self.card.opacity = 0
         Animation(opacity=1, duration=0.5).start(self.card)
         self.add_widget(self.card)
-        
-        
 
 
     def call_another(self):
         if self.people.each():
-            for u in self.people.each()[self.j:self.j+5]:
+            for u in self.people.each()[self.j:]:
                 
                 
                 
@@ -1460,82 +1456,59 @@ class HomeCardsLayout(MDGridLayout):
                     if u.key() not in self.last_one:
                         self.last_one.append(u.key())
                     self.j += 1
-                    continue
                     
-                self.add_carda(
-                    u.val()['url'],
-                    u.val()['housetype'],
-                    u.val()['country'],
-                    u.val()['state'],
-                    u.val()['town'],
-                    u.val()['street'],
-                    u.val()['bedrooms'],
-                    u.val()['bathrooms'],
-                    u.val()['landspace'],
-                    u.val()['email'],
-                    u.val()['price'],
-                    u.key(),
-                    u.val()['phonenumber'],
-                    u.val()['twitter'],
-                    u.val()['facebook'],
-                    u.val()['description'],
-                    u.val()['amenities'],
-                    u.val()['link']
-                )
+                    continue
                 
-                
+                self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
+                                u.val()['bathrooms'], u.val()['landspace'], u.val()['email'], u.val()['price'], u.key(), u.val()['phonenumber'], u.val()['twitter'],
+                                u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'])
+
                 self.last = u.key()
                 self.something = u.key()
                 self.j += 1
                 if self.j % 2 == 0:
                     
                     break
-        time.sleep(1)
+        time.sleep(0.5)
         self.scroll_more = False
-    
-   
-    def call_rent_another(self):
+
         
+
+    
+    def call_rent_another(self):
         if self.peopler.each():
-            for u in self.peopler.each()[self.j:self.j+5]:
+            for u in self.peopler.each()[self.j:]:
+                
+                
+                
                 if u.key() == self.rent_something:
                     if u.key() not in self.last_rent_one:
                         self.last_rent_one.append(u.key())
                     self.j += 1
+                    
                     continue
+                
+                self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
+                                u.val()['bathrooms'], u.val()['landspace'], u.val()['email'], u.val()['price'], u.key(), u.val()['phonenumber'], u.val()['twitter'],
+                                u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'])
 
-                self.add_carda(
-                    u.val()['url'],
-                    u.val()['housetype'],
-                    u.val()['country'],
-                    u.val()['state'],
-                    u.val()['town'],
-                    u.val()['street'],
-                    u.val()['bedrooms'],
-                    u.val()['bathrooms'],
-                    u.val()['landspace'],
-                    u.val()['email'],
-                    u.val()['price'],
-                    u.key(),
-                    u.val()['phonenumber'],
-                    u.val()['twitter'],
-                    u.val()['facebook'],
-                    u.val()['description'],
-                    u.val()['amenities'],
-                    u.val()['link']
-                )
-                self.j += 1 
                 self.last = u.key()
                 self.rent_something = u.key()
+                self.j += 1
                 if self.j % 2 == 0:
-                
+                    
                     break
-        time.sleep(1)
+        time.sleep(0.2)
         self.scroll_more = False
+        
+    
+                
+    
+        
         
 
     @mainthread
-    def rent_another(self):
+    def rent_another(self, time):
         
         if self.peopler.each():
             for u in self.peopler.each()[self.j:self.j+5]:
@@ -1575,7 +1548,7 @@ class HomeCardsLayout(MDGridLayout):
                 self.last = u.key()
                 self.rent_something = u.key()
                 self.j += 1
-                if self.j == 21:
+                if self.j == 11:
                     
                     break
             
@@ -1586,7 +1559,7 @@ class HomeCardsLayout(MDGridLayout):
                  
                 
     @mainthread
-    def another(self):    
+    def another(self, time):    
             
         
         if self.people.each():
@@ -1627,7 +1600,7 @@ class HomeCardsLayout(MDGridLayout):
                 self.last = u.key()
                 self.something = u.key()
                 self.j += 1
-                if self.j == 21:
+                if self.j == 11:
                     
                     break
             
@@ -1651,7 +1624,7 @@ class HomeCardsLayout(MDGridLayout):
             
             l = len(self.last_rent_one) - 1
             key = self.last_rent_one[l-1]
-            self.peopler = db.child("Rent").order_by_key().start_at(key).limit_to_first(20).get() 
+            self.peopler = db.child("Rent").order_by_key().start_at(key).limit_to_first(10).get() 
 
             self.j = 0
             self.clear()
@@ -1678,7 +1651,7 @@ class HomeCardsLayout(MDGridLayout):
             
             l = len(self.last_one) - 1
             key = self.last_one[l-1]
-            self.people = db.child("Sale").order_by_key().start_at(key).limit_to_first(20).get() 
+            self.people = db.child("Sale").order_by_key().start_at(key).limit_to_first(10).get() 
             self.j = 0
             self.clear()
             self.last_one.pop()
@@ -2619,7 +2592,7 @@ class MainApp(MDApp):
         self.event = Event()
         self.thread_bookmarks = threading.Thread(target=self.begin_bookmarks)
         self.thread_bookmarks.start()
-        self.thread_bk_started = True
+
         
         
             
@@ -2665,13 +2638,13 @@ class MainApp(MDApp):
                         self.event.set()
                         
         
-            # except:
-            #     if self.bk_err == True:
-            #         self.remove_bk_error()
-            #         self.bk_err = False
-            #     self.empty_bk("Hometernet connection unavailable", icon='cloud')
+            except:
+                if self.bk_err == True:
+                    self.remove_bk_error()
+                    self.bk_err = False
+                self.empty_bk("Hometernet connection unavailable", icon='cloud')
                 
-            #     self.event.set()
+                self.event.set()
 
             
         self.bk_spin_inactive()
@@ -2701,6 +2674,7 @@ class MainApp(MDApp):
                                 
                                 self.yours = db.child("Sale").order_by_key().equal_to(i).get()
                                 self.mine = db.child("Rent").order_by_key().equal_to(i).get()
+                                time.sleep(0.5)
                                 self.starti_bookmarks(self.yours, self.mine)  
                         else:
                             
@@ -3039,6 +3013,7 @@ class MainApp(MDApp):
                                 
                                 self.sale_recent = db.child("Sale").order_by_key().equal_to(i).get()
                                 self.rent_recent = db.child("Rent").order_by_key().equal_to(i).get()
+                                time.sleep(0.5)
                                 self.starti_recents(self.sale_recent, self.rent_recent)  
                         else:
                             break
@@ -3057,6 +3032,7 @@ class MainApp(MDApp):
             time.sleep(1)
             if not self.event.is_set():
                 if blokies != None:
+                    
                     # blokies = db.child("Accounts").child(self.curr['localid']).child('bookmarks').get(self.curr['idToken'])
                     
             
@@ -3067,7 +3043,7 @@ class MainApp(MDApp):
                             
                             
                             db.child("Accounts").child(self.curr['localid']).child('views').child(b).remove(self.curr['idToken'])
-                            self.toast("Some Properties may have been sold.")
+                            
                             
                             
             with open(f'{path}/user.json', 'w') as jsonfile:
@@ -3338,7 +3314,7 @@ class MainApp(MDApp):
         
        
             
-        if self.home.ids.scroller.scroll_y < 0.3:
+        if self.home.ids.scroller.scroll_y < 0.4:
             if self.home.ids.grid.j >= 4:
                 if self.home.ids.grid.op_choice == "Sale":
                     self.home.ids.grid.call_another()
@@ -3350,10 +3326,7 @@ class MainApp(MDApp):
                         # 
         # self.active_scroll()
                     
-    @mainthread
-    def active_scroll(self):
-        
-        self.home.ids.grid.scroll_more = False
+  
 
         
         
@@ -3543,7 +3516,7 @@ class MainApp(MDApp):
             self.ico_btn.text = 'try again'
             self.ico_btn.font_size = '15dp'
             self.ico_btn.theme_text_color = 'Custom'
-            self.ico_btn.text_color = self.theme_cls.primary_color
+            self.ico_btn.text_color = 'black'
             self.ico_btn.pos_hint = {'center_y':0.6, 'center_x': 0.5}
             self.ico_btn.md_bg_color = [0.9,0.9,0.9,0.7]
             self.bxopo.add_widget(self.ico_btn)
@@ -3835,16 +3808,16 @@ class MainApp(MDApp):
 
     def next(self, bedrooms):
         
-        self.next_next(bedrooms)
-        # try:
+        
+        try:
             
-            
+            self.next_next(bedrooms)
         
             
-        # except:
+        except:
             
-        #     self.toast("Network Error")
-        #     self.event.set()
+            self.toast("Something went wrong")
+            self.event.set()
         self.search.ids.refresh_card.disabled = False
         self.search.ids.more_card.disabled = False
         
@@ -3861,7 +3834,7 @@ class MainApp(MDApp):
             
             if self.search_counter < len(self.search_begin.each()):
                 
-                if self.search_j % 20 == 0:
+                if self.search_j % 10 == 0:
                     self.scroll_back()
                     self.clear_search()
         
@@ -3892,18 +3865,22 @@ class MainApp(MDApp):
                 
                 if u.val()['housetype'] == self.old_prop.strip() or self.old_prop == "" or (len(self.old_prop.strip()) > 3 and self.old_prop.strip() in u.val()['housetype']):
                     if u.val()['bedrooms'] == self.old_bedrooms:
+                        
                         self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
                                       u.val()['bathrooms'], u.val()['landspace'], u.val()['email'], u.val()['price'], u.key(), u.val()['phonenumber'], u.val()['twitter'],
                                       u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'])
                         self.search_j += 1
                         self.last = u.key()
                         self.something = u.key()
-                        if self.search_j % 2 == 0:
+                        if self.search_j % 4 == 0:
                             
                             
                             break
+
         time.sleep(1)
         self.scroll_search_started = False
+        
+       
         
     @mainthread
     def add_card(self, url, housetype,country, state, town, street, beds, baths, land, email, price, key, phone, twitter, facebook, desc, amenities, link, time=None):
@@ -3944,7 +3921,7 @@ class MainApp(MDApp):
     def scroll_search(self):
         
         if self.search.ids.searcher.scroll_y < 0.4:
-            if self.search_j >= 1 and self.search_j % 20 != 0:
+            if self.search_j >= 1 and self.search_j % 10 != 0:
                 self.next_thread(None)
         else:
             self.scroll_search_started = False
@@ -4319,7 +4296,7 @@ class MainApp(MDApp):
                 ver_growth='down',
                 
                 width_mult=3,
-                # elevation=1,
+                elevation=1,
                 background_color='white',
                 
             )
@@ -4355,7 +4332,7 @@ class MainApp(MDApp):
                 
                 ver_growth='down',
                 width_mult=3,
-                # elevation=1,
+                elevation=1,
                 background_color='white'
             )
 
@@ -7901,7 +7878,7 @@ class MainApp(MDApp):
     def change_color(self):
         Animation(md_bg_color=[0.9,0.9,0.9,0.7], duration=0.2).start(self.home.ids.rent_btn)
         
-        self.home.ids.rent_btn.text_color = self.theme_cls.primary_color
+        self.home.ids.rent_btn.text_color = 'black'
         Animation(md_bg_color=self.theme_cls.primary_color, duration=0.2).start(self.home.ids.sale_btn)
         
         self.home.ids.sale_btn.text_color = 'white'
@@ -7911,7 +7888,7 @@ class MainApp(MDApp):
 
     def change_rent_color(self):
         Animation(md_bg_color=[0.9,0.9,0.9,0.7], duration=0.2).start(self.home.ids.sale_btn)
-        self.home.ids.sale_btn.text_color = self.theme_cls.primary_color
+        self.home.ids.sale_btn.text_color = 'black'
         Animation(md_bg_color=self.theme_cls.primary_color, duration=0.2).start(self.home.ids.rent_btn)
         self.home.ids.rent_btn.text_color = 'white'
 
@@ -7962,24 +7939,24 @@ class MainApp(MDApp):
     def animate_bar(self, card):
         if card == 'prop':
             if self.search.ids.prop_type.focus:
-                Animation(elevation=12, duration=0.3).start(self.search.ids.prop_card)
+                Animation(elevation=1.2, duration=0.3).start(self.search.ids.prop_card)
             else:
-                Animation(elevation=5, duration=0.2).start(self.search.ids.prop_card)
+                Animation(elevation=0, duration=0.2).start(self.search.ids.prop_card)
         elif card == 'country':
             if self.search.ids.country.focus:
-                Animation(elevation=12, duration=0.3).start(self.search.ids.country_card)
+                Animation(elevation=1.2, duration=0.3).start(self.search.ids.country_card)
             else:
-                Animation(elevation=5, duration=0.2).start(self.search.ids.country_card)
+                Animation(elevation=0, duration=0.2).start(self.search.ids.country_card)
         elif card == 'state':
             if self.search.ids.state.focus:
-                Animation(elevation=12, duration=0.3).start(self.search.ids.state_card)
+                Animation(elevation=1.2, duration=0.3).start(self.search.ids.state_card)
             else:
-                Animation(elevation=5, duration=0.2).start(self.search.ids.state_card)
+                Animation(elevation=0, duration=0.2).start(self.search.ids.state_card)
         elif card == 'city':
             if self.search.ids.town.focus:
-                Animation(elevation=12, duration=0.3).start(self.search.ids.city_card)
+                Animation(elevation=1.2, duration=0.3).start(self.search.ids.city_card)
             else:
-                Animation(elevation=5, duration=0.2).start(self.search.ids.city_card)
+                Animation(elevation=0, duration=0.2).start(self.search.ids.city_card)
 
 
     def animate_contact_bar(self, card):
@@ -8057,7 +8034,7 @@ class MainApp(MDApp):
         self.ico_btn.font_size = '15dp'
         self.ico_btn.md_bg_color = [0.9,0.9,0.9,0.7]
         self.ico_btn.theme_text_color = 'Custom'
-        self.ico_btn.text_color = self.theme_cls.primary_color
+        self.ico_btn.text_color = 'black'
         self.ico_btn.pos_hint = {'center_y':0.6, 'center_x': 0.5}
         
         self.ico_btn.ripple_scale = 0

@@ -15,7 +15,7 @@
         app.check_in_bk(root.key)
     id: home_card
     ripple_behavior: True
-    radius: [5,5,5,5]
+    radius: ['5dp']
     orientation: 'vertical'
     padding: ['0dp', '0dp', '0dp', '10dp']
     spacing: "20dp"
@@ -28,7 +28,7 @@
     FitImage:
         source: str(root.image)
         # source: '3d-house.jpg'
-        radius: [5, 5, 0, 0]
+        radius: ['5dp', '5dp', 0, 0]
         
 
 
@@ -48,7 +48,8 @@
         font_size: '16dp'
         color: "black"
         text_size: self.size
-        padding: ["25dp","0dp","25dp","0dp"]
+        # padding: ["25dp","0dp","25dp","0dp"]
+        padding_x: "25dp"
     
     
     Label:
@@ -62,7 +63,7 @@
         markup: True
         shorten: True
         ellipsis_options: {'color':(0,0,0,0.5), 'underline':False}
-        padding: ["25dp","0dp","25dp","0dp"]
+        padding_x: "25dp"
                 
                 
             
@@ -81,7 +82,7 @@
         height: self.texture_size[1]
         color: "gray"
         # bold: True
-        padding: ["25dp","0dp","25dp","0dp"]
+        padding_x: "25dp"
 
     MDSeparator:
         padding: ['15dp', '0dp', '15dp', '0dp']
@@ -95,7 +96,7 @@
         color: "black"
         bold: True
         size_hint_y: None
-        padding: ["25dp","0dp","25dp","0dp"]
+        padding_x: "25dp"
  
         height: dp(40)
         
