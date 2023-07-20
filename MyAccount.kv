@@ -113,6 +113,20 @@
                             pos_hint:{'center_y': 0.5}
                     
                     OneLineIconListItem:
+                        text: "[size=16dp]Switch Account[/size]"
+                        divider: None
+                        on_press: app.play()
+                        on_release: app.switch_choice()
+                        radius: [10]
+                        disabled: True if app.products.ids.spinno.opacity == 1 else False
+                        id: del_acc
+                        IconLeftWidget:
+                            icon: 'account-switch-outline'         
+                                            
+                            icon_size: '20dp'
+                            pos_hint:{'center_y': 0.5}
+                    
+                    OneLineIconListItem:
                         text: "[size=16dp]Remove Account[/size]"
                         divider: None
                         on_press: app.play()
@@ -121,13 +135,13 @@
                         disabled: True if app.products.ids.spinno.opacity == 1 else False
                         id: remove_acc
                         IconLeftWidget:
-                            icon: 'trash-can-outline'         
+                            icon: 'account-cancel-outline'         
                                             
                             icon_size: '20dp'
                             pos_hint:{'center_y': 0.5}
 
                     OneLineIconListItem:
-                        text: "[size=16dp]Terms and conditions[/size]"
+                        text: "[size=16dp]Terms of Service[/size]"
                         divider: None
                         on_press: app.play()
                         on_release: app.show_terms()
@@ -158,6 +172,20 @@
                         radius: [10]
                         IconLeftWidget:
                             icon: 'bed-outline'         
+                                            
+                            icon_size: '20dp'
+                            pos_hint:{'center_y': 0.5}
+
+                    OneLineIconListItem:
+                        text: "[size=16dp]Delete Account[/size]"
+                        divider: None
+                        on_press: app.play()
+                        on_release: app.delete_user()
+                        radius: [10]
+                        disabled: True if app.products.ids.spinno.opacity == 1 else False
+                        id: del_acc
+                        IconLeftWidget:
+                            icon: 'trash-can-outline'         
                                             
                             icon_size: '20dp'
                             pos_hint:{'center_y': 0.5}

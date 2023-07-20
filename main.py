@@ -48,9 +48,7 @@ import json
 from kivy.core.audio import SoundLoader
 from kivy.base import EventLoop
 from kivy.config import Config
-# from kivymd.utils.set_bars_colors import set_bars_colors
 
-from collections import OrderedDict
 
 
 
@@ -1498,7 +1496,7 @@ class HomeCardsLayout(MDGridLayout):
                 if self.j % 2 == 0:
                     
                     break
-        time.sleep(0.2)
+        time.sleep(0.5)
         self.scroll_more = False
         
     
@@ -1869,7 +1867,7 @@ class MainApp(MDApp):
         self.thread_recent_started = False
         self.has_recents = False
         self.recent_loaded = []
-       
+        self.recent_card = []
 
         self.last_rec = 0
         self.loaded = []
@@ -2085,14 +2083,15 @@ class MainApp(MDApp):
                 if i['email'] == email:
                     password = i['password']
                     
-
+            
             try:
                 
                 self.switch_account(email, password)
                 time.sleep(1)
                 if not self.event.is_set():
                     
-                    self.switch_products()
+                    # self.switch_products()
+                    self.switch_acc()
                 
                 
                 
@@ -2105,7 +2104,8 @@ class MainApp(MDApp):
                 
                 self.event.set()
                 time.sleep(1)
-                self.true_switch_products()
+                
+                self.switch_acc()
                 self.spin_false()
 
 
@@ -2844,6 +2844,7 @@ class MainApp(MDApp):
         
             # self.last_booked = 0
             self.recent_loaded.clear()
+            
             if self.recent_err == True:
                 self.remove_recent_error()
                 self.recent_err = False
@@ -2999,13 +3000,20 @@ class MainApp(MDApp):
             
             
             blokies = db.child("Accounts").child(self.curr['localid']).child('views').get(self.curr['idToken'])
-            blokies = OrderedDict(reversed(list(blokies.val().items())))
             
             
             
-            if blokies != None:
+            
+            # 
+            
+            
+            
+            if blokies.val() != None:
                 
-                for i in blokies:
+
+                # blokies = OrderedDict(reversed(list(blokies.val().items())))
+
+                for i in blokies.val():
                     if not self.event.is_set():
                         if len(self.recent_loaded) < 15:
                             if i not in self.recent_loaded:
@@ -3027,24 +3035,11 @@ class MainApp(MDApp):
                     self.remove_recent_error()
                     self.recent_err = False
                 self.empty_recent("You have no recent views", icon='clock-outline')
+                self.event.set()
         
-
-            time.sleep(1)
-            if not self.event.is_set():
-                if blokies != None:
-                    
-                    # blokies = db.child("Accounts").child(self.curr['localid']).child('bookmarks').get(self.curr['idToken'])
-                    
+           
+           
             
-                    
-                    for b in blokies:
-                        
-                        if b not in self.recent_loaded:
-                            
-                            
-                            db.child("Accounts").child(self.curr['localid']).child('views').child(b).remove(self.curr['idToken'])
-                            
-                            
                             
             with open(f'{path}/user.json', 'w') as jsonfile:
                 json.dump(self.curr, jsonfile) 
@@ -3068,31 +3063,32 @@ class MainApp(MDApp):
         if yours:
             for u in yours:
                 
-                
-                self.card = BookCards()
-                self.card.me = self.card
-                self.card.image = u.val()['url']
-                self.card.amenities = u.val()['amenities']
-                self.card.tot = u.val()['housetype']
-                self.card.country = u.val()['country']
-                self.card.province = u.val()['state']
-                self.card.town = u.val()['town']
-                self.card.street = u.val()['street']
-                self.card.bedrooms = u.val()['bedrooms']
-                self.card.bathrooms = u.val()['bathrooms']
-                self.card.landspace = u.val()['landspace']
-                self.card.email = u.val()['email']
-                self.card.price = u.val()['price']
-                self.card.key = u.key()
-                self.card.phonenumber = u.val()['phonenumber']
-                self.card.twitter = u.val()['twitter']
-                self.card.facebook = u.val()['facebook']
-                self.card.description = u.val()['description']
-                self.card.link = u.val()['link']
-                self.card.opacity = 0
-                self.recents.ids.rec.add_widget(self.card, index=-1)
-                Animation(opacity=1, duration=0.4).start(self.card)
-                self.recent_loaded.append(u.key())
+                if len(self.recent_loaded) < 15:
+                    self.card = BookCards()
+                    self.card.me = self.card
+                    self.card.image = u.val()['url']
+                    self.card.amenities = u.val()['amenities']
+                    self.card.tot = u.val()['housetype']
+                    self.card.country = u.val()['country']
+                    self.card.province = u.val()['state']
+                    self.card.town = u.val()['town']
+                    self.card.street = u.val()['street']
+                    self.card.bedrooms = u.val()['bedrooms']
+                    self.card.bathrooms = u.val()['bathrooms']
+                    self.card.landspace = u.val()['landspace']
+                    self.card.email = u.val()['email']
+                    self.card.price = u.val()['price']
+                    self.card.key = u.key()
+                    self.card.phonenumber = u.val()['phonenumber']
+                    self.card.twitter = u.val()['twitter']
+                    self.card.facebook = u.val()['facebook']
+                    self.card.description = u.val()['description']
+                    self.card.link = u.val()['link']
+                    self.card.opacity = 0
+                    self.recents.ids.rec.add_widget(self.card)
+                    Animation(opacity=1, duration=0.4).start(self.card)
+                    self.recent_loaded.append(u.key())
+                    self.recent_card.append(self.card.me)
                 
                 
                             
@@ -3105,32 +3101,33 @@ class MainApp(MDApp):
         if mine:   
             for u in mine:
                 
-                
-                self.card = BookCards()
-                self.card.me = self.card
-                self.card.image = u.val()['url']
-                self.card.amenities = u.val()['amenities']
-                self.card.tot = u.val()['housetype']
-                self.card.country = u.val()['country']
-                self.card.province = u.val()['state']
-                self.card.town = u.val()['town']
-                self.card.street = u.val()['street']
-                self.card.bedrooms = u.val()['bedrooms']
-                self.card.bathrooms = u.val()['bathrooms']
-                self.card.landspace = u.val()['landspace']
-                self.card.email = u.val()['email']
-                self.card.price = u.val()['price']
-                self.card.key = u.key()
-                self.card.phonenumber = u.val()['phonenumber']
-                self.card.twitter = u.val()['twitter']
-                self.card.facebook = u.val()['facebook']
-                self.card.description = u.val()['description']
-                self.card.link = u.val()['link']
-                self.card.opacity = 0
-                self.recents.ids.rec.add_widget(self.card, index=-1)
-                Animation(opacity=1, duration=0.4).start(self.card)
-                
-                self.recent_loaded.append(u.key())
+                if len(self.recent_loaded) < 15:
+                    self.card = BookCards()
+                    self.card.me = self.card
+                    self.card.image = u.val()['url']
+                    self.card.amenities = u.val()['amenities']
+                    self.card.tot = u.val()['housetype']
+                    self.card.country = u.val()['country']
+                    self.card.province = u.val()['state']
+                    self.card.town = u.val()['town']
+                    self.card.street = u.val()['street']
+                    self.card.bedrooms = u.val()['bedrooms']
+                    self.card.bathrooms = u.val()['bathrooms']
+                    self.card.landspace = u.val()['landspace']
+                    self.card.email = u.val()['email']
+                    self.card.price = u.val()['price']
+                    self.card.key = u.key()
+                    self.card.phonenumber = u.val()['phonenumber']
+                    self.card.twitter = u.val()['twitter']
+                    self.card.facebook = u.val()['facebook']
+                    self.card.description = u.val()['description']
+                    self.card.link = u.val()['link']
+                    self.card.opacity = 0
+                    self.recents.ids.rec.add_widget(self.card)
+                    Animation(opacity=1, duration=0.4).start(self.card)
+                    
+                    self.recent_loaded.append(u.key())
+                    self.recent_card.append(self.card.me)
 
 # RECENTS #####################################################################
 
@@ -3340,6 +3337,9 @@ class MainApp(MDApp):
         if self.home.ids.grid.has_error == True:
             
             self.connection()
+        
+        if self.home.ids.grid.j > 4:
+            self.home.ids.scroller.scroll_to(self.home.ids.grid)
         
 
     
@@ -3834,7 +3834,7 @@ class MainApp(MDApp):
             
             if self.search_counter < len(self.search_begin.each()):
                 
-                if self.search_j % 10 == 0:
+                if self.search_j % 13 == 0:
                     self.scroll_back()
                     self.clear_search()
         
@@ -3921,7 +3921,7 @@ class MainApp(MDApp):
     def scroll_search(self):
         
         if self.search.ids.searcher.scroll_y < 0.4:
-            if self.search_j >= 1 and self.search_j % 10 != 0:
+            if self.search_j >= 1 and self.search_j % 13 != 0:
                 self.next_thread(None)
         else:
             self.scroll_search_started = False
@@ -4431,7 +4431,7 @@ class MainApp(MDApp):
         if icon == 'whatsapp':
             webbrowser.open('https://wa.me/' + obg)
         elif icon == 'email':
-            email.send(recipient=obg, subject="Interested in your property on Hometernet...", text=None, create_chooser=None)
+            email.send(recipient=obg, subject="Hi, I'm interested in your property on Hometernet...", text=None, create_chooser=None)
             
             # webbrowser.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + obg + '&su=SUBJECT&body=BODY')
 
@@ -4506,6 +4506,7 @@ class MainApp(MDApp):
         self.wm.transition.duration = .2
         self.wm.switch_to(self.loading, direction='right')
         
+    @mainthread
     def switch_acc(self):
         self.wm.transition = SlideTransition()
         self.wm.transition.duration = .1
@@ -5025,6 +5026,8 @@ class MainApp(MDApp):
                                 self.denied = 0
             
 
+            
+
     def email(self, texta):
         self.mail = texta
         
@@ -5194,12 +5197,12 @@ class MainApp(MDApp):
         )
         self.dia.open()
 
-    def send_thread_email(self, email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street):
+    def send_thread_email(self, email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street, key):
         self.detail.ids.buy.opacity = 0
         self.detail.ids.spin.active=True
         self.detail.ids.biye.disabled = True
         self.event = Event()
-        self.thread_email = threading.Thread(target=self.send_email, args=(email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street,))
+        self.thread_email = threading.Thread(target=self.send_email, args=(email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street, key,))
         self.thread_email.start()
 
     @mainthread
@@ -5208,11 +5211,12 @@ class MainApp(MDApp):
         self.detail.ids.buy.opacity = 1
         self.detail.ids.biye.disabled = False
 
-    def send_email(self, email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street):
+    def send_email(self, email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street, key):
         if not self.event.is_set():
+            
             try:
                 
-                self.send_email_now(email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street)
+                self.send_email_now(email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street, key)
             
             except requests.exceptions.HTTPError as e:
                 error_json = e.args[1]
@@ -5223,7 +5227,7 @@ class MainApp(MDApp):
                         try:
                             
                             self.denied_signin()
-                            self.send_thread_email(email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street,)
+                            self.send_thread_email(email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street, key)
                         
                         except:
                             self.toast("Network error")
@@ -5239,7 +5243,7 @@ class MainApp(MDApp):
                 self.event.set()
         self.detail_spin_false()    
             
-    def send_email_now(self, email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street,):
+    def send_email_now(self, email, phonenumber, twitter, facebook, link, type, price, country, bedrooms, bathrooms, landspace, town, province, street, key,):
         with open(f'{path}/user.json', 'r') as jsonfile:
             data = json.load(jsonfile)
             
@@ -5256,18 +5260,38 @@ class MainApp(MDApp):
                       
             else:
                 
-                
-                
-                message = MIMEText(f"Someone just viewed your contact information for \n \n Property type: {type} \n Country: {country} \n State\Province: {province} \n Town\City: {town} \n Street address: {street} \n bedrooms: {bedrooms} \n bathrooms: {bathrooms} \n land area: {landspace}  \n Price: {price}")
+                offer = db.child('Accounts').child(data['localid']).child('offers').get(data['idToken'])
+
+                if offer.val() == None or key not in offer.val():
+                    
+                    
+                    message = MIMEText(f"Someone just viewed your contact information for \n \n Property type: {type} \n Country: {country} \n State\Province: {province} \n Town\City: {town} \n Street address: {street} \n bedrooms: {bedrooms} \n bathrooms: {bathrooms} \n land area: {landspace}  \n Price: {price}")
+                    message['Subject'] = "Your property contact information was viewed..."
+                    message["From"] = "hometernetmanager@gmail.com"
+                    message["To"] = email
+                    server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+                    server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
+                    server.sendmail("hometernetmanager@gmail.com", email, message.as_string())
+
+                    now = datetime.today()
+                    time = date.strftime(now, '%Y-%m-%d')
+
+                    db.child("Accounts").child(data['localid']).update({'offers': ''}, data['idToken'])
+                    db.child("Accounts").child(data['localid']).child('offers').update({key: time}, data['idToken'])
+                    
+                    
+                else:
+                    
+                    server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+                    server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
+
+                message = MIMEText(f"An offer has been made to buy property belonging to \n Details: {email}, {phonenumber}, facebook: {facebook}, twitter: {twitter}, website: {link}, key: {key} \n \n Property type: {type} \n Country: {country} \n State\Province: {province} \n Town\City: {town} \n Street address: {street} \n bedrooms: {bedrooms} \n bathrooms: {bathrooms} \n land area: {landspace}  \n Price: {price} \n")
                 message['Subject'] = "Your property contact information was viewed..."
                 message["From"] = "hometernetmanager@gmail.com"
-                message["To"] = email
-                server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-                server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
-                server.sendmail("hometernetmanager@gmail.com", email, message.as_string())
+                message["To"] = "hometernetmanager@gmail.com"
                 
-                message = MIMEText(f"An offer has been made to buy property belonging to \n Details: {email}, {phonenumber} \n \n Property type: {type} \n Country: {country} \n State\Province: {province} \n Town\City: {town} \n Street address: {street} \n bedrooms: {bedrooms} \n bathrooms: {bathrooms} \n land area: {landspace}  \n Price: {price}")
-                server.sendmail("hometernetmanager@gmail.com", "anangjosh8@gmail.com", message.as_string())
+                
+                server.sendmail("hometernetmanager@gmail.com", "hometernetmanager@gmail.com", message.as_string())
                 server.quit()
                 
                 self.show_bottom(email, phonenumber, twitter, facebook, link)
@@ -5477,7 +5501,7 @@ class MainApp(MDApp):
             if self.tried >= 6:
                 
                 
-                self.show_dialog('Code has expired after so many attempts. Press resend now to receive a new verification code')
+                self.show_dialog('Code has expired after many attempts. Press resend now to receive a new verification code')
             else:
                 if typed_in == "":
                     
@@ -5507,7 +5531,7 @@ class MainApp(MDApp):
             if self.tried >= 6:
                 
                 
-                self.show_dialog('Code has expired after so many attempts. Press resend now to receive a new verification code')
+                self.show_dialog('Code has expired after many attempts. Press resend now to receive a new verification code')
             else:
                 if typed_in == "":
                     
@@ -5584,10 +5608,10 @@ class MainApp(MDApp):
         # self.sign_in()
         time.sleep(1)
         if not self.event.is_set():
-            self.snackbar("Account created successfully.")
-            text = "An email verification link has been sent to your mail. If not found in your inbox, check in spam."
+            
+            text = "An email verification link has been sent to your mail. If not found in your inbox check in spam."
         
-            self.show_dialog(text)
+            self.show_dialog(text, titler="Your account was created successfully")
         
         
             if self.curr['first_time'] == "true":
@@ -5635,7 +5659,7 @@ class MainApp(MDApp):
 
     def send_create_message(self):
         try:
-            message = MIMEText("Congratulations you successfully created your account. \n \n Welcome to the Hometernet.")
+            message = MIMEText("Congratulations you successfully created your account. \n \nWelcome to the Hometernet. \n \nYou will receive notifications from this email. Any email with senders other than people who may be interested in your property, 'Hometernet' or 'hometernetmanager' must be ignored. ")
             message['Subject'] = "Your account has been successfully created..."
             message["From"] = "hometernetmanager@gmail.com"
             message["To"] = self.curr['email']
@@ -6005,7 +6029,8 @@ class MainApp(MDApp):
         self.threader.join()
         
 
-
+    def delete_user(self):
+        self.products.ids.layout.delete_user_auth()
 
     def sign_out_auth(self):
         text = 'Are you sure you want to sign out?'

@@ -1,9 +1,0 @@
-ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
-selenium 4.3.0 requires trio~=0.17, which is not installed.
-selenium 4.3.0 requires trio-websocket~=0.9, which is not installed.
-google-api-core 2.10.0 requires protobuf<5.0.0dev,>=3.20.1, but you have protobuf 3.19.6 which is incompatible.
-google-api-core 2.10.0 requires requests<3.0.0dev,>=2.18.0, but you have requests 2.17.0 which is incompatible.
-selenium 4.3.0 requires urllib3[secure,socks]~=1.26, but you have urllib3 1.21.1 which is incompatible.
-pyrebase4 4.5.0 requires requests>=2.19.1, but you have requests 2.17.0 which is incompatible.
-pyfcm 1.5.4 requires urllib3>=1.26.0, but you have urllib3 1.21.1 which is incompatible.
-google-cloud-storage 2.7.0 requires requests<3.0.0dev,>=2.18.0, but you have requests 2.17.0 which is incompatible.

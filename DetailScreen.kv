@@ -21,12 +21,16 @@
                 size_hint_y: None
                 
                     
-                MDBoxLayout:
+                MDCard:
                     padding: [0]
                     md_bg_color: 0,0,0,0.3
                     radius: [0]
                     size_hint_y: None
                     height: Window.size[1] / 2
+                    on_press: 
+                        self.height=Window.size[1] / 1.3 if self.height == Window.size[1] / 2 else Window.size[1] / 2
+                        house_image.keep_ratio = False 
+                    
                     RelativeLayout:
                         AsyncImage:
                             source: str(root.image)
@@ -487,7 +491,7 @@
                 height: buy.height * 3
                 id: biye
                 pos_hint: {'center_y': 0.5}
-                on_release: app.send_thread_email(root.email, root.phonenumber, root.twitter, root.facebook, root.link, root.type, root.price, root.country, root.bedrooms, root.bathrooms, root.landspace, root.town, root.province, root.street)
+                on_release: app.send_thread_email(root.email, root.phonenumber, root.twitter, root.facebook, root.link, root.type, root.price, root.country, root.bedrooms, root.bathrooms, root.landspace, root.town, root.province, root.street, root.key)
                 on_press: app.sound()
                 RelativeLayout:
                     MDLabel:

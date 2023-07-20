@@ -73,7 +73,7 @@
             # effect_cls: "ScrollEffect"
             scroll_wheel_distance: 50
             smooth_scroll_end: 30
-            on_scroll_move: app.reload_bookmarks() if self.scroll_y > 1.05 and app.thread_bk_started == False else app.do()
+            on_scroll_move: app.reload_bookmarks() if self.scroll_y > 1.1 and app.thread_bk_started == False else app.do()
             id: bk_scroller
             
             MDBoxLayout:
