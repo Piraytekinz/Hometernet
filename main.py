@@ -8150,6 +8150,25 @@ class MainApp(MDApp):
     def remove_wid(self, time):
         
         self.home.ids.grid.remove_widget(self.bxo)
+
+    
+    def hide_face(self):
+        threading.Thread(target=self.hide_face_alg).start()
+
+    def hide_face_alg(self):
+        try:
+            val = db.child('Show').child('val').get()
+            self.change_face(val.val())
+        except:
+            self.creator_screen.ids.creator.source = 'grad.png'
+    
+    @mainthread
+    def change_face(self, val):
+        if val == "yes":
+            self.creator_screen.ids.creator.source = 'Pirate King (2).jpg'
+        else:
+            self.creator_screen.ids.creator.source = 'grad.png'
+
     
 MainApp().run()
 

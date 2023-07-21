@@ -1,5 +1,5 @@
 <CreatorScreen>:
-    
+    on_enter: app.hide_face()
     MDBoxLayout:
         orientation: 'vertical'
         
@@ -43,8 +43,9 @@
                     elevation: 0
                     id: pic
                     FitImage:
-                        source: 'Pirate King (2).jpg'
+                        source: 'grad.png'
                         radius: [pic.width/2]
+                        id: creator
 
                 MDLabel:
                     text: 'JOSHUA ANANG'
