@@ -85,36 +85,7 @@
                         font_size: '15dp'
                         input_type: 'mail'
 
-                MDBoxLayout:
-                    opacity: 0.9
-                    line_color: 0.9,0.9,0.9,0.5
-                    radius: ["5dp"]
-                    size_hint_y: None
-                    height: price_card.height + landspace_text.height * 10
-                    
-                    pos_hint: {'center_x': 0.5}
-                    elevation: 0
-                    orientation: 'vertical'
-                    spacing: "20dp"
-                    md_bg_color: 255/255, 255/255, 255/255, 0.8
-                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
-                    # MDBoxLayout:
-                    #     orientation: "vertical"
-                    #     padding: ["20dp","0dp","20dp","0dp"]
-                    #     spacing: "20dp"
-                    #     pos_hint: {'center_y': 0.5}
-                    MDLabel:
-                        text: "Website(optional)"
-                        font_size: "15dp"
-                        size_hint_y: None
-                        adaptive_height: True
-                    MDTextField:
-                        id: site
-                        hint_text: "site link"
-                        on_text: app.linki(self.text)
-                        padding: [20, ]
-                        font_size: '15dp'
-                        input_type: 'url'            
+                         
 
                 MDBoxLayout:
                     opacity: 0.9
@@ -159,6 +130,7 @@
                             size_hint: None, None
                             adaptive_size: True
                             text: '+'
+                            font_size: '16dp'
                             id: plus
                             
                             valign: 'top'
@@ -171,7 +143,7 @@
                         
                         TextInput:
                             id: phonenumber
-                            hint_text: 'phonenumber'
+                            hint_text: 'phone number'
                             pos_hint: {'center_y': 0.5}
                             size_hint_y: None
                             height: self.minimum_height
@@ -185,6 +157,44 @@
                             cursor_color: app.theme_cls.primary_color
                             on_focus: phone_enter.line_color=app.theme_cls.primary_color if self.focus==True else [0.9,0.9,0.9,0.5]
                 
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    # MDBoxLayout:
+                    #     orientation: "vertical"
+                    #     padding: ["20dp","0dp","20dp","0dp"]
+                    #     spacing: "20dp"
+                    #     pos_hint: {'center_y': 0.5}
+                    MDLabel:
+                        text: "Website(optional)"
+                        font_size: "15dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                    MDTextField:
+                        id: site
+                        hint_text: "url"
+                        on_text: app.linki(self.text)
+                        padding: [20, ]
+                        font_size: '15dp'
+                        input_type: 'url'   
+
+
+
+
+
+
+
                 MDBoxLayout:
                     opacity: 0.9
                     line_color: 0.9,0.9,0.9,0.5

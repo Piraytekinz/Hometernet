@@ -131,7 +131,7 @@
             scroll_distance: 1
             scroll_wheel_distance: 50
             smooth_scroll_end: 30
-            on_scroll_move: app.reload_products() if self.scroll_y > 1.1 and app.thread_prod_started == False else app.do()
+            on_scroll_move: app.reload_products() if self.scroll_y > 1.07 and app.thread_prod_started == False else app.do()
             id: scroller
             MDBoxLayout:
                 size_hint_y: None

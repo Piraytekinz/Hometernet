@@ -131,7 +131,7 @@
                             adaptive_size: True
                             text: '+'
                             id: plus
-                            
+                            font_size: '16dp'
                             valign: 'top'
                             pos_hint: {'center_y': 0.5}
                             
@@ -140,7 +140,7 @@
                         
                         TextInput:
                             id: phonenumber
-                            hint_text: 'phonenumber'
+                            hint_text: 'phone number'
                             pos_hint: {'center_y': 0.5}
                             size_hint_y: None
                             height: self.minimum_height
@@ -175,7 +175,7 @@
                         adaptive_height: True
                     MDTextField:
                         id: site
-                        hint_text: "site link"
+                        hint_text: "url"
                         on_text: app.linki(self.text)
                         padding: [20, ]
                         font_size: '15dp'

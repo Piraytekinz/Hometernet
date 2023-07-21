@@ -1147,6 +1147,7 @@ class HomeCardsLayout(MDGridLayout):
         if self.peopler.each():
             
             self.rent_found = True
+            self.j = 0
 
             Clock.schedule_once(partial(self.rent_done), 0.3)
             
@@ -1203,6 +1204,7 @@ class HomeCardsLayout(MDGridLayout):
         
         
         if self.people.each():
+            self.j = 0
             self.sale_found = True
             Clock.schedule_once(partial(self.done), 0.3)
            
@@ -1464,10 +1466,10 @@ class HomeCardsLayout(MDGridLayout):
                 self.last = u.key()
                 self.something = u.key()
                 self.j += 1
-                if self.j % 2 == 0:
+                if self.j % 4 == 0:
                     
                     break
-        time.sleep(0.5)
+        time.sleep(1)
         self.scroll_more = False
 
         
@@ -1493,10 +1495,10 @@ class HomeCardsLayout(MDGridLayout):
                 self.last = u.key()
                 self.rent_something = u.key()
                 self.j += 1
-                if self.j % 2 == 0:
+                if self.j % 4 == 0:
                     
                     break
-        time.sleep(0.5)
+        time.sleep(1)
         self.scroll_more = False
         
     
@@ -3305,13 +3307,16 @@ class MainApp(MDApp):
             self.event = Event()
             self.thread_reload = threading.Thread(target=self.scroll_add)
             self.thread_reload.start()
+        
+        
+        
 
     # @call_control(max_call_interval=1)
     def scroll_add(self):
         
        
             
-        if self.home.ids.scroller.scroll_y < 0.4:
+        if self.home.ids.scroller.scroll_y < 0.3:
             if self.home.ids.grid.j >= 4:
                 if self.home.ids.grid.op_choice == "Sale":
                     self.home.ids.grid.call_another()
@@ -3319,6 +3324,8 @@ class MainApp(MDApp):
                     
                 else:
                     self.home.ids.grid.call_rent_another()
+            else:self.home.ids.grid.scroll_more = False
+        else:self.home.ids.grid.scroll_more = False
        
                         # 
         # self.active_scroll()
@@ -3338,8 +3345,12 @@ class MainApp(MDApp):
             
             self.connection()
         
-        if self.home.ids.grid.j > 4:
+        if self.home.ids.grid.j == 0:
+        
             self.home.ids.scroller.scroll_to(self.home.ids.grid)
+
+        self.home.ids.grid.scroll_more=False
+        
         
 
     
@@ -3440,6 +3451,7 @@ class MainApp(MDApp):
         self.new_state = ''
         self.new_city = ''
         self.search_counter = 0
+        self.scroll_search_started = False
         
     
         self.new_search_property = ''
@@ -3834,7 +3846,7 @@ class MainApp(MDApp):
             
             if self.search_counter < len(self.search_begin.each()):
                 
-                if self.search_j % 13 == 0:
+                if self.search_j % 10 == 0:
                     self.scroll_back()
                     self.clear_search()
         
@@ -3843,7 +3855,9 @@ class MainApp(MDApp):
         if self.search_something != '':
             
             self.real_next(bedrooms, 0.3)
-            
+        else:
+            self.scroll_search_started = False
+
     @mainthread
     def scroll_back(self):
         
@@ -3872,7 +3886,7 @@ class MainApp(MDApp):
                         self.search_j += 1
                         self.last = u.key()
                         self.something = u.key()
-                        if self.search_j % 4 == 0:
+                        if self.search_j % 5 == 0:
                             
                             
                             break
@@ -3917,14 +3931,17 @@ class MainApp(MDApp):
             self.thread_next = threading.Thread(target=self.scroll_search)
             self.thread_next.start()   
         
+        
 
     def scroll_search(self):
         
-        if self.search.ids.searcher.scroll_y < 0.4:
-            if self.search_j >= 1 and self.search_j % 13 != 0:
+        if self.search.ids.searcher.scroll_y < 0.3:
+            if self.search_j >= 1 and self.search_j % 10 != 0:
                 self.next_thread(None)
-        else:
-            self.scroll_search_started = False
+            else:self.scroll_search_started = False
+            
+        else:self.scroll_search_started = False
+            
         
 
     
@@ -4043,6 +4060,7 @@ class MainApp(MDApp):
             else:
                 if self.has_switched == False:
                     self.switch_signup()
+                    
 
                     
 
@@ -5106,6 +5124,8 @@ class MainApp(MDApp):
             self.edit_rent.ids.country_text.text = texta
             self.country = texta
 
+        self.dia_country.dismiss()
+
     def statify(self, texta):
         self.state = texta
 
@@ -5174,6 +5194,9 @@ class MainApp(MDApp):
             ]
         )
         self.dia.open()
+    
+    def open_privacy(self):
+        webbrowser.open('https://hometernet-privacypolicy.web.app')
 
     def show_terms(self):
         
@@ -7129,12 +7152,12 @@ class MainApp(MDApp):
                             self.sale.ids.housetype.error = True
                             self.sale.ids.housetype.helper_text = info
                     else:
-                        info = "Invalid phonenumber"
+                        info = "Invalid phone number"
                         self.show_dialog(info)
                         self.sale.ids.sale_scroll.scroll_to(self.sale.ids.number)
                         self.sale.ids.phonenumber.focused = True
                         self.sale.ids.phonenumber.error = True
-                        self.sale.ids.phonenumber.helper_text='Invalid phonenumber'
+                        self.sale.ids.phonenumber.helper_text='Invalid phone number'
                 
                 else:
                     info = "Please enter a valid phonenumber"
@@ -7142,9 +7165,9 @@ class MainApp(MDApp):
                     self.sale.ids.sale_scroll.scroll_to(self.sale.ids.number)
                     self.sale.ids.phonenumber.focused = True
                     self.sale.ids.phonenumber.error = True
-                    self.sale.ids.phonenumber.helper_text='Invalid phonenumber'
+                    self.sale.ids.phonenumber.helper_text='Invalid phone number'
             except:
-                self.toast('An unknown error occured')
+                self.show_dialog('Problem could be an invalid phone number with country code', titler='Error')
         else:
             self.show_dialog('Invalid email')
             self.sale.ids.sale_scroll.scroll_to(self.sale.ids.email)
@@ -7547,20 +7570,20 @@ class MainApp(MDApp):
                             self.rent.ids.housetype.helper_text=info
 
                     else:
-                        info = "Invalid phonenumber"
+                        info = "Invalid phone number"
                         self.show_dialog(info)
                         self.rent.ids.rent_scroll.scroll_to(self.rent.ids.number)
                         self.rent.ids.phonenumber.focused = True
                         self.rent.ids.phonenumber.error = True
                 
                 else:
-                    info = "Please enter a valid phonenumber"
+                    info = "Please enter a valid phone number"
                     self.show_dialog(info)
                     self.rent.ids.rent_scroll.scroll_to(self.rent.ids.number)
                     self.rent.ids.phonenumber.focused = True
                     self.rent.ids.phonenumber.error = True
             except:
-                self.toast("An unknown error occured")
+                self.show_dialog('Problem could be an invalid phone number with country code.', titler='Error')
         else:
             text = "Invalid email"
             self.show_dialog(text)
