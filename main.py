@@ -1469,7 +1469,7 @@ class HomeCardsLayout(MDGridLayout):
                 if self.j % 4 == 0:
                     
                     break
-        time.sleep(1)
+        time.sleep(0.7)
         self.scroll_more = False
 
         
@@ -1498,7 +1498,7 @@ class HomeCardsLayout(MDGridLayout):
                 if self.j % 4 == 0:
                     
                     break
-        time.sleep(1)
+        time.sleep(0.7)
         self.scroll_more = False
         
     
@@ -2676,7 +2676,7 @@ class MainApp(MDApp):
                                 
                                 self.yours = db.child("Sale").order_by_key().equal_to(i).get()
                                 self.mine = db.child("Rent").order_by_key().equal_to(i).get()
-                                time.sleep(0.5)
+                                time.sleep(0.3)
                                 self.starti_bookmarks(self.yours, self.mine)  
                         else:
                             
@@ -3023,7 +3023,7 @@ class MainApp(MDApp):
                                 
                                 self.sale_recent = db.child("Sale").order_by_key().equal_to(i).get()
                                 self.rent_recent = db.child("Rent").order_by_key().equal_to(i).get()
-                                time.sleep(0.5)
+                                time.sleep(0.3)
                                 self.starti_recents(self.sale_recent, self.rent_recent)  
                         else:
                             break
@@ -3846,7 +3846,7 @@ class MainApp(MDApp):
             
             if self.search_counter < len(self.search_begin.each()):
                 
-                if self.search_j % 10 == 0:
+                if self.search_j % 13 == 0:
                     self.scroll_back()
                     self.clear_search()
         
@@ -3886,7 +3886,7 @@ class MainApp(MDApp):
                         self.search_j += 1
                         self.last = u.key()
                         self.something = u.key()
-                        if self.search_j % 5 == 0:
+                        if self.search_j % 4 == 0:
                             
                             
                             break
@@ -3936,7 +3936,7 @@ class MainApp(MDApp):
     def scroll_search(self):
         
         if self.search.ids.searcher.scroll_y < 0.3:
-            if self.search_j >= 1 and self.search_j % 10 != 0:
+            if self.search_j >= 1 and self.search_j % 13 != 0:
                 self.next_thread(None)
             else:self.scroll_search_started = False
             
@@ -6335,7 +6335,7 @@ class MainApp(MDApp):
         self.wm.switch_to(self.edit)
         self.edit.type = House_type
         self.edit.image = image
-        self.edit.price = pricing
+        self.edit.price = pricing[1:]
         self.edit.country = locate
         self.edit.province = state
         self.edit.town = town
@@ -6379,9 +6379,9 @@ class MainApp(MDApp):
         a = re.search(r"/night", pricing)
         if x or y:
 
-            self.edit_rent.price = pricing.replace('/mth', '') if pricing.endswith('/mth') else pricing.replace('/yr', '')
+            self.edit_rent.price = pricing[1:].replace('/mth', '') if pricing.endswith('/mth') else pricing[1:].replace('/yr', '')
         elif a or z:
-            self.edit_rent.price = pricing.replace('/wk', '') if pricing.endswith('/wk') else pricing.replace('/night', '')
+            self.edit_rent.price = pricing[1:].replace('/wk', '') if pricing.endswith('/wk') else pricing[1:].replace('/night', '')
 
         self.edit_rent.country = locate
         self.edit_rent.province = state
