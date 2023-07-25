@@ -4148,7 +4148,7 @@ class MainApp(MDApp):
 
 
     def update_app(self):
-        webbrowser.open('https://play.google.com./store/apps/details?=com.browser.hometernet')       
+        webbrowser.open('https://play.google.com./store/apps/details?=org.hometernet.com.browser.hometernet')       
         self.curr['updated'] = "Yes"
         tod = datetime.today()
         new = tod + timedelta(days=30)
