@@ -60,6 +60,32 @@
                     font_size: '20dp'
                     font_style: 'Caption'
                     halign: 'center'
+
+                MDBoxLayout:
+                    spacing: '10dp'
+                    size_hint: None, None
+                    adaptive_size: True
+                    pos_hint: {'center_x': 0.5}
+                    MDIconButton:
+                        icon: 'facebook'
+                        on_press: app.play()
+                        theme_text_color: 'Custom'
+                        text_color: 0,0,0.8,1
+                        on_release: app.myaccount('face')
+
+                    MDIconButton:
+                        icon: 'linkedin'
+                        on_press: app.play()
+                        theme_text_color: 'Custom'
+                        text_color: app.theme_cls.primary_color
+                        on_release: app.myaccount('link')
+
+                    MDIconButton:
+                        icon: 'twitter'
+                        on_press: app.play()
+                        theme_text_color: 'Custom'
+                        text_color: 'blue'
+                        on_release: app.myaccount('tweet')
                     
 
 <ACardi@MDCard+CommonElevationBehavior>

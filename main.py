@@ -23,6 +23,7 @@ from functools import partial
 
 from kivymd.uix.label import MDLabel, MDIcon
 from PIL import Image
+from kivy.uix.textinput import TextInput
 
 
 
@@ -198,6 +199,8 @@ Builder.load_file('BookCards.kv')
 Builder.load_file('Recents.kv')
 
 
+txt = TextInput()
+
 
 
 
@@ -294,10 +297,10 @@ class BookCards(MDCard, CommonElevationBehavior):
     amenities = ListProperty()
     link = StringProperty()
     me = ObjectProperty()
+    checkin = StringProperty()
+    checkout = StringProperty()
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        
+    
 
     
     
@@ -322,6 +325,8 @@ class HomeCards(MDCard, CommonElevationBehavior):
     amenities = ListProperty()
     link = StringProperty()
     me = ObjectProperty()
+    checkin = StringProperty()
+    checkout = StringProperty()
 
     
     
@@ -347,7 +352,10 @@ class PropertyRentCards(MDCard, CommonElevationBehavior):
     amenities = ListProperty(['No', 'No', 'No', 'No', 'No', 'No'])
     facebook = StringProperty()
     twitter = StringProperty()
+    link = StringProperty()
     views = NumericProperty()
+    checkin = StringProperty()
+    checkout = StringProperty()
     
         
 
@@ -376,6 +384,7 @@ class PropertySaleCards(MDCard, CommonElevationBehavior):
     amenities = ListProperty(['No', 'No', 'No', 'No', 'No', 'No'])
     facebook = StringProperty()
     twitter = StringProperty()
+    link = StringProperty()
     views = NumericProperty()
 
     
@@ -407,8 +416,10 @@ class DetailsScreen(Screen):
     facebook = StringProperty()
     description = StringProperty()
     link = StringProperty()
-    amenities = ListProperty(['No', 'No', 'No', 'No', 'No', 'No', 'No'])
+    amenities = ListProperty(['No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No'])
     me = ObjectProperty()
+    checkin = StringProperty()
+    checkout = StringProperty()
 
 
 
@@ -427,7 +438,10 @@ class EditDetailsScreen(Screen):
     key = StringProperty()
     local_image = StringProperty()
     description = StringProperty()
-    amenities = ListProperty(['No', 'No', 'No', 'No', 'No', 'No', 'No'])
+    amenities = ListProperty(['No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No'])
+    twitter = StringProperty()
+    facebook = StringProperty()
+    link = StringProperty()
 
 class EditRentDetailsScreen(Screen):
     image = StringProperty()
@@ -444,7 +458,14 @@ class EditRentDetailsScreen(Screen):
     key = StringProperty()
     local_image = StringProperty()
     description = StringProperty()
-    amenities = ListProperty(['No', 'No', 'No', 'No', 'No', 'No', 'No'])
+    amenities = ListProperty(['No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No'])
+    checkinhour= StringProperty()
+    checkinmin = StringProperty()
+    checkouthour= StringProperty()
+    checkoutmin= StringProperty()
+    twitter = StringProperty()
+    facebook = StringProperty()
+    link = StringProperty()
 
     def __init__(self, **kw):
         super().__init__(**kw)
@@ -494,6 +515,8 @@ class EditRentDetailsScreen(Screen):
         self.ids.pay_item.set_item(text_item)
         
         self.ids.pay_item.text = text_item
+
+        self.poi.dismiss()
         
     
 class SearchScreen(Screen):
@@ -576,6 +599,8 @@ class RentSubmit(Screen):
         self.ids.pay_item.set_item(text_item)
         
         self.ids.pay_item.text = text_item
+
+        self.poi.dismiss()
         
 
 class WordInput(MDTextField):
@@ -1247,6 +1272,9 @@ class HomeCardsLayout(MDGridLayout):
                 self.card.description = u.val()['description']
                 self.card.amenities = u.val()['amenities']
                 self.card.link = u.val()['link']
+                self.card.checkin = u.val()['checkintime']
+                self.card.checkout = u.val()['checkouttime']
+                
                 self.card.opacity = 0
                 Animation(opacity=1, duration=0.5).start(self.card)
                 self.add_widget(self.card)
@@ -1295,6 +1323,8 @@ class HomeCardsLayout(MDGridLayout):
                 self.card.description = u.val()['description']
                 self.card.amenities = u.val()['amenities']
                 self.card.link = u.val()['link']
+                self.card.checkin = u.val()['checkintime']
+                self.card.checkout = u.val()['checkouttime']
                 self.card.opacity = 0
                 Animation(opacity=1, duration=0.5).start(self.card)
                 self.add_widget(self.card)
@@ -1420,7 +1450,7 @@ class HomeCardsLayout(MDGridLayout):
     
     
     @mainthread
-    def add_card(self, url, housetype,country, state, town, street, beds, baths, land, email, price, key, phone, twitter, facebook, desc, amenities, link):
+    def add_card(self, url, housetype,country, state, town, street, beds, baths, land, email, price, key, phone, twitter, facebook, desc, amenities, link, checkin, checkout):
         self.card = HomeCards()
         self.card.me = self.card
         self.card.image = url
@@ -1441,6 +1471,8 @@ class HomeCardsLayout(MDGridLayout):
         self.card.description = desc
         self.card.amenities = amenities
         self.card.link = link
+        self.card.checkin = checkin
+        self.card.checkout = checkout
         self.card.opacity = 0
         Animation(opacity=1, duration=0.5).start(self.card)
         self.add_widget(self.card)
@@ -1461,7 +1493,7 @@ class HomeCardsLayout(MDGridLayout):
                 
                 self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
                                 u.val()['bathrooms'], u.val()['landspace'], u.val()['email'], u.val()['price'], u.key(), u.val()['phonenumber'], u.val()['twitter'],
-                                u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'])
+                                u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'],  u.val()['checkintime'], u.val()['checkouttime'])
 
                 self.last = u.key()
                 self.something = u.key()
@@ -1490,7 +1522,7 @@ class HomeCardsLayout(MDGridLayout):
                 
                 self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
                                 u.val()['bathrooms'], u.val()['landspace'], u.val()['email'], u.val()['price'], u.key(), u.val()['phonenumber'], u.val()['twitter'],
-                                u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'])
+                                u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'],  u.val()['checkintime'], u.val()['checkouttime'])
 
                 self.last = u.key()
                 self.rent_something = u.key()
@@ -1541,6 +1573,8 @@ class HomeCardsLayout(MDGridLayout):
                 self.card.description = u.val()['description']
                 self.card.amenities = u.val()['amenities']
                 self.card.link = u.val()['link']
+                self.card.checkin = u.val()['checkintime']
+                self.card.checkout = u.val()['checkouttime']
                 self.card.opacity = 0
                 Animation(opacity=1, duration=0.5).start(self.card)
                 self.add_widget(self.card)
@@ -1593,6 +1627,8 @@ class HomeCardsLayout(MDGridLayout):
                 self.card.description = u.val()['description']
                 self.card.amenities = u.val()['amenities']
                 self.card.link = u.val()['link']
+                self.card.checkin = u.val()['checkintime']
+                self.card.checkout = u.val()['checkouttime']
                 self.card.opacity = 0
                 Animation(opacity=1, duration=0.5).start(self.card)
                 self.add_widget(self.card)
@@ -1848,12 +1884,14 @@ class MainApp(MDApp):
     def build(self):
 
         self.wm = WindowManager()
+        # self.theme_cls.theme_style = 'Light'
         self.theme_cls.primary_palette = "Blue"
         self.theme_cls.primary_hue = "900"
         self.wm.transition = NoTransition()
 
         # self.set_bar_color()
         self.scroll_search_started = False
+        self.has_check_time = False
         self.kill = False
         self.has_error = False
         self.loader = []
@@ -1994,7 +2032,7 @@ class MainApp(MDApp):
         self.price = ''
         self.phonenumber = ''
         self.desc = ''
-        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No']
+        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No']
         self.twitter = ''
         self.facebook = ''
         return self.wm
@@ -2491,6 +2529,7 @@ class MainApp(MDApp):
                 self.card.description = u.val()['description']
                 self.card.views = u.val()['views']
                 self.card.local_image = u.val()['local_image']
+                self.card.link = u.val()['link']
                 self.card.opacity = 0
                 Animation(opacity=1,duration=0.2).start(self.card)
                 self.products.ids.layout.add_widget(self.card)
@@ -2532,7 +2571,11 @@ class MainApp(MDApp):
                 self.card.description = u.val()['description']
                 self.card.views = u.val()['views']
                 self.card.local_image = u.val()['local_image']
+                self.card.checkin = u.val()['checkintime']
+                self.card.checkout = u.val()['checkouttime']
+                self.card.link = u.val()['link']
                 self.card.opacity = 0
+                
                 Animation(opacity=1,duration=0.2).start(self.card)
                 self.products.ids.layout.add_widget(self.card)
                     
@@ -2752,6 +2795,8 @@ class MainApp(MDApp):
                 self.card.facebook = u.val()['facebook']
                 self.card.description = u.val()['description']
                 self.card.link = u.val()['link']
+                self.card.checkin = u.val()['checkintime']
+                self.card.checkout = u.val()['checkouttime']
                 
                 self.card.opacity = 0
                 self.bk.ids.bk.add_widget(self.card)
@@ -2791,6 +2836,8 @@ class MainApp(MDApp):
                 self.card.facebook = u.val()['facebook']
                 self.card.description = u.val()['description']
                 self.card.link = u.val()['link']
+                self.card.checkin = u.val()['checkintime']
+                self.card.checkout = u.val()['checkouttime']
                 self.card.opacity = 0
                 self.bk.ids.bk.add_widget(self.card)
                 Animation(opacity=1, duration=0.4).start(self.card)
@@ -3086,6 +3133,8 @@ class MainApp(MDApp):
                     self.card.facebook = u.val()['facebook']
                     self.card.description = u.val()['description']
                     self.card.link = u.val()['link']
+                    self.card.checkin = u.val()['checkintime']
+                    self.card.checkout = u.val()['checkouttime']
                     self.card.opacity = 0
                     self.recents.ids.rec.add_widget(self.card)
                     Animation(opacity=1, duration=0.4).start(self.card)
@@ -3124,6 +3173,8 @@ class MainApp(MDApp):
                     self.card.facebook = u.val()['facebook']
                     self.card.description = u.val()['description']
                     self.card.link = u.val()['link']
+                    self.card.checkin = u.val()['checkintime']
+                    self.card.checkout = u.val()['checkouttime']
                     self.card.opacity = 0
                     self.recents.ids.rec.add_widget(self.card)
                     Animation(opacity=1, duration=0.4).start(self.card)
@@ -3758,7 +3809,7 @@ class MainApp(MDApp):
 
                         self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
                                       u.val()['bathrooms'], u.val()['landspace'], u.val()['email'], u.val()['price'], u.key(), u.val()['phonenumber'], u.val()['twitter'],
-                                      u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'])
+                                      u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'],  u.val()['checkintime'], u.val()['checkouttime'])
                     
                         
                         
@@ -3882,7 +3933,7 @@ class MainApp(MDApp):
                         
                         self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
                                       u.val()['bathrooms'], u.val()['landspace'], u.val()['email'], u.val()['price'], u.key(), u.val()['phonenumber'], u.val()['twitter'],
-                                      u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'])
+                                      u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'],  u.val()['checkintime'], u.val()['checkouttime'])
                         self.search_j += 1
                         self.last = u.key()
                         self.something = u.key()
@@ -3897,7 +3948,7 @@ class MainApp(MDApp):
        
         
     @mainthread
-    def add_card(self, url, housetype,country, state, town, street, beds, baths, land, email, price, key, phone, twitter, facebook, desc, amenities, link, time=None):
+    def add_card(self, url, housetype,country, state, town, street, beds, baths, land, email, price, key, phone, twitter, facebook, desc, amenities, link, checkin, checkout,time=None):
         self.card = HomeCards()
         self.card.me = self.card
         self.card.image = url
@@ -3918,6 +3969,8 @@ class MainApp(MDApp):
         self.card.description = desc
         self.card.amenities = amenities
         self.card.link = link
+        self.card.checkin = checkin
+        self.card.checkout = checkout
         self.card.opacity = 0
         Animation(opacity=1, duration=0.2).start(self.card)
         self.search.ids.search.add_widget(self.card)
@@ -3968,7 +4021,7 @@ class MainApp(MDApp):
                     if u.val()['bedrooms'] == self.old_bedrooms:
                         self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
                                       u.val()['bathrooms'], u.val()['landspace'], u.val()['email'], u.val()['price'], u.key(), u.val()['phonenumber'], u.val()['twitter'],
-                                      u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'])
+                                      u.val()['facebook'], u.val()['description'], u.val()['amenities'], u.val()['link'], u.val()['checkintime'], u.val()['checkouttime'])
 
                         
                         self.last = u.key()
@@ -4040,6 +4093,7 @@ class MainApp(MDApp):
                 
                 if self.has_switched == False:
                     self.switch_home()
+                    
                     
                 if self.curr['email'] == "":
                     pass
@@ -4135,7 +4189,7 @@ class MainApp(MDApp):
             else:
                 
                 self.switch_signup()
-                
+          
                 self.has_switched = True
            
         
@@ -4397,7 +4451,7 @@ class MainApp(MDApp):
         self.price = ''
         self.phonenumber = ''
         self.desc = ''
-        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No']
+        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No']
         self.twitter = ''
         self.facebook = ''
         self.link = ''
@@ -4415,11 +4469,15 @@ class MainApp(MDApp):
         self.search.ids.drop_item.set_item(text_item)
         
         self.search.ids.drop_item.text = text_item
+
+        self.choice.dismiss()
     
     def set_bed(self, text_item):
         self.search.ids.bed_item.set_item(text_item)
 
         self.search.ids.bed_item.text = text_item
+
+        self.bed_choice.dismiss()
         
         
     @mainthread
@@ -4518,11 +4576,11 @@ class MainApp(MDApp):
         
 
     @mainthread
-    def switch_loading(self):
+    def switch_loading(self, direction='right'):
         # self.loading.ids.spin.active=True
         self.wm.transition = SlideTransition()
         self.wm.transition.duration = .2
-        self.wm.switch_to(self.loading, direction='right')
+        self.wm.switch_to(self.loading, direction=direction)
         
     @mainthread
     def switch_acc(self):
@@ -4595,12 +4653,13 @@ class MainApp(MDApp):
 
 
     @mainthread
-    def switch_details(self, image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, phonenumber=None, twitter=None, facebook=None, description=None, key=None, amenities=None, link=None, me=None):
+    def switch_details(self, image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, phonenumber=None, twitter=None, facebook=None, description=None, key=None, amenities=None, link=None, me=None, checkin=None, checkout=None):
         self.wm.transition = SlideTransition()
         self.wm.transition.duration = .1
-        self.detail.ids.dude.pos_hint = {'center_y': -1}
+        # self.detail.ids.dude.pos_hint = {'center_y': -1}
         self.detail.ids.bk_ico.disabled = True
         self.wm.switch_to(self.detail, direction='up')
+        
         # self.switch_loading()
         self.sign_in_current = 'details'
         
@@ -4624,6 +4683,29 @@ class MainApp(MDApp):
         self.detail.amenities = amenities
         self.detail.link = link
         self.detail.me = me
+        self.detail.checkin = checkin
+        self.detail.checkout = checkout
+        if checkin != '' and checkout != '':
+            
+            if not self.has_check_time:
+                self.has_check_time = True
+                self.rules = MDLabel()
+                self.rules.text = f'[b]Rules[/b] \n \n[color=#9A9A9A][size=14dp]Check In: {self.detail.checkin} \n \nCheck Out: {self.detail.checkout}[/size][/color]'
+                self.rules.size_hint_y = None
+                self.rules.adaptive_height = True
+                self.rules.font_size='20dp'
+                self.rules.markup = True
+                self.detail.ids.rules.add_widget(self.rules)
+            else:
+                self.rules.text = f'[b]Rules[/b] \n \n[color=#9A9A9A][size=14dp]Check In: {self.detail.checkin} \n \nCheck Out: {self.detail.checkout}[/size][/color]'
+                
+        else:
+            if self.has_check_time == True:
+                self.detail.ids.rules.remove_widget(self.rules)
+                self.has_check_time = False
+                
+
+
         return False
         
     def check_in_bk(self, key):
@@ -4675,17 +4757,23 @@ class MainApp(MDApp):
         return False
 
     
-
+    def switch_sale(self):
+         
+        self.switch_loading(direction='left')
+        self.loading.ids.spin.active=False
+        self.loading_labe()
+        
+        threading.Thread(target=self.sleeper, args=('Sale',)).start()
     
         
     @mainthread
-    def switch_sale(self):
-        with open(f'{path}/user.json', 'r') as jsonfile:
-            self.curr = json.load(jsonfile)
+    def switch_salei(self):
+        # with open(f'{path}/user.json', 'r') as jsonfile:
+        #     self.curr = json.load(jsonfile)
             
         
         self.denied = 0
-        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No']
+        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No']
         
    
         if self.has_sale_submit == False:
@@ -4717,13 +4805,38 @@ class MainApp(MDApp):
         return False
 
     @mainthread
+    def loading_labe(self):
+        self.loading.ids.labe.opacity = 1
+
     def switch_rent(self):
+        self.switch_loading(direction='left')
+        self.loading.ids.spin.active=False
+        self.loading_labe()
+        
+        threading.Thread(target=self.sleeper, args=('Rent',)).start()
+
+    def sleeper(self, args):
         with open(f'{path}/user.json', 'r') as jsonfile:
             self.curr = json.load(jsonfile)
+        self.denied = 0
+        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No']
+        
+        if args == 'Rent':
+            if not self.has_rent_submit:
+                time.sleep(1)
+            self.switch_renti()
+        else:
+            if not self.has_sale_submit:
+                time.sleep(1)
+            self.switch_salei()
+        
+
+    @mainthread
+    def switch_renti(self):
+        
             
         
-        self.denied = 0
-        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No']
+        
         
         if self.has_rent_submit == False:
             self.rent = RentSubmit(name="rent")
@@ -4750,6 +4863,10 @@ class MainApp(MDApp):
         self.rent.ids.check_four.active = False
         self.rent.ids.check_five.active = False
         self.rent.ids.check_six.active = False
+        self.rent.ids.in_hour.text = '00'
+        self.rent.ids.in_min.text = '00'
+        self.rent.ids.out_hour.text = '00'
+        self.rent.ids.out_min.text = '00'
         self.wm.switch_to(self.rent)
         return False
 
@@ -5302,20 +5419,21 @@ class MainApp(MDApp):
                     db.child("Accounts").child(data['localid']).update({'offers': ''}, data['idToken'])
                     db.child("Accounts").child(data['localid']).child('offers').update({key: time}, data['idToken'])
                     
+                    message = MIMEText(f"An offer has been made to buy property belonging to \n Details: {email}, {phonenumber}, facebook: {facebook}, twitter: {twitter}, website: {link}, key: {key} \n \n Property type: {type} \n Country: {country} \n State\Province: {province} \n Town\City: {town} \n Street address: {street} \n bedrooms: {bedrooms} \n bathrooms: {bathrooms} \n land area: {landspace}  \n Price: {price} \n")
+                    message['Subject'] = "Your property contact information was viewed..."
+                    message["From"] = "hometernetmanager@gmail.com"
+                    message["To"] = "hometernetmanager@gmail.com"
                     
-                else:
                     
-                    server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-                    server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
+                    server.sendmail("hometernetmanager@gmail.com", "hometernetmanager@gmail.com", message.as_string())
+                    server.quit()
+                    
+                # else:
+                    
+                #     server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+                #     server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
 
-                message = MIMEText(f"An offer has been made to buy property belonging to \n Details: {email}, {phonenumber}, facebook: {facebook}, twitter: {twitter}, website: {link}, key: {key} \n \n Property type: {type} \n Country: {country} \n State\Province: {province} \n Town\City: {town} \n Street address: {street} \n bedrooms: {bedrooms} \n bathrooms: {bathrooms} \n land area: {landspace}  \n Price: {price} \n")
-                message['Subject'] = "Your property contact information was viewed..."
-                message["From"] = "hometernetmanager@gmail.com"
-                message["To"] = "hometernetmanager@gmail.com"
                 
-                
-                server.sendmail("hometernetmanager@gmail.com", "hometernetmanager@gmail.com", message.as_string())
-                server.quit()
                 
                 self.show_bottom(email, phonenumber, twitter, facebook, link)
 
@@ -6320,15 +6438,27 @@ class MainApp(MDApp):
     #     self.signin.ids.email.text = ''
     #     self.signin.ids.password.text = ''
         # self.signin.ids.password.error = True
+
+    def editscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, facebook=None, twitter=None, link=None):
+        self.loading.ids.spin.active = False
+        self.switch_loading(direction='left')
+        self.loading_labe()
+        
+        self.e = threading.Thread(target=self.editscreeni, args=(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, facebook, twitter, link,))
+        self.e.start()
+
+    def editscreeni(self, image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, facebook, twitter, link):
+        time.sleep(1)
+        self.editscreeno(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, facebook, twitter, link)
         
     
-    
-    def editscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None):
+    @mainthread
+    def editscreeno(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, facebook=None, twitter=None, link=None):
         
         self.passwrd = ''
         self.mail = ''
         
-        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No']
+        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No']
         self.sale_or_rent = "Sale"
         
         self.edit = EditDetailsScreen(name="edit")
@@ -6348,6 +6478,9 @@ class MainApp(MDApp):
         self.edit.local_image = local_image
         self.edit.description = description
         self.edit.amenities = amenities
+        self.edit.facebook = facebook
+        self.edit.twitter = twitter
+        self.edit.link = link
         self.amenities = amenities
         self.local_image = local_image
         
@@ -6355,24 +6488,52 @@ class MainApp(MDApp):
         self.denied = 0
         
 
-    # def editrentscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None):
-    #     self.loading.ids.spin.active = True
-    #     self.switch_loading()
-    #     self.e = threading.Thread(target=self.editrentscreeni, args=(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities,))
-    #     self.e.start()
+    def editrentscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, checkin=None, checkout=None, facebook=None, twitter=None, link=None):
+        self.loading.ids.spin.active = False
+        self.switch_loading(direction='left')
+        self.loading_labe()
+        self.e = threading.Thread(target=self.editrentscreeni, args=(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, checkin, checkout, facebook, twitter, link,))
+        self.e.start()
 
-    def editrentscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None):
+    def editrentscreeni(self, image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, checkin, checkout, facebook, twitter, link):
+        time.sleep(1)
+        self.editrentscreeno(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, checkin, checkout, facebook, twitter, link)
+
+    @mainthread
+    def editrentscreeno(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, checkin=None, checkout=None, facebook=None, twitter=None, link=None):
         
         
         self.passwrd = ''
         self.mail = ''
-        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No']
+        self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No']
+
+        if checkin != 'Any':
+            checkinfirst = checkin.rfind(':')
+            checkinlast = checkin.rfind('P')
+            checkinhour = checkin[0:checkinfirst]
+            checkinmin = checkin[checkinfirst+1:checkinlast]
+        else:
+            checkinhour = '00'
+            checkinmin = '00'
+
+        if checkout != 'Any':
+            checkoutfirst = checkout.rfind(':')
+            checkoutlast = checkout.rfind('A')
+            checkouthour = checkout[0:checkoutfirst]
+            checkoutmin = checkout[checkoutfirst+1:checkoutlast]
+        else:
+            checkouthour = '00'
+            checkoutmin = '00'
         
         self.sale_or_rent = "Rent"
         self.edit_rent = EditRentDetailsScreen(name="edit-rent")
         self.wm.switch_to(self.edit_rent)
         self.edit_rent.type = House_type
         self.edit_rent.image = image
+        self.edit_rent.checkinhour = checkinhour.strip()
+        self.edit_rent.checkinmin = checkinmin.strip()
+        self.edit_rent.checkouthour = checkouthour.strip()
+        self.edit_rent.checkoutmin = checkoutmin.strip()
         x = re.search(r"/mth$", pricing)
         y = re.search(r"/yr$", pricing)
         z = re.search(r"/wk", pricing)
@@ -6395,6 +6556,9 @@ class MainApp(MDApp):
         self.edit_rent.local_image = local_image
         self.edit_rent.description = description
         self.edit_rent.amenities = amenities
+        self.edit_rent.facebook = facebook
+        self.edit_rent.twitter = twitter
+        self.edit_rent.link = link
         
         self.amenities = amenities
         self.denied = 0
@@ -6403,8 +6567,8 @@ class MainApp(MDApp):
         
         
         self.spin_false()
-        # refreshed = authi.refresh(self.user['refreshToken'])
-        # self.curr['idToken'] = self.user['idToken']
+       
+
     @mainthread
     def init_rent(self):
         self.edit_rent = EditRentDetailsScreen(name="edit-rent")
@@ -6555,8 +6719,12 @@ class MainApp(MDApp):
                 db.child("Sale").child(key).update({'landspace': self.landspace.strip()}, self.curr['idToken'])
                 db.child("Sale").child(key).update({'price': self.amt.strip()}, self.curr['idToken'])
                 db.child("Sale").child(key).update({'description': description.capitalize().strip()}, self.curr['idToken'])
-                db.child("Sale").child(key).update({'amenities': amenities}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'amenities': self.amenities}, self.curr['idToken'])
                 db.child("Sale").child(key).update({'location': location.strip()}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'facebook': self.edit.ids.facebook.text.strip()}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'twitter': self.edit.ids.twitter.text.strip()}, self.curr['idToken'])
+                db.child("Sale").child(key).update({'link': self.edit.ids.site.text.strip()}, self.curr['idToken'])
+
                 
                 
                 
@@ -6564,11 +6732,11 @@ class MainApp(MDApp):
                 # self.reloading(key)
                 # loaded.remove(key)
                 
-                # self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No']
+                
                 
                 self.denied = 0
                 
-                p = 'Changes made successfully'
+                p = 'Changes made successfully reload page'
                 self.snackbar(p)
 
         except requests.exceptions.HTTPError as e:
@@ -6614,9 +6782,10 @@ class MainApp(MDApp):
     def close_thread_rent(self):
         self.thread_dialogbox.dismiss()
 
-    def thread_update_rent_property(self,  local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description):
+    def thread_update_rent_property(self,  local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,):
+
         try:
-            self.actual_rent_update(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description)
+            self.actual_rent_update(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,)
         
                         
         except:
@@ -6625,7 +6794,7 @@ class MainApp(MDApp):
                         
 
         self.close_thread_rent()
-    def update_rent_property(self, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description):
+    def update_rent_property(self, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,):
         self.key = key
         self.local_image = local_image
         
@@ -6637,7 +6806,7 @@ class MainApp(MDApp):
         
         
         
-        amenities = self.amenities
+        
 
         
         
@@ -6670,9 +6839,47 @@ class MainApp(MDApp):
                                     self.landspace = landspace + 'sq.ft'
 
                                 if len(description) > 20 and len(description) < 255:
+                                    if len(self.edit_rent.ids.in_min.text) == 2:
+                                        if int(self.edit_rent.ids.in_hour.text) < 13 and int(self.edit_rent.ids.in_min.text) < 60:
+                                           
+                                            if len(self.edit_rent.ids.out_min.text) == 2:
 
-                                    self.thread_rent_dialog(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description)
+                                                if int(self.edit_rent.ids.out_hour.text) < 13 and int(self.edit_rent.ids.out_min.text) < 60:
+                                                    if self.edit_rent.ids.in_hour.text == '' or self.edit_rent.ids.in_hour.text == '0' or self.edit_rent.ids.in_hour.text == '00' and self.edit_rent.ids.in_min.text != '0' and self.edit_rent.ids.in_min.text != '00' and self.edit_rent.ids.in_min.text != '':
+                                                        self.show_dialog('Invalid check in time: Input hour')
+                                                        self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.check_time)
+                                                    else:
+                                                        if self.edit_rent.ids.in_min.text == '' or self.edit_rent.ids.in_min.text == '0':
+                                                            
+                                                            self.edit_rent.ids.in_min.text == '00'
+                                                        
 
+                                                        if self.edit_rent.ids.out_min.text == '' or self.edit_rent.ids.out_min.text == '0':
+                                                            self.edit_rent.ids.out_min.text == '00'
+                                                            
+
+                                                        
+
+                                                        if self.edit_rent.ids.out_hour.text == '' or self.edit_rent.ids.out_hour.text == '0' or self.edit_rent.ids.out_hour.text == '00' and self.edit_rent.ids.out_min.text != '0' and self.edit_rent.ids.out_min.text != '00' and self.edit_rent.ids.out_min.text != '':
+                                                            self.show_dialog('Invalid check out time: Input hour')
+                                                            self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.check_time)
+                                                        
+                                                        else:
+                                                            
+                                                            self.thread_rent_dialog(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,)
+
+                                                else:
+                                                    self.show_dialog('Invalid check out time')
+                                                    self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.check_time)
+                                            else:
+                                                self.show_dialog('Must be two digits',titler='Invalid check out time for minutes')
+                                                self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.check_time)
+                                        else:
+                                            self.show_dialog('Invalid check in time')
+                                            self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.check_time)
+                                    else:
+                                        self.show_dialog('Must be two digits',titler='Invalid check in time for minutes')
+                                        self.edit_rent.ids.edit_rent_scroll.scroll_to(self.edit_rent.ids.check_time)
                                 else:
                                     text = 'Description must be between 20 and 255 characters'
                                     self.show_dialog(text)
@@ -6722,6 +6929,24 @@ class MainApp(MDApp):
         try:
             location = locate+state.title()+town.title()
             amenities = self.amenities
+            
+            
+            
+            
+            
+            in_hour = self.edit_rent.ids.in_hour.text if self.edit_rent.ids.in_hour.text[0] != '0' else self.edit_rent.ids.in_hour.text[1:]
+            out_hour = self.edit_rent.ids.out_hour.text if self.edit_rent.ids.out_hour.text[0] != '0' else self.edit_rent.ids.out_hour.text[1:]
+            in_min = self.edit_rent.ids.in_min.text
+            out_min = self.edit_rent.ids.out_min.text
+            
+            checkintime = 'Any' if self.edit_rent.ids.in_hour.text == '00' and self.edit_rent.ids.in_min.text == '00' else f"{in_hour} : {in_min} PM" 
+            checkouttime = 'Any' if self.edit_rent.ids.out_hour.text == '00' and self.edit_rent.ids.out_min.text == '00' else f"{out_hour} : {out_min} AM"
+            
+            
+            
+            
+            
+            
             getting = db.child("Rent").child(key).get()
             if getting.val() == None:
                 self.toast("Not found")
@@ -6739,10 +6964,15 @@ class MainApp(MDApp):
                 db.child("Rent").child(key).update({'description': description.capitalize().strip()}, self.curr['idToken'])
                 db.child("Rent").child(key).update({'amenities': amenities}, self.curr['idToken'])
                 db.child("Rent").child(key).update({'location': location.strip()}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'checkintime': checkintime}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'checkouttime': checkouttime}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'facebook': self.edit_rent.ids.facebook.text.strip()}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'twitter': self.edit_rent.ids.twitter.text.strip()}, self.curr['idToken'])
+                db.child("Rent").child(key).update({'link': self.edit_rent.ids.site.text.strip()}, self.curr['idToken'])
                 
                 self.amenities = amenities
                 
-                p = 'Changes made successfully'
+                p = 'Changes made successfully reload page'
                 self.snackbar(p)
                 self.denied = 0
         except requests.exceptions.HTTPError as e:
@@ -6759,7 +6989,7 @@ class MainApp(MDApp):
                     self.close_thread_rent()
                     try:
                         self.denied_signin()
-                        self.update_rent_property(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description)
+                        self.update_rent_property(local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,)
                         
                    
                     except:
@@ -6897,7 +7127,7 @@ class MainApp(MDApp):
                         if self.local_image != self.new_file:
                             storage.delete(self.curr['localid'] + '/' + self.local_image, self.curr['idToken'])
                         
-                        p = 'Updated image successfully'
+                        p = 'Updated image successfully reload page'
                         self.toast(p)
                         self.true_switch_products()
                     
@@ -7095,6 +7325,7 @@ class MainApp(MDApp):
                                             if len(self.landspace) > 1:
                                                 if len(self.price) > 1:
                                                     if len(self.desc) > 20 and len(self.desc) < 255:
+                                                        
                                                         filechooser.open_file(open='/storage/emulator/0', on_selection=self.real_house_sale)
                                                     else:
                                                         info = "description must be between 20 and 255 characters"
@@ -7345,7 +7576,9 @@ class MainApp(MDApp):
                         "views": 0,
                         "location": "",
                         "link": "", 
-                        "date": ""
+                        "date": "",
+                        "checkintime": "",
+                        "checkouttime": ""
                     }
 
                     today = datetime.today()
@@ -7385,7 +7618,7 @@ class MainApp(MDApp):
                     self.price = ''
                     self.phonenumber = ''
                     self.desc = ''
-                    self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No']
+                    self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No']
                     self.twitter = ''
                     self.facebook = ''
                     self.mail = ''
@@ -7489,7 +7722,9 @@ class MainApp(MDApp):
     
         
         
+    
 
+    
     
         
 
@@ -7515,13 +7750,57 @@ class MainApp(MDApp):
                                             if len(self.landspace) > 1:
                                                 if len(self.price) > 1:
                                                     if len(self.desc) > 20 and len(self.desc) < 255:
-                                                        filechooser.open_file(open='/storage/emulator/0', on_selection=self.real_house_rent)
+
+                                                        if len(self.rent.ids.in_min.text) == 2:
+                                                            if int(self.rent.ids.in_hour.text) < 13 and int(self.rent.ids.in_min.text) < 60:
+                                                            
+                                                                if len(self.rent.ids.out_min.text) == 2:
+
+                                                                    if int(self.rent.ids.out_hour.text) < 13 and int(self.rent.ids.out_min.text) < 60:
+                                                                        if self.rent.ids.in_hour.text == '' or self.rent.ids.in_hour.text == '0' or self.rent.ids.in_hour.text == '00' and self.rent.ids.in_min.text != '0' and self.rent.ids.in_min.text != '00' and self.rent.ids.in_min.text != '':
+                                                                            self.show_dialog('Invalid check in time: Input hour')
+                                                                            self.rent.ids.rent_scroll.scroll_to(self.rent.ids.check_time)
+                                                                        else:
+                                                                            if self.rent.ids.in_min.text == '' or self.rent.ids.in_min.text == '0':
+                                                                                
+                                                                                self.rent.ids.in_min.text == '00'
+                                                                            
+
+                                                                            if self.rent.ids.out_min.text == '' or self.rent.ids.out_min.text == '0':
+                                                                                self.rent.ids.out_min.text == '00'
+                                                                                
+
+                                                                            
+
+                                                                            if self.rent.ids.out_hour.text == '' or self.rent.ids.out_hour.text == '0' or self.rent.ids.out_hour.text == '00' and self.rent.ids.out_min.text != '0' and self.rent.ids.out_min.text != '00' and self.rent.ids.out_min.text != '':
+                                                                                self.show_dialog('Invalid check out time: Input hour')
+                                                                                self.rent.ids.rent_scroll.scroll_to(self.rent.ids.check_time)
+                                                                            
+                                                                            else:
+                                                                                
+                                                                                filechooser.open_file(open='/storage/emulator/0', on_selection=self.real_house_rent)
+
+                                                                    else:
+                                                                        self.show_dialog('Invalid check out time')
+                                                                        self.rent.ids.rent_scroll.scroll_to(self.rent.ids.check_time)
+                                                                else:
+                                                                    self.show_dialog('Must be two digits',titler='Invalid check out time for minutes')
+                                                                    self.rent.ids.rent_scroll.scroll_to(self.rent.ids.check_time)
+                                                            else:
+                                                                self.show_dialog('Invalid check in time')
+                                                                self.rent.ids.rent_scroll.scroll_to(self.rent.ids.check_time)
+                                                        else:
+                                                            self.show_dialog('Must be two digits',titler='Invalid check in time for minutes')
+                                                            self.rent.ids.rent_scroll.scroll_to(self.rent.ids.check_time)
+                                                        
+
                                                     else:
                                                         info = "description must be between 20 and 255 characters"
                                                         self.show_dialog(info)
                                                         self.rent.ids.rent_scroll.scroll_to(self.rent.ids.description)
                                                         self.rent.ids.description.focused = True
                                                         self.rent.ids.description.error = True
+                                                        
                                                 else:
                                                     info = "Invalid input for price"
                                                     self.show_dialog(info)
@@ -7627,6 +7906,26 @@ class MainApp(MDApp):
         self.rent_facebook = self.facebook
         self.rent_link = self.link
         self.saved_image = False
+        
+        
+        
+        
+        
+        in_hour = self.rent.ids.in_hour.text if self.rent.ids.in_hour.text[0] != '0' else self.rent.ids.in_hour.text[1:]
+        out_hour = self.rent.ids.out_hour.text if self.rent.ids.out_hour.text[0] != '0' else self.rent.ids.out_hour.text[1:]
+        in_min = self.rent.ids.in_min.text
+        out_min = self.rent.ids.out_min.text
+        
+        checkintime = 'Any' if self.rent.ids.in_hour.text == '00' and self.rent.ids.in_min.text == '00' else f"{in_hour} : {in_min} PM" 
+        checkouttime = 'Any' if self.rent.ids.out_hour.text == '00' and self.rent.ids.out_min.text == '00' else f"{out_hour} : {out_min} AM"
+        
+        
+        
+        
+        
+        
+        self.rent_in_time = checkintime
+        self.rent_out_time = checkouttime
         
 
 
@@ -7748,7 +8047,9 @@ class MainApp(MDApp):
                         "views": 0,
                         "location": "",
                         "link": "",
-                        "date": ""
+                        "date": "",
+                        "checkintime": "",
+                        "checkouttime": ""
                     }
                     
                     today = datetime.today()
@@ -7774,6 +8075,8 @@ class MainApp(MDApp):
                     data['location'] = self.rent_country.strip()+self.rent_state.strip()+self.rent_town.strip()
                     data['link'] = self.rent_link.strip()
                     data['date'] = string_of_time
+                    data['checkintime'] = self.rent_in_time
+                    data['checkouttime'] = self.rent_out_time
                     
                     results = db.child("Rent").push(data, self.curr['idToken'])
                     self.tot = ''
@@ -7787,7 +8090,7 @@ class MainApp(MDApp):
                     self.price = ''
                     self.phonenumber = ''
                     self.desc = ''
-                    self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No']
+                    self.amenities = ['No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No']
                     self.twitter = ''
                     self.facebook = ''
                     self.mail = ''
@@ -8168,6 +8471,15 @@ class MainApp(MDApp):
             self.creator_screen.ids.creator.source = 'Pirate King (2).jpg'
         else:
             self.creator_screen.ids.creator.source = 'grad.png'
+
+
+    def myaccount(self, val):
+        if val == 'tweet':
+            webbrowser.open('https://twitter.com/Hometernet_')
+        elif val == 'face':
+            webbrowser.open('https://facebook.com/profile.php?id=100088931294360')
+        else:
+            webbrowser.open('https://linkedin.com/in/joshua-anang-611462285')
 
     
 MainApp().run()

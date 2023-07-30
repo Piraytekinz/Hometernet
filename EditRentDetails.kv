@@ -46,63 +46,7 @@
                 padding: ["10dp", "10dp", "10dp", "30dp"]
                 size_hint_y: None
                 adaptive_height: True
-                # MDLabel:
-                #     halign: 'center'
-                #     text: "Fill in house details"
-                #     font_size: "20sp"
-                #     size_hint_y: None
-                #     adaptive_height: True
-                # MDCard:
-                #     opacity: 0.9
-                #     radius: ["5dp"]
-                #     size_hint_y: None
-                #     height: 150
-                    
-                #     elevation: 0
-                #     orientation: 'vertical'
-                #     spacing: "20dp"
-                #     md_bg_color: 255/255, 255/255, 255/255, 0.8
-                #     MDBoxLayout:
-                #         orientation: 'vertical'
-                #         padding: ["20dp","0dp","20dp","10dp"]
-                #         MDLabel:
-                #             text: "email"
-                #             valign: 'top'
-                #             font_size: "15sp"
-                #         MDTextField:
-                #             id: email
-                #             hint_text: "email"
-                            
-
-                # MDCard:
-                #     opacity: 0.9
-                #     radius: ["5dp"]
-                #     size_hint_y: None
-                #     height: 150
-                    
-                #     elevation: 0
-                #     orientation: 'vertical'
-                #     spacing: "20dp"
-                #     md_bg_color: 255/255, 255/255, 255/255, 0.8
-                #     MDBoxLayout:
-                #         orientation: 'vertical'
-                #         padding: ["20dp","0dp","20dp","10dp"]
-                #         MDLabel:
-                #             text: "phone number"
-                #             valign: 'top'
-                #             font_size: "15sp"
-                #         MDBoxLayout:
-                #             spacing: "30dp"
-                #             MDTextField:
-                #                 id: code
-                #                 text: '+1'
-                #                 size_hint_x: .3
-                                
-                #             MDTextField:
-                #                 id: phonenumber
-                #                 hint_text: 'phonenumber'
-                #                 padding: [20, ]
-                #                 # on_text: app.phone(code.text + self.text)
+                
                         
                             
                 MDBoxLayout:
@@ -134,6 +78,95 @@
                         text: root.type
                         input_type: 'text'
                         font_size: "15dp"
+
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    
+                    MDLabel:
+                        text: "Website(optional)"
+                        font_size: "15dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                    MDTextField:
+                        id: site
+                        text: root.link
+                        hint_text: 'url'
+                        padding: [20, ]
+                        font_size: '15dp'
+                        input_type: 'url'   
+
+
+
+
+
+
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    
+                    MDLabel:
+                        text: "Twitter Handle(optional)"
+                        font_size: "15dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                    MDTextField:
+                        id: twitter
+                        text: root.twitter
+                        hint_text: 'twitter'
+                        padding: [20, ]
+                        font_size: '15dp'
+                        input_type: 'text'
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    
+                    MDLabel:
+                        text: "Facebook Handle(optional)"
+                        font_size: "15dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                    MDTextField:
+                        id: facebook
+                        text: root.facebook
+                        hint_text: 'facebook'
+                        padding: [20, ]
+                        font_size: '15dp'
+                        input_type: 'text'
+                
                             
                 MDBoxLayout:
                     opacity: 0.9
@@ -653,12 +686,147 @@
                         background_color: 0,0,0,0  
                         cursor_color: app.theme_cls.primary_color
 
+                
+
                 MDBoxLayout:
                     opacity: 0.9
                     line_color: 0.9,0.9,0.9,0.5
                     radius: ["5dp"]
                     size_hint_y: None
-                    height: Window.size[1] / 1.5 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 50
+                    height: "200dp"
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "15dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp","10dp","20dp","10dp"]
+                    id: check_time
+
+                    MDLabel:
+                        text: 'Check In Time [color=#9A9A9A][size=14dp]Leave at 00 if no specified time[/size][/color]'
+                        size_hint_y: None
+                        adaptive_height: True
+                        font_size: '16dp'
+                        markup: True
+                    
+                    MDBoxLayout:
+                        spacing: "10dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                        TextInput:
+                            
+                            text: root.checkinhour
+                            underline: True
+                            font_size: '16dp'
+                            bold: True
+                            size_hint: None, None
+                            height: self.minimum_height
+                            width: '30dp'
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: [0.9,0.9,0.9,0.4]
+                            outline_color: [0,0,0,1]
+                            pos_hint: {'center_y': 0.5}
+                            bold: True
+                            id: in_hour
+                            input_type: 'datetime'
+                            multiline: False
+
+                        MDLabel:
+                            text: ':'
+                            size_hint: None, None
+                            adaptive_size: True
+                            font_size: '20dp'
+                            bold: True
+                            pos_hint: {'center_y': 0.5}
+                        TextInput:
+                            text: root.checkinmin
+                            underline: True
+                            font_size: '16dp'
+                            bold: True
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: [0.9,0.9,0.9,0.4]
+                            outline_color: [0,0,0,1]
+                            size_hint: None, None
+                            height: self.minimum_height
+                            width: '30dp'
+                            pos_hint: {'center_y': 0.5}
+                            bold: True
+                            id: in_min
+                            input_type: 'datetime'
+                            multiline: False
+                        MDLabel:
+                            text: 'PM'
+                            underline: True
+                            font_size: '20dp'
+                            bold: True
+                        
+                    MDLabel:
+                        text: 'Check Out Time [color=#9A9A9A][size=14dp]Leave at 00 if no specified time[/size][/color]'
+                        markup: True
+                        font_size: '16dp'
+                        size_hint_y: None
+                        adaptive_height: True
+                    MDBoxLayout:
+                        spacing: "10dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                        TextInput:
+                            text: root.checkouthour
+                            underline: True
+                            font_size: '16dp'
+                            bold: True
+                            size_hint: None, None
+                            height: self.minimum_height
+                            width: '30dp'
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: [0.9,0.9,0.9,0.4]
+                            outline_color: [0,0,0,1]
+                            pos_hint: {'center_y': 0.5}
+                            bold: True
+                            id: out_hour
+                            input_type: 'datetime'
+                            multiline: False
+                            
+                        MDLabel:
+                            text: ':'
+                            size_hint: None, None
+                            adaptive_size: True
+                            font_size: '20dp'
+                            bold: True
+                            pos_hint: {'center_y': 0.5}
+                        TextInput:
+                            text: root.checkoutmin
+                            underline: True
+                            font_size: '16dp'
+                            bold: True
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: [0.9,0.9,0.9,0.4] 
+                            outline_color: [0,0,0,1]
+                            input_type: 'number'
+                            size_hint: None, None
+                            height: self.minimum_height
+                            width: '30dp'
+                            pos_hint: {'center_y': 0.5}
+                            bold: True
+                            id: out_min
+                            input_type: 'datetime'
+                            multiline: False
+                        MDLabel:
+                            text: 'AM'
+                            underline: True
+                            font_size: '20dp'
+                            bold: True
+
+
+
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: "1000dp"
                     
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
@@ -757,6 +925,60 @@
                             id: 6
                             active: True if root.amenities[6] == 'Yes' else False
                             font_size: "16dp"
+
+                        MDLabel:
+                            text: 'Kitchen'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 7)
+                            id: 7
+                            font_size: '16dp'
+                            active: True if root.amenities[7] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'Dining'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 8)
+                            id: 8
+                            font_size: '16dp'
+                            active: True if root.amenities[8] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'Fireplace'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 9)
+                            id: 9
+                            font_size: '16dp'
+                            active: True if root.amenities[9] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'Bathtub'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 10)
+                            id: 10
+                            font_size: '16dp'
+                            active: True if root.amenities[10] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'TV'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 11)
+                            id: 11
+                            font_size: '16dp'
+                            active: True if root.amenities[11] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'Workspace'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 12)
+                            id: 12
+                            font_size: '16dp'
+                            active: True if root.amenities[12] == 'Yes' else False
                         
                                 
                 MDRaisedButton:

@@ -9,7 +9,7 @@
     height: Window.size[1] / 1.96 if Window.size[1] > Window.size[0] else Window.size[1] / 1.1
     width: Window.size[0] / 1.05 if Window.size[0] < Window.size[1] else Window.size[0] / 2.1
     on_press: app.play()
-    on_release: app.switch_details(root.image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.phonenumber, root.twitter, root.facebook, root.description, root.key, root.amenities, root.link, root.me)
+    on_release: app.switch_details(root.image, root.tot, root.price, root.country, root.province, root.town, root.street, root.bedrooms, root.bathrooms, root.landspace, root.email, root.phonenumber, root.twitter, root.facebook, root.description, root.key, root.amenities, root.link, root.me, root.checkin, root.checkout)
     on_release: 
         app.call_guy(root.key, root.price)
         app.check_in_bk(root.key)

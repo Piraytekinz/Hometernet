@@ -76,6 +76,93 @@
                         helper_text: 'Invalid Input'
                         font_size: '15dp'
                         input_type: 'text'
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    
+                    MDLabel:
+                        text: "Website(optional)"
+                        font_size: "15dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                    MDTextField:
+                        id: site
+                        text: root.link
+                        hint_text: 'url'
+                        padding: [20, ]
+                        font_size: '15dp'
+                        input_type: 'url'   
+
+
+
+
+
+
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    
+                    MDLabel:
+                        text: "Twitter Handle(optional)"
+                        font_size: "15dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                    MDTextField:
+                        id: twitter
+                        text: root.twitter
+                        hint_text: 'twitter handle'
+                        padding: [20, ]
+                        font_size: '15dp'
+                        input_type: 'text'
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    
+                    MDLabel:
+                        text: "Facebook Handle(optional)"
+                        font_size: "15dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                    MDTextField:
+                        id: facebook
+                        text: root.facebook
+                        hint_text: 'Facebook-messanger handle'
+                        padding: [20, ]
+                        font_size: '15dp'
+                        input_type: 'text'
                             
                 MDBoxLayout:
                     opacity: 0.9
@@ -521,7 +608,7 @@
                     line_color: 0.9,0.9,0.9,0.5
                     radius: ["5dp"]
                     size_hint_y: None
-                    height: Window.size[1] / 1.5 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 50
+                    height: "1000dp"
                     
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
@@ -620,6 +707,60 @@
                             id: 6
                             active: True if root.amenities[6] == 'Yes' else False
                             font_size: "16dp"
+
+                        MDLabel:
+                            text: 'Kitchen'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 7)
+                            id: 7
+                            font_size: '16dp'
+                            active: True if root.amenities[7] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'Dining'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 8)
+                            id: 8
+                            font_size: '16dp'
+                            active: True if root.amenities[8] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'Fireplace'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 9)
+                            id: 9
+                            font_size: '16dp'
+                            active: True if root.amenities[9] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'Bathtub'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 10)
+                            id: 10
+                            font_size: '16dp'
+                            active: True if root.amenities[10] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'TV'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 11)
+                            id: 11
+                            font_size: '16dp'
+                            active: True if root.amenities[11] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'Workspace'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 12)
+                            id: 12
+                            font_size: '16dp'
+                            active: True if root.amenities[12] == 'Yes' else False
                                 
                 MDRaisedButton:
                     text: "Submit"

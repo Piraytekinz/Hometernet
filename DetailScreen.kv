@@ -220,27 +220,40 @@
                     adaptive_height: True
                     orientation: 'vertical'
                     padding: ["15dp","15dp","0dp","0dp"]
-                    spacing: "20dp"
+                    spacing: "30dp"
+                    id: rules
                     MDLabel:
-                        text: 'Description'
+                        text: f'[b]Description[/b] \n \n[color=#9A9A9A][size=14dp]{root.description}[/size][/color]'
                         size_hint_y: None
                         adaptive_height: True
                         font_size: "20dp"
                         color: "black"
-                        bold: True
-                    MDLabel:
-                        text: root.description
-                        size_hint_y: None
-                        adaptive_height: True
-                        font_size: '14dp'
-                        color: 'gray'
+                        
+                        
+                        
+                        markup: True
+
+                # MDLabel:
+                #     text: f'[b]Rules[/b] \n \n[color=#9A9A9A][size=14dp]Check In before: {root.checkin} \n \nCheck In after: {root.checkout}[/size][/color]'
+                #     size_hint_y: None
+                #     adaptive_height: True
+                #     font_size: "20dp"
+                #     padding_x: '15dp'
+                #     color: 'black'
+                    
+                    # MDLabel:
+                    #     text: root.description
+                    #     size_hint_y: None
+                    #     adaptive_height: True
+                    #     font_size: '14dp'
+                    #     color: 'gray'
                 MDBoxLayout:
                     padding: ["20dp"]
                     size_hint_y: None
                     adaptive_height: True
                     Further:
                         radius: [10]
-                        padding: [10,20,10,50]
+                        padding: ["10dp","20dp","10dp","50dp"]
                         elevation: 0
                         orientation: 'vertical'
                         size_hint_y: None
@@ -256,6 +269,79 @@
                             adaptive_height: True
                             id: further_amenities
                             pos_hint: {'center_y': 0.5}
+
+
+                        MDLabel:
+                            text: 'Food and Nutrition'
+                            
+                            font_size: '20dp'
+                            
+                            size_hint_y: None
+                            adaptive_height: True
+                            id: cooling
+
+                        MDGridLayout:
+                            spacing: "20dp"
+                            cols: 2
+                            id: grody
+                            
+                            size_hint_y: None
+                            adaptive_height: True
+                            
+                            
+                            MDBoxLayout:
+                                size_hint_y: None
+                                adaptive_height: True
+                                spacing: "10dp"
+                                MDIcon:
+                                    icon: 'stove'
+                                    size_hint: None, None
+                                    adaptive_size: True
+                                    font_size: '18dp'
+                                MDLabel:
+                                    text: 'Kitchen'
+                                    font_size: '14dp'
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                    id: fan
+                                
+
+                            MDLabel:
+                                text: root.amenities[7]
+                                size_hint_y: None
+                                adaptive_height: True
+                                font_size: '14dp'
+                                bold: True if root.amenities[7] == 'Yes' else False
+
+
+                            MDBoxLayout:
+                                size_hint_y: None
+                                adaptive_height: True
+                                spacing: "10dp"
+                                MDIcon:
+                                    icon: 'food'
+                                    size_hint: None, None
+                                    adaptive_size: True
+                                    font_size: '18dp'
+                                MDLabel:
+                                    text: 'Dining'
+                                    font_size: '14dp'
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                    id: fan
+                                
+
+                            MDLabel:
+                                text: root.amenities[8]
+                                size_hint_y: None
+                                adaptive_height: True
+                                font_size: '14dp'
+                                bold: True if root.amenities[8] == 'Yes' else False
+
+
+
+
+
                         
                         MDLabel:
                             text: 'Cooling and Heating'
@@ -298,6 +384,7 @@
                                 size_hint_y: None
                                 adaptive_height: True
                                 font_size: '14dp'
+                                bold: True if root.amenities[0] == 'Yes' else False
                             MDBoxLayout:
                                 size_hint_y: None
                                 adaptive_height: True
@@ -320,6 +407,7 @@
                                 size_hint_y: None
                                 adaptive_height: True
                                 font_size: '14dp'
+                                bold: True if root.amenities[1] == 'Yes' else False
 
                             MDBoxLayout:
                                 size_hint_y: None
@@ -342,6 +430,7 @@
                                 size_hint_y: None
                                 adaptive_height: True
                                 font_size: '14dp'
+                                bold: True if root.amenities[3] == 'Yes' else False
 
                         
 
@@ -367,6 +456,57 @@
                                 size_hint_y: None
                                 adaptive_height: True
                                 font_size: '14dp'
+                                bold: True if root.amenities[2] == 'Yes' else False
+
+                            MDBoxLayout:
+                                size_hint_y: None
+                                adaptive_height: True
+                                spacing: "10dp"
+                                MDIcon:
+                                    icon: 'bathtub'
+                                    size_hint: None, None
+                                    adaptive_size: True
+                                    font_size: '18dp'
+                                MDLabel:
+                                    text: 'Bathtub' 
+                                    font_size: '14dp'
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                    id: wh
+                                
+                            MDLabel:
+                                text: root.amenities[10]
+                                size_hint_y: None
+                                adaptive_height: True
+                                font_size: '14dp'
+                                bold: True if root.amenities[10] == 'Yes' else False
+
+                            
+
+                            MDBoxLayout:
+                                size_hint_y: None
+                                adaptive_height: True
+                                spacing: "10dp"
+                                MDIcon:
+                                    icon: 'fireplace'
+                                    size_hint: None, None
+                                    adaptive_size: True
+                                    font_size: '18dp'
+                                MDLabel:
+                                    text: 'Fireplace' 
+                                    font_size: '14dp'
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                    id: wh
+                                
+                            MDLabel:
+                                text: root.amenities[9]
+                                size_hint_y: None
+                                adaptive_height: True
+                                font_size: '14dp'
+                                bold: True if root.amenities[9] == 'Yes' else False
+
+
                                 
                         MDLabel:
                             text: 'Tech and Entertainment'
@@ -407,6 +547,53 @@
                                 size_hint_y: None
                                 adaptive_height: True
                                 font_size: '14dp'
+                                bold: True if root.amenities[4] == 'Yes' else False
+
+                            MDBoxLayout:
+                                size_hint_y: None
+                                adaptive_height: True
+                                spacing: "10dp"
+                                MDIcon:
+                                    icon: 'laptop'
+                                    size_hint: None, None
+                                    adaptive_size: True
+                                    font_size: '18dp'
+                                MDLabel:
+                                    text: 'Workspace'
+                                    font_size: '14dp'
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                    id: wifi
+                                
+                            MDLabel:
+                                text: root.amenities[12]
+                                size_hint_y: None
+                                adaptive_height: True
+                                font_size: '14dp'
+                                bold: True if root.amenities[12] == 'Yes' else False
+
+                            MDBoxLayout:
+                                size_hint_y: None
+                                adaptive_height: True
+                                spacing: "10dp"
+                                MDIcon:
+                                    icon: 'television'
+                                    size_hint: None, None
+                                    adaptive_size: True
+                                    font_size: '18dp'
+                                MDLabel:
+                                    text: 'TV'
+                                    font_size: '14dp'
+                                    size_hint_y: None
+                                    adaptive_height: True
+                                    id: wifi
+                                
+                            MDLabel:
+                                text: root.amenities[11]
+                                size_hint_y: None
+                                adaptive_height: True
+                                font_size: '14dp'
+                                bold: True if root.amenities[11] == 'Yes' else False
 
                         MDLabel:
                             text: 'Exterior'
@@ -447,6 +634,7 @@
                                 size_hint_y: None
                                 adaptive_height: True
                                 font_size: '14dp'
+                                bold: True if root.amenities[5] == 'Yes' else False
                             MDBoxLayout:
                                 size_hint_y: None
                                 adaptive_height: True
@@ -468,6 +656,7 @@
                                 size_hint_y: None
                                 adaptive_height: True
                                 font_size: '14dp'
+                                bold: True if root.amenities[6] == 'Yes' else False
                                 
 
 
@@ -489,6 +678,7 @@
                 ripple_behavior: True
                 size_hint_y: None
                 height: buy.height * 3
+                
                 id: biye
                 pos_hint: {'center_y': 0.5}
                 on_release: app.send_thread_email(root.email, root.phonenumber, root.twitter, root.facebook, root.link, root.type, root.price, root.country, root.bedrooms, root.bathrooms, root.landspace, root.town, root.province, root.street, root.key)

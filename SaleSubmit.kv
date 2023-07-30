@@ -801,7 +801,7 @@
                     line_color: 0.9,0.9,0.9,0.5
                     radius: ["5dp"]
                     size_hint_y: None
-                    height: Window.size[1] / 1.5 + 20 if Window.size[1] > Window.size[0] else Window.size[1] - 50
+                    height: '1000dp'
                     
                     pos_hint: {'center_x': 0.5}
                     elevation: 0
@@ -892,6 +892,54 @@
                             font_size: '15dp'
                         MDCheckbox:
                             on_active: app.on_checkbox_active(*args, 6)
+                            id: check_six
+                            font_size: '16dp'
+
+                        MDLabel:
+                            text: 'Kitchen'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 7)
+                            id: check_six
+                            font_size: '16dp'
+
+                        MDLabel:
+                            text: 'Dining'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 8)
+                            id: check_six
+                            font_size: '16dp'
+
+                        MDLabel:
+                            text: 'Fireplace'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 9)
+                            id: check_six
+                            font_size: '16dp'
+
+                        MDLabel:
+                            text: 'Bathtub'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 10)
+                            id: check_six
+                            font_size: '16dp'
+
+                        MDLabel:
+                            text: 'TV'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 11)
+                            id: check_six
+                            font_size: '16dp'
+
+                        MDLabel:
+                            text: 'Workspace'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 12)
                             id: check_six
                             font_size: '16dp'
                     
