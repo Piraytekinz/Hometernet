@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+        
       - uses: actions/checkout@v2
 
       # used to cache dependencies with a timeout
@@ -28,8 +31,7 @@ jobs:
           path: .buildozer
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+      
 
       - name: Build with Buildozer
         uses: ArtemSBulgakov/buildozer-action@v1
