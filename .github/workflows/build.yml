@@ -3,6 +3,9 @@ on:
   push:
     branches: [ main ]
 
+dependencies:
+  build-tools;34.0.0
+
 jobs:
   build:
     runs-on: ubuntu-latest
