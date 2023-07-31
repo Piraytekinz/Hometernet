@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
-
+        
       - uses: actions/checkout@v2
 
       # used to cache dependencies with a timeout
@@ -37,7 +37,7 @@ jobs:
         uses: ArtemSBulgakov/buildozer-action@v1
         id: buildozer
         with:
-          command: sudo buildozer android release 
+          command: buildozer android release
           buildozer_version: master
 
       - name: Upload artifacts
