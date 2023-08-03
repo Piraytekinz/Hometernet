@@ -199,7 +199,7 @@ Builder.load_file('BookCards.kv')
 Builder.load_file('Recents.kv')
 
 
-txt = TextInput()
+
 
 
 
