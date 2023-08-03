@@ -356,6 +356,7 @@ class PropertyRentCards(MDCard, CommonElevationBehavior):
     views = NumericProperty()
     checkin = StringProperty()
     checkout = StringProperty()
+    date = StringProperty()
     
         
 
@@ -386,6 +387,7 @@ class PropertySaleCards(MDCard, CommonElevationBehavior):
     twitter = StringProperty()
     link = StringProperty()
     views = NumericProperty()
+    date = StringProperty()
 
     
    
@@ -442,6 +444,8 @@ class EditDetailsScreen(Screen):
     twitter = StringProperty()
     facebook = StringProperty()
     link = StringProperty()
+    date = StringProperty()
+    views = NumericProperty()
 
 class EditRentDetailsScreen(Screen):
     image = StringProperty()
@@ -466,6 +470,8 @@ class EditRentDetailsScreen(Screen):
     twitter = StringProperty()
     facebook = StringProperty()
     link = StringProperty()
+    date = StringProperty()
+    views = NumericProperty()
 
     def __init__(self, **kw):
         super().__init__(**kw)
@@ -1959,7 +1965,11 @@ class MainApp(MDApp):
         
         self.SaleOrRent = SaleOrRent(name="SaleOrRent")
 
-        
+        if self.has_recents == False:
+
+            self.recents = Recents(name="recent")
+            
+            self.has_recents = True
         
         
         
@@ -2530,6 +2540,7 @@ class MainApp(MDApp):
                 self.card.views = u.val()['views']
                 self.card.local_image = u.val()['local_image']
                 self.card.link = u.val()['link']
+                self.card.date = u.val()['date']
                 self.card.opacity = 0
                 Animation(opacity=1,duration=0.2).start(self.card)
                 self.products.ids.layout.add_widget(self.card)
@@ -2574,6 +2585,7 @@ class MainApp(MDApp):
                 self.card.checkin = u.val()['checkintime']
                 self.card.checkout = u.val()['checkouttime']
                 self.card.link = u.val()['link']
+                self.card.date = u.val()['date']
                 self.card.opacity = 0
                 
                 Animation(opacity=1,duration=0.2).start(self.card)
@@ -2693,6 +2705,7 @@ class MainApp(MDApp):
 
             
         self.bk_spin_inactive()
+        self.enabled_acc()
         time.sleep(1)
         self.thread_bk_started = False
 
@@ -2877,6 +2890,12 @@ class MainApp(MDApp):
         self.bk.ids.bk.clear_widgets()
 
 
+    @mainthread
+    def enabled_acc(self):
+        if self.has_account == True:
+            self.account.ids.sign_out.disabled = False
+            self.account.ids.remove_acc.disabled = False
+
 
 
 # RECENTS #####################################################################
@@ -2962,6 +2981,8 @@ class MainApp(MDApp):
             self.recents = Recents(name="recent")
             
             self.has_recents = True
+        if self.products.ids.layout.has_deleted == True:
+            self.recents.ids.rec.clear_widgets()
         self.wm.transition.duration = .1
         self.wm.switch_to(self.recents, direction='right')
 
@@ -3039,6 +3060,7 @@ class MainApp(MDApp):
             self.event.set()
 
         self.recent_spin_inactive()
+        self.enabled_acc()
         time.sleep(1)
         self.thread_recent_started = False
         
@@ -4233,15 +4255,17 @@ class MainApp(MDApp):
                 self.switch_home()
                 return False
             elif self.wm.current == "details":
-                if self.current_screen == "bookmarks":
-                    self.switch_bookmarks()
-                    return False
-                elif self.current_screen == "search":
-                    self.switch_search()
-                    return False
-                elif self.current_screen == "home":
-                    self.switch_home()
-                    return False
+                # if self.current_screen == "bookmarks":
+                #     self.switch_bookmarks()
+                #     return False
+                # elif self.current_screen == "search":
+                #     self.switch_search()
+                #     return False
+                # elif self.current_screen == "home":
+                #     self.switch_home()
+                #     return False
+                self.switch_from_details()
+                
                 return False
                     
             elif self.wm.current == "bookmarks":
@@ -6014,6 +6038,12 @@ class MainApp(MDApp):
         self.curr['localid'] = ''
         self.clear_products()
         self.clear_bk()
+        if self.has_recents == True:
+
+            self.recents.ids.rec.clear_widgets()
+            
+            
+        
         self.loader.clear()
         self.last_sold = 0
         self.last_booked = 0
@@ -6199,6 +6229,10 @@ class MainApp(MDApp):
         self.last_booked = 0
         self.products.ids.layout.clear_widgets()
         self.bk.ids.bk.clear_widgets()
+        if self.has_recents == True:
+
+            self.recents.ids.rec.clear_widgets()
+        
         
         
         if self.prod_err == True:
@@ -6439,21 +6473,21 @@ class MainApp(MDApp):
     #     self.signin.ids.password.text = ''
         # self.signin.ids.password.error = True
 
-    def editscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, facebook=None, twitter=None, link=None):
+    def editscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, facebook=None, twitter=None, link=None, date=None, views=None):
         self.loading.ids.spin.active = False
         self.switch_loading(direction='left')
         self.loading_labe()
         
-        self.e = threading.Thread(target=self.editscreeni, args=(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, facebook, twitter, link,))
+        self.e = threading.Thread(target=self.editscreeni, args=(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, facebook, twitter, link, date, views,))
         self.e.start()
 
-    def editscreeni(self, image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, facebook, twitter, link):
+    def editscreeni(self, image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, facebook, twitter, link, date, views):
         time.sleep(1)
-        self.editscreeno(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, facebook, twitter, link)
+        self.editscreeno(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, facebook, twitter, link, date, views)
         
     
     @mainthread
-    def editscreeno(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, facebook=None, twitter=None, link=None):
+    def editscreeno(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, facebook=None, twitter=None, link=None, date=None, views=None):
         
         self.passwrd = ''
         self.mail = ''
@@ -6481,6 +6515,8 @@ class MainApp(MDApp):
         self.edit.facebook = facebook
         self.edit.twitter = twitter
         self.edit.link = link
+        self.edit.date = date
+        self.edit.views = views
         self.amenities = amenities
         self.local_image = local_image
         
@@ -6488,19 +6524,19 @@ class MainApp(MDApp):
         self.denied = 0
         
 
-    def editrentscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, checkin=None, checkout=None, facebook=None, twitter=None, link=None):
+    def editrentscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, checkin=None, checkout=None, facebook=None, twitter=None, link=None, date=None, views=None):
         self.loading.ids.spin.active = False
         self.switch_loading(direction='left')
         self.loading_labe()
-        self.e = threading.Thread(target=self.editrentscreeni, args=(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, checkin, checkout, facebook, twitter, link,))
+        self.e = threading.Thread(target=self.editrentscreeni, args=(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, checkin, checkout, facebook, twitter, link, date, views,))
         self.e.start()
 
-    def editrentscreeni(self, image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, checkin, checkout, facebook, twitter, link):
+    def editrentscreeni(self, image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, checkin, checkout, facebook, twitter, link, date, views,):
         time.sleep(1)
-        self.editrentscreeno(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, checkin, checkout, facebook, twitter, link)
+        self.editrentscreeno(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, checkin, checkout, facebook, twitter, link, date, views)
 
     @mainthread
-    def editrentscreeno(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, checkin=None, checkout=None, facebook=None, twitter=None, link=None):
+    def editrentscreeno(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, checkin=None, checkout=None, facebook=None, twitter=None, link=None, date=None, views=None):
         
         
         self.passwrd = ''
@@ -6559,6 +6595,8 @@ class MainApp(MDApp):
         self.edit_rent.facebook = facebook
         self.edit_rent.twitter = twitter
         self.edit_rent.link = link
+        self.edit_rent.date = date
+        self.edit_rent.views = views
         
         self.amenities = amenities
         self.denied = 0

@@ -133,6 +133,7 @@
             smooth_scroll_end: 30
             on_scroll_move: app.reload_products() if self.scroll_y > 1.07 and app.thread_prod_started == False else app.do()
             id: scroller
+            bar_width: 0
             MDBoxLayout:
                 size_hint_y: None
                 adaptive_height: True

@@ -105,7 +105,7 @@
                         on_release: app.sign_out_auth()
                         radius: [10]
                         id: sign_out
-                        disabled: True if app.products.ids.spinno.opacity == 1 else False
+                        disabled: True if app.products.ids.spinno.opacity == 1 or app.recents.ids.spin_rec.opacity == 1 or app.bk.ids.spin_bk.opacity == 1 else False
                         IconLeftWidget:
                             icon: 'account-arrow-left-outline'         
                                             
@@ -118,7 +118,7 @@
                         on_press: app.play()
                         on_release: app.switch_choice()
                         radius: [10]
-                        disabled: True if app.products.ids.spinno.opacity == 1 else False
+                        disabled: True if app.products.ids.spinno.opacity == 1 or app.recents.ids.spin_rec.opacity == 1 or app.bk.ids.spin_bk.opacity == 1 else False
                         id: del_acc
                         IconLeftWidget:
                             icon: 'account-switch-outline'         
@@ -132,7 +132,7 @@
                         on_press: app.play()
                         on_release: app.remove_user_auth()
                         radius: [10]
-                        disabled: True if app.products.ids.spinno.opacity == 1 else False
+                        disabled: True if app.products.ids.spinno.opacity == 1 or app.recents.ids.spin_rec.opacity == 1 or app.bk.ids.spin_bk.opacity == 1 else False
                         id: remove_acc
                         IconLeftWidget:
                             icon: 'account-cancel-outline'         
@@ -182,7 +182,7 @@
                         on_press: app.play()
                         on_release: app.delete_user()
                         radius: [10]
-                        disabled: True if app.products.ids.spinno.opacity == 1 else False
+                        disabled: True if app.products.ids.spinno.opacity == 1 or app.recents.ids.spin_rec.opacity == 1 or app.bk.ids.spin_bk.opacity == 1 else False
                         id: del_acc
                         IconLeftWidget:
                             icon: 'trash-can-outline'         

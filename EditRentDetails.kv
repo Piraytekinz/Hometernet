@@ -18,10 +18,10 @@
                 id: arrow
 
             MDLabel:
-                text: "Edit Property"
-                font_size: '16dp'
+                text: "Property Overview"
+                font_size: '20dp'
                 bold: True
-                halign: 'center'
+                pos_hint: {'center_y': 0.5}
 
             MDIconButton:
                 icon: 'trash-can-outline'
@@ -47,7 +47,13 @@
                 size_hint_y: None
                 adaptive_height: True
                 
-                        
+                MDLabel:
+                    text: f"{root.date} \n \nViews: {root.views}"
+                    size_hint_y: None
+                    adaptive_height: True
+                    font_size: '14dp'
+                    bold: True
+                
                             
                 MDBoxLayout:
                     opacity: 0.9
