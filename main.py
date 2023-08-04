@@ -191,7 +191,8 @@ Builder.load_file('PasswordResetEntry.kv')
 Builder.load_file('DeleteAccountEntry.kv')
 Builder.load_file('AccountChoice.kv')
 Builder.load_file('AccountItem.kv')
-Builder.load_file('CodeVerifyer.kv')
+Builder.load_filtxt = TextInput()
+('CodeVerifyer.kv')
 Builder.load_file('UpdateScreen.kv')
 Builder.load_file('Privacy.kv')
 Builder.load_file('GetStarted.kv')
@@ -199,7 +200,7 @@ Builder.load_file('BookCards.kv')
 Builder.load_file('Recents.kv')
 
 
-txt = TextInput()
+
 
 
 
