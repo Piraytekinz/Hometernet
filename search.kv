@@ -255,12 +255,10 @@
                 text_color: 'black'
                 on_press: 
                     app.play()
-                    self.md_bg_color=0,0,0,1
-                    self.text_color='white'
+                    
                 on_release: 
                     app.reverser_next()
-                    self.md_bg_color=1,1,1,1
-                    self.text_color='black'
+                    
                 line_width: 1.1
                 line_color: 0,0,0,1
                 disabled_color: 0,0,0,1
@@ -304,14 +302,11 @@
                 
                 on_press: 
                     app.play()
-                    self.md_bg_color=0,0,0,1
-                    self.text_color='white'
+                    
 
                 on_release: 
                     app.next_thread(bed_item.text)
-                    self.md_bg_color=1,1,1,1
-                    self.text_color='black'
-        
+                    
                 disabled_color: 0,0,0,1
                 line_width: 1.1
                 line_color: 0,0,0,1

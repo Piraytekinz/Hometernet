@@ -1966,11 +1966,9 @@ class MainApp(MDApp):
         
         self.SaleOrRent = SaleOrRent(name="SaleOrRent")
 
-        if self.has_recents == False:
+        self.recents = Recents(name="recent")
 
-            self.recents = Recents(name="recent")
-            
-            self.has_recents = True
+        
         
         
         
@@ -2977,15 +2975,11 @@ class MainApp(MDApp):
 
     @mainthread
     def true_switch_recents(self):
-        if self.has_recents == False:
-
-            self.recents = Recents(name="recent")
-            
-            self.has_recents = True
-        if self.products.ids.layout.has_deleted == True:
-            self.recents.ids.rec.clear_widgets()
         self.wm.transition.duration = .1
         self.wm.switch_to(self.recents, direction='right')
+        if self.products.ids.layout.has_deleted == True:
+            self.recents.ids.rec.clear_widgets()
+        
 
     def switch_recents(self):
         self.true_switch_recents()
