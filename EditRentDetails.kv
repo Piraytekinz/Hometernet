@@ -1,0 +1,1006 @@
+<EditRentDetailsScreen>:
+
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDBoxLayout:
+            size_hint_y: None
+            height: "70dp"
+            radius: [0]
+            md_bg_color: 1,1,1,1
+            MDIconButton:
+                icon: 'arrow-left'
+                icon_size: '20dp'
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                on_press: app.play()
+                on_release: app.switch_products()
+                bold: True
+                id: arrow
+
+            MDLabel:
+                text: "Property Overview"
+                font_size: '20dp'
+                bold: True
+                pos_hint: {'center_y': 0.5}
+
+            MDIconButton:
+                icon: 'trash-can-outline'
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                icon_size: '20dp'
+                on_press: app.play()
+                on_release: app.delete_property_auth(root.key, root.local_image, 'Rent')
+                bold: True
+        
+        MDSeparator:
+            color: 0.9,0.9,0.9,0.4
+        
+        RecycleView:
+            scroll_distance: 1
+            effect_cls: "ScrollEffect"
+            id: edit_rent_scroll
+            scroll_wheel_distance: 50
+            smooth_scroll_end: 30
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: "30dp"
+                padding: ["10dp", "10dp", "10dp", "30dp"]
+                size_hint_y: None
+                adaptive_height: True
+                
+                MDLabel:
+                    text: f"{root.date} \n \nViews: {root.views}"
+                    size_hint_y: None
+                    adaptive_height: True
+                    font_size: '14dp'
+                    bold: True
+                
+                            
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    # MDBoxLayout:
+                    #     orientation: "vertical"
+                    #     padding: ["20dp","0dp","20dp","10dp"]
+                    #     spacing: "20dp"
+                    MDLabel:
+                        text: "Property type/Name[color=#000000]*[/color]"
+                        font_size: "15dp"
+                        markup: True
+                    MDTextField:
+                        id: housetype
+                        hint_text: "property type"
+                        # on_text: app.word(self.text)
+                        padding: [20, ]
+                        text: root.type
+                        input_type: 'text'
+                        font_size: "15dp"
+
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    
+                    MDLabel:
+                        text: "Website(optional)"
+                        font_size: "15dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                    MDTextField:
+                        id: site
+                        text: root.link
+                        hint_text: 'url'
+                        padding: [20, ]
+                        font_size: '15dp'
+                        input_type: 'url'   
+
+
+
+
+
+
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    
+                    MDLabel:
+                        text: "Twitter Handle(optional)"
+                        font_size: "15dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                    MDTextField:
+                        id: twitter
+                        text: root.twitter
+                        hint_text: 'twitter'
+                        padding: [20, ]
+                        font_size: '15dp'
+                        input_type: 'text'
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    
+                    MDLabel:
+                        text: "Facebook Handle(optional)"
+                        font_size: "15dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                    MDTextField:
+                        id: facebook
+                        text: root.facebook
+                        hint_text: 'facebook'
+                        padding: [20, ]
+                        font_size: '15dp'
+                        input_type: 'text'
+                
+                            
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    # MDBoxLayout:
+                    #     orientation: 'vertical'
+                    #     padding: ["20dp","0dp","20dp","10dp"]
+                    #     spacing: "20dp"
+                    MDLabel:
+                        text: "Country[color=#000000]*[/color]"
+                        font_size: "15dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                        markup: True
+                    MDBoxLayout:
+                        
+                        md_bg_color: 255/255, 255/255, 255/255, 1
+                        MDLabel:
+                            text: root.country
+                            id: country_text
+                            font_size: "15dp"
+                            size_hint_y: None
+                            adaptive_height: True
+                        MDIconButton:
+                            icon: 'arrow-right'
+                            on_press: app.show_listings("EditRent")
+                            icon_size: '22dp'
+                            size_hint_y: None
+                            adaptive_height: True
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    # MDBoxLayout:
+                    #     orientation: "vertical"
+                    #     padding: ["20dp","0dp","20dp","10dp"]
+                    #     spacing: "20dp"
+                    MDLabel:
+                        text: "State/Province[color=#000000]*[/color]"
+                        font_size: "15dp"
+                        markup: True
+                    MDTextField:
+                        id: state
+                        hint_text: "State/Province"
+                        text: root.province
+                        on_text: app.statify(self.text)
+                        padding: [20, ]
+                        font_size: "15dp"
+                        input_type: 'text'
+
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    # MDBoxLayout:
+                    #     orientation: 'vertical'
+                    #     padding: ["20dp","0dp","20dp","10dp"]
+                    #     spacing: "20dp"
+                    MDLabel:
+                        text: "town/city[color=#000000]*[/color]"
+                        font_size: "15dp"
+                        markup: True
+                    MDTextField:
+                        id: town
+                        hint_text: "town/city"
+                        padding: [20, ]
+                        on_text: app.towni(self.text)
+                        text: root.town
+                        input_type: 'text'
+                        font_size: "15dp"
+                
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    # MDBoxLayout:
+                    #     orientation: 'vertical'
+                    #     padding: ["20dp","0dp","20dp","10dp"]
+                    #     spacing: "20dp"
+                    MDLabel:
+                        text: "street/address[color=#000000]*[/color]"
+                        font_size: "15dp"
+                        markup: True
+                    MDTextField:
+                        id: street
+                        hint_text: "street/address"
+                        font_size: "15dp"
+                        on_text: app.streeti(self.text)
+                        text: root.street
+                        input_type: "address"
+
+                MDBoxLayout: 
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp","0dp","20dp","5dp"]
+                    # MDBoxLayout:
+                    #     orientation: 'vertical'
+                    #     padding: ["20dp","0dp","20dp","5dp"]
+                    MDLabel:
+                        text: "Bedroom number[color=#000000]*[/color]"
+                        font_size: "15dp"
+                        markup: True
+                    MDLabel:
+                        text: root.bedrooms
+                        font_size: "15dp"
+                        id: bedrooms
+                    
+                    RecycleView:
+                        do_scroll_y: False
+                        do_scroll_x: True
+                        bar_width: 0
+                        scroll_distance: 1
+                        MDBoxLayout:
+                            spacing: '10dp'
+                            
+                            size_hint_x: None
+                            adaptive_width: True
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bedrooms='1'
+                                
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '1'
+                                
+                            
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bedrooms='2'
+                                
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '2'
+                                
+
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bedrooms='3'
+                                
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '3'
+                                
+
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bedrooms='4'
+                                
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '4'
+                                
+
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bedrooms='5'
+                                
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '5'
+                                
+                            
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bedrooms='6'
+                                
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '6'
+                                
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bedrooms='7'
+                                
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '7'
+                                
+
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bedrooms='7+'
+                                
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '7+'
+                                    
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp","0dp","20dp","5dp"]
+                    # MDBoxLayout:
+                    #     orientation: 'vertical'
+                    #     padding: ["20dp","0dp","20dp","5dp"]
+                    MDLabel:
+                        text: "Bathroom number[color=#000000]*[/color]"
+                        font_size: "15dp"
+                        markup: True
+                    MDLabel:
+                        text: root.bathrooms
+                        font_size: "15dp"
+                        id: bathrooms
+                    RecycleView:
+                        do_scroll_y: False
+                        do_scroll_x: True
+                        bar_width: 0
+                        scroll_distance: 15
+                        MDBoxLayout:
+                            spacing: '10dp'
+                            size_hint_x: None
+                            adaptive_width: True
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bathrooms='1'
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '1'
+                                
+                            
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bathrooms='2'
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '2'
+                                
+
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bathrooms='3'
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '3'
+                                
+
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bathrooms='4'
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '4'
+                                
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bathrooms='5'
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '5'
+                                
+                            
+                            
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bathrooms='6'
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '6'
+                                
+
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bathrooms='7'
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '7'
+                                
+
+                            MDRoundFlatButton:
+                                
+                                
+                                
+                                on_press: root.bathrooms='7+'
+                                
+                                
+                                text_color: app.theme_cls.primary_color
+                                text: '7+'
+                                    
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    
+                    MDLabel:
+                        text: "Land area (sq.ft)[color=#000000]*[/color]"
+                        font_size: "15dp"
+                        id: landspace_text
+                        size_hint_y: None
+                        adaptive_height: True
+                        markup: True
+                    MDBoxLayout:
+                        size_hint_y: None
+                        height: landspace_text.height * 2
+                        id: land_card
+                        radius: ["5dp",]
+                        line_color: 0.9,0.9,0.9,0.5
+                        TextInput:
+                            id: land_area
+                            size_hint_y: None
+                            height: self.minimum_height
+                            pos_hint: {'center_y': 0.5}
+                            # on_text: app.land_space(self.text)
+                            font_size: "15dp"
+                            text: root.landspace
+                            input_type: 'number'
+                            multiline: False
+                            input_filter: 'float'
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: 0,0,0,0 
+                            cursor_color: app.theme_cls.primary_color
+                            on_focus: land_card.line_color=app.theme_cls.primary_color if self.focus==True else [0.9,0.9,0.9,0.5]
+
+
+                                        
+
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 10
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp",self.height/2.5,"20dp",self.height/3]
+                    # MDBoxLayout:
+                    #     orientation: 'vertical'
+                    #     padding: ["20dp","0dp","20dp","10dp"]
+                    #     spacing: "20dp"
+                    MDBoxLayout:
+                        MDLabel:
+                            text: "$ Price[color=#000000]*[/color]"
+                            markup: True
+                            font_size: "15dp"
+                            size_hint: None, None
+                            adaptive_size: True
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        MDDropDownItem:
+                            id: pay_item
+                            text: '/mth'
+                            on_release: root.poi.open()
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            size_hint: None, None
+                            adaptive_size: True
+                            font_size: "15dp"
+                    MDBoxLayout:
+                        size_hint_y: None
+                        height: landspace_text.height * 2
+                        id: price_card
+                        radius: ["5dp",]
+                        line_color: 0.9,0.9,0.9,0.5
+                        TextInput:
+                            id: price
+                            size_hint_y: None
+                            height: self.minimum_height
+                            pos_hint: {'center_y': 0.5}
+                            # on_text: app.pricing(self.text)
+                            font_size: "15dp"
+                            text: root.price
+                            input_type: 'number'
+                            multiline: False
+                            input_filter: 'float'
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: 0,0,0,0
+                            cursor_color: app.theme_cls.primary_color
+                            on_focus: price_card.line_color=app.theme_cls.primary_color if self.focus==True else [0.9,0.9,0.9,0.5]
+
+
+
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: price_card.height + landspace_text.height * 20
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    
+                    spacing: "20dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    orientation: 'vertical'
+                    padding: ["20dp","30dp","20dp","10dp"]
+                    
+                        
+                    MDLabel:
+                        text: "Brief Description(max=255 words)[color=#000000]*[/color]"
+                        font_size: "15dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                        markup: True
+                    
+                        
+                        
+                    TextInput:
+                        id: description
+                        input_type: 'text'
+                        text: root.description
+                        multiline: True
+                        foreground_color: 0/255, 0/255, 0/255, 1
+                        background_color: 0,0,0,0  
+                        cursor_color: app.theme_cls.primary_color
+
+                
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: "200dp"
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "15dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp","10dp","20dp","10dp"]
+                    id: check_time
+
+                    MDLabel:
+                        text: 'Check In Time [color=#9A9A9A][size=14dp]Leave at 00 if no specified time[/size][/color]'
+                        size_hint_y: None
+                        adaptive_height: True
+                        font_size: '16dp'
+                        markup: True
+                    
+                    MDBoxLayout:
+                        spacing: "10dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                        TextInput:
+                            
+                            text: root.checkinhour
+                            underline: True
+                            font_size: '16dp'
+                            bold: True
+                            size_hint: None, None
+                            height: self.minimum_height
+                            width: '30dp'
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: [0.9,0.9,0.9,0.4]
+                            outline_color: [0,0,0,1]
+                            pos_hint: {'center_y': 0.5}
+                            bold: True
+                            id: in_hour
+                            input_type: 'datetime'
+                            multiline: False
+
+                        MDLabel:
+                            text: ':'
+                            size_hint: None, None
+                            adaptive_size: True
+                            font_size: '20dp'
+                            bold: True
+                            pos_hint: {'center_y': 0.5}
+                        TextInput:
+                            text: root.checkinmin
+                            underline: True
+                            font_size: '16dp'
+                            bold: True
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: [0.9,0.9,0.9,0.4]
+                            outline_color: [0,0,0,1]
+                            size_hint: None, None
+                            height: self.minimum_height
+                            width: '30dp'
+                            pos_hint: {'center_y': 0.5}
+                            bold: True
+                            id: in_min
+                            input_type: 'datetime'
+                            multiline: False
+                        MDLabel:
+                            text: 'PM'
+                            underline: True
+                            font_size: '20dp'
+                            bold: True
+                        
+                    MDLabel:
+                        text: 'Check Out Time [color=#9A9A9A][size=14dp]Leave at 00 if no specified time[/size][/color]'
+                        markup: True
+                        font_size: '16dp'
+                        size_hint_y: None
+                        adaptive_height: True
+                    MDBoxLayout:
+                        spacing: "10dp"
+                        size_hint_y: None
+                        adaptive_height: True
+                        TextInput:
+                            text: root.checkouthour
+                            underline: True
+                            font_size: '16dp'
+                            bold: True
+                            size_hint: None, None
+                            height: self.minimum_height
+                            width: '30dp'
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: [0.9,0.9,0.9,0.4]
+                            outline_color: [0,0,0,1]
+                            pos_hint: {'center_y': 0.5}
+                            bold: True
+                            id: out_hour
+                            input_type: 'datetime'
+                            multiline: False
+                            
+                        MDLabel:
+                            text: ':'
+                            size_hint: None, None
+                            adaptive_size: True
+                            font_size: '20dp'
+                            bold: True
+                            pos_hint: {'center_y': 0.5}
+                        TextInput:
+                            text: root.checkoutmin
+                            underline: True
+                            font_size: '16dp'
+                            bold: True
+                            foreground_color: 0/255, 0/255, 0/255, 1
+                            background_color: [0.9,0.9,0.9,0.4] 
+                            outline_color: [0,0,0,1]
+                            input_type: 'number'
+                            size_hint: None, None
+                            height: self.minimum_height
+                            width: '30dp'
+                            pos_hint: {'center_y': 0.5}
+                            bold: True
+                            id: out_min
+                            input_type: 'datetime'
+                            multiline: False
+                        MDLabel:
+                            text: 'AM'
+                            underline: True
+                            font_size: '20dp'
+                            bold: True
+
+
+
+
+                MDBoxLayout:
+                    opacity: 0.9
+                    line_color: 0.9,0.9,0.9,0.5
+                    radius: ["5dp"]
+                    size_hint_y: None
+                    height: "1000dp"
+                    
+                    pos_hint: {'center_x': 0.5}
+                    elevation: 0
+                    orientation: 'vertical'
+                    spacing: "10dp"
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                    padding: ["20dp","10dp","20dp","10dp"]
+                    
+                    MDLabel:
+                        text: 'Further Amenities'
+                        size_hint_y: None
+                        adaptive_height: True
+                        halign: 'center'
+                        font_size: "16dp"
+                    MDBoxLayout:
+                        size_hint_y: None
+                        adaptive_height: True
+                        MDCheckbox:
+                            disabled: True
+                            disabled_color: 'lightgrey'
+                            active: True
+                            font_size: "16dp"
+                        MDLabel:
+                            text: "Yes"
+                            font_size: "15dp"
+
+                        MDCheckbox:
+                            disabled: True
+                            disabled_color: 'lightgrey'
+                            font_size: "15dp"
+                        MDLabel: 
+                            text: "No"
+                            font_size: "15dp"
+
+                    MDGridLayout:
+                        cols: 2
+                        MDLabel:
+                            text: 'Fans'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 0)
+                            id: 0
+                            active: True if root.amenities[0] == 'Yes' else False
+                            font_size: "16dp"
+
+                        MDLabel:
+                            text: 'Air Conditioner'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 1)
+                            id: 1
+                            active: True if root.amenities[1] == 'Yes' else False
+                            font_size: "16dp"
+
+                        MDLabel:
+                            text: 'Water Heater'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 2)
+                            id: 2
+                            active: True if root.amenities[2] == 'Yes' else False
+                            font_size: "16dp"
+
+                        MDLabel:
+                            text: 'Swimming Pool'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 3)
+                            id: 3
+                            active: True if root.amenities[3] == 'Yes' else False
+                            font_size: "16dp"
+
+                        MDLabel:
+                            text: 'Wifi'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 4)
+                            id: 4
+                            active: True if root.amenities[4] == 'Yes' else False
+                            font_size: "16dp"
+
+                        MDLabel:
+                            text: 'Parking'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 5)
+                            id: 5
+                            active: True if root.amenities[5] == 'Yes' else False
+                            font_size: "16dp"
+
+                        MDLabel:
+                            text: 'Backyard'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 6)
+                            id: 6
+                            active: True if root.amenities[6] == 'Yes' else False
+                            font_size: "16dp"
+
+                        MDLabel:
+                            text: 'Kitchen'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 7)
+                            id: 7
+                            font_size: '16dp'
+                            active: True if root.amenities[7] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'Dining'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 8)
+                            id: 8
+                            font_size: '16dp'
+                            active: True if root.amenities[8] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'Fireplace'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 9)
+                            id: 9
+                            font_size: '16dp'
+                            active: True if root.amenities[9] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'Bathtub'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 10)
+                            id: 10
+                            font_size: '16dp'
+                            active: True if root.amenities[10] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'TV'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 11)
+                            id: 11
+                            font_size: '16dp'
+                            active: True if root.amenities[11] == 'Yes' else False
+
+                        MDLabel:
+                            text: 'Workspace'
+                            font_size: '15dp'
+                        MDCheckbox:
+                            on_active: app.on_checkbox_active(*args, 12)
+                            id: 12
+                            font_size: '16dp'
+                            active: True if root.amenities[12] == 'Yes' else False
+                        
+                                
+                MDRaisedButton:
+                    text: "Submit"
+                    # on_press: self.submit()
+                    on_press: app.play()
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.update_rent_property(root.local_image, housetype.text, price.text, country_text.text, state.text, town.text, street.text, bedrooms.text, bathrooms.text, land_area.text, root.key, description.text)
+                    font_size: "15dp"
+
+                MDFlatButton:
+                    text: "Edit image"
+                    # on_press: self.submit()
+                    on_press: app.play()
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.separate_function(None)
+                    font_size: '15dp'
+                    line_color: 0,0,0,1
+        

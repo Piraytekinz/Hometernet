@@ -1,0 +1,79 @@
+<Congrats>:
+    
+    
+        
+    RelativeLayout:
+        FitImage:
+            source: 'congrats-pic.jpg'
+
+        
+        
+        MDBoxLayout:
+            size_hint_y: None
+            adaptive_height: True
+            spacing: "30dp"
+            orientation: 'vertical'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            MDLabel:
+                text: "Congratulations!! \n Your Property is now on Hometernet"
+                color: "white"
+                bold: True
+                font_size: "25dp"
+                
+                
+                size_hint_y: None
+                adaptive_height: True
+                halign: 'center'
+                padding_x: "20dp"
+
+            MDBoxLayout:
+                size_hint_y: None
+                adaptive_height: True
+                
+                spacing: "20dp"
+                padding: ["20dp", "0dp", "20dp", "0dp"]
+                Home:
+                    ripple_behavior: True
+                    elevation: 1
+                    size_hint_y: None
+                    height: rent.height * 3
+                    radius: [15,]
+                    on_press: app.play()
+                    on_release: app.switch_home()
+                    MDLabel:
+                        halign: 'center'
+                        bold: True
+                        text: "Home"
+                        font_size: "16dp"
+                        id: rent
+                        size_hint_y: None
+                        adaptive_height: True
+                        pos_hint: {'center_y': 0.5}
+                Properties:
+                    ripple_behavior: True
+                    elevation: 1
+                    size_hint_y: None
+                    height: rent.height * 3
+                    radius: [15,]
+                    on_press: app.play()
+                    on_release: app.switch_products()
+                    MDLabel:
+                        halign: 'center'
+                        bold: True
+                        text: "My Properties"
+                        font_size: "16dp"
+                        id: rent
+                        size_hint_y: None
+                        adaptive_height: True
+                        pos_hint: {'center_y': 0.5}
+
+            MDLabel:
+                text: 'Your property will expire in three months.'
+                font_size: '15dp'
+                color: 'white'
+                halign:'center'
+                size_hint_y: None
+                adaptive_height: True
+                bold: True
+<Home@MDCard+CommonElevationBehavior>
+<Properties@MDCard+CommonElevationBehavior>
