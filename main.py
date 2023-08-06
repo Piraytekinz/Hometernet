@@ -191,8 +191,8 @@ Builder.load_file('PasswordResetEntry.kv')
 Builder.load_file('DeleteAccountEntry.kv')
 Builder.load_file('AccountChoice.kv')
 Builder.load_file('AccountItem.kv')
-Builder.load_filtxt = TextInput()
-('CodeVerifyer.kv')
+Builder.load_file('CodeVerifyer.kv')
+
 Builder.load_file('UpdateScreen.kv')
 Builder.load_file('Privacy.kv')
 Builder.load_file('GetStarted.kv')
@@ -4904,6 +4904,7 @@ class MainApp(MDApp):
         self.signup.ids.email.text = ''
         self.signup.ids.password.text = ''
         self.signup.ids.confirm.text = ''
+        
         self.prev_code = 'sign-up'
         self.wm.transition = SlideTransition()
         self.wm.transition.duration = .1
@@ -4996,7 +4997,9 @@ class MainApp(MDApp):
             
             self.has_code = True
         self.code_verifyer.text = email
+        
         self.code_verifyer.ids.verify_code.text = ''
+        
         self.wm.switch_to(self.code_verifyer)
     
     def switch_saleorrent(self):
