@@ -204,7 +204,6 @@ Builder.load_file('Recents.kv')
 
 
 
-
 class WindowManager(ScreenManager):
     pass
 
@@ -3634,6 +3633,9 @@ class MainApp(MDApp):
             
             countryl = 'United Kingdom'
 
+        if countryl == 'UAE' or countryl == 'Uae' or countryl == 'Emirates' or countryl == 'Arab':
+            countryl = 'United Arab Emirates'
+
         if 'Of' in countryl:
            
             countryl = countryl.replace('Of', 'of')
@@ -4130,8 +4132,8 @@ class MainApp(MDApp):
                     
             else:
                 if self.has_switched == False:
-                    self.switch_signup()
-                    
+                    # self.switch_signup()
+                    self.editscreen('image', 'local_image', 'House_type', 'pricing', 'locate', 'state', 'town', 'street', 'bedrooms', 'bathrooms', 'landspace', 'email', 'key', 'description', ['No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No'], 'facebook', 'twitter', 'link', 'date', 9)
 
                     
 
