@@ -1,6 +1,6 @@
 <BookCards>:
     size_hint_y: None
-    height: '140dp'
+    height: '200dp'
     elevation: 0
     # ripple_behavior: True
     radius: ['25dp',]
@@ -14,54 +14,77 @@
     # padding: ['10dp']
     id: ma
 
-    
     FitImage:
-        source: root.image
-        # source: 'New Test\Log Cabin.jpg'
+        source: str(root.image)
         mipmap: True
-        
         radius: ma.radius
+        keep_ratio: False
+        allow_stretch: True
         size_hint_x: None
-        width: self.height
-
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: '15dp'
-        size_hint_y: None
-        adaptive_height: True
+        width: '160dp'
         pos_hint: {'center_y': 0.5}
-        MDLabel:
+        
+
+        
+        
+                
             
-            text: root.tot
-            # text: 'Modern House'
-            bold: True
-            font_size: '16dp'
-            color: 'black'
-            size_hint_y: None
-            adaptive_height: True
+        
+    MDLabel:
+        text: f"[color=#000000][b][size=16dp]{root.tot}[/size][/b][/color] \n \n{root.country} {root.province} {root.town} {root.street} \n \n{root.bedrooms} rooms {root.bathrooms} baths {root.landspace} \n \n[color=#000000][b]{root.price}[/b][/color]"
+        markup: True
+        pos_hint: {'center_y': 0.5}
+        color: 'gray'
+        font_size: '14dp'
+
+    
+    # FitImage:
+    #     source: root.image
+    #     # source: 'New Test\Log Cabin.jpg'
+    #     mipmap: True
+        
+    #     radius: ma.radius
+    #     size_hint_x: None
+    #     width: self.height
+
+    # MDBoxLayout:
+    #     orientation: 'vertical'
+    #     spacing: '15dp'
+    #     size_hint_y: None
+    #     adaptive_height: True
+    #     pos_hint: {'center_y': 0.5}
+    #     MDLabel:
+            
+    #         text: root.tot
+    #         # text: 'Modern House'
+    #         bold: True
+    #         font_size: '16dp'
+    #         color: 'black'
+    #         size_hint_y: None
+    #         adaptive_height: True
             
             
 
-        MDLabel:
-            text: root.country + ' ' + root.province + ' ' + root.town + ' ' + root.street
-            # text: 'Japan Kagoshima Kyushu Kyushu island'
-            color: "gray"
-            font_size: "14dp"
+    #     MDLabel:
+    #         text: root.country + ' ' + root.province + ' ' + root.town + ' ' + root.street
+    #         # text: 'Japan Kagoshima Kyushu Kyushu island'
+    #         color: "gray"
+    #         font_size: "14dp"
             
-            size_hint_y: None
-            adaptive_height: True
-            markup: True
-            shorten: True
-            ellipsis_options: {'color':(0,0,0,0.5), 'underline':False}
+    #         size_hint_y: None
+    #         adaptive_height: True
+    #         markup: True
+    #         shorten: True
+    #         ellipsis_options: {'color':(0,0,0,0.5), 'underline':False}
             
 
-        MDLabel:
-            text: root.bedrooms + ' rooms' + ' - ' + root.bathrooms + ' baths' + ' - ' + root.landspace + "  " + f"\n \n[color=#000000][b]{root.price}[/b][/color]"
-            # text: "5 rooms - 3 baths - 542sq.ft  \n \n[color=#000000][b]$120000[/b][/color]"
-            font_size: '14dp'
-            markup: True
-            size_hint_y: None
-            adaptive_height: True
+    #     MDLabel:
+    #         text: root.bedrooms + ' rooms' + ' - ' + root.bathrooms + ' baths' + ' - ' + root.landspace + "  " + f"\n \n[color=#000000][b]{root.price}[/b][/color]"
+    #         # text: "5 rooms - 3 baths - 542sq.ft  \n \n[color=#000000][b]$120000[/b][/color]"
+    #         font_size: '14dp'
+    #         markup: True
+    #         size_hint_y: None
+    #         adaptive_height: True
             
-            color: "gray"
+    #         color: "gray"
             

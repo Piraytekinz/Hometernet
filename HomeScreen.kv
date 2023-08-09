@@ -89,7 +89,7 @@
                     
                         
                         
-                    Label:
+                    MDLabel:
                         id: src
                         text: "Buy and sell on Hometernet."
                         color: "white"
@@ -97,12 +97,12 @@
                         font_size: "25dp" if Window.size[1] > Window.size[0] else "24dp"
                         halign: 'center'
                         size_hint_y: None
-                        height: '25dp'
+                        adaptive_height: True
                         pos_hint: {'center_y': 0.5, 'center_x': 0.5}
                         bold: True
                         # padding: ["5dp", "0dp", "5dp", "0dp"]
                         padding_x: "5dp"
-                        text_size: self.size
+                        
 
                         
                         
@@ -144,7 +144,7 @@
                         #     bold: True
 
                         Image:
-                            source: 'icons\img-search.png'
+                            source: 'img-search.png'
                             pos_hint: {'center_y': 0.5}
                             size_hint: None, None
                             width: '12dp'
@@ -209,7 +209,7 @@
                             
                         
                             
-                    Label:
+                    MDLabel:
                         text: "Bridging the Gap between Worlds."
                         pos_hint: {"center_x": 0.5, "center_y": .7}
                         color: "white"
@@ -227,12 +227,12 @@
             
                 
             
-            Label:
+            MDLabel:
                 text: "Best Property Deals. \n \n[size=15dp][color=#9A9A9A]Browse properties from across the globe.[/color][/size]"
                 color: "black"
                 size_hint_y: None
                 font_size: "22dp"
-                text_size: self.size
+                
                 halign: 'left'
                 markup: True
                 adaptive_height: True
@@ -277,7 +277,7 @@
                     md_bg_color: app.theme_cls.primary_color if app.op_choice=="Sale" else [0.9,0.9,0.9,0.7]
                     id: sale_btn
                     
-                    on_press: app.regulate() if app.has_pressed == False and grid.starter == False else app.do()
+                    on_press: app.regulate() if app.has_pressed == False and grid.starter == False else app.toast('Please wait for load to complete')
                     pos_hint: {'center_y': .2} if app.op_choice=="Sale" else {'center_y': .35}
                     ripple_scale: 0
                     font_size: '15dp'
@@ -302,7 +302,7 @@
                     id: rent_btn
                     
                     pos_hint: {'center_y': .2} if app.op_choice=="Rent" else {'center_y': .35}
-                    on_press: app.rent_regulate() if app.has_pressed == False and grid.starter == False else app.do()
+                    on_press: app.rent_regulate() if app.has_pressed == False and grid.starter == False else app.toast('Please wait for load to complete')
                     ripple_scale: 0
                     font_size: '15dp'
                     # pos_hint: {'center_x': 0.5}
@@ -358,6 +358,11 @@
                 height: self.minimum_height
                 spacing: "25dp"
                 padding: ["10dp", "0dp", "10dp", "10dp"]
+
+                
+
+                    
+
 
                
                 

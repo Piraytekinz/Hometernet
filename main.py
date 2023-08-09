@@ -3935,7 +3935,7 @@ class MainApp(MDApp):
             
             if self.search_counter < len(self.search_begin.each()):
                 
-                if self.search_j % 13 == 0:
+                if self.search_j % 10 == 0:
                     self.scroll_back()
                     self.clear_search()
         
@@ -3975,12 +3975,12 @@ class MainApp(MDApp):
                         self.search_j += 1
                         self.last = u.key()
                         self.something = u.key()
-                        if self.search_j % 4 == 0:
+                        if self.search_j % 5 == 0:
                             
                             
                             break
 
-        time.sleep(0.5)
+        time.sleep(1)
         self.scroll_search_started = False
         
        
@@ -4027,7 +4027,7 @@ class MainApp(MDApp):
     def scroll_search(self):
         
         if self.search.ids.searcher.scroll_y < 0.3:
-            if self.search_j >= 1 and self.search_j % 13 != 0:
+            if self.search_j >= 1 and self.search_j % 10 != 0:
                 self.next_thread(None)
             else:self.scroll_search_started = False
             
