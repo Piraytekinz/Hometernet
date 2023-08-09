@@ -23,7 +23,6 @@ from functools import partial
 
 from kivymd.uix.label import MDLabel, MDIcon
 from PIL import Image
-from kivy.graphics import *
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.behaviors.button import ButtonBehavior
 from kivy.uix.button import Button

@@ -96,9 +96,9 @@
                         color: "black"
                         bold: True
                         
-                    BoxLayout:
+                    MDBoxLayout:
                         size_hint_y: None
-                        height: '18dp'
+                        adaptive_height: True
                         
                         MDIcon:
                             icon: 'map-marker-outline'
@@ -132,7 +132,7 @@
                             
 
                     
-                    ButtonCard:
+                    MapsCard:
                         size_hint: None, None
                         width: gmaps_icon.width + gmaps_label.width + 25
                         height: '50dp'
@@ -140,13 +140,6 @@
                         padding: [5,10,5,10]
                         on_press: app.open_maps(root.country + ',' + " " + root.town + ',' + " " + root.street)
                         ripple_behavior: True
-                        canvas.before:
-                            Color:
-                                rgba: (1,1,1,1)
-                            RoundedRectangle:
-                                size: self.size
-                                pos: self.pos
-                                radius: [dp(10),]
                         
                         
                         MDIcon:

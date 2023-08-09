@@ -878,10 +878,11 @@
 <Nav@MDNavigationDrawer+CommonElevationBehavior>
 <Menu@ButtonBehavior+BoxLayout>:
     size_hint: None, None
-    height: '35dp'
-    width: '35dp'
+    height: menu.height * 2
+    width: self.height
     background_color: 1,1,1,1
-    padding: [self.width/5.2,self.width/4,self.width/5.2,self.width/4]
+    
+    padding: [self.width/3.9,self.height/3.2,self.width/3.9,self.height/3.5]
     canvas.before:
         Color: 
             rgba: (1,1,1,1)
@@ -894,10 +895,11 @@
     MDIcon:
         icon: 'menu'
         font_size: '21dp'
+        
         size_hint: None, None
-        height: '21dp'
-        width: '21dp'
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        adaptive_size: True
+        id: menu
+        
         
         
 
