@@ -1,8 +1,9 @@
 <HomeScreen>:
     
     
-    
-    
+   
+        
+        
     
     RecycleView:
         effect_cls: 'ScrollEffect'
@@ -15,7 +16,8 @@
         id: scroller
         do_scroll_x: False
         on_scroll_move: app.scroll_more() if self.scroll_y < 0.4 else app.do()
-        
+        on_scroll_move: app.scroll_bar() if self.scroll_y < 0.7 else app.unscroll_bar()
+        on_scroll_stop: app.unscroll_bar() if self.scroll_y > 0.6 else app.do()
         
         MDBoxLayout:
             id: main_box
@@ -35,7 +37,7 @@
                     id: main_image
                     source: "Apartment-Buildings.jpg"
                     
-                MDBoxLayout:
+                BoxLayout:
                     
                     padding: ["15dp", "15dp", "15dp", "0dp"]
                     orientation: 'vertical'
@@ -47,23 +49,28 @@
                         
                         padding: [0,0,0,40]
                         size_hint_y: .5
-                        MyCard:
-                            size_hint: None, None
-                            height: menu.height * 2
-                            width: self.height
-                            ripple_behavior: True
-                            radius: ["3dp",]
+                        # MyCard:
+                        #     size_hint: None, None
+                        #     height: menu.height * 2
+                        #     width: self.height
+                        #     ripple_behavior: True
+                        #     radius: ["3dp",]
+                        #     on_press: app.play()
+                        #     on_release: nav.set_state("open")
+                            
+                        #     padding: [self.width/3.9,self.height/3.2,self.width/3.9,self.height/3.2]
+                        #     id: menu_card
+                        #     MDIcon:
+                        #         icon: "menu"
+                        #         id: menu
+                        #         font_size: '21dp'
+                        #         size_hint: None, None
+                        #         adaptive_size: True
+
+                        Menu:
                             on_press: app.play()
                             on_release: nav.set_state("open")
-                            
-                            padding: [self.width/3.9,self.height/3.2,self.width/3.9,self.height/3.2]
                             id: menu_card
-                            MDIcon:
-                                icon: "menu"
-                                id: menu
-                                font_size: '21dp'
-                                size_hint: None, None
-                                adaptive_size: True
                                 
                                 
                                 
@@ -82,7 +89,7 @@
                     
                         
                         
-                    MDLabel:
+                    Label:
                         id: src
                         text: "Buy and sell on Hometernet."
                         color: "white"
@@ -90,42 +97,58 @@
                         font_size: "25dp" if Window.size[1] > Window.size[0] else "24dp"
                         halign: 'center'
                         size_hint_y: None
-                        adaptive_height: True
+                        height: '25dp'
                         pos_hint: {'center_y': 0.5, 'center_x': 0.5}
                         bold: True
                         # padding: ["5dp", "0dp", "5dp", "0dp"]
                         padding_x: "5dp"
+                        text_size: self.size
 
                         
                         
                             
                     
-                    SearchButton:
+                    ButtonCard:
                         elevation: 0
                         
                         
-                        md_bg_color: 1,1,1,1
+                        
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                         size_hint_y: None
                         height: '58dp' if Window.size[1] > Window.size[0] else '50dp'
                         
                         size_hint_max_x: dp(100)
-                        radius: ['30dp']
+                        # radius: ['30dp']
                         
                         on_press: app.play()
                         on_release: app.switch_search()
                         id: btn
                         ripple_behavior: True
                         padding: ["30dp", "0dp", "30dp", "0dp"]
+                        spacing: "12dp"
+                        canvas.before:
+                            Color:
+                                rgba: (1,1,1,1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [dp(30),]
                        
-                        spacing: "10dp"
-                        MDIcon:
-                            icon: 'magnify'
-                            font_size: '17dp'
-                            size_hint: None, None
-                            adaptive_size: True
+                        
+                        # MDIcon:
+                        #     icon: 'magnify'
+                        #     font_size: '17dp'
+                        #     size_hint: None, None
+                        #     adaptive_size: True
+                        #     pos_hint: {'center_y': 0.5}
+                        #     bold: True
+
+                        Image:
+                            source: 'icons\img-search.png'
                             pos_hint: {'center_y': 0.5}
-                            bold: True
+                            size_hint: None, None
+                            width: '12dp'
+                            height: '12dp'
 
                         MDLabel:
                             text: 'Search'
@@ -186,7 +209,7 @@
                             
                         
                             
-                    MDLabel:
+                    Label:
                         text: "Bridging the Gap between Worlds."
                         pos_hint: {"center_x": 0.5, "center_y": .7}
                         color: "white"
@@ -204,17 +227,19 @@
             
                 
             
-            MDLabel:
+            Label:
                 text: "Best Property Deals. \n \n[size=15dp][color=#9A9A9A]Browse properties from across the globe.[/color][/size]"
                 color: "black"
                 size_hint_y: None
                 font_size: "22dp"
-                
+                text_size: self.size
+                halign: 'left'
                 markup: True
                 adaptive_height: True
                 id: best
                 # padding: ["18dp", "0dp", "18dp", "0dp"]
                 padding_x: "18dp"
+                halign: 'left'
                 
             
             
@@ -238,24 +263,26 @@
             MDBoxLayout:
                 height: '130dp'
                 size_hint: None, None
-                adaptive_width: True
                 pos_hint: {'center_x': 0.5}
                 padding: ["18dp"]
                 spacing: "30dp"
+                adaptive_width: True
                
                 MDFillRoundFlatButton:
                     
                     
                     text: "     Sale     "
                     theme_text_color: "Custom"
-                    text_color: "white" if grid.op_choice=="Sale" else 'black'
-                    md_bg_color: app.theme_cls.primary_color if grid.op_choice=="Sale" else [0.9,0.9,0.9,0.7]
+                    text_color: "white" if app.op_choice=="Sale" else 'black'
+                    md_bg_color: app.theme_cls.primary_color if app.op_choice=="Sale" else [0.9,0.9,0.9,0.7]
                     id: sale_btn
                     
                     on_press: app.regulate() if app.has_pressed == False and grid.starter == False else app.do()
-                    pos_hint: {'center_y': .2} if grid.op_choice=="Sale" else {'center_y': .35}
+                    pos_hint: {'center_y': .2} if app.op_choice=="Sale" else {'center_y': .35}
                     ripple_scale: 0
                     font_size: '15dp'
+                    # pos_hint: {'center_x': 0.5}
+
                     
                     
                         
@@ -270,16 +297,17 @@
                     
                     text: "     Rent     "
                     theme_text_color: "Custom"
-                    text_color: "white" if grid.op_choice=="Rent" else 'black'
-                    md_bg_color: app.theme_cls.primary_color if grid.op_choice=="Rent" else [0.9,0.9,0.9,0.7]
+                    text_color: "white" if app.op_choice=="Rent" else 'black'
+                    md_bg_color: app.theme_cls.primary_color if app.op_choice=="Rent" else [0.9,0.9,0.9,0.7]
                     id: rent_btn
                     
-                    pos_hint: {'center_y': .2} if grid.op_choice=="Rent" else {'center_y': .35}
+                    pos_hint: {'center_y': .2} if app.op_choice=="Rent" else {'center_y': .35}
                     on_press: app.rent_regulate() if app.has_pressed == False and grid.starter == False else app.do()
                     ripple_scale: 0
                     font_size: '15dp'
+                    # pos_hint: {'center_x': 0.5}
                     
-                        
+                
                     
                         
                         
@@ -330,6 +358,9 @@
                 height: self.minimum_height
                 spacing: "25dp"
                 padding: ["10dp", "0dp", "10dp", "10dp"]
+
+               
+                
                 
                 
                 
@@ -468,8 +499,56 @@
                 
                 
                                 
-                
-                
+    BoxLayout:
+        size_hint_y: None
+        height: '100dp'
+        # md_bg_color: 0.9,0.9,0.9,0.5
+        pos_hint: {'center_y': 2, 'center_x': 0.5}
+        id: nav_bar
+        padding: ['20dp', '20dp', '20dp', '20dp']
+        spacing: '30dp'
+        canvas.before:
+            Color:
+                rgba: (0.9,0.9,0.9,0.5)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        
+        MDIconButton:
+            icon: 'menu'
+            on_press: nav.set_state('open')
+            size_hint_x: None
+            md_bg_color: 1,1,1,1
+            icon_size: '20dp'
+            theme_text_color: 'Custom'
+            text_color: 'black'
+            pos_hint: {'center_y': 0.4}
+
+        Button:
+            text: '[b][color=#000000]Search[/color][/b]'
+            theme_text_color: 'Custom'
+            text_color: 'black'
+            background_color: 0,0,0,0
+            background_normal: ''
+            pos_hint: {'center_y': 0.4}
+            size_hint: None, None
+            width: '250dp'
+            height: '50dp'
+            markup: True
+            on_release: app.switch_search()
+            canvas.before:
+                Color:
+                    rgba: (1,1,1,1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [30,]
+             
+            
+            
+            
+        
+                        
                 
                 
                 
@@ -797,6 +876,30 @@
 <MyCard@MDCard+CommonElevationBehavior>
 
 <Nav@MDNavigationDrawer+CommonElevationBehavior>
+<Menu@ButtonBehavior+BoxLayout>:
+    size_hint: None, None
+    height: '35dp'
+    width: '35dp'
+    background_color: 1,1,1,1
+    padding: [self.width/5.2,self.width/4,self.width/5.2,self.width/4]
+    canvas.before:
+        Color: 
+            rgba: (1,1,1,1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [dp(3),]
+    
+   
+    MDIcon:
+        icon: 'menu'
+        font_size: '21dp'
+        size_hint: None, None
+        height: '21dp'
+        width: '21dp'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        
+        
 
 
 # \U000F0349

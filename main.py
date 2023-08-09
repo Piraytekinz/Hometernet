@@ -15,15 +15,20 @@ from kivy.properties import StringProperty, ListProperty, ObjectProperty, Numeri
 
 from kivymd.uix.list import MDList, OneLineListItem,OneLineIconListItem,IconLeftWidget
 from kivymd.uix.textfield import MDTextField
-from kivymd.uix.behaviors import CommonElevationBehavior
 from kivymd.uix.snackbar import Snackbar
 from kivy.uix.recycleview import RecycleView
 from kivymd.uix.gridlayout import MDGridLayout
+# from kivy.uix.gridlayout import GridLayout
 from functools import partial
 
 from kivymd.uix.label import MDLabel, MDIcon
 from PIL import Image
-from kivy.uix.textinput import TextInput
+from kivy.graphics import *
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.behaviors.button import ButtonBehavior
+from kivy.uix.button import Button
+
+
 
 
 
@@ -178,6 +183,7 @@ Builder.load_file('search.kv')
 Builder.load_file('LoadingScreen.kv')
 Builder.load_file('DialogEntry.kv')
 Builder.load_file('TheCreator.kv')
+Builder.load_file('List_item.kv')
 
 Builder.load_file('Congrats.kv')
 Builder.load_file('ForgotPasswordEntry.kv')
@@ -277,7 +283,7 @@ class Recents(Screen):
 
    
 
-class BookCards(MDCard, CommonElevationBehavior):
+class BookCards(ButtonBehavior, BoxLayout):
     image = StringProperty()
     tot = StringProperty()
     country = StringProperty()
@@ -305,7 +311,7 @@ class BookCards(MDCard, CommonElevationBehavior):
     
     
 
-class HomeCards(MDCard, CommonElevationBehavior):
+class HomeCards(ButtonBehavior, BoxLayout):
     image = StringProperty()
     tot = StringProperty()
     country = StringProperty()
@@ -333,7 +339,7 @@ class HomeCards(MDCard, CommonElevationBehavior):
 
 
 
-class PropertyRentCards(MDCard, CommonElevationBehavior):
+class PropertyRentCards(ButtonBehavior, BoxLayout):
     image = StringProperty()
     tot = StringProperty()
     country = StringProperty()
@@ -366,7 +372,7 @@ class PropertyRentCards(MDCard, CommonElevationBehavior):
 
     
 
-class PropertySaleCards(MDCard, CommonElevationBehavior):
+class PropertySaleCards(ButtonBehavior, BoxLayout):
     image = StringProperty()
     tot = StringProperty()
     country = StringProperty()
@@ -1023,8 +1029,7 @@ class HomeCardsLayout(MDGridLayout):
         self.full = False
         self.full_rent = False
         self.has_error = False
-        sale_or_rent = ["Sale", "Rent"]
-        self.op_choice = random.choice(sale_or_rent)
+        self.op_choice = ""
         self.rent_back_error = False
         self.back_error = False
         self.scroll_more = False
@@ -1253,7 +1258,7 @@ class HomeCardsLayout(MDGridLayout):
         
             
         if self.sale_found:
-            for u in self.people.each()[self.j:self.j+4]:
+            for u in self.people.each()[self.j:self.j+5]:
                 if self.j == 0:
                     self.last_one.append(u.key())
                 
@@ -1304,7 +1309,7 @@ class HomeCardsLayout(MDGridLayout):
         
             
         if self.rent_found:
-            for u in self.peopler.each()[self.j:self.j+4]:
+            for u in self.peopler.each()[self.j:self.j+5]:
                 if self.j == 0:
                     self.last_rent_one.append(u.key())
                 
@@ -1504,10 +1509,10 @@ class HomeCardsLayout(MDGridLayout):
                 self.last = u.key()
                 self.something = u.key()
                 self.j += 1
-                if self.j % 4 == 0:
+                if self.j % 5 == 0:
                     
                     break
-        time.sleep(0.7)
+        # time.sleep(0.7)
         self.scroll_more = False
 
         
@@ -1533,10 +1538,10 @@ class HomeCardsLayout(MDGridLayout):
                 self.last = u.key()
                 self.rent_something = u.key()
                 self.j += 1
-                if self.j % 4 == 0:
+                if self.j % 5 == 0:
                     
                     break
-        time.sleep(0.7)
+        # time.sleep(0.7)
         self.scroll_more = False
         
     
@@ -1705,7 +1710,8 @@ class HomeCardsLayout(MDGridLayout):
         
     
 
-
+class ButtonCard(ButtonBehavior, BoxLayout):
+    pass
         
 
 
@@ -1836,8 +1842,10 @@ class Countries(MDBoxLayout):
     pass
 
 
-class List_item(OneLineListItem):
+class List_item(Button):
     method = StringProperty()
+    
+        
 
 
 
@@ -1846,12 +1854,14 @@ class Recycle(RecycleView):
         super().__init__(**kwargs)
         self.data = [{'text': 'x'} for x in range(1)]
 
-class Listings(MDList):
+class Listings(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-    
+        self.orientation = 'vertical'
         self.counter = 0
-       
+        self.size_hint_y = None
+        self.height = '18670dp'
+        
         Clock.schedule_interval(self.start, 0.5)
         
         
@@ -1863,8 +1873,10 @@ class Listings(MDList):
             for i in countries:
                 list_item = List_item()
                 
-                list_item.text = i.name
+                list_item.text = f"[color=#000000]{i.name}[/color]"
+                list_item.markup = True
                 list_item.opacity = 0
+                
                 Animation(opacity = 1, duration=0.2).start(list_item)
                 self.add_widget(list_item)
                 self.counter +=1
@@ -1894,6 +1906,8 @@ class MainApp(MDApp):
         self.theme_cls.primary_palette = "Blue"
         self.theme_cls.primary_hue = "900"
         self.wm.transition = NoTransition()
+        sale_or_rent = ["Sale", "Rent"]
+        self.op_choice = random.choice(sale_or_rent)
 
         # self.set_bar_color()
         self.scroll_search_started = False
@@ -1946,6 +1960,7 @@ class MainApp(MDApp):
         
         self.signup = AccountLoginPage(name="sign-up")
         self.home = HomeScreen(name="Home")
+        self.home.ids.grid.op_choice = self.op_choice
         
         self.loading = LoadingScreen(name="loading")
         # self.getStarted = GetStarted(name='get_started')
@@ -1986,7 +2001,7 @@ class MainApp(MDApp):
         
         
         
-   
+        self.op_choice = self.home.ids.grid.op_choice
         self.denied_image = 0
         self.prev_code = ''
 
@@ -3375,8 +3390,13 @@ class MainApp(MDApp):
             self.thread_reload = threading.Thread(target=self.scroll_add)
             self.thread_reload.start()
         
+    
+    def scroll_bar(self):
+        if self.home.ids.grid.j > 0:
+            Animation(pos_hint={'center_y': 0.94}, duration=0.5).start(self.home.ids.nav_bar)
         
-        
+    def unscroll_bar(self):
+        Animation(pos_hint={'center_y': 2}, duration=0.5).start(self.home.ids.nav_bar)
 
     # @call_control(max_call_interval=1)
     def scroll_add(self):
@@ -3961,7 +3981,7 @@ class MainApp(MDApp):
                             
                             break
 
-        time.sleep(1)
+        time.sleep(0.5)
         self.scroll_search_started = False
         
        
@@ -4132,8 +4152,7 @@ class MainApp(MDApp):
                     
             else:
                 if self.has_switched == False:
-                    # self.switch_signup()
-                    self.editscreen('image', 'local_image', 'House_type', 'pricing', 'locate', 'state', 'town', 'street', 'bedrooms', 'bathrooms', 'landspace', 'email', 'key', 'description', ['No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No'], 'facebook', 'twitter', 'link', 'date', 9)
+                    self.switch_signup()
 
                     
 
@@ -7115,9 +7134,9 @@ class MainApp(MDApp):
 
                     image = Image.open(self.new_file)
 
-                    if image.size[0] > 1200 and image.size[1] > 600:
+                    if image.size[0] > 900 and image.size[1] > 500:
                      
-                        img = image.resize((1000,600))
+                        img = image.resize((900,500))
 
                         pathnum = self.new_file.rfind('/')
 
@@ -7546,9 +7565,9 @@ class MainApp(MDApp):
 
                 image = Image.open(self.file)
 
-                if image.size[0] > 1200 and image.size[1] > 600:
+                if image.size[0] > 900 and image.size[1] > 500:
                     
-                    img = image.resize((1000,600))
+                    img = image.resize((900,500))
 
                     pathnum = self.file.rfind('/')
 
@@ -8029,9 +8048,9 @@ class MainApp(MDApp):
 
                 image = Image.open(self.file)
 
-                if image.size[0] > 1200 and image.size[1] > 600:
+                if image.size[0] > 900 and image.size[1] > 500:
                     
-                    img = image.resize((1000,600))
+                    img = image.resize((900,500))
 
                     pathnum = self.file.rfind('/')
 
@@ -8265,6 +8284,7 @@ class MainApp(MDApp):
             pass
 
     def change_color(self):
+        
         Animation(md_bg_color=[0.9,0.9,0.9,0.7], duration=0.2).start(self.home.ids.rent_btn)
         
         self.home.ids.rent_btn.text_color = 'black'
@@ -8272,17 +8292,20 @@ class MainApp(MDApp):
         
         self.home.ids.sale_btn.text_color = 'white'
 
+
         Animation(pos_hint={'center_y': 0.2}, duration=0.2).start(self.home.ids.sale_btn)
-        Animation(pos_hint={'center_y': 0.35}, duration=0.2).start(self.home.ids.rent_btn)
+        Animation(pos_hint={'center_y': 0.45}, duration=0.2).start(self.home.ids.rent_btn)
 
     def change_rent_color(self):
         Animation(md_bg_color=[0.9,0.9,0.9,0.7], duration=0.2).start(self.home.ids.sale_btn)
         self.home.ids.sale_btn.text_color = 'black'
+        
+
         Animation(md_bg_color=self.theme_cls.primary_color, duration=0.2).start(self.home.ids.rent_btn)
         self.home.ids.rent_btn.text_color = 'white'
 
         Animation(pos_hint={'center_y': 0.2}, duration=0.2).start(self.home.ids.rent_btn)
-        Animation(pos_hint={'center_y': 0.35}, duration=0.2).start(self.home.ids.sale_btn)
+        Animation(pos_hint={'center_y': 0.45}, duration=0.2).start(self.home.ids.sale_btn)
 
     
 

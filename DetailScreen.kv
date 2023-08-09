@@ -96,9 +96,9 @@
                         color: "black"
                         bold: True
                         
-                    MDBoxLayout:
+                    BoxLayout:
                         size_hint_y: None
-                        adaptive_height: True
+                        height: '18dp'
                         
                         MDIcon:
                             icon: 'map-marker-outline'
@@ -132,7 +132,7 @@
                             
 
                     
-                    MapsCard:
+                    ButtonCard:
                         size_hint: None, None
                         width: gmaps_icon.width + gmaps_label.width + 25
                         height: '50dp'
@@ -140,6 +140,13 @@
                         padding: [5,10,5,10]
                         on_press: app.open_maps(root.country + ',' + " " + root.town + ',' + " " + root.street)
                         ripple_behavior: True
+                        canvas.before:
+                            Color:
+                                rgba: (1,1,1,1)
+                            RoundedRectangle:
+                                size: self.size
+                                pos: self.pos
+                                radius: [dp(10),]
                         
                         
                         MDIcon:
@@ -162,9 +169,9 @@
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                             halign: 'center'
                             
-                MDBoxLayout:
+                BoxLayout:
                     size_hint_y: None
-                    adaptive_height: True
+                    height: landspace.height * 2
                     spacing: "10dp"
                     padding: ["15dp","5dp","10dp","0dp"]
                     BedroomsCard:
@@ -289,9 +296,9 @@
                             adaptive_height: True
                             
                             
-                            MDBoxLayout:
+                            BoxLayout:
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: '14dp'
                                 spacing: "10dp"
                                 MDIcon:
                                     icon: 'stove'
@@ -314,9 +321,9 @@
                                 bold: True if root.amenities[7] == 'Yes' else False
 
 
-                            MDBoxLayout:
+                            BoxLayout:
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: '14dp'
                                 spacing: "10dp"
                                 MDIcon:
                                     icon: 'food'
@@ -362,9 +369,9 @@
                             adaptive_height: True
                             
                             
-                            MDBoxLayout:
+                            BoxLayout:
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: '14dp'
                                 spacing: "10dp"
                                 MDIcon:
                                     icon: 'fan'
@@ -385,9 +392,9 @@
                                 adaptive_height: True
                                 font_size: '14dp'
                                 bold: True if root.amenities[0] == 'Yes' else False
-                            MDBoxLayout:
+                            BoxLayout:
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: '14dp'
                                 spacing: "10dp"
                                 MDIcon:
                                     icon: 'snowflake'
@@ -409,9 +416,9 @@
                                 font_size: '14dp'
                                 bold: True if root.amenities[1] == 'Yes' else False
 
-                            MDBoxLayout:
+                            BoxLayout:
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: '14dp'
                                 spacing: "10dp"
                                 MDIcon:
                                     icon: 'pool'
@@ -435,9 +442,9 @@
                         
 
                         
-                            MDBoxLayout:
+                            BoxLayout:
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: '14dp'
                                 spacing: "10dp"
                                 MDIcon:
                                     icon: 'water-boiler'
@@ -458,9 +465,9 @@
                                 font_size: '14dp'
                                 bold: True if root.amenities[2] == 'Yes' else False
 
-                            MDBoxLayout:
+                            BoxLayout:
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: '14dp'
                                 spacing: "10dp"
                                 MDIcon:
                                     icon: 'bathtub'
@@ -483,9 +490,9 @@
 
                             
 
-                            MDBoxLayout:
+                            BoxLayout:
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: '14dp'
                                 spacing: "10dp"
                                 MDIcon:
                                     icon: 'fireplace'
@@ -526,9 +533,9 @@
                             adaptive_height: True
                             
                             
-                            MDBoxLayout:
+                            BoxLayout:
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: '14dp'
                                 spacing: "10dp"
                                 MDIcon:
                                     icon: 'wifi'
@@ -549,9 +556,9 @@
                                 font_size: '14dp'
                                 bold: True if root.amenities[4] == 'Yes' else False
 
-                            MDBoxLayout:
+                            BoxLayout:
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: '14dp'
                                 spacing: "10dp"
                                 MDIcon:
                                     icon: 'laptop'
@@ -572,9 +579,9 @@
                                 font_size: '14dp'
                                 bold: True if root.amenities[12] == 'Yes' else False
 
-                            MDBoxLayout:
+                            BoxLayout:
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: '14dp'
                                 spacing: "10dp"
                                 MDIcon:
                                     icon: 'television'
@@ -613,9 +620,9 @@
                             adaptive_height: True
                             
                             
-                            MDBoxLayout:
+                            BoxLayout:
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: '14dp'
                                 spacing: "10dp"
                                 MDIcon:
                                     icon: 'car-outline'
@@ -635,9 +642,9 @@
                                 adaptive_height: True
                                 font_size: '14dp'
                                 bold: True if root.amenities[5] == 'Yes' else False
-                            MDBoxLayout:
+                            BoxLayout:
                                 size_hint_y: None
-                                adaptive_height: True
+                                height: '14dp'
                                 spacing: "10dp"
                                 MDIcon:
                                     icon: 'flower'
@@ -714,5 +721,7 @@
 <LandspaceCard@MDCard+CommonElevationBehavior>
 <Buy@MDCard+CommonElevationBehavior>
 <MapsCard@MDCard+CommonElevationBehavior>
+
+
 
 

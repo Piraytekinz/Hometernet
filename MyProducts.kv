@@ -2,22 +2,35 @@
    
     
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: 'vertical'
-        md_bg_color: 1,1,1,1
-        MDBoxLayout:
+        canvas.before:
+            Color:
+                rgba: (1,1,1,1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        BoxLayout:
             size_hint_y: None
             height: "70dp"
-            md_bg_color: 1,1,1,1
             id: prop_title
             padding: ["10dp",0,0,0]
+            canvas.before:
+                Color:
+                    rgba: (1,1,1,1)
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
             
 
-            MDLabel:
-                text: "My Properties"
+            Label:
+                text: "[color=#000000]My Properties[/color]"
                 font_size: '20dp'
                 bold: True
                 theme_font_style: 'Overline'
+                markup: True
+                text_size: self.size
+                halign: 'left'
                 
                 
             MDIconButton:
@@ -66,7 +79,7 @@
                 on_press: app.play()
                 on_release: app.switch_home()
                 id: arrow_right
-        MDBoxLayout:
+        BoxLayout:
             size_hint_y: None
             height: "50dp"
             

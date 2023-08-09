@@ -20,7 +20,15 @@
     padding: ['0dp', '0dp', '0dp', '10dp']
     spacing: "20dp"
     line_color: 0.9,0.9,0.9,0.5
- 
+    background_color: 1,1,1,1
+    
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [dp(10),]
         
         
             
@@ -73,7 +81,7 @@
         
 
 
-    MDLabel:
+    Label:
         text: root.bedrooms + ' rooms' + ' - ' + root.bathrooms + ' baths' + ' - ' + root.landspace 
         
         font_size: '14dp'
@@ -83,12 +91,15 @@
         color: "gray"
         # bold: True
         padding_x: "25dp"
+        text_size: self.size
+        
+        shorten: True
 
     MDSeparator:
         padding: ['15dp', '0dp', '15dp', '0dp']
         pos_hint: {'center_x': 0.5}
 
-    MDLabel:
+    Label:
         text: root.price
         
         font_size: "20dp"
@@ -99,6 +110,9 @@
         padding_x: "25dp"
  
         height: dp(40)
+        text_size: self.size
+        valign: 'center'
+        shorten: True
         
         
         

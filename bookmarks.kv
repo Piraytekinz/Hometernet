@@ -1,27 +1,42 @@
 <BookmarkScreen>:
     # on_enter: bk.begin()
     
-    MDBoxLayout:
+    BoxLayout:
         orientation: 'vertical'
-        md_bg_color: 1,1,1,1
-        MDBoxLayout:
+        
+        canvas.before:
+            Color:
+                rgba: (1,1,1,1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        BoxLayout:
             size_hint_y: None
             height: "90dp"
-            md_bg_color: 1,1,1,1
             id: book_title
             padding: ["10dp","30dp",0,0]
+            canvas.before:
+                Color:
+                    rgba: (1,1,1,1)
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
 
             
 
             
 
-            MDLabel:
-                text: "Bookmarks"
+            Label:
+                text: "[color=#000000]Bookmarks[/color]"
                 font_size: '25dp'
                 bold: True
                 theme_font_style: 'Overline'
-                
+                markup: True
                 padding_x: "10dp"
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                pos_hint: {'center_y': 0.5}
 
             MDIconButton:
                 icon: 'trash-can-outline'

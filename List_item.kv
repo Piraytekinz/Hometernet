@@ -1,2 +1,20 @@
 <List_item>:
+    size_hint_y: None
+    height: '70dp'
     on_press: app.display(self.text)
+    background_color: 0,0,0,0
+    background_normal: ''
+    text: ''
+    
+    
+    
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+            
+    # MDLabel:
+    #     text: 'Afghanistan'
+    #     id: nameo

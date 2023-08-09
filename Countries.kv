@@ -12,17 +12,31 @@
         size_hint_y: None
         adaptive_height: True
         font_size: '20dp'
-    MDBoxLayout:
-        Recycle:
-            viewclass: 'Listings'
-            RecycleBoxLayout:
-                default_size_hint: 1, None
-                size_hint_y: None
-                # size_hint_y: None
-                height: self.minimum_height
-                orientation: 'vertical'
-                # Listings:
+    # MDBoxLayout:
+    #     md_bg_color: 1,0,0,1
+    RecycleView:
+        # viewclass: 'Listings'
+        # RecycleBoxLayout:
+        #     default_size_hint: 1, None
+        #     size_hint_y: None
+        #     # size_hint_y: None
+        #     height: self.minimum_height
+        #     adaptive_height: True
+        #     orientation: 'vertical'
+        Listings:
+            background_color: 0,0,0,0
+            background_normal: ''
+            spacing: '5dp'
+            size_hint_y: None
+            adaptive_height: True
+            canvas.before:
+                Color:
+                    rgba: (0.9,0.9,0.9,0.5)
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+             
+                    
 
-<Listings>
-<List_item>:
-    on_press: app.display(self.text)
+
+# <Listings>

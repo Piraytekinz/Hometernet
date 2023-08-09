@@ -17,7 +17,7 @@
             spacing: "20dp"
             padding: ["10dp"]
             id: scroll_box
-            MDBoxLayout:
+            BoxLayout:
                 size_hint_y: None
                 height: '60dp'
                 spacing: "10dp"
@@ -31,15 +31,18 @@
                     md_bg_color: 1,1,1,1
                     
 
-                MDLabel:
+                Label:
                     text: "Search"
                     font_size: '25dp'
                     bold: True
                     # halign: 'center'
                     theme_font_style: 'Overline'
                     size_hint_y: None
-                    adaptive_height: True
-                    pos_hint: {'center_y':0.5}
+                    height: '27dp'
+                    pos_hint: {'center_y':0.48}
+                    text_size: self.size
+                    halign: 'left'
+                    color: 'black'
 
                 MDIconButton:
                     icon: 'magnify'
@@ -53,13 +56,13 @@
                     disabled_color: 0,0,0,1
 
             
-            MDGridLayout:
+            GridLayout:
                 cols: 2
                 size_hint_y: None
-                adaptive_height: True
+                height: self.minimum_height
                 spacing: "20dp"
                 
-                ChooseCard:
+                ButtonCard:
                     radius: ["10dp"]
                     size_hint: None, None
                     width: "130dp"
@@ -67,6 +70,15 @@
                     padding: [10,0,0,0]
                     id: sale_or_rent
                     height: "55dp"
+
+                    canvas.before:
+                        Color:
+                            rgba: (1,1,1,1)
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                            radius: [dp(10),]
+
                     MDLabel:
                         text: "For: "
                         size_hint: None, None
@@ -88,13 +100,21 @@
                             app.sale_rent_choice()
                         pos_hint: {'center_y': 0.5}
                         font_size: '14dp'
-                BedCard:
+                ButtonCard:
                     radius: ["10dp"]
                     size_hint: None, None
                     width: "130dp"
                     
                     padding: [10,0,0,0]
                     height: "55dp"
+                    canvas.before:
+                        Color:
+                            rgba: (1,1,1,1)
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                            radius: [dp(10),]
+
                     MDLabel:
                         text: "rooms: "
                         size_hint: None, None

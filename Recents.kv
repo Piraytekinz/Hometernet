@@ -1,26 +1,39 @@
 <Recents>:
     
-    MDBoxLayout:
+    BoxLayout:
         orientation: 'vertical'
-        md_bg_color: 1,1,1,1
-        MDBoxLayout:
+        canvas.before:
+            Color:
+                rgba: (1,1,1,1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        BoxLayout:
             size_hint_y: None
             height: "90dp"
-            md_bg_color: 1,1,1,1
             id: rec_title
             padding: ["10dp","30dp",0,0]
-
+            canvas.before:
+                Color:
+                    rgba: (1,1,1,1)
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
             
 
             
 
-            MDLabel:
-                text: "History"
+            Label:
+                text: "[color=#000000]History[/color]"
                 font_size: '25dp'
                 bold: True
                 theme_font_style: 'Overline'
-                # padding: ["10dp", "0dp", "10dp", "0dp"]
+                markup: True
                 padding_x: "10dp"
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                pos_hint: {'center_y': 0.5}
 
             
 
