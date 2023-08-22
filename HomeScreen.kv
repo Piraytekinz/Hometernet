@@ -25,7 +25,7 @@
             size_hint_y: None
             adaptive_height: True   
             spacing: "47dp"        
-            
+            md_bg_color: 1,1,1,1
             
             padding: [0,0,0,10]
             RelativeLayout:
@@ -36,6 +36,48 @@
                 FitImage:
                     id: main_image
                     source: "Apartment-Buildings.jpg"
+
+                
+                    # MyCard:
+                    #     size_hint: None, None
+                    #     height: menu.height * 2
+                    #     width: self.height
+                    #     ripple_behavior: True
+                    #     radius: ["3dp",]
+                    #     on_press: app.play()
+                    #     on_release: nav.set_state("open")
+                        
+                    #     padding: [self.width/3.9,self.height/3.2,self.width/3.9,self.height/3.2]
+                    #     id: menu_card
+                    #     MDIcon:
+                    #         icon: "menu"
+                    #         id: menu
+                    #         font_size: '21dp'
+                    #         size_hint: None, None
+                    #         adaptive_size: True
+
+                    
+
+                
+                    # MyCard:
+                    #     size_hint: None, None
+                    #     height: menu.height * 2
+                    #     width: self.height
+                    #     ripple_behavior: True
+                    #     radius: ["3dp",]
+                    #     on_press: app.play()
+                    #     on_release: nav.set_state("open")
+                        
+                    #     padding: [self.width/3.9,self.height/3.2,self.width/3.9,self.height/3.2]
+                    #     id: menu_card
+                    #     MDIcon:
+                    #         icon: "menu"
+                    #         id: menu
+                    #         font_size: '21dp'
+                    #         size_hint: None, None
+                    #         adaptive_size: True
+
+                    
                     
                 BoxLayout:
                     
@@ -71,6 +113,8 @@
                             on_press: app.play()
                             on_release: nav.set_state("open")
                             id: menu_card
+
+                        
                                 
                                 
                                 
@@ -357,7 +401,11 @@
                 
                 height: self.minimum_height
                 spacing: "25dp"
-                padding: ["10dp", "0dp", "10dp", "10dp"]
+                # padding: ["10dp", "0dp", "10dp", "10dp"]
+                # md_bg_color: 1,0,0,1
+
+                
+                
 
                 
 
@@ -547,7 +595,7 @@
                 RoundedRectangle:
                     size: self.size
                     pos: self.pos
-                    radius: [30,]
+                    radius: [dp(30),]
              
             
             

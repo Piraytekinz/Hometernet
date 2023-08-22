@@ -15,8 +15,10 @@
             size_hint_y: None
             adaptive_height: True
             spacing: "20dp"
-            padding: ["10dp"]
+            padding: ["10dp",]
             id: scroll_box
+            
+            
             BoxLayout:
                 size_hint_y: None
                 height: '60dp'
@@ -285,15 +287,15 @@
                 
 
             SearchLayout:
-                size_hint_y: None
+                size_hint: None, None
+                adaptive_width: True
                 height: self.minimum_height
                 id: search
-                spacing: "20dp"
+                spacing: "25dp"
                 # orientation: 'vertical'
                 cols: 1 if Window.size[1] > Window.size[0] else 2
                 
                 pos_hint: {'center_x': 0.5}
-                
                 
 
                 

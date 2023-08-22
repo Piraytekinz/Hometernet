@@ -137,6 +137,7 @@
         
         
         MDSeparator:
+            id: p_sep
             color: 0.9,0.9,0.9,0.4
 
         
@@ -146,7 +147,12 @@
             scroll_distance: 1
             scroll_wheel_distance: 50
             smooth_scroll_end: 30
-            on_scroll_move: app.reload_products() if self.scroll_y > 1.07 and app.thread_prod_started == False else app.do()
+            on_scroll_move: 
+                app.reload_products() if self.scroll_y > 1.07 and app.thread_prod_started == False else app.do()
+                p_sep.height='2dp'
+                p_sep.color= app.theme_cls.primary_color
+            on_scroll_stop:
+                app.unanimate_separator()
             id: scroller
             bar_width: 0
             MDBoxLayout:

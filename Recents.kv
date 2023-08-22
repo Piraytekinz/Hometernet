@@ -64,6 +64,7 @@
                 on_release: app.switch_home()
                 id: arrow_right
         MDSeparator:
+            id: r_sep
             color: 0.9,0.9,0.9,0.4
 
         Scroller:
@@ -74,7 +75,13 @@
             smooth_scroll_end: 30
             id: scroller
             # on_overscroll: app.do()
-            on_scroll_move: app.reload_recents() if self.scroll_y > 1.1 and app.thread_recent_started == False else app.do()
+            on_scroll_move: 
+                app.reload_recents() if self.scroll_y > 1.1 and app.thread_recent_started == False else app.do()
+                r_sep.height='2dp'
+                r_sep.color= app.theme_cls.primary_color
+            on_scroll_stop:
+                app.unanimate_separator()
+
             
             MDBoxLayout:
                 orientation: 'vertical'

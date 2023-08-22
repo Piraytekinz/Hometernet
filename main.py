@@ -13,7 +13,7 @@ from kivymd.uix.card import MDCard
 from kivy.properties import StringProperty, ListProperty, ObjectProperty, NumericProperty
 
 
-from kivymd.uix.list import MDList, OneLineListItem,OneLineIconListItem,IconLeftWidget
+from kivymd.uix.list import OneLineListItem,OneLineIconListItem,IconLeftWidget
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.snackbar import Snackbar
 from kivy.uix.recycleview import RecycleView
@@ -69,6 +69,7 @@ from kivy.config import Config
 
 from plyer import filechooser
 from plyer import email
+
 
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton, MDRaisedButton, MDFillRoundFlatButton
@@ -1140,7 +1141,7 @@ class HomeCardsLayout(MDGridLayout):
         # self.first_choice = random.choice(bath_or_bed)
         
         
-        self.peopler = db.child("Rent").order_by_key().limit_to_first(10).get()
+        self.peopler = db.child("Rent").order_by_key().limit_to_first(20).get()
         
         # if self.first_choice == 'bedrooms':
             
@@ -1199,7 +1200,7 @@ class HomeCardsLayout(MDGridLayout):
         # bath_or_bed = ['bedrooms', 'bathrooms', 'price', 'country', 'views', 'state', 'town', 'street', 'housetype']
         # self.first_choice = random.choice(bath_or_bed)
         
-        self.people = db.child("Sale").order_by_key().limit_to_first(10).get()
+        self.people = db.child("Sale").order_by_key().limit_to_first(20).get()
 
         # if self.first_choice == 'bedrooms':
             
@@ -1410,7 +1411,7 @@ class HomeCardsLayout(MDGridLayout):
             
             if self.j >= len(self.peopler.each()):
                 
-                self.peopler = db.child("Rent").order_by_key().start_at(self.rent_something).limit_to_first(11).get()
+                self.peopler = db.child("Rent").order_by_key().start_at(self.rent_something).limit_to_first(21).get()
                 
                     
                 
@@ -1442,7 +1443,7 @@ class HomeCardsLayout(MDGridLayout):
             
             if self.j >= len(self.people.each()):
                 
-                self.people = db.child("Sale").order_by_key().start_at(self.something).limit_to_first(11).get()
+                self.people = db.child("Sale").order_by_key().start_at(self.something).limit_to_first(21).get()
                 
                     
                 
@@ -1511,7 +1512,7 @@ class HomeCardsLayout(MDGridLayout):
                 if self.j % 5 == 0:
                     
                     break
-        # time.sleep(0.7)
+        time.sleep(0.7)
         self.scroll_more = False
 
         
@@ -1540,7 +1541,7 @@ class HomeCardsLayout(MDGridLayout):
                 if self.j % 5 == 0:
                     
                     break
-        # time.sleep(0.7)
+        time.sleep(0.7)
         self.scroll_more = False
         
     
@@ -1670,7 +1671,7 @@ class HomeCardsLayout(MDGridLayout):
             
             l = len(self.last_rent_one) - 1
             key = self.last_rent_one[l-1]
-            self.peopler = db.child("Rent").order_by_key().start_at(key).limit_to_first(10).get() 
+            self.peopler = db.child("Rent").order_by_key().start_at(key).limit_to_first(20).get() 
 
             self.j = 0
             self.clear()
@@ -1697,7 +1698,7 @@ class HomeCardsLayout(MDGridLayout):
             
             l = len(self.last_one) - 1
             key = self.last_one[l-1]
-            self.people = db.child("Sale").order_by_key().start_at(key).limit_to_first(10).get() 
+            self.people = db.child("Sale").order_by_key().start_at(key).limit_to_first(20).get() 
             self.j = 0
             self.clear()
             self.last_one.pop()
@@ -3522,8 +3523,53 @@ class MainApp(MDApp):
                         
 
 
+    # def web_search(self, choice, country, state, city, bedrooms, property_type):
+    #     if self.has_error == True:
+    #         if self.has_failed == True:
+                
+    #             self.search.ids.search.remove_widget(self.bxopo)
+    #             self.has_failed = False
+    #         self.has_error = False
 
+        
+            
+    #     self.search.ids.check.text = 'Searching...'
+    #     self.search.ids.check.opacity = 1
+    #     self.search.ids.spin.active = True
+    #     self.search.ids.spin.opacity = 1
+      
 
+    #     self.search.ids.more_card.disabled = True
+    #     self.search.ids.more_card.opacity = 0
+        
+    #     self.search.ids.refresh_card.disabled = True
+    #     self.search.ids.refresh_card.opacity = 0
+    #     self.search.ids.searchido.disabled = True
+    #     Animation(pos_hint={'center_y': 5}, duration=0.3).start(self.search.ids.searchido)
+        
+        
+    #     self.search_event = Event()
+    #     self.is_searching = True
+    #     self.thread_search = threading.Thread(target=self.search_web, args=(choice, country, state, city, bedrooms, property_type,))
+    #     self.thread_search.start()
+
+    # def search_web(self):
+    #     # try:
+            
+    #     #     self.search_now(choice, countryl, state.title(), city.title(), bedrooms, prop_type.title())
+        
+            
+            
+    #     # except:
+            
+            
+    #     #     self.has_error = True
+
+    #     if self.has_error:
+    #         if not self.search_event.is_set():
+    #             self.search_event.set()
+    #             self.search_failed()
+    #             self.search_error("No hometernet connection", icon="cancel")
 
     def search_thread(self, choice, country, state, city, bedrooms, property_type):
         
@@ -3935,7 +3981,7 @@ class MainApp(MDApp):
             
             if self.search_counter < len(self.search_begin.each()):
                 
-                if self.search_j % 10 == 0:
+                if self.search_j % 20 == 0:
                     self.scroll_back()
                     self.clear_search()
         
@@ -4027,7 +4073,7 @@ class MainApp(MDApp):
     def scroll_search(self):
         
         if self.search.ids.searcher.scroll_y < 0.3:
-            if self.search_j >= 1 and self.search_j % 10 != 0:
+            if self.search_j >= 1 and self.search_j % 20 != 0:
                 self.next_thread(None)
             else:self.scroll_search_started = False
             
@@ -4152,6 +4198,7 @@ class MainApp(MDApp):
             else:
                 if self.has_switched == False:
                     self.switch_signup()
+                    
 
                     
 
@@ -5653,8 +5700,8 @@ class MainApp(MDApp):
         self.tried = 0
         self.secret_num = random.randint(100000,999999)
         
-        message = MIMEText(f"Your email login code is {self.secret_num}. \n Warning do not share this code with anyone. \n You can ignore this email if you weren't authenticating an account.")
-        message['Subject'] = "Your Hometernet login code is..."
+        message = MIMEText(f"Your Hometernet login code is {self.secret_num}. \n \nYou can ignore this email if you weren't authenticating an account. \nNotifications will be sent through this email.")
+        message['Subject'] = f"Your Hometernet login code is...{self.secret_num}"
         message["From"] = "hometernetmanager@gmail.com"
         message["To"] = self.evaluating_email
         server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
@@ -5677,8 +5724,7 @@ class MainApp(MDApp):
             
             
             
-            num = self.secret_num
-            ot = self.secret_num
+            
             
             
             if self.tried >= 6:
@@ -5698,8 +5744,11 @@ class MainApp(MDApp):
                         self.thread_create = threading.Thread(target=self.create_account_now)
                         self.thread_create.start()
                         self.tried = 0
+                    elif len(typed_in) > 6:
+                        self.snackbar("Code should be 6 digits")
+                        self.code_verifyer.ids.verify_code.text = ''
                     else:
-                        
+                        self.code_verifyer.ids.verify_code.text = ''
                         self.snackbar("Invalid code")
 
         elif self.func == 'sign-in':
@@ -5707,8 +5756,6 @@ class MainApp(MDApp):
             
             
             
-            num = self.secret_num
-            ot = self.secret_num
             
             
             if self.tried >= 6:
@@ -5728,8 +5775,11 @@ class MainApp(MDApp):
                         self.thread_create = threading.Thread(target=self.sign_in_boi)
                         self.thread_create.start()
                         self.tried = 0
+                    elif len(typed_in) > 6:
+                        self.code_verifyer.ids.verify_code.text = ''
+                        self.snackbar("Code should be 6 digits")
                     else:
-                        
+                        self.code_verifyer.ids.verify_code.text = ''
                         self.snackbar("Invalid code")
     
     @mainthread
@@ -8345,6 +8395,20 @@ class MainApp(MDApp):
             self.account.ids.profile.source = 'grad.png'
    
     
+    
+            
+
+    def unanimate_separator(self):
+        if self.wm.current == 'bookmarks':
+            Animation(color=(0.9,0.9,0.9,0.4), duration=0.3).start(self.bk.ids.sep)
+            Animation(height=1, duration=0.3).start(self.bk.ids.sep)
+        elif self.wm.current == 'recent':
+            Animation(color=(0.9,0.9,0.9,0.4), duration=0.3).start(self.recents.ids.r_sep)
+            Animation(height=1, duration=0.3).start(self.recents.ids.r_sep)
+        else:
+            Animation(color=(0.9,0.9,0.9,0.4), duration=0.3).start(self.products.ids.p_sep)
+            Animation(height=1, duration=0.3).start(self.products.ids.p_sep)
+
         
 
     def animate_bar(self, card):

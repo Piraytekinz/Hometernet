@@ -80,6 +80,7 @@
                 id: arrow_right
 
         MDSeparator:
+            id: sep
             color: 0.9,0.9,0.9,0.4
             
 
@@ -88,8 +89,14 @@
             # effect_cls: "ScrollEffect"
             scroll_wheel_distance: 50
             smooth_scroll_end: 30
-            on_scroll_move: app.reload_bookmarks() if self.scroll_y > 1.1 and app.thread_bk_started == False else app.do()
+            on_scroll_move: 
+                app.reload_bookmarks() if self.scroll_y > 1.1 and app.thread_bk_started == False else app.do()
+                sep.height='2dp'
+                sep.color= app.theme_cls.primary_color
+            on_scroll_stop:
+                app.unanimate_separator()
             id: bk_scroller
+
             
             MDBoxLayout:
                 orientation: 'vertical'
