@@ -3131,7 +3131,7 @@ class MainApp(MDApp):
             if self.recent_err == True:
                 self.remove_recent_error()
                 self.recent_err = False
-            self.empty_recent("You're not signed in", icon='cloud-outline')
+            self.empty_recent("You're not signed in", icon='clock-outline')
             
 
     @mainthread
@@ -3874,6 +3874,7 @@ class MainApp(MDApp):
     
     def search_added(self, country, state, city, bedrooms, property_type, time=None):
         
+        split = property_type.split()
         
 
         if self.search_begin.each():
@@ -3888,7 +3889,7 @@ class MainApp(MDApp):
                 
                 
                 
-                if u.val()['housetype'] == property_type or property_type == '' or (len(property_type) > 3 and property_type in u.val()['housetype']):
+                if u.val()['housetype'] == property_type or property_type == '' or (len(property_type) > 3 and property_type in u.val()['housetype']) or (elem for elem in split if elem in u.val()['housetype']):
                     if u.val()['bedrooms'] == bedrooms:
 
                         self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
@@ -4012,7 +4013,7 @@ class MainApp(MDApp):
                 
                 self.search_counter += 1
                 
-                if u.val()['housetype'] == self.old_prop.strip() or self.old_prop == "" or (len(self.old_prop.strip()) > 3 and self.old_prop.strip() in u.val()['housetype']):
+                if u.val()['housetype'] == self.old_prop.strip() or self.old_prop == "" or (len(self.old_prop.strip()) > 3 and self.old_prop.strip() in u.val()['housetype']) or (elem for elem in self.old_prop.strip().split() if elem in u.val()['housetype']):
                     if u.val()['bedrooms'] == self.old_bedrooms:
                         
                         self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
@@ -4101,7 +4102,7 @@ class MainApp(MDApp):
                 self.search_counter += 1
                 
                 
-                if u.val()['housetype'] == self.old_prop.strip()  or self.old_prop == "" or (len(self.old_prop.strip()) > 3 and self.old_prop.strip() in u.val()['housetype']):
+                if u.val()['housetype'] == self.old_prop.strip()  or self.old_prop == "" or (len(self.old_prop.strip()) > 3 and self.old_prop.strip() in u.val()['housetype']) or (elem for elem in self.old_prop.strip().split() if elem in u.val()['housetype']):
                     if u.val()['bedrooms'] == self.old_bedrooms:
                         self.add_card(u.val()['url'], u.val()['housetype'], u.val()['country'], u.val()['state'], u.val()['town'], u.val()['street'], u.val()['bedrooms'],
                                       u.val()['bathrooms'], u.val()['landspace'], u.val()['email'], u.val()['price'], u.key(), u.val()['phonenumber'], u.val()['twitter'],

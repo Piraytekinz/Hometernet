@@ -179,20 +179,20 @@
                                 radius: [dp(30),]
                        
                         
-                        # MDIcon:
-                        #     icon: 'magnify'
-                        #     font_size: '17dp'
-                        #     size_hint: None, None
-                        #     adaptive_size: True
-                        #     pos_hint: {'center_y': 0.5}
-                        #     bold: True
-
-                        Image:
-                            source: 'img-search.png'
-                            pos_hint: {'center_y': 0.5}
+                        MDIcon:
+                            icon: 'magnify'
+                            font_size: '17dp'
                             size_hint: None, None
-                            width: '12dp'
-                            height: '12dp'
+                            adaptive_size: True
+                            pos_hint: {'center_y': 0.5}
+                            bold: True
+
+                        # Image:
+                        #     source: 'img-search.png'
+                        #     pos_hint: {'center_y': 0.5}
+                        #     size_hint: None, None
+                        #     width: '12dp'
+                        #     height: '12dp'
 
                         MDLabel:
                             text: 'Search'
@@ -401,8 +401,7 @@
                 
                 height: self.minimum_height
                 spacing: "25dp"
-                # padding: ["10dp", "0dp", "10dp", "10dp"]
-                # md_bg_color: 1,0,0,1
+                
 
                 
                 
@@ -578,7 +577,7 @@
             pos_hint: {'center_y': 0.4}
 
         Button:
-            text: '[b][color=#000000]Search[/color][/b]'
+            text: '[size=16dp][b][color=#000000]Search[/color][/b][/size]'
             theme_text_color: 'Custom'
             text_color: 'black'
             background_color: 0,0,0,0
@@ -595,7 +594,7 @@
                 RoundedRectangle:
                     size: self.size
                     pos: self.pos
-                    radius: [dp(30),]
+                    radius: [dp(26),]
              
             
             
