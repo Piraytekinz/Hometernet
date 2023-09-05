@@ -7169,7 +7169,7 @@ class MainApp(MDApp):
                 
                     
             else:
-                self.show_dialog("Please select an image from a folder or directly from your gallery.")
+                self.show_dialog("Please select an image directly from your gallery.")
         self.close_image_dialog()
         if self.saved_image == True:
             try:
@@ -7594,7 +7594,7 @@ class MainApp(MDApp):
                     #     self.snackbar(p)
                 
             else:
-                self.show_dialog("Please select an image directly from any folder or your gallery.")
+                self.show_dialog("Please select an image directly from your gallery.")
                 
                 time.sleep(1)
                 self.true_switch_sale()
@@ -8081,7 +8081,7 @@ class MainApp(MDApp):
                     self.submit_congrats()
 
             else:
-                self.show_dialog("Please select an image from any folder or directly from your gallery")
+                self.show_dialog("Please select an image directly from your gallery")
                 time.sleep(1)
                 self.true_switch_rent()
     
