@@ -2130,6 +2130,7 @@ class MainApp(MDApp):
         
         
         self.loading.ids.spin.active=True
+        self.loading.ids.labe.opacity = 0
         self.switch_loading()
         self.event = Event()
         self.thread_now = threading.Thread(target=self.switch_now, args=(email,))
@@ -2201,7 +2202,7 @@ class MainApp(MDApp):
                 authi.send_email_verification(self.user['idToken'])
                 time.sleep(1)
                 if not self.event.is_set():
-                    text = "An email verification link has been sent to your mail"
+                    text = "An email verification link has been sent to your email. Check in spam if not found in your inbox."
                     
                     self.show_dialog(text)
             
@@ -5494,14 +5495,15 @@ class MainApp(MDApp):
 
                 if offer.val() == None or key not in offer.val():
                     
-                    
-                    message = MIMEText(f"Someone just viewed your contact information for \n \n Property type: {type} \n Country: {country} \n State\Province: {province} \n Town\City: {town} \n Street address: {street} \n bedrooms: {bedrooms} \n bathrooms: {bathrooms} \n land area: {landspace}  \n Price: {price}")
-                    message['Subject'] = "Your property contact information was viewed..."
-                    message["From"] = "hometernetmanager@gmail.com"
-                    message["To"] = email
+                    message = f"From: Hometernet \nTo: {email} \nSubject: An offer was made to buy your property. \n\nSomeone just viewed your contact information for \n \n Property type: {type} \n Country: {country} \n State\Province: {province} \n Town\City: {town} \n Street address: {street} \n bedrooms: {bedrooms} \n bathrooms: {bathrooms} \n land area: {landspace}  \n Price: {price}"
+
+                    # message = MIMEText(f"Someone just viewed your contact information for \n \n Property type: {type} \n Country: {country} \n State\Province: {province} \n Town\City: {town} \n Street address: {street} \n bedrooms: {bedrooms} \n bathrooms: {bathrooms} \n land area: {landspace}  \n Price: {price}")
+                    # message['Subject'] = "Your property contact information was viewed..."
+                    # message["From"] = "hometernetmanager@gmail.com"
+                    # message["To"] = email
                     server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
                     server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
-                    server.sendmail("hometernetmanager@gmail.com", email, message.as_string())
+                    server.sendmail("Hometernet", email, message)
 
                     now = datetime.today()
                     time = date.strftime(now, '%Y-%m-%d')
@@ -5627,6 +5629,7 @@ class MainApp(MDApp):
 
     def validate_behind(self, email):
         self.loading.ids.spin.active=True
+        
         self.switch_loading()
         
         
@@ -5670,6 +5673,7 @@ class MainApp(MDApp):
             
     def resend_now(self, func):
         self.loading.ids.spin.active=True
+        self.loading.ids.labe.opacity = 0
         self.switch_loading()
         self.event = Event()
         self.thread_create = threading.Thread(target=self.resend_code, args=(func,))
@@ -5701,13 +5705,15 @@ class MainApp(MDApp):
         self.tried = 0
         self.secret_num = random.randint(100000,999999)
         
-        message = MIMEText(f"Your Hometernet login code is {self.secret_num}. \n \nYou can ignore this email if you weren't authenticating an account. \nNotifications will be sent through this email.")
-        message['Subject'] = f"Your Hometernet login code is...{self.secret_num}"
-        message["From"] = "hometernetmanager@gmail.com"
-        message["To"] = self.evaluating_email
+        message = f"From: Hometernet \nTo: {self.evaluating_email} \nSubject: Your Hometernet login code is...{self.secret_num}. \n\nYour code is {self.secret_num}. \n \nYou can ignore this email if you weren't authenticating an account. \nNotifications will be sent through this email."
+
+        # message = MIMEText(f"Your Hometernet login code is {self.secret_num}. \n \nYou can ignore this email if you weren't authenticating an account. \nNotifications will be sent through this email.")
+        # message['Subject'] = f"Your Hometernet login code is...{self.secret_num}"
+        # message["From"] = "hometernetmanager@gmail.com"
+        # message["To"] = self.evaluating_email
         server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
         server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
-        server.sendmail("hometernetmanager@gmail.com", self.evaluating_email, message.as_string())
+        server.sendmail("Hometernet", self.evaluating_email, message)
         server.quit()
         time.sleep(1)
         if not self.event.is_set():
@@ -5893,13 +5899,14 @@ class MainApp(MDApp):
 
     def send_create_message(self):
         try:
-            message = MIMEText("Congratulations you successfully created your account. \n \nWelcome to the Hometernet. \n \nYou will receive notifications from this email. Any email with senders other than people who may be interested in your property, 'Hometernet' or 'hometernetmanager' must be ignored. ")
-            message['Subject'] = "Your account has been successfully created..."
-            message["From"] = "hometernetmanager@gmail.com"
-            message["To"] = self.curr['email']
+            message = f"From: Hometernet \nTo: {self.curr['email']} \nSubject: Your account has been created successfully... \n\nWelcome to the Hometernet. \n \nYou will receive notifications from this email. Any email with senders other than people who may be interested in your property, 'Hometernet' or 'hometernetmanager' must be ignored."
+            # message = MIMEText("Congratulations you successfully created your account. \n \nWelcome to the Hometernet. \n \nYou will receive notifications from this email. Any email with senders other than people who may be interested in your property, 'Hometernet' or 'hometernetmanager' must be ignored. ")
+            # message['Subject'] = "Your account has been successfully created..."
+            # message["From"] = "hometernetmanager@gmail.com"
+            # message["To"] = self.curr['email']
             server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
             server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
-            server.sendmail("hometernetmanager@gmail.com", self.curr['email'], message.as_string())
+            server.sendmail("Hometernet", self.curr['email'], message)
             server.quit()
         except:
             pass
@@ -6323,6 +6330,7 @@ class MainApp(MDApp):
                 if self.validator_check:
                     self.evaluating_email = self.signin.ids.email.text
                     self.loading.ids.spin.active = True
+                    self.loading.ids.labe.opacity = 0
                     self.switch_loading()
                     self.event = Event()
                     self.threader = threading.Thread(target=self.resend_now, args=('sign-in',))
@@ -6444,7 +6452,7 @@ class MainApp(MDApp):
 
                 if ino['users'][0]['emailVerified'] != True:
                     authi.send_email_verification(self.user['idToken'])
-                    text = "An email verification link has been sent to your mail"
+                    text = "An email verification link has been sent to your mail. Check in spam if not found in your inbox."
                     
                     self.show_dialog(text)
 
@@ -6544,6 +6552,7 @@ class MainApp(MDApp):
 
     def editscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, facebook=None, twitter=None, link=None, date=None, views=None):
         self.loading.ids.spin.active = False
+        self.loading.ids.labe.opacity = 1
         self.switch_loading(direction='left')
         self.loading_labe()
         
@@ -6595,6 +6604,7 @@ class MainApp(MDApp):
 
     def editrentscreen(self, image=None, local_image=None, House_type=None, pricing=None, locate=None, state=None, town=None, street=None, bedrooms=None, bathrooms=None, landspace=None, email=None, key=None, description=None, amenities=None, checkin=None, checkout=None, facebook=None, twitter=None, link=None, date=None, views=None):
         self.loading.ids.spin.active = False
+        self.loading.ids.labe.opacity = 1
         self.switch_loading(direction='left')
         self.loading_labe()
         self.e = threading.Thread(target=self.editrentscreeni, args=(image, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, email, key, description, amenities, checkin, checkout, facebook, twitter, link, date, views,))
@@ -7515,6 +7525,7 @@ class MainApp(MDApp):
 
     def real_house_sale(self, selection):
         self.loading.ids.spin.active=True
+        self.loading.ids.labe.opacity = 0
         self.switch_loading()
         
         self.event = Event()
@@ -7985,6 +7996,7 @@ class MainApp(MDApp):
 
     def real_house_rent(self, selection):
         self.loading.ids.spin.active = True
+        self.loading.ids.labe.opacity = 0
         self.switch_loading()
         self.event = Event()
         self.thread_rent = threading.Thread(target=self.real_rent, args=(selection,))
@@ -8322,13 +8334,15 @@ class MainApp(MDApp):
 
     def send_congrats_message(self):
         try:
-            message = MIMEText("Your property was successfully published on the Hometernet.")
-            message['Subject'] = "Congratulations your property is now on Hometernet"
-            message["From"] = "hometernetmanager@gmail.com"
-            message["To"] = self.curr['email']
+            message = f"From: Hometernet \nTo: {self.curr['email']} \nSubject: Congratulations your property is now on Hometernet. \n\nYour property was successfully published on the Hometernet."
+
+            # message = MIMEText("Your property was successfully published on the Hometernet.")
+            # message['Subject'] = "Congratulations your property is now on Hometernet"
+            # message["From"] = "hometernetmanager@gmail.com"
+            # message["To"] = self.curr['email']
             server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
             server.login("hometernetmanager@gmail.com", "lhgajriuhglozfyd")
-            server.sendmail("hometernetmanager@gmail.com", self.curr['email'], message.as_string())
+            server.sendmail("Hometernet", self.curr['email'], message)
             server.quit()
         except:
             pass
