@@ -1975,12 +1975,16 @@ class MainApp(MDApp):
         
         
         
-        self.products = MyProducts(name="products")
+        
         self.bk = BookmarkScreen(name='bookmarks')
         
-        self.SaleOrRent = SaleOrRent(name="SaleOrRent")
+        
 
         self.recents = Recents(name="recent")
+
+        self.products = MyProducts(name="products")
+
+        self.SaleOrRent = SaleOrRent(name="SaleOrRent")
 
         
         
@@ -2223,6 +2227,7 @@ class MainApp(MDApp):
                 self.clear_products()
                 
                 self.clear_bk_widgets()
+                self.clear_rec_widgets()
                 if self.prod_err == True:
                     self.remove_prod_err()
                     self.prod_err = False
@@ -3213,6 +3218,10 @@ class MainApp(MDApp):
                     
                     self.recent_loaded.append(u.key())
                     self.recent_card.append(self.card.me)
+
+    @mainthread
+    def clear_rec_widgets(self):
+        self.recents.ids.rec.clear_widgets()
 
 # RECENTS #####################################################################
 
@@ -5874,6 +5883,7 @@ class MainApp(MDApp):
         
                 
         self.clear_bk_widgets()
+        self.clear_rec_widgets()
         self.loader.clear()
         self.last_sold = 0
         self.last_booked = 0
@@ -6114,9 +6124,9 @@ class MainApp(MDApp):
         self.curr['localid'] = ''
         self.clear_products()
         self.clear_bk()
-        if self.has_recents == True:
+        # if self.has_recents == True:
 
-            self.recents.ids.rec.clear_widgets()
+        self.recents.ids.rec.clear_widgets()
             
             
         
@@ -6305,9 +6315,9 @@ class MainApp(MDApp):
         self.last_booked = 0
         self.products.ids.layout.clear_widgets()
         self.bk.ids.bk.clear_widgets()
-        if self.has_recents == True:
+        
 
-            self.recents.ids.rec.clear_widgets()
+        self.recents.ids.rec.clear_widgets()
         
         
         
@@ -6476,6 +6486,7 @@ class MainApp(MDApp):
                 self.loader.clear()
                 self.clear_products()
                 self.clear_bk_widgets()
+                self.clear_rec_widgets()
                 if self.prod_err == True:
                     self.remove_prod_err()
                     self.prod_err = False
@@ -7166,6 +7177,7 @@ class MainApp(MDApp):
                     self.switch_products()
                     self.denied = 0
                     self.denied_image = 0
+
                 
                     
             else:
