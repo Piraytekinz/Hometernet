@@ -109,7 +109,8 @@
                             
                         MDLabel:
                             id: count
-                            text: root.country + ", " + root.province + ", " + root.town + ", " + root.street
+                            # text: root.country + ", " + root.province + ", " + root.town + ", " + root.street
+                            text: f"[b]{root.country}[/b], {root.province}, {root.town}, {root.street}"
                             font_size: "15dp"
                             color: "gray"
                             size_hint_y: None

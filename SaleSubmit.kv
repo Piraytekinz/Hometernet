@@ -48,6 +48,8 @@
                 adaptive_height: True
                 
                 pos_hint: {'center_x': 0.5}
+
+                
                 
                 MDBoxLayout:
                     opacity: 0.9
@@ -944,6 +946,13 @@
                             id: check_six
                             font_size: '16dp'
                     
+                MDLabel:
+                    text: "   Tip: You're allowed to upload up to only one image for now."
+                    size_hint_y: None
+                    height: '30dp'
+                    font_size: '14dp'
+                    md_bg_color: 255/255, 255/255, 255/255, 0.8
+                
                 MDFlatButton:
                     text: "Submit"
                     on_press: app.play()

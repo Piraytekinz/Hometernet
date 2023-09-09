@@ -4256,6 +4256,7 @@ class MainApp(MDApp):
                 else:
                     
                     self.switch_signup()
+                    
                     self.has_switched = True
             else:
                 self.switch_update()
@@ -5305,6 +5306,12 @@ class MainApp(MDApp):
         
 
     def display(self, texta):
+        first = texta.find(']')
+        sec = texta.rfind('[')
+
+        
+
+        texta = texta[first+1:sec]
         
         
         if self.screeni[0] == "Sale":
@@ -6923,6 +6930,7 @@ class MainApp(MDApp):
 
         self.close_thread_rent()
     def update_rent_property(self, local_image, House_type, pricing, locate, state, town, street, bedrooms, bathrooms, landspace, key, description,):
+        
         self.key = key
         self.local_image = local_image
         
@@ -8089,6 +8097,7 @@ class MainApp(MDApp):
                     except:
                         pass   
 
+                
                 if error == False:
                     self.submit_congrats()
 
@@ -8271,14 +8280,14 @@ class MainApp(MDApp):
                                 
                                 self.event.set()
                                 time.sleep(1)
-                                self.switch_true_rent()
+                                self.true_switch_rent()
                                 self.denied = 0
                         else:
                             self.show_dialog("All permissions are denied for renting properties right now. Please wait until the slots are open.", titler="Permission denied")
                             # self.denied = 0
                             
                             time.sleep(1)
-                            self.switch_true_rent()
+                            self.true_switch_rent()
                             self.denied = 0
                     
 
@@ -8321,7 +8330,7 @@ class MainApp(MDApp):
         else:
             self.show_notice()
             time.sleep(1)
-            self.switch_true_rent()
+            self.true_switch_rent()
     
     @mainthread
     def show_notice(self):
